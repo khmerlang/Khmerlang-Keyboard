@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="10%p"
-    android:horizontalGap="5dp"
-    android:verticalGap="5dp"
-    android:keyHeight="@dimen/key_height"
-    >
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    android:keyHeight="@dimen/key_height">
 
     <Row>
-        <Key android:codes="113" android:keyLabel="q" android:keyEdgeFlags="left"/>
-        <Key android:codes="119" android:keyLabel="w"/>
-        <Key android:codes="101" android:keyLabel="e"/>
-        <Key android:codes="114" android:keyLabel="r"/>
-        <Key android:codes="116" android:keyLabel="t"/>
+        <Key android:codes="113" android:keyLabel="q" android:keyEdgeFlags="left" android:popupCharacters="1" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="119" android:keyLabel="w" android:popupCharacters="2" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="101" android:keyLabel="e" android:popupCharacters="3" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="114" android:keyLabel="r" android:popupCharacters="4" android:popupKeyboard="@xml/keyboard_popup_template"/>
+        <Key android:codes="116" android:keyLabel="t" android:popupCharacters="5" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="121" android:keyLabel="y"/>
         <Key android:codes="117" android:keyLabel="u"/>
         <Key android:codes="105" android:keyLabel="i"/>
@@ -21,7 +19,8 @@
 
     <Row>
         <Key android:codes="97" android:keyLabel="a" android:horizontalGap="5%p"
-            android:keyEdgeFlags="left"/>
+            android:keyEdgeFlags="left" android:popupKeyboard="@xml/keyboard_popup_template"
+            android:popupCharacters="áăä"/>
         <Key android:codes="115" android:keyLabel="s"/>
         <Key android:codes="100" android:keyLabel="d"/>
         <Key android:codes="102" android:keyLabel="f"/>
@@ -61,7 +60,7 @@
         <Key android:codes="32" android:keyIcon="@drawable/sym_keyboard_space"
             android:keyWidth="30%p" android:isRepeatable="true"/>
         <Key android:codes="46,44" android:keyLabel=". ,"
-            android:keyWidth="15%p"/>
+            android:keyWidth="15%p" android:popupCharacters=".,?!#@" android:popupKeyboard="@xml/keyboard_popup_template"/>
         <Key android:codes="10" android:keyIcon="@drawable/sym_keyboard_return"
             android:keyWidth="20%p" android:keyEdgeFlags="right"/>
     </Row>

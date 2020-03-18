@@ -3,8 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard"
     android:layout_alignParentBottom="true"
+    android:paddingTop="0dp"
+    android:layout_marginTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:keyTextColor="#000000"
-    android:keyBackground="@color/key_background"
-    />
+    android:keyPreviewLayout="@layout/preview"
+    android:keyBackground="@drawable/key_background"
+    android:keyTextColor="#fff"
+    android:background="@color/colorPrimaryDark"
+    android:popupLayout="@layout/keyboard_popup_layout" >
+
+</com.rathanak.khmerroman.keyboard.LatinKeyboardView>

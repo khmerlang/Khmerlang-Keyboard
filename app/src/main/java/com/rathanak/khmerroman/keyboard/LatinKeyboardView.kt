@@ -22,12 +22,6 @@ class LatinKeyboardView : KeyboardView {
         }
     }
 
-    internal fun setSubtypeOnSpaceKey(subtype: InputMethodSubtype) {
-        val keyboard = keyboard as LatinKeyboard
-        keyboard.setSpaceIcon(resources.getDrawable(subtype.iconResId))
-        invalidateAllKeys()
-    }
-
     companion object {
 
         internal val KEYCODE_OPTIONS = -100

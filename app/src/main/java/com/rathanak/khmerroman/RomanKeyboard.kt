@@ -21,13 +21,6 @@ import com.rathanak.khmerroman.keyboard.LatinKeyboardView
 
 import java.util.ArrayList
 
-/**
- * Example of writing an input method for a soft keyboard.  This code is
- * focused on simplicity over completeness, so it should in no way be considered
- * to be a complete soft keyboard implementation.  Its purpose is to provide
- * a basic example for how you would get started writing an input method, to
- * be fleshed out as appropriate.
- */
 class RomanKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private var mInputMethodManager: InputMethodManager? = null
@@ -236,11 +229,6 @@ class RomanKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListene
         setLatinKeyboard(mCurKeyboard)
         mInputView!!.closing()
         val subtype = mInputMethodManager!!.currentInputMethodSubtype
-        mInputView!!.setSubtypeOnSpaceKey(subtype)
-    }
-
-    public override fun onCurrentInputMethodSubtypeChanged(subtype: InputMethodSubtype) {
-        mInputView!!.setSubtypeOnSpaceKey(subtype)
     }
 
     /**

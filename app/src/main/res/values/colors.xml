@@ -4,9 +4,13 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="candidate_normal">#FFFF0000</color>
-    <color name="candidate_recommended">#FFE359FF</color>
-    <color name="candidate_other">#ff808080</color>
-    <color name="candidate_background">#FFDFDFDF</color>
+<!--    <color name="candidate_normal">#FFFF0000</color>-->
+<!--    <color name="candidate_recommended">#FFE359FF</color>-->
+<!--    <color name="candidate_other">#ff808080</color>-->
+<!--    <color name="candidate_background">#FFDFDFDF</color>-->
     <color name="key_background">#FFFFFFFF</color>
+    <color name="candidate_normal">#FF000000</color>
+    <color name="candidate_recommended">#000000</color>
+    <color name="candidate_other">#ff808080</color>
+    <color name="candidate_background">#bbffffff</color>
 </resources>

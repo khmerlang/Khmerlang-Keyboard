@@ -13,7 +13,7 @@
 
     <!-- Labels for subtype -->
     <string name="label_subtype_generic">%s</string>
-    <string name="label_subtype_en_GB">English (GB)</string>
+    <string name="label_subtype_en_GB">KhmerRoman (RM)</string>
 
     <!-- Titles for ImePreference -->
     <string name="settings_name">KhmerRoman Keyboard Settings</string>
