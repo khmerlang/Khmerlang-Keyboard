@@ -23,7 +23,7 @@ class LatinKeyboard : Keyboard {
      * visible while [InputMethodManager.shouldOfferSwitchingToNextInputMethod]
      * returns true. When this key becomes invisible, its width will be shrunk to zero.
      */
-    private var mLanguageSwitchKey: Keyboard.Key? = null
+//    private var mLanguageSwitchKey: Keyboard.Key? = null
     /**
      * Stores the size and other information of [.mModeChangeKey] when
      * [.mLanguageSwitchKey] is visible. This should be immutable and will be used only as a
@@ -54,7 +54,6 @@ class LatinKeyboard : Keyboard {
             mModeChangeKey = key
             mSavedModeChangeKey = LatinKey(res, parent, x, y, parser)
         } else if (key.codes[0] == LatinKeyboardView.KEYCODE_LANGUAGE_SWITCH) {
-            mLanguageSwitchKey = key
             mSavedLanguageSwitchKey = LatinKey(res, parent, x, y, parser)
         }
         return key
@@ -70,16 +69,11 @@ class LatinKeyboard : Keyboard {
             // and language switch key using the saved layout.
             mModeChangeKey!!.width = mSavedModeChangeKey!!.width
             mModeChangeKey!!.x = mSavedModeChangeKey!!.x
-            mLanguageSwitchKey!!.width = mSavedLanguageSwitchKey!!.width
-            mLanguageSwitchKey!!.icon = mSavedLanguageSwitchKey!!.icon
-            mLanguageSwitchKey!!.iconPreview = mSavedLanguageSwitchKey!!.iconPreview
+
         } else {
             // The language switch key should be hidden. Change the width of the mode change key
             // to fill the space of the language key so that the user will not see any strange gap.
             mModeChangeKey!!.width = mSavedModeChangeKey!!.width + mSavedLanguageSwitchKey!!.width
-            mLanguageSwitchKey!!.width = 0
-            mLanguageSwitchKey!!.icon = null
-            mLanguageSwitchKey!!.iconPreview = null
         }
     }
 
