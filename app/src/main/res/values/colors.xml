@@ -8,4 +8,5 @@
     <color name="candidate_recommended">#FFE359FF</color>
     <color name="candidate_other">#ff808080</color>
     <color name="candidate_background">#FFDFDFDF</color>
+    <color name="key_background">#FFFFFFFF</color>
 </resources>
