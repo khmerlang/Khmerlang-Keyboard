@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">KR Keyboard</string>
-
-    <string name="ime_name">KhmerRoman Keyboard</string>
+    <string name="app_name">Roman Khmer</string>
+    <string name="ime_name">Roman Khmer</string>
+    <string name="app_description">This is a new Khmer Keybaord for mapping inputted Roman character into Khmer word.</string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
@@ -42,4 +42,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="app_logo_alt">App Logo</string>
+    <string name="back_home">Back</string>
+    <string name="title_activity_roman_mapping">Roman Mapping</string>
+    <string name="title_activity_custom_mapping">Custom Mapping</string>
 </resources>
