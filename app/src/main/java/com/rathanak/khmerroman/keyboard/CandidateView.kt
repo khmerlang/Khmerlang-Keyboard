@@ -9,7 +9,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.RomanKeyboard
 
 import java.util.ArrayList
 
@@ -21,7 +20,7 @@ class CandidateView
  */
     (context: Context) : View(context) {
 
-    private var mService: RomanKeyboard? = null
+    private var mService: RomanKeyboardLayout? = null
     private var mSuggestions: List<String>? = null
     private var mSelectedIndex: Int = 0
     private var mTouchX = OUT_OF_BOUNDS
@@ -93,7 +92,7 @@ class CandidateView
      * A connection back to the service to communicate with the text field
      * @param listener
      */
-    fun setService(listener: RomanKeyboard) {
+    fun setService(listener: RomanKeyboardLayout) {
         mService = listener
     }
 
@@ -241,21 +240,10 @@ class CandidateView
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                if (y <= 0) {
-                    // Fling up!?
-                    if (mSelectedIndex >= 0) {
-                        mService!!.pickSuggestionManually(mSelectedIndex)
-                        mSelectedIndex = -1
-                    }
-                }
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                if (!mScrolled) {
-                    if (mSelectedIndex >= 0) {
-                        mService!!.pickSuggestionManually(mSelectedIndex)
-                    }
-                }
+
                 mSelectedIndex = -1
                 removeHighlight()
                 requestLayout()
@@ -273,9 +261,6 @@ class CandidateView
         mTouchX = x.toInt()
         // To detect candidate
         onDraw(null)
-        if (mSelectedIndex >= 0) {
-            mService!!.pickSuggestionManually(mSelectedIndex)
-        }
         invalidate()
     }
 

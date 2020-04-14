@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/home_screen"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/undraw_welcome_cats_thqn">
+
+        <Button
+            android:id="@+id/btn_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_account"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/my_button"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_custom_roman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/custom_mapping"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/my_button"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_roman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/roman_mapping"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/my_button"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/my_button"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/my_button" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

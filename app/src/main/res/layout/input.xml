@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rathanak.khmerroman.keyboard.LatinKeyboardView
+<android.inputmethodservice.KeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard"
     android:layout_alignParentBottom="true"
@@ -13,4 +13,4 @@
     android:background="@color/colorPrimaryDark"
     android:popupLayout="@layout/keyboard_popup_layout" >
 
-</com.rathanak.khmerroman.keyboard.LatinKeyboardView>
+</android.inputmethodservice.KeyboardView>
