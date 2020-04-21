@@ -6,15 +6,30 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.realm.Realm
+import io.realm.RealmObject
 
 class RomanMapping : AppCompatActivity(), RomanItemAdapter.OnClickListener {
+    private lateinit var realm: Realm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        realm = Realm.getDefaultInstance()
         setContentView(R.layout.activity_roman_mapping)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+//        //load data from realm database
+//        open class RomanDB(roman: String?= null, khmer: String?= null) :RealmObject() {}
+//
+//        realm.executeTransactionAsync({
+//            it.createObject(RomanDB::class.java)
+//        })
+//        val romanItemData = realm.where(RomanDB::class.java).findAll()
         val romanItemList = ArrayList<RomanItem>()
+//        romanItemData.forEach {
+//            romanItemList.add(RomanItem("name", "nameKH"))
+//        }
+
         for (i in 0..50){
             val name = "Roman $i"
             val nameKH = "Khmer $i"
@@ -22,9 +37,9 @@ class RomanMapping : AppCompatActivity(), RomanItemAdapter.OnClickListener {
             romanItemList.add(contact)
         }
 
-        var rvContact = findViewById<RecyclerView>(R.id.rvRomanList)
-        rvContact.layoutManager = LinearLayoutManager(this)
-        rvContact.adapter = RomanItemAdapter(romanItemList, this)
+        var rvRomanList = findViewById<RecyclerView>(R.id.rvRomanList)
+        rvRomanList.layoutManager = LinearLayoutManager(this)
+        rvRomanList.adapter = RomanItemAdapter(romanItemList, this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

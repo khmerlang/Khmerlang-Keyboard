@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.widget.Button
 import kotlin.system.exitProcess
 import com.rathanak.khmerroman.R
+import io.realm.Realm
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Realm.init(this)
         setContentView(R.layout.activity_main)
 
         val btnProfile = findViewById(R.id.btn_profile) as Button
