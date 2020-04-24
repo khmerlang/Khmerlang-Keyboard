@@ -1,12 +1,17 @@
-package com.rathanak.khmerroman
+package com.rathanak.khmerroman.adapter
+
+import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.RomanMapping
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.roman_item.view.*
+import com.rathanak.khmerroman.data.RomanItem
+import io.realm.RealmResults
 
-class RomanItemAdapter(private val romanItemsList: ArrayList<RomanItem>,
+class RomanItemAdapter(private val romanItemsList: RealmResults<RomanItem>,
                        private val listener: RomanMapping
 ): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>() {
     class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
@@ -22,13 +27,7 @@ class RomanItemAdapter(private val romanItemsList: ArrayList<RomanItem>,
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         val contact = romanItemsList[position]
-        holder.view.txtRoman.text = contact.roman
-        holder.view.txtKhmer.text = contact.khmer
-        holder.view.setOnClickListener {
-            listener.onRowClick(contact)
-        }
-    }
-    interface OnClickListener {
-        fun onRowClick(item : RomanItem)
+        holder.view.txtRoman.text = contact?.roman
+        holder.view.txtKhmer.text = contact?.khmer
     }
 }
