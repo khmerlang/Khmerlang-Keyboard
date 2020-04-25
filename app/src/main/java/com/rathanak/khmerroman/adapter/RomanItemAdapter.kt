@@ -1,19 +1,26 @@
 package com.rathanak.khmerroman.adapter
 
-import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.RomanMapping
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.roman_item.view.*
+import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.RomanMapping
 import com.rathanak.khmerroman.data.RomanItem
+import io.realm.Case
+import io.realm.Realm
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.roman_item.view.*
 
-class RomanItemAdapter(private val romanItemsList: RealmResults<RomanItem>,
-                       private val listener: RomanMapping
-): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>() {
+class RomanItemAdapter(): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
+    private var realm: Realm
+    var romanItemsList: RealmResults<RomanItem>
+    init {
+        realm = Realm.getDefaultInstance()
+        romanItemsList = realm.where(RomanItem::class.java).findAll()
+    }
     class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -29,5 +36,27 @@ class RomanItemAdapter(private val romanItemsList: RealmResults<RomanItem>,
         val contact = romanItemsList[position]
         holder.view.txtRoman.text = contact?.roman
         holder.view.txtKhmer.text = contact?.khmer
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                return FilterResults()
+            }
+
+            override fun publishResults(newText: CharSequence?, results: FilterResults?) {
+                romanItemsList = if (newText == null || newText.isEmpty()) {
+                    realm.where(RomanItem::class.java).findAll()
+                } else {
+                    realm.where(RomanItem::class.java)
+                        .like("khmer", "$newText*", Case.INSENSITIVE)
+                        .or()
+                        .like("roman", "$newText*", Case.INSENSITIVE)
+                        .findAll()
+                }
+
+                notifyDataSetChanged()
+            }
+        }
     }
 }

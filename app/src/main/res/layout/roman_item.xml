@@ -17,21 +17,21 @@
         >
 
         <TextView
-            android:id="@+id/txtRoman"
+            android:id="@+id/txtKhmer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Roman"
+            android:orientation="horizontal"
+            android:text="Khmer"
             android:textColor="#343434"
             android:textSize="20sp"
             android:layout_weight="1"
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/txtKhmer"
+            android:id="@+id/txtRoman"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:text="Khmer"
+            android:text="Roman"
             android:textColor="#343434"
             android:textSize="20sp"
             android:layout_weight="1"
