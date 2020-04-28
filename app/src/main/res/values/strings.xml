@@ -37,13 +37,16 @@
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    <string name="sync_title">Sync custom Roman to cloud</string>
+    <string name="enable_title">Enable mapping Roman to Khmer</string>
+    <string name="enable_summary_on">Show converted Roman character to Khmer and its suggestion
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="enable_summary_off">Show only Roman character for input email/pass</string>
     <string name="app_logo_alt">App Logo</string>
     <string name="back_home">Back</string>
     <string name="title_activity_roman_mapping">Roman Mapping</string>
     <string name="title_activity_custom_mapping">Custom Mapping</string>
+    <string name="setting">Settings</string>
+    <string name="dialogConfirmTitle">Are you sure?</string>
+    <string name="dialogConfirmMessage">When you reset all your custom data will remove.</string>
 </resources>

@@ -14,12 +14,15 @@ import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.roman_item.view.*
 
-class RomanItemAdapter(): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
+class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
     private var realm: Realm
+    private var isCustom: Boolean
     var romanItemsList: RealmResults<RomanItem>
     init {
         realm = Realm.getDefaultInstance()
-        romanItemsList = realm.where(RomanItem::class.java).findAll()
+        isCustom = custom
+        romanItemsList = realm.where(RomanItem::class.java)
+            .equalTo("custom", isCustom).findAll()
     }
     class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
 
@@ -46,12 +49,15 @@ class RomanItemAdapter(): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolde
 
             override fun publishResults(newText: CharSequence?, results: FilterResults?) {
                 romanItemsList = if (newText == null || newText.isEmpty()) {
-                    realm.where(RomanItem::class.java).findAll()
+                    realm.where(RomanItem::class.java)
+                        .equalTo("custom", isCustom).findAll()
                 } else {
                     realm.where(RomanItem::class.java)
                         .like("khmer", "$newText*", Case.INSENSITIVE)
                         .or()
                         .like("roman", "$newText*", Case.INSENSITIVE)
+                        .and()
+                        .equalTo("custom", isCustom)
                         .findAll()
                 }
 

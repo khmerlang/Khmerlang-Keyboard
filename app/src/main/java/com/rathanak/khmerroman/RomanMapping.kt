@@ -16,30 +16,15 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
 
 class RomanMapping : AppCompatActivity() {
-    private lateinit var realm: Realm
     private var rAdapter: RomanItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        realm = Realm.getDefaultInstance()
         setContentView(R.layout.activity_roman_mapping)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         rvRomanList.layoutManager = LinearLayoutManager(this)
-        rAdapter = RomanItemAdapter()
+        rAdapter = RomanItemAdapter(false)
         rvRomanList.adapter = rAdapter
-
-//        txtSearch.addTextChangedListener {object : TextWatcher {
-//            override fun afterTextChanged(p0: Editable?) {
-//            }
-//
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//            }
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-//                rAdapter.filter.filter(newText)
-//            }
-//        }
-//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

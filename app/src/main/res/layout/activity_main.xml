@@ -15,16 +15,16 @@
         android:background="@drawable/undraw_welcome_cats_thqn">
 
         <Button
-            android:id="@+id/btn_profile"
+            android:id="@+id/btnSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_account"
+            android:text="@string/setting"
             android:theme="@style/HomeButton"
             android:background="@drawable/my_button"
             android:layout_marginBottom="10dp"/>
 
         <Button
-            android:id="@+id/btn_custom_roman"
+            android:id="@+id/btnCustomRoman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/custom_mapping"
@@ -33,7 +33,7 @@
             android:layout_marginBottom="10dp"/>
 
         <Button
-            android:id="@+id/btn_roman"
+            android:id="@+id/btnRoman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/roman_mapping"
@@ -42,7 +42,7 @@
             android:layout_marginBottom="10dp"/>
 
         <Button
-            android:id="@+id/btn_about"
+            android:id="@+id/btnAbout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about"
@@ -51,7 +51,7 @@
             android:layout_marginBottom="10dp"/>
 
         <Button
-            android:id="@+id/btn_close"
+            android:id="@+id/btnClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/close"
