@@ -20,7 +20,7 @@ class CustomMapping : AppCompatActivity() {
         setContentView(R.layout.activity_custom_mapping)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         rvRomanList.layoutManager = LinearLayoutManager(this)
-        rAdapter = RomanItemAdapter(true)
+        rAdapter = RomanItemAdapter(true, applicationContext)
         rvRomanList.adapter = rAdapter
     }
 

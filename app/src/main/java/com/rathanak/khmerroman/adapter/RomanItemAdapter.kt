@@ -1,11 +1,13 @@
 package com.rathanak.khmerroman.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.RomanMapping
@@ -13,9 +15,10 @@ import com.rathanak.khmerroman.data.RomanItem
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 import kotlinx.android.synthetic.main.roman_item.view.*
 
-class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
+class RomanItemAdapter(var custom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
     private var realm: Realm
     private var isCustom: Boolean
     var romanItemsList: RealmResults<RomanItem>
@@ -24,7 +27,7 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
         isCustom = custom
         romanItemsList = realm.where(RomanItem::class.java)
             .equalTo("custom", isCustom).findAll()
-        Log.i("data", romanItemsList.asJSON())
+            .sort("khmer")
     }
     class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
 
@@ -41,6 +44,17 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
         val item = romanItemsList[position]
         holder.view.txtRoman.text = item?.roman
         holder.view.txtKhmer.text = item?.khmer
+        holder.view.btnDelete.setOnClickListener {
+            Toast.makeText(appContext,item?.khmer + ":" + item?.roman + " deleted", Toast.LENGTH_LONG).show()
+            realm.beginTransaction()
+                var result = realm.where(RomanItem::class.java)
+                    .equalTo("id", item?.id).findAll()
+                result.deleteAllFromRealm()
+            realm.commitTransaction()
+//            notifyItemRemoved(position)
+            notifyDataSetChanged()
+        }
+
     }
 
     override fun getFilter(): Filter {
@@ -53,6 +67,7 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
                 romanItemsList = if (newText == null || newText.isEmpty()) {
                     realm.where(RomanItem::class.java)
                         .equalTo("custom", isCustom).findAll()
+                        .sort("khmer")
                 } else {
                     realm.where(RomanItem::class.java)
                         .like("khmer", "$newText*", Case.INSENSITIVE)
@@ -61,6 +76,7 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
                         .and()
                         .equalTo("custom", isCustom)
                         .findAll()
+                        .sort("khmer")
                 }
 
                 notifyDataSetChanged()
