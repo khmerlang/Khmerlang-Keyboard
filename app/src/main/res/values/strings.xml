@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Roman Khmer</string>
-    <string name="ime_name">Roman Khmer</string>
+    <string name="app_name">Roman1Khmer</string>
+    <string name="ime_name">Roman1Khmer</string>
     <string name="app_description">This is a new Khmer Keybaord for mapping inputted Roman character into Khmer word.</string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
@@ -13,10 +13,10 @@
 
     <!-- Labels for subtype -->
     <string name="label_subtype_generic">%s</string>
-    <string name="label_subtype_en_GB">KhmerRoman (RM)</string>
+    <string name="label_subtype_en_GB">Khmer1Roman (RM)</string>
 
     <!-- Titles for ImePreference -->
-    <string name="settings_name">KhmerRoman Keyboard Settings</string>
+    <string name="settings_name">KhmerRoman</string>
     <string name="language_selection_title">Input languages</string>
     <string name="select_language">Select input languages</string>
     <string name="general_category">General</string>
@@ -49,4 +49,9 @@
     <string name="setting">Settings</string>
     <string name="dialogConfirmTitle">Are you sure?</string>
     <string name="dialogConfirmMessage">When you reset all your custom data will remove.</string>
+    <string name="roman">Roman</string>
+    <string name="edit_khmer">Khmer</string>
+    <string name="edit_roman">Roman</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
 </resources>
