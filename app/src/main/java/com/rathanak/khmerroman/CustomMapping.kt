@@ -22,6 +22,7 @@ class CustomMapping : AppCompatActivity() {
         rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(true)
         rvRomanList.adapter = rAdapter
+//        rAdapter!!.notifyDataSetChanged()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -63,7 +64,7 @@ class CustomMapping : AppCompatActivity() {
 
     fun showRomanDialog() {
         // Create an instance of the dialog fragment and show it
-        val dialog = RomanDialog()
+        val dialog = RomanDialog("", "", applicationContext)
         dialog.show(supportFragmentManager, "RomanDialog")
     }
 }
