@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/roman_khmer_logo"
+        android:icon="@drawable/ic_roman2khmer"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/roman_khmer_logo"
+        android:roundIcon="@drawable/ic_roman2khmer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
