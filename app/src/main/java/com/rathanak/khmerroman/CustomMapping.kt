@@ -22,7 +22,6 @@ class CustomMapping : AppCompatActivity() {
         rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(true)
         rvRomanList.adapter = rAdapter
-//        rAdapter!!.notifyDataSetChanged()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

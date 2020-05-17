@@ -3,9 +3,12 @@ package com.rathanak.khmerroman.data
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.rathanak.khmerroman.migration.MyMigration
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import java.io.IOException
+import java.util.*
 
 
 class DataLoader(applicationContext: Context ) {
@@ -41,7 +44,7 @@ class DataLoader(applicationContext: Context ) {
         realm.beginTransaction()
         romans.forEach {
             var roman = it
-            val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java)
+            val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
             romanKhmer.khmer = roman.k
             romanKhmer.roman = roman.r
             realm.insert(romanKhmer)

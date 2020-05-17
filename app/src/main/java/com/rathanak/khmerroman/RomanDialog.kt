@@ -12,6 +12,7 @@ import com.rathanak.khmerroman.data.RomanItem
 import io.realm.Realm
 import kotlinx.android.synthetic.main.roman_dialog.*
 import kotlinx.android.synthetic.main.roman_dialog.view.*
+import java.util.*
 
 class RomanDialog(txtK: String, txtR: String, appContext: Context) : DialogFragment() {
     private var appCon: Context
@@ -28,7 +29,7 @@ class RomanDialog(txtK: String, txtR: String, appContext: Context) : DialogFragm
     private fun updateRecord(txtK: String, txtR: String) {
         // TODO create, update table
         realm.beginTransaction()
-            val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java)
+            val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
             romanKhmer.khmer = txtK
             romanKhmer.roman = txtR
             romanKhmer.custom = true

@@ -3,16 +3,13 @@ package com.rathanak.khmerroman
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.rathanak.khmerroman.data.DataLoader
-import com.rathanak.khmerroman.data.RomanItem
+import com.rathanak.khmerroman.migration.MyMigration
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.IOException
+import java.io.FileNotFoundException
 import kotlin.system.exitProcess
 
 

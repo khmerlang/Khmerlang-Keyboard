@@ -1,5 +1,6 @@
 package com.rathanak.khmerroman.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
         isCustom = custom
         romanItemsList = realm.where(RomanItem::class.java)
             .equalTo("custom", isCustom).findAll()
+        Log.i("data", romanItemsList.asJSON())
     }
     class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
 
@@ -36,9 +38,9 @@ class RomanItemAdapter(var custom: Boolean): RecyclerView.Adapter<RomanItemAdapt
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val contact = romanItemsList[position]
-        holder.view.txtRoman.text = contact?.roman
-        holder.view.txtKhmer.text = contact?.khmer
+        val item = romanItemsList[position]
+        holder.view.txtRoman.text = item?.roman
+        holder.view.txtKhmer.text = item?.khmer
     }
 
     override fun getFilter(): Filter {
