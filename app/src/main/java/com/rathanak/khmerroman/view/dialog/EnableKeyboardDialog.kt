@@ -16,12 +16,11 @@ class EnableKeyboardDialog : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
             val rkDialogView = inflater.inflate(R.layout.enable_keyboard_dialog, null)
+            rkDialogView.btn_ok.setOnClickListener {
+                dismiss()
+                startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
+            }
             builder.setView(rkDialogView)
-                    .setPositiveButton(
-                        R.string.ok,
-                        DialogInterface.OnClickListener { dialog, id ->
-                            startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
-                        })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

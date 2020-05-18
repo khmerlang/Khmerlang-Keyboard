@@ -14,21 +14,19 @@ import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NOT_FIRST_
 import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.enable_keyboard_dialog.view.*
 import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var realm: Realm
-//    private lateinit var binding: ActivitySettingBinding
     private lateinit var preferences: KeyboardPreferences
     private var enabledKeyboard: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting)
         preferences = KeyboardPreferences(applicationContext)
 
-        setupActions()
         Realm.init(this)
         realm = Realm.getDefaultInstance()
         // check is first open app
@@ -96,44 +94,5 @@ class MainActivity : AppCompatActivity() {
     private fun showEnableKeyboardDialog() {
         val dialog =  EnableKeyboardDialog()
         dialog.show(supportFragmentManager, EnableKeyboardDialog.TAG)
-    }
-
-    private fun setupActions() {
-//        binding.enableVibration.apply {
-//            isChecked = preferences.getBoolean(KEY_ENABLE_VIBRATION)
-//            setOnClickListener {
-//                isChecked = !isChecked
-//                preferences.putBoolean(KEY_ENABLE_VIBRATION, isChecked)
-//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
-//            }
-//        }
-//
-//        binding.enableSound.apply {
-//            isChecked = preferences.getBoolean(KEY_ENABLE_SOUND)
-//            setOnClickListener {
-//                isChecked = !isChecked
-//                preferences.putBoolean(KEY_ENABLE_SOUND, isChecked)
-//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
-//            }
-//        }
-//
-//        binding.email.setOnClickListener {
-//            val emailIntent = Intent(Intent.ACTION_SEND)
-//
-//            emailIntent.data = Uri.parse("mailto:")
-//            emailIntent.type = "text/plain"
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Lisu Keyboard Android] Feedback")
-//
-//            try {
-//                startActivity(Intent.createChooser(emailIntent, "Send feedback..."))
-//            } catch (ex: android.content.ActivityNotFoundException) {
-//                Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-    }
-
-    companion object {
-        const val email = "gwamosi@gmail.com"
     }
 }

@@ -1,4 +1,4 @@
-package com.rathanak.khmerroman.view
+package com.rathanak.khmerroman.view.dialog
 
 import android.app.Dialog
 import android.content.Context

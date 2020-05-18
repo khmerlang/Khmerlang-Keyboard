@@ -59,4 +59,40 @@ class ProfileSettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
     }
+
+//    private fun setupActions() {
+//        binding.enableVibration.apply {
+//            isChecked = preferences.getBoolean(KEY_ENABLE_VIBRATION)
+//            setOnClickListener {
+//                isChecked = !isChecked
+//                preferences.putBoolean(KEY_ENABLE_VIBRATION, isChecked)
+//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
+//            }
+//        }
+//
+//        binding.enableSound.apply {
+//            isChecked = preferences.getBoolean(KEY_ENABLE_SOUND)
+//            setOnClickListener {
+//                isChecked = !isChecked
+//                preferences.putBoolean(KEY_ENABLE_SOUND, isChecked)
+//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
+//            }
+//        }
+//
+//        binding.email.setOnClickListener {
+//            val emailIntent = Intent(Intent.ACTION_SEND)
+//
+//            emailIntent.data = Uri.parse("mailto:")
+//            emailIntent.type = "text/plain"
+//            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Lisu Keyboard Android] Feedback")
+//
+//            try {
+//                startActivity(Intent.createChooser(emailIntent, "Send feedback..."))
+//            } catch (ex: android.content.ActivityNotFoundException) {
+//                Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
+
 }

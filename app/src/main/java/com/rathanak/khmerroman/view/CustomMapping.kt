@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
+import com.rathanak.khmerroman.view.dialog.RomanDialog
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
 
 class CustomMapping : AppCompatActivity() {
@@ -64,7 +65,11 @@ class CustomMapping : AppCompatActivity() {
     fun showRomanDialog() {
         // Create an instance of the dialog fragment and show it
         val dialog =
-            RomanDialog("", "", applicationContext)
+            RomanDialog(
+                "",
+                "",
+                applicationContext
+            )
         dialog.show(supportFragmentManager, "RomanDialog")
     }
 }

@@ -23,4 +23,12 @@
         android:id="@+id/description"
         android:text="@string/enable_keyboard_description"
         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:id="@+id/btn_ok"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"/>
 </LinearLayout>
