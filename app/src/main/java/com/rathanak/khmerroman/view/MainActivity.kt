@@ -2,18 +2,16 @@ package com.rathanak.khmerroman.view
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rathanak.khmerroman.*
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NOT_FIRST_RUN
-import com.rathanak.khmerroman.view.dialog.CustomDialog
+import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
@@ -77,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkKeyboardEnabled() {
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).let {
             enabledKeyboard = it.enabledInputMethodList.any { it.packageName == packageName }
-            val dialogShown = supportFragmentManager.findFragmentByTag(CustomDialog.TAG) != null
+            val dialogShown = supportFragmentManager.findFragmentByTag(EnableKeyboardDialog.TAG) != null
             if (!enabledKeyboard && !dialogShown) {
                 // Show setting dialog
                 showEnableKeyboardDialog()
@@ -96,22 +94,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showEnableKeyboardDialog() {
-        CustomDialog.Builder()
-            .title("Enable keyboard")
-            .message("Please enable the Roman2ខ្មែរ in the settings")
-            .positiveText("OK")
-            .listener(object : CustomDialog.Listener {
-                override fun onPositiveSelect(dialog: CustomDialog) {
-                    dialog.dismiss()
-                    startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
-                }
-
-                override fun onNegativeSelect(dialog: CustomDialog) {
-                    dialog.dismiss()
-                }
-            })
-            .build()
-            .show(supportFragmentManager, CustomDialog.TAG)
+        val dialog =  EnableKeyboardDialog()
+        dialog.show(supportFragmentManager, EnableKeyboardDialog.TAG)
     }
 
     private fun setupActions() {

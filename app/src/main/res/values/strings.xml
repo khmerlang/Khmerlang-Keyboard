@@ -54,4 +54,7 @@
     <string name="edit_roman">Roman</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="enable_keyboard_title">Enable Keyboard</string>
+    <string name="enable_keyboard_description">Please enable the Roman2ខ្មែរ Keyboard in the settings.</string>
 </resources>
