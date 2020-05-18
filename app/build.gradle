@@ -10,6 +10,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.rathanak.khmerroman"
         minSdkVersion 16

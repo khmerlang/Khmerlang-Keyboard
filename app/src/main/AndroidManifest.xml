@@ -10,27 +10,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ProfileSettingsActivity"
+            android:name=".view.ProfileSettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_profile_settings"></activity>
-        <activity android:name=".CustomMapping"
+        <activity android:name=".view.CustomMapping"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_custom_mapping"/>
-        <activity android:name=".RomanMapping"
+        <activity android:name=".view.RomanMapping"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_roman_mapping"/>
         <activity
-            android:name=".About"
+            android:name=".view.About"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
             android:name=".keyboard.RomanKeyboardLayout"
+            android:exported="false"
+            android:label="Roman2Khmer"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
                 <action android:name="android.view.InputMethod" />

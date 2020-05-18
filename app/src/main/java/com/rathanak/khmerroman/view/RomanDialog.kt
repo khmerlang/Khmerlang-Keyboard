@@ -1,16 +1,15 @@
-package com.rathanak.khmerroman
+package com.rathanak.khmerroman.view
 
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.RomanItem
 import io.realm.Realm
-import kotlinx.android.synthetic.main.roman_dialog.*
 import kotlinx.android.synthetic.main.roman_dialog.view.*
 import java.util.*
 
@@ -46,13 +45,15 @@ class RomanDialog(txtK: String, txtR: String, appContext: Context) : DialogFragm
             rkDialogView.edit_khmer.setText(txtKhmer)
             rkDialogView.edit_roman.setText(txtRoman)
             builder.setView(rkDialogView)
-                .setPositiveButton(R.string.submit,
+                .setPositiveButton(
+                    R.string.submit,
                     DialogInterface.OnClickListener { dialog, id ->
                         var editKhmer = rkDialogView.edit_khmer.text.toString()
                         var editRomanr = rkDialogView.edit_roman.text.toString()
                         updateRecord(editKhmer, editRomanr)
                     })
-                .setNegativeButton(R.string.cancel,
+                .setNegativeButton(
+                    R.string.cancel,
                     DialogInterface.OnClickListener { dialog, id ->
                         getDialog()?.cancel()
                     })

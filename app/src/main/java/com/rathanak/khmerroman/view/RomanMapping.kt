@@ -1,26 +1,25 @@
-package com.rathanak.khmerroman
+package com.rathanak.khmerroman.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
 
-class CustomMapping : AppCompatActivity() {
+class RomanMapping : AppCompatActivity() {
     private var rAdapter: RomanItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_custom_mapping)
+        setContentView(R.layout.activity_roman_mapping)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         rvRomanList.layoutManager = LinearLayoutManager(this)
-        rAdapter = RomanItemAdapter(true, applicationContext)
+        rAdapter = RomanItemAdapter(false, applicationContext)
         rvRomanList.adapter = rAdapter
     }
 
@@ -30,12 +29,6 @@ class CustomMapping : AppCompatActivity() {
                 finish()
                 return true
             }
-
-            R.id.action_add -> {
-                Log.i("test", "Heelo")
-                showRomanDialog()
-                return true
-            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -43,7 +36,7 @@ class CustomMapping : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.search_add_menu, menu)
+        inflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
@@ -59,11 +52,5 @@ class CustomMapping : AppCompatActivity() {
         })
 
         return true
-    }
-
-    fun showRomanDialog() {
-        // Create an instance of the dialog fragment and show it
-        val dialog = RomanDialog("", "", applicationContext)
-        dialog.show(supportFragmentManager, "RomanDialog")
     }
 }

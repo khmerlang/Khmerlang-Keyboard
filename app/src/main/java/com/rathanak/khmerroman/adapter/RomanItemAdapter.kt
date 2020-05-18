@@ -1,7 +1,6 @@
 package com.rathanak.khmerroman.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,10 @@ import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.RomanMapping
 import com.rathanak.khmerroman.data.RomanItem
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
-import io.realm.Sort
 import kotlinx.android.synthetic.main.roman_item.view.*
 
 class RomanItemAdapter(var custom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {

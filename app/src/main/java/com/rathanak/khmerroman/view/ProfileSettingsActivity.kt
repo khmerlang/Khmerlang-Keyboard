@@ -1,12 +1,12 @@
-package com.rathanak.khmerroman
+package com.rathanak.khmerroman.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.DataLoader
 import kotlinx.android.synthetic.main.settings_activity.*
 
@@ -17,7 +17,10 @@ class ProfileSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings, SettingsFragment())
+            .replace(
+                R.id.settings,
+                SettingsFragment()
+            )
             .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
