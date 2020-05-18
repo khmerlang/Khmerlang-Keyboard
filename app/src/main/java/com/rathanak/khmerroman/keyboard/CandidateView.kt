@@ -20,7 +20,7 @@ class CandidateView
  */
     (context: Context) : View(context) {
 
-    private var mService: RomanKeyboardLayout? = null
+    private var mService: R2KhmerService? = null
     private var mSuggestions: List<String>? = null
     private var mSelectedIndex: Int = 0
     private var mTouchX = OUT_OF_BOUNDS
@@ -92,7 +92,7 @@ class CandidateView
      * A connection back to the service to communicate with the text field
      * @param listener
      */
-    fun setService(listener: RomanKeyboardLayout) {
+    fun setService(listener: R2KhmerService) {
         mService = listener
     }
 

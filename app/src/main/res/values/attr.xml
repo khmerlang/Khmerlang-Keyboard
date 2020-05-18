@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GlobalAttrDeclare">
+        <attr name="subLabel" format="string" />
+        <attr name="keyBackground" format="reference" />
+        <attr name="keyTextColor" format="color" />
+        <attr name="keyTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="GwaKeyboardKey">
+        <attr name="subLabel" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomInputMethodView">
+        <attr name="keyTextColor" />
+        <attr name="keyTextSize" />
+        <attr name="keyBackground" />
+        <attr name="keyboardBackground" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="KeyView">
+        <attr name="keyShadowColor" format="color" />
+        <attr name="keyNormalBackground" format="color" />
+        <attr name="keyPressedBackground" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomKey">
+        <attr name="subLabel" />
+        <attr name="isChangeLanguageKey" format="boolean" />
+        <attr name="keyTextSize" />
+    </declare-styleable>
+</resources>

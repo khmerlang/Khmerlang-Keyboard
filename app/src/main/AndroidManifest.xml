@@ -34,7 +34,7 @@
         </activity>
 
         <service
-            android:name=".keyboard.RomanKeyboardLayout"
+            android:name=".keyboard.R2KhmerService"
             android:exported="false"
             android:label="Roman2Khmer"
             android:permission="android.permission.BIND_INPUT_METHOD">

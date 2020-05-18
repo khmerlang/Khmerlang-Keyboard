@@ -14,9 +14,6 @@
     <color name="candidate_other">#ff808080</color>
     <color name="candidate_background">#bbffffff</color>
 
-
-    <color name="white">#FFFFFF</color>
-
     <color name="grey_light">#DADCDC</color>
     <color name="grey">#CECDCE</color>
     <color name="grey_medium">#818181</color>
@@ -25,4 +22,17 @@
 
     <color name="blue">#45bef1</color>
     <color name="blue_dark">#37474f</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="pink">#EE92C2</color>
+
+    <!--Default colors-->
+    <!--Keyboard-->
+    <color name="default_keyboard_background_color">@color/grey_light</color>
+    <!--Key-->
+    <color name="default_key_label_color">@color/grey_darker</color>
+    <color name="default_key_normal_background_color">@color/white</color>
+    <color name="default_key_pressed_background_color">@color/grey</color>
+    <color name="default_key_shadow_color">@color/grey</color>
+    <color name="default_key_sub_label_color">@color/grey_medium</color>
 </resources>
