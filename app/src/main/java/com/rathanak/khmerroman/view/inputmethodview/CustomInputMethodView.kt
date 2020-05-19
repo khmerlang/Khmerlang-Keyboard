@@ -11,7 +11,9 @@ import com.rathanak.khmerroman.R
 import android.graphics.PixelFormat
 import android.os.AsyncTask
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
+import com.rathanak.khmerroman.BuildConfig
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.PAGE_TYPES
 import com.rathanak.khmerroman.keyboard.common.Styles
@@ -21,6 +23,9 @@ import com.rathanak.khmerroman.view.keyview.CustomKeyView
 import com.rathanak.khmerroman.keyboard.extensions.forEach
 import com.rathanak.khmerroman.keyboard.extensions.contains
 
+/**
+ * The parent ViewGroup of the keyboard. The orientation is vertical.
+ */
 class CustomInputMethodView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -60,6 +65,14 @@ class CustomInputMethodView @JvmOverloads constructor(
      */
     private val renderedPreviewKeys = mutableListOf<CustomKeyPreview>()
 
+    /**
+     * Collection of key views that has been already inflated for languages.
+     */
+    private var preloadedKeyboardViews = SparseArray<InputMethodKeyboard>()
+
+    /**
+     * Page of the currently selected keyboard [currentKeyboard]
+     */
     private var currentKeyboardPage: Int = NORMAL
 
     /**
@@ -100,6 +113,48 @@ class CustomInputMethodView @JvmOverloads constructor(
         // Prepare paints for the key views
         Styles.keyStyle.subLabelPaint.textSize = resources.getDimension(R.dimen.default_sub_key_text_size)
         Styles.keyStyle.labelPaint.textSize = resources.getDimension(R.dimen.default_key_text_size)
+    }
+
+    /**
+     * Preload the key views for all of the provided [keyboards]. Load the current language first and
+     * load the other languages in the background.
+     */
+    fun prepareAllKeyboardsForRendering(
+        keyboards: SparseArray<SparseArray<CustomKeyboard>>,
+        currentLanguageIdx: Int
+    ) {
+        // Generate other keyboard views in the background
+        AsyncTask.execute {
+            keyboards.forEach { key, value ->
+                if (key != currentLanguageIdx) {
+                    generateKeyboardViews(value, key)
+                }
+            }
+        }
+        generateKeyboardViews(keyboards[currentLanguageIdx], currentLanguageIdx)
+    }
+
+    /**
+     * Generate keyboard views and add them to the preloaded keyboard views.
+     */
+    private fun generateKeyboardViews(keyboard: SparseArray<CustomKeyboard>, languageIdx: Int) {
+        if (!preloadedKeyboardViews.contains(languageIdx)) {
+            val inputMethodKeyboard = InputMethodKeyboard()
+            PAGE_TYPES.forEach { type ->
+                keyboard.get(type).let { page ->
+                    page.formattedKeyList.let { keys ->
+                        inputMethodKeyboard.generateKeyViews(
+                            context,
+                            type,
+                            keys,
+                            page.language,
+                            isLandscape
+                        )
+                    }
+                }
+            }
+            preloadedKeyboardViews.put(languageIdx, inputMethodKeyboard)
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -183,35 +238,28 @@ class CustomInputMethodView @JvmOverloads constructor(
     }
 
     /**
+     * Update the input method view to a different language keyboard with [NORMAL] page as starting
+     * page and call [updateKeyboardPage] to redraw.
+     */
+    fun updateKeyboardLanguage(languageIdx: Int) {
+        // Get the preloadedKyeboardViews with the new languageIdx and assign it to current keyboard
+        // to render.
+        preloadedKeyboardViews[languageIdx]?.let {
+            currentKeyboard = it
+        }
+        // Set the starting page to Normal
+        currentKeyboardPage = NORMAL
+
+        updateKeyboardPage(currentKeyboardPage)
+    }
+
+    /**
      * Update the current keyboard page to a specified page type and redraw.
      */
     fun updateKeyboardPage(pageType: Int, isForce: Boolean = false) {
         currentKeyboardPage = pageType
         invalidate()
         populateKeyViews(pageType, isForce)
-    }
-
-    fun updateKeyboardLanguage(keyboard: CustomKeyboard) {
-//        val inputMethodKeyboard = InputMethodKeyboard()
-//        PAGE_TYPES.forEach { type ->
-//            keyboard.get(type).let { page ->
-//                page.formattedKeyList.let { keys ->
-//                    inputMethodKeyboard.generateKeyViews(
-//                        context,
-//                        type,
-//                        keys,
-//                        page.language,
-//                        isLandscape
-//                    )
-//                }
-//            }
-//        }
-        keyboard.formattedKeyList.let { keys ->
-            currentKeyboard.generateKeyViews(context, NORMAL, keys, "English", isLandscape)
-        }
-        // Set the starting page to Normal
-        currentKeyboardPage = NORMAL
-        updateKeyboardPage(currentKeyboardPage)
     }
 
     /**
@@ -368,6 +416,9 @@ class CustomInputMethodView @JvmOverloads constructor(
         key?.codes?.let { codes ->
             if (codes.isEmpty()) return false
             codes.first().let { primaryCode ->
+                if (BuildConfig.DEBUG) {
+                    Log.d(LOG_TAG, "pressed : ${key.label}")
+                }
                 keyboardViewListener?.onKey(primaryCode, codes)
                 return true
             }

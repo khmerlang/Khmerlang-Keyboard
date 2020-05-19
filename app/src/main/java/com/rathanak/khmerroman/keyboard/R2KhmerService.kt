@@ -1,17 +1,25 @@
 package com.rathanak.khmerroman.keyboard
 
+import android.content.Context
 import android.content.res.TypedArray
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
+import android.media.AudioManager
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.CompletionInfo
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
+import com.rathanak.khmerroman.BuildConfig
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
@@ -21,29 +29,43 @@ import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SHIFT
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL
 import com.rathanak.khmerroman.keyboard.common.Styles
+import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
+import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
-    // todo check here
-    private var mCandidateView: CandidateView? = null
-    // end here
 
     private lateinit var customInputMethodView: CustomInputMethodView
-    private var currentKeyboard: CustomKeyboard? = null
+
     private lateinit var keyboardNormal: CustomKeyboard
     private lateinit var keyboardShift: CustomKeyboard
     private lateinit var keyboardSymbol: CustomKeyboard
 
-    private lateinit var preferences: KeyboardPreferences
+    private var languageNames: MutableList<String> = mutableListOf()
+    private var languageXmlRes: MutableList<Int> = mutableListOf()
+    private var languageShiftXmlRes: MutableList<Int> = mutableListOf()
+    private var languageSymbolXmlRes: MutableList<Int> = mutableListOf()
+
+    private var keyboardsOfLanguages = SparseArray<SparseArray<CustomKeyboard>>()
+
+    private var currentSelectedLanguageIdx = 0
     private var enableVibration = true
     private var enableSound = true
+
+    private var currentKeyboardPage by Delegates.observable<Int?>(null) { _, _, newPage ->
+        newPage?.let {
+            customInputMethodView.updateKeyboardPage(newPage)
+        }
+    }
+
+    private lateinit var preferences: KeyboardPreferences
 
     override fun onCreate() {
         super.onCreate()
         initSharedPreference()
-//        loadKeyCodes()
+        loadKeyCodes()
         initKeyboards()
     }
 
@@ -63,7 +85,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         super.onInitializeInterface()
     }
 
-
     private fun initKeyboards() {
         resetLoadedData()
         loadLanguages()
@@ -72,17 +93,22 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun resetLoadedData() {
-        // laod data here
+        languageNames.clear()
+        languageXmlRes.clear()
+        languageShiftXmlRes.clear()
+        languageSymbolXmlRes.clear()
+        keyboardsOfLanguages.clear()
+        currentKeyboardPage = null
     }
 
-    private fun loadLanguages() {
-        keyboardNormal = CustomKeyboard(this, R.xml.qwerty, NORMAL, "English")
-        keyboardShift = CustomKeyboard(this, R.xml.qwerty_shift, SHIFT, "English")
-        keyboardSymbol = CustomKeyboard(this, R.xml.qwerty_symbol, SYMBOL, "English")
-        currentKeyboard = keyboardNormal
+    private fun renderCurrentLanguage() {
+        if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
+            customInputMethodView.updateKeyboardLanguage(currentSelectedLanguageIdx)
+        }
     }
 
     private fun loadSharedPreferences() {
+        currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
         enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
     }
@@ -106,143 +132,208 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onCreateInputView(): View? {
-        customInputMethodView = layoutInflater.inflate(
-            R.layout.input, null) as CustomInputMethodView
-        currentKeyboard?.let {
-//            customInputMethodView.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
-//            customInputMethodView.keyboardViewListener = this
-//            customInputMethodView.updateKeyboardLanguage(currentSelectedLanguageIdx)
-
-//            customInputMethodView.keyboardViewListener = this
-            customInputMethodView.updateKeyboardLanguage(it)
-            //customInputMethodView.setOnKeyboardActionListener(this)
-            //customInputMethodView.keyboard = it
+        customInputMethodView = layoutInflater.inflate(R.layout.input, null) as CustomInputMethodView
+        val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
+        keyboard?.let {
+            customInputMethodView.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
+            customInputMethodView.keyboardViewListener = this
+            customInputMethodView.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
-
         return customInputMethodView
     }
 
+    private fun loadLanguages() {
+        val languagesArray = resources.obtainTypedArray(R.array.languages)
+        val keyboards: SparseArray<CustomKeyboard> = SparseArray()
+        var eachLanguageTypedArray: TypedArray? = null
+        for (i in 0 until languagesArray.length()) {
+            val id = languagesArray.getResourceId(i, -1)
+            if (id == -1) {
+                throw IllegalStateException("Invalid language array resource")
+            }
+            eachLanguageTypedArray = resources.obtainTypedArray(id)
+            eachLanguageTypedArray?.let {
+                val nameIdx = 0
 
+                val languageName = it.getString(nameIdx)
+                val xmlRes = it.getResourceId(RES_IDX, -1)
+                val shiftXmlRes = it.getResourceId(SHIFT_IDX, -1)
+                val symbolXmlRes = it.getResourceId(SYM_IDX, -1)
 
-    override fun onCreateCandidatesView(): View {
-        mCandidateView = CandidateView(this)
-        mCandidateView!!.setService(this)
-        return mCandidateView as CandidateView
+                if (languageName == null || xmlRes == -1 || shiftXmlRes == -1 || symbolXmlRes == -1) {
+                    throw IllegalStateException("Make sure the arrays resources contain name, xml, and shift xml")
+                }
+
+                languageNames.add(languageName)
+                languageXmlRes.add(xmlRes)
+                languageShiftXmlRes.add(shiftXmlRes)
+                languageSymbolXmlRes.add(symbolXmlRes)
+            }
+
+            keyboardNormal = CustomKeyboard(this, languageXmlRes.last(), NORMAL, languageNames.last())
+            keyboardShift = CustomKeyboard(this, languageShiftXmlRes.last(), SHIFT, languageNames.last())
+            keyboardSymbol = CustomKeyboard(this, languageSymbolXmlRes.last(), SYMBOL, languageNames.last())
+
+            keyboards.clear()
+            keyboards.append(NORMAL, keyboardNormal)
+            keyboards.append(SHIFT, keyboardShift)
+            keyboards.append(SYMBOL, keyboardSymbol)
+            keyboardsOfLanguages.put(i, keyboards.clone())
+        }
+
+        eachLanguageTypedArray?.recycle()
+        languagesArray.recycle()
     }
 
-    override fun onStartInput(attribute: EditorInfo, restarting: Boolean) {
-        super.onStartInput(attribute, restarting)
-    }
-
-    override fun onFinishInput() {
-        super.onFinishInput()
-
-        setCandidatesViewShown(false)
-
-//        if (mInputView != null) {
-//            mInputView!!.closing()
-//        }
-    }
-
-    override fun onStartInputView(attribute: EditorInfo, restarting: Boolean) {
-        super.onStartInputView(attribute, restarting)
-        // Apply the selected keyboard to the input view.
-//        mInputView!!.closing()
-    }
-
-    /**
-     * Deal with the editor reporting movement of its cursor.
-     */
-    override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int,
-                                   newSelStart: Int, newSelEnd: Int,
-                                   candidatesStart: Int, candidatesEnd: Int) {
-        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
-            candidatesStart, candidatesEnd)
-    }
-
-    /**
-     * This tells us about completions that the editor has determined based
-     * on the current text in it.  We want to use this in fullscreen mode
-     * to show the completions ourself, since the editor can not be seen
-     * in that situation.
-     */
-    override fun onDisplayCompletions(completions: Array<CompletionInfo>?) {
-        super.onDisplayCompletions(completions)
-    }
-
-    /**
-     * Use this to monitor key events being delivered to the application.
-     * We get first crack at them, and can either resume them or let them
-     * continue to the app.
-     */
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return super.onKeyDown(keyCode, event)
-    }
-
-    /**
-     * Use this to monitor key events being delivered to the application.
-     * We get first crack at them, and can either resume them or let them
-     * continue to the app.
-     */
-    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
-        return super.onKeyUp(keyCode, event)
-    }
-
-    /**
-     * Helper to send a key down / key up pair to the current editor.
-     */
-    private fun keyDownUp(keyEventCode: Int) {
-        currentInputConnection.sendKeyEvent(
-            KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode))
-        currentInputConnection.sendKeyEvent(
-            KeyEvent(KeyEvent.ACTION_UP, keyEventCode))
-    }
-
-    override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
-        if (primaryCode == Keyboard.KEYCODE_CANCEL) {
-            handleClose()
-            return
-        } else {
-            handleCharacter(primaryCode, keyCodes)
+    override fun onSwipeRight() {
+        if (BuildConfig.DEBUG) {
+            Log.d("///AMOS", "SWIPE RIGHT")
         }
     }
 
     override fun onSwipeLeft() {
-//        TODO("Not yet implemented")
-    }
-
-    override fun onSwipeRight() {
-//        TODO("Not yet implemented")
+        if (BuildConfig.DEBUG) {
+            Log.d("///AMOS", "SWIPE LEFT")
+        }
     }
 
     override fun onSwipeUp() {
-//        TODO("Not yet implemented")
+        if (BuildConfig.DEBUG) {
+            Log.d("///AMOS", "SWIPE UP")
+        }
     }
 
     override fun onSwipeDown() {
-//        TODO("Not yet implemented")
+        if (BuildConfig.DEBUG) {
+            Log.d("///AMOS", "SWIPE DOWN")
+        }
     }
 
     override fun onChangeKeyboardSwipe(direction: Int) {
-//        TODO("Not yet implemented")
+        changeLanguage(direction)
     }
 
+    private fun saveCurrentState() {
+        preferences.putInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, currentSelectedLanguageIdx)
+    }
 
-    private fun handleCharacter(primaryCode: Int, keyCodes: IntArray?) {
-        var primaryCode = primaryCode
-        if (isInputViewShown) {
-//            if (mInputView!!.isShifted) {
-//                primaryCode = Character.toUpperCase(primaryCode)
-//            }
+    private fun changeLanguage(direction: Int) {
+        currentSelectedLanguageIdx = ((currentSelectedLanguageIdx + direction) + languageNames.size) % languageNames.size
+        if (BuildConfig.DEBUG) {
+            Log.d("///AMOS", "CHANGE DIRECTION $currentSelectedLanguageIdx")
         }
-
-        currentInputConnection.commitText(
-            primaryCode.toChar().toString(), 1)
+        saveCurrentState()
+        renderCurrentLanguage()
     }
 
-    private fun handleClose() {
-        requestHideSelf(0)
-//        mInputView!!.closing()
+    override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
+        val inputConnection = currentInputConnection
+        if (enableVibration) vibrate()
+        if (enableSound) playClick(primaryCode)
+        when (primaryCode) {
+            Keyboard.KEYCODE_DELETE -> {
+                val selectedText: CharSequence? = inputConnection.getSelectedText(0)
+                if (selectedText == null) {
+                    inputConnection.deleteSurroundingText(1, 0)
+                } else {
+                    if (selectedText.isEmpty()) {
+                        inputConnection.deleteSurroundingText(1, 0)
+                    } else {
+                        inputConnection.commitText("", 1)
+                    }
+                }
+            }
+            KEYCODE_ABC -> {
+                currentKeyboardPage = NORMAL
+                return
+            }
+            Keyboard.KEYCODE_SHIFT -> {
+                currentKeyboardPage = SHIFT
+                return
+            }
+            KEYCODE_UNSHIFT -> {
+                currentKeyboardPage = NORMAL
+                return
+            }
+            KEYCODE_123 -> {
+                currentKeyboardPage = SYMBOL
+                return
+            }
+            KEYCODE_MYA_TI_MYA_NA -> {
+                val output = KEYCODE_MYA_TI.toChar().toString() + KEYCODE_MYA_NA.toChar()
+                inputConnection.commitText(output, 2)
+            }
+            KEYCODE_NA_PO_MYA_NA -> {
+                val output = KEYCODE_NA_PO.toChar().toString() + KEYCODE_MYA_NA.toChar()
+                inputConnection.commitText(output, 2)
+            }
+            KEYCODE_LANGUAGE -> {
+                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                mgr?.showInputMethodPicker()
+            }
+            Keyboard.KEYCODE_DONE -> {
+                val event = (KeyEvent(0, 0, MotionEvent.ACTION_DOWN,
+                    KeyEvent.KEYCODE_ENTER, 0, 0, 0, 0,
+                    KeyEvent.FLAG_SOFT_KEYBOARD))
+                inputConnection.sendKeyEvent(event)
+            }
+            else -> {
+                inputConnection.commitText(primaryCode.toChar().toString(), 1)
+            }
+        }
+        // Switch back to normal if the selected page type is shift.
+        if (currentKeyboardPage == SHIFT) {
+            currentKeyboardPage = NORMAL
+        }
     }
 
+    private fun vibrate() {
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(20, 150))
+        } else {
+            vibrator.vibrate(20)
+        }
+    }
+
+    private fun playClick(keyCode: Int) {
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        when (keyCode) {
+            32 -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR)
+            Keyboard.KEYCODE_DONE, 10 -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN)
+            Keyboard.KEYCODE_DELETE -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE)
+            else -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
+        }
+    }
+
+    private fun loadKeyCodes() {
+        KEYCODE_UNSHIFT = resources.getInteger(R.integer.keycode_unshift)
+        KEYCODE_ABC = resources.getInteger(R.integer.keycode_abc)
+        KEYCODE_123 = resources.getInteger(R.integer.keycode_sym)
+        KEYCODE_SPACE = resources.getInteger(R.integer.keycode_space)
+        KEYCODE_LANGUAGE = resources.getInteger(R.integer.keycode_switch_next_keyboard)
+        KEYCODE_NA_PO_MYA_NA = resources.getInteger(R.integer.keycode_na_po_mya_na)
+        KEYCODE_MYA_TI_MYA_NA = resources.getInteger(R.integer.keycode_mya_ti_mya_na)
+        KEYCODE_MYA_TI = resources.getInteger(R.integer.keycode_mya_ti)
+        KEYCODE_MYA_NA = resources.getInteger(R.integer.keycode_mya_na)
+        KEYCODE_NA_PO = resources.getInteger(R.integer.keycode_na_po)
+    }
+
+    companion object {
+        var KEYCODE_NONE = -777
+        var KEYCODE_UNSHIFT = KEYCODE_NONE
+        var KEYCODE_ABC = KEYCODE_NONE
+        var KEYCODE_123 = KEYCODE_NONE
+        var KEYCODE_SPACE = KEYCODE_NONE
+        var KEYCODE_NA_PO_MYA_NA = KEYCODE_NONE
+        var KEYCODE_MYA_TI_MYA_NA = KEYCODE_NONE
+        var KEYCODE_LANGUAGE = KEYCODE_NONE
+        var KEYCODE_NA_PO = KEYCODE_NONE
+        var KEYCODE_MYA_NA = KEYCODE_NONE
+        var KEYCODE_MYA_TI = KEYCODE_NONE
+
+        const val RES_IDX = 1
+        const val SHIFT_IDX = 2
+        const val SYM_IDX = 3
+    }
 }

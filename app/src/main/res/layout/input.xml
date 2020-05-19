@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.inputmethodservice.KeyboardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/keyboard"
-    android:layout_alignParentBottom="true"
-    android:paddingTop="0dp"
-    android:layout_marginTop="20dp"
+<com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/keyboardNormal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:keyPreviewLayout="@layout/preview"
-    android:keyBackground="@drawable/key_background"
-    android:keyTextColor="#fff"
-    android:background="@color/colorPrimaryDark"
-    android:popupLayout="@layout/keyboard_popup_layout" >
+    app:keyTextSize="8dp" />
 
-</android.inputmethodservice.KeyboardView>

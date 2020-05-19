@@ -9,5 +9,6 @@
         <item>@xml/qwerty</item>
         <item>@xml/qwerty_shift</item>
         <item>@xml/qwerty_symbol</item>
+        <item>@xml/qwerty_symbol_shift</item>
     </array>
 </resources>

@@ -4,7 +4,7 @@
     <dimen name="candidate_font_height">20sp</dimen>
     <dimen name="candidate_vertical_padding">16sp</dimen>
 
-    <dimen name="bottom_keys_height">65dp</dimen>
+    <dimen name="bottom_keys_height">60dp</dimen>
 
     <!--Default values-->
     <dimen name="default_key_text_size">16dp</dimen>
