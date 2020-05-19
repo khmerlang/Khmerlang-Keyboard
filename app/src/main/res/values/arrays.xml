@@ -5,7 +5,7 @@
     </array>
 
     <array name="english">
-        <item>English</item>
+        <item>R2ខ្មែរ</item>
         <item>@xml/qwerty</item>
         <item>@xml/qwerty_shift</item>
         <item>@xml/qwerty_symbol</item>

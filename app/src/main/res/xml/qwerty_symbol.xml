@@ -75,7 +75,7 @@
 
     <Row>
         <Key
-            android:codes="@integer/keycode_unshift"
+            android:codes="@integer/keycode_sym_shift"
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left"

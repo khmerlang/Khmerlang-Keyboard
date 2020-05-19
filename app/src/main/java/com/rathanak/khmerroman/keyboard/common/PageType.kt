@@ -5,6 +5,7 @@ class PageType {
         const val NORMAL = 0
         const val SHIFT = 1
         const val SYMBOL = 2
-        val PAGE_TYPES = listOf(NORMAL, SHIFT, SYMBOL)
+        const val SYMBOL_SHIFT = 3
+        val PAGE_TYPES = listOf(NORMAL, SHIFT, SYMBOL, SYMBOL_SHIFT)
     }
 }
