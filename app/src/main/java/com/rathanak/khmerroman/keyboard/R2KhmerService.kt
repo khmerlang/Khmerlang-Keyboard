@@ -136,7 +136,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onCreateInputView(): View? {
-        customInputMethodView = layoutInflater.inflate(R.layout.input, null) as CustomInputMethodView
+        customInputMethodView = layoutInflater.inflate(R.layout.keybaord, null) as CustomInputMethodView
         val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
         keyboard?.let {
             customInputMethodView.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
