@@ -8,9 +8,11 @@ import android.media.AudioManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.text.InputType
 import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.CompletionInfo
@@ -38,7 +40,9 @@ import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
-    private lateinit var customInputMethodView: CustomInputMethodView
+    //private lateinit var customInputMethodView: CustomInputMethodView
+    private var customInputMethodView: CustomInputMethodView? = null
+    private var mCandidateView: CandidateView? = null
 
     private lateinit var keyboardNormal: CustomKeyboard
     private lateinit var keyboardShift: CustomKeyboard
@@ -56,10 +60,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var currentSelectedLanguageIdx = 0
     private var enableVibration = true
     private var enableSound = true
+    private var mPredictionOn: Boolean = false
+    private val mComposing = StringBuilder()
 
     private var currentKeyboardPage by Delegates.observable<Int?>(null) { _, _, newPage ->
         newPage?.let {
-            customInputMethodView.updateKeyboardPage(newPage)
+            customInputMethodView?.updateKeyboardPage(newPage)
         }
     }
 
@@ -107,7 +113,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun renderCurrentLanguage() {
         if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
-            customInputMethodView.updateKeyboardLanguage(currentSelectedLanguageIdx)
+            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
     }
 
@@ -139,11 +145,64 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         customInputMethodView = layoutInflater.inflate(R.layout.keybaord, null) as CustomInputMethodView
         val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
         keyboard?.let {
-            customInputMethodView.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
-            customInputMethodView.keyboardViewListener = this
-            customInputMethodView.updateKeyboardLanguage(currentSelectedLanguageIdx)
+            customInputMethodView?.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
+            customInputMethodView?.keyboardViewListener = this
+            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
         return customInputMethodView
+    }
+
+    override fun onCreateCandidatesView(): View {
+        mCandidateView = CandidateView(this)
+        mCandidateView!!.setService(this)
+        return mCandidateView as CandidateView
+    }
+
+//    override fun onDisplayCompletions(completions: Array<CompletionInfo>?) {
+//        if (mCompletionOn) {
+//            mCompletions = completions
+//            if (completions == null) {
+//                setSuggestions(null, false, false)
+//                return
+//            }
+//
+//            val stringList = ArrayList<String>()
+//            for (i in completions.indices) {
+//                val ci = completions[i]
+//                if (ci != null) stringList.add(ci.text.toString())
+//            }
+//            setSuggestions(stringList, true, true)
+//        }
+//    }
+
+    private fun updateCandidates() {
+        if (!mPredictionOn) {
+            if (mComposing.length > 0) {
+                val list = ArrayList<String>()
+                list.add(mComposing.toString())
+                setSuggestions(list, true, true)
+            } else {
+                setSuggestions(null, false, false)
+            }
+        }
+        setCandidatesViewShown(true)
+    }
+
+    fun setSuggestions(suggestions: List<String>?, completions: Boolean,
+                       typedWordValid: Boolean) {
+        if (suggestions != null && suggestions.size > 0) {
+            setCandidatesViewShown(true)
+        } else if (isExtractViewShown) {
+            setCandidatesViewShown(true)
+        }
+
+        if (mCandidateView != null) {
+            mCandidateView!!.setSuggestions(suggestions, completions, typedWordValid)
+        }
+    }
+
+    fun pickSuggestionManually(mSelectedIndex: Int) {
+        Log.i("suggestion", "Heelo" + mSelectedIndex);
     }
 
     private fun loadLanguages() {
@@ -234,12 +293,44 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         renderCurrentLanguage()
     }
 
+    override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        super.onStartInput(attribute, restarting)
+        mComposing.setLength(0)
+        updateCandidates()
+
+        mPredictionOn = false
+        when ((attribute?.inputType)?.and(InputType.TYPE_MASK_CLASS)) {
+            InputType.TYPE_CLASS_NUMBER, InputType.TYPE_CLASS_DATETIME ->
+                currentKeyboardPage = SYMBOL
+            InputType.TYPE_CLASS_PHONE ->
+                currentKeyboardPage = SYMBOL
+            InputType.TYPE_CLASS_TEXT -> {
+                currentKeyboardPage = NORMAL
+                mPredictionOn = true
+
+            }
+            else -> {
+                currentKeyboardPage = NORMAL
+            }
+        }
+        // update label on Enter key here
+    }
+
+    override fun onFinishInput() {
+        super.onFinishInput()
+        mComposing.setLength(0)
+        updateCandidates()
+        currentKeyboardPage = NORMAL
+    }
+
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
         val inputConnection = currentInputConnection
         if (enableVibration) vibrate()
         if (enableSound) playClick(primaryCode)
         when (primaryCode) {
             Keyboard.KEYCODE_DELETE -> {
+//                handleBackspace()
+
                 val selectedText: CharSequence? = inputConnection.getSelectedText(0)
                 if (selectedText == null) {
                     inputConnection.deleteSurroundingText(1, 0)
@@ -276,14 +367,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 return
             }
 
-            KEYCODE_MYA_TI_MYA_NA -> {
-                val output = KEYCODE_MYA_TI.toChar().toString() + KEYCODE_MYA_NA.toChar()
-                inputConnection.commitText(output, 2)
-            }
-            KEYCODE_NA_PO_MYA_NA -> {
-                val output = KEYCODE_NA_PO.toChar().toString() + KEYCODE_MYA_NA.toChar()
-                inputConnection.commitText(output, 2)
-            }
             KEYCODE_LANGUAGE -> {
                 val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
                 mgr?.showInputMethodPicker()
@@ -296,11 +379,54 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
             else -> {
                 inputConnection.commitText(primaryCode.toChar().toString(), 1)
+                //handleCharacter(primaryCode, keyCodes)
             }
         }
         // Switch back to normal if the selected page type is shift.
         if (currentKeyboardPage == SHIFT) {
             currentKeyboardPage = NORMAL
+        }
+    }
+
+//    private fun handleCharacter(primaryCode: Int, keyCodes: IntArray?) {
+//        var primaryCode = primaryCode
+//        if (isAlphabet(primaryCode) && mPredictionOn) {
+//            mComposing.append(primaryCode.toChar())
+//            currentInputConnection.setComposingText(mComposing, 1)
+//            updateCandidates()
+//        } else {
+//            currentInputConnection.commitText(
+//                primaryCode.toChar().toString(), 1)
+//        }
+//    }
+
+//    private fun handleBackspace() {
+//        val length = mComposing.length
+//        if (length > 1) {
+//            mComposing.delete(length - 1, length)
+//            currentInputConnection.setComposingText(mComposing, 1)
+//            updateCandidates()
+//        } else if (length > 0) {
+//            mComposing.setLength(0)
+//            currentInputConnection.commitText("", 0)
+//            updateCandidates()
+//        } else {
+//            keyDownUp(KeyEvent.KEYCODE_DEL)
+//        }
+//    }
+
+//    private fun keyDownUp(keyEventCode: Int) {
+//        currentInputConnection.sendKeyEvent(
+//            KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode))
+//        currentInputConnection.sendKeyEvent(
+//            KeyEvent(KeyEvent.ACTION_UP, keyEventCode))
+//    }
+
+    private fun isAlphabet(code: Int): Boolean {
+        return if (Character.isLetter(code)) {
+            true
+        } else {
+            false
         }
     }
 
