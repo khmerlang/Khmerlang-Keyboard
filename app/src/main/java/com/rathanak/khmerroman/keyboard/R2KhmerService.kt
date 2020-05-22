@@ -42,7 +42,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     //private lateinit var customInputMethodView: CustomInputMethodView
     private var customInputMethodView: CustomInputMethodView? = null
-    private var mCandidateView: CandidateView? = null
 
     private lateinit var keyboardNormal: CustomKeyboard
     private lateinit var keyboardShift: CustomKeyboard
@@ -152,59 +151,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         return customInputMethodView
     }
 
-    override fun onCreateCandidatesView(): View {
-        mCandidateView = CandidateView(this)
-        mCandidateView!!.setService(this)
-        setCandidatesViewShown(true)
-        return mCandidateView as CandidateView
-    }
-
-//    override fun onDisplayCompletions(completions: Array<CompletionInfo>?) {
-//        if (mCompletionOn) {
-//            mCompletions = completions
-//            if (completions == null) {
-//                setSuggestions(null, false, false)
-//                return
-//            }
-//
-//            val stringList = ArrayList<String>()
-//            for (i in completions.indices) {
-//                val ci = completions[i]
-//                if (ci != null) stringList.add(ci.text.toString())
-//            }
-//            setSuggestions(stringList, true, true)
-//        }
-//    }
-
-    private fun updateCandidates() {
-        if (!mPredictionOn) {
-            if (mComposing.length > 0) {
-                val list = ArrayList<String>()
-                list.add(mComposing.toString())
-                setSuggestions(list, true, true)
-            } else {
-                setSuggestions(null, false, false)
-            }
-        }
-    }
-
-    fun setSuggestions(suggestions: List<String>?, completions: Boolean,
-                       typedWordValid: Boolean) {
-        if (suggestions != null && suggestions.size > 0) {
-            setCandidatesViewShown(true)
-        } else if (isExtractViewShown) {
-            setCandidatesViewShown(true)
-        }
-
-        if (mCandidateView != null) {
-            mCandidateView!!.setSuggestions(suggestions, completions, typedWordValid)
-        }
-    }
-
-    fun pickSuggestionManually(mSelectedIndex: Int) {
-        Log.i("suggestion", "Heelo" + mSelectedIndex);
-    }
-
     private fun loadLanguages() {
         val languagesArray = resources.obtainTypedArray(R.array.languages)
         val keyboards: SparseArray<CustomKeyboard> = SparseArray()
@@ -296,7 +242,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
         mComposing.setLength(0)
-        updateCandidates()
 
         mPredictionOn = false
         when ((attribute?.inputType)?.and(InputType.TYPE_MASK_CLASS)) {
@@ -319,7 +264,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     override fun onFinishInput() {
         super.onFinishInput()
         mComposing.setLength(0)
-        updateCandidates()
         currentKeyboardPage = NORMAL
     }
 

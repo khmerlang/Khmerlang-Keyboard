@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:keyHeight="@dimen/key_height"
     android:verticalGap="0px">
-
     <Row>
         <Key
             android:codes="113"
