@@ -155,6 +155,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     override fun onCreateCandidatesView(): View {
         mCandidateView = CandidateView(this)
         mCandidateView!!.setService(this)
+        setCandidatesViewShown(true)
         return mCandidateView as CandidateView
     }
 
@@ -185,7 +186,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 setSuggestions(null, false, false)
             }
         }
-        setCandidatesViewShown(true)
     }
 
     fun setSuggestions(suggestions: List<String>?, completions: Boolean,
