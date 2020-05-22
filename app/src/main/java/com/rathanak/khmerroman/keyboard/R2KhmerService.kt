@@ -18,6 +18,7 @@ import android.view.View
 import android.view.inputmethod.CompletionInfo
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
@@ -34,6 +35,7 @@ import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL_SHIFT
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
+import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import kotlin.properties.Delegates
@@ -61,6 +63,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var enableSound = true
     private var mPredictionOn: Boolean = false
     private val mComposing = StringBuilder()
+
+    private val smartbarManager: SmartbarManager = SmartbarManager(this)
+    var rootView: LinearLayout? = null
+    val context: Context
+        get() = rootView?.context ?: this
 
     private var currentKeyboardPage by Delegates.observable<Int?>(null) { _, _, newPage ->
         newPage?.let {
@@ -141,6 +148,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onCreateInputView(): View? {
+        rootView = layoutInflater.inflate(R.layout.roman_2_khmer, null) as LinearLayout
+        rootView?.addView(smartbarManager.createSmartbarView(), 0)
         customInputMethodView = layoutInflater.inflate(R.layout.keybaord, null) as CustomInputMethodView
         val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
         keyboard?.let {
@@ -148,7 +157,17 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             customInputMethodView?.keyboardViewListener = this
             customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
-        return customInputMethodView
+        rootView!!.addView(customInputMethodView)
+        return rootView
+//        customInputMethodView = layoutInflater.inflate(R.layout.keybaord, null) as CustomInputMethodView
+//        val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
+//        keyboard?.let {
+//            customInputMethodView?.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
+//            customInputMethodView?.keyboardViewListener = this
+//            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
+//        }
+//        return customInputMethodView
+
     }
 
     private fun loadLanguages() {
