@@ -72,7 +72,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     val context: Context
         get() = rootView?.context ?: this
 
-    private var currentKeyboardPage by Delegates.observable<Int?>(null) { _, _, newPage ->
+    var currentKeyboardPage by Delegates.observable<Int?>(null) { _, _, newPage ->
         newPage?.let {
             customInputMethodView?.updateKeyboardPage(newPage)
         }

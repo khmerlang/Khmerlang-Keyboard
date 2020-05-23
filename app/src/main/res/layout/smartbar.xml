@@ -21,13 +21,15 @@
 
     <!--  Setting options here  -->
     <LinearLayout
+        android:animateLayoutChanges="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/settings_list"
+        android:id="@+id/settingsList"
         android:gravity="right"
         android:paddingLeft="5dp"
         android:visibility="gone">
         <ImageButton
+            android:id="@+id/btnOpenApp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_settings"/>
@@ -37,10 +39,10 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/numbers_list"
+        android:id="@+id/numbersList"
         android:gravity="right"
         android:paddingLeft="5dp"
-        android:visibility="visible">
+        android:visibility="gone">
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -117,7 +119,7 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/candidates_container"
+        android:id="@+id/candidatesContainer"
         android:visibility="gone">
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -171,13 +173,14 @@
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/ads_container"
+        android:id="@+id/bannerContainer"
         android:gravity="center"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:visibility="gone">
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_backspace"/>
+            android:layout_height="40dp"
+            android:src="@drawable/app_banner"/>
     </LinearLayout>
 </LinearLayout>
