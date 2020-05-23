@@ -163,15 +163,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
         rootView!!.addView(customInputMethodView)
         return rootView
-//        customInputMethodView = layoutInflater.inflate(R.layout.keybaord, null) as CustomInputMethodView
-//        val keyboard = keyboardsOfLanguages[currentSelectedLanguageIdx]
-//        keyboard?.let {
-//            customInputMethodView?.prepareAllKeyboardsForRendering(keyboardsOfLanguages, currentSelectedLanguageIdx)
-//            customInputMethodView?.keyboardViewListener = this
-//            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
-//        }
-//        return customInputMethodView
-
     }
 
     private fun loadLanguages() {
@@ -272,14 +263,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
         mPredictionOn = false
         when ((attribute?.inputType)?.and(InputType.TYPE_MASK_CLASS)) {
-            InputType.TYPE_CLASS_NUMBER, InputType.TYPE_CLASS_DATETIME ->
+            InputType.TYPE_CLASS_DATETIME ->
                 currentKeyboardPage = SYMBOL
-            InputType.TYPE_CLASS_PHONE ->
-                currentKeyboardPage = SYMBOL
+            InputType.TYPE_CLASS_PHONE, InputType.TYPE_CLASS_NUMBER ->
+                currentKeyboardPage = NUMBER
             InputType.TYPE_CLASS_TEXT -> {
                 currentKeyboardPage = NORMAL
                 mPredictionOn = true
-
             }
             else -> {
                 currentKeyboardPage = NORMAL
