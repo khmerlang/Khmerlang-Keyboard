@@ -4,28 +4,150 @@
     android:id="@+id/smartbar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:maxHeight="50dp"
     android:background="@color/grey_light"
     tools:ignore="NestedWeights"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:padding="5dp">
-    <ImageView
+    <ToggleButton
+        android:id="@+id/toggleOption"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_mini_logo"/>
-    <LinearLayout
-        android:layout_height="40dp"
-        android:layout_width="wrap_content"
-        android:id="@+id/candidates"
-        android:visibility="gone">
-        <Button
-            android:layout_height="40dp"
-            android:layout_width="wrap_content"
-            android:text="Rathanak"
-            android:id="@+id/candidate0" />
+        android:background="@drawable/ic_mini_logo"
+        android:checked="true"
+        android:textOff=""
+        android:textOn="" />
 
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
+    <!--  Setting options here  -->
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:text="Hello"/>
+        android:layout_width="match_parent"
+        android:id="@+id/settings_list"
+        android:gravity="right"
+        android:paddingLeft="5dp"
+        android:visibility="gone">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_settings"/>
+    </LinearLayout>
+
+    <!--  Roman number keys here  -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/numbers_list"
+        android:gravity="right"
+        android:paddingLeft="5dp"
+        android:visibility="visible">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+    </LinearLayout>
+
+    <!--  Roman suggestion here  -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/candidates_container"
+        android:visibility="gone">
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/candidates_list">
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate0" />
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak 1"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate2" />
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak 2"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate3" />
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak 4"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate4" />
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak 5"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate5" />
+                <Button
+                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:text="Rathanak 6"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/candidate6" />
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!--  Setting ad here  -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/ads_container"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_backspace"/>
+    </LinearLayout>
 </LinearLayout>
