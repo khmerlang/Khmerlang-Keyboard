@@ -125,9 +125,13 @@
             android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
+            android:codes="44"
+            android:keyLabel=","
+            android:keyWidth="10%p" />
+        <Key
             android:codes="32"
-            android:keyWidth="50%p"
-            app:isChangeLanguageKey="true"
+            android:keyWidth="40%p"
+            android:keyLabel="@string/app_name"
             app:keyTextSize="6dp" />
         <Key
             android:codes="46"

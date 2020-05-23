@@ -80,14 +80,14 @@
             android:keyLabel="\?123"
             android:keyWidth="15%p" />
         <Key
+            android:codes="6107"
+            android:keyLabel="៛" />
+        <Key
+            android:codes="6106"
+            android:keyLabel="៚" />
+        <Key
             android:codes="161"
             android:keyLabel="¡" />
-        <Key
-            android:codes="60"
-            android:keyLabel="&lt;" />
-        <Key
-            android:codes="62"
-            android:keyLabel="&gt;" />
         <Key
             android:codes="162"
             android:keyLabel="¢" />
@@ -122,13 +122,17 @@
             android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
+            android:codes="60"
+            android:keyLabel="&lt;"
+            android:keyWidth="10%p" />
+        <Key
             android:codes="32"
-            android:keyWidth="50%p"
-            app:isChangeLanguageKey="true"
+            android:keyWidth="40%p"
+            android:keyLabel="@string/app_name"
             app:keyTextSize="6dp" />
         <Key
-            android:codes="46"
-            android:keyLabel="."
+            android:codes="62"
+            android:keyLabel="&gt;"
             android:keyWidth="10%p" />
         <Key
             android:codes="@integer/keycode_done"

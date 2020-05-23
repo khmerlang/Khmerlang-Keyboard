@@ -42,44 +42,74 @@
         android:paddingLeft="5dp"
         android:visibility="visible">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="1"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="2"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="3"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="4"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="5"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="6"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="7"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="8"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="9"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:layout_marginRight="2dp"
             android:text="0"/>
     </LinearLayout>
 
