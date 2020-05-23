@@ -32,6 +32,7 @@ import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SHIFT
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL_SHIFT
+import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NUMBER
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
@@ -49,12 +50,14 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private lateinit var keyboardShift: CustomKeyboard
     private lateinit var keyboardSymbol: CustomKeyboard
     private lateinit var keyboardSymbolShift: CustomKeyboard
+    private lateinit var keyboardNumber: CustomKeyboard
 
     private var languageNames: MutableList<String> = mutableListOf()
     private var languageXmlRes: MutableList<Int> = mutableListOf()
     private var languageShiftXmlRes: MutableList<Int> = mutableListOf()
     private var languageSymbolXmlRes: MutableList<Int> = mutableListOf()
     private var languageSymbolShiftXmlRes: MutableList<Int> = mutableListOf()
+    private var languageNumberXmlRes: MutableList<Int> = mutableListOf()
 
     private var keyboardsOfLanguages = SparseArray<SparseArray<CustomKeyboard>>()
 
@@ -113,6 +116,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         languageShiftXmlRes.clear()
         languageSymbolXmlRes.clear()
         languageSymbolShiftXmlRes.clear()
+        languageNumberXmlRes.clear()
         keyboardsOfLanguages.clear()
         currentKeyboardPage = null
     }
@@ -188,8 +192,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 val shiftXmlRes = it.getResourceId(SHIFT_IDX, -1)
                 val symbolXmlRes = it.getResourceId(SYM_IDX, -1)
                 val symbolShiftXmlRes = it.getResourceId(SYM_SHIFT_IDX, -1)
+                val numberXmlRes = it.getResourceId(NUMBER_IDX, -1)
 
-                if (languageName == null || xmlRes == -1 || shiftXmlRes == -1 || symbolXmlRes == -1 || symbolShiftXmlRes == -1) {
+                if (languageName == null || xmlRes == -1 || shiftXmlRes == -1 || symbolXmlRes == -1 || symbolShiftXmlRes == -1 || numberXmlRes == -1) {
                     throw IllegalStateException("Make sure the arrays resources contain name, xml, and shift xml")
                 }
 
@@ -198,18 +203,21 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 languageShiftXmlRes.add(shiftXmlRes)
                 languageSymbolXmlRes.add(symbolXmlRes)
                 languageSymbolShiftXmlRes.add(symbolShiftXmlRes)
+                languageNumberXmlRes.add(numberXmlRes)
             }
 
             keyboardNormal = CustomKeyboard(this, languageXmlRes.last(), NORMAL, languageNames.last())
             keyboardShift = CustomKeyboard(this, languageShiftXmlRes.last(), SHIFT, languageNames.last())
             keyboardSymbol = CustomKeyboard(this, languageSymbolXmlRes.last(), SYMBOL, languageNames.last())
             keyboardSymbolShift = CustomKeyboard(this, languageSymbolShiftXmlRes.last(), SYMBOL_SHIFT, languageNames.last())
+            keyboardNumber = CustomKeyboard(this, languageNumberXmlRes.last(), NUMBER, languageNames.last())
 
             keyboards.clear()
             keyboards.append(NORMAL, keyboardNormal)
             keyboards.append(SHIFT, keyboardShift)
             keyboards.append(SYMBOL, keyboardSymbol)
             keyboards.append(SYMBOL_SHIFT, keyboardSymbolShift)
+            keyboards.append(NUMBER, keyboardNumber)
             keyboardsOfLanguages.put(i, keyboards.clone())
         }
 
@@ -330,6 +338,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 return
             }
 
+            KEYCODE_NUMBER_SHIFT -> {
+                currentKeyboardPage = NUMBER
+                return
+            }
+
             KEYCODE_LANGUAGE -> {
                 val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
                 mgr?.showInputMethodPicker()
@@ -418,6 +431,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         KEYCODE_123 = resources.getInteger(R.integer.keycode_sym)
         KEYCODE_123_SHIFT = resources.getInteger(R.integer.keycode_sym_shift)
         KEYCODE_123_UNSHIFT = resources.getInteger(R.integer.keycode_sym_unshift)
+        KEYCODE_NUMBER_SHIFT = resources.getInteger(R.integer.keycode_number_shift)
         KEYCODE_SPACE = resources.getInteger(R.integer.keycode_space)
         KEYCODE_LANGUAGE = resources.getInteger(R.integer.keycode_switch_next_keyboard)
         KEYCODE_NA_PO_MYA_NA = resources.getInteger(R.integer.keycode_na_po_mya_na)
@@ -434,6 +448,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         var KEYCODE_123 = KEYCODE_NONE
         var KEYCODE_123_SHIFT = KEYCODE_NONE
         var KEYCODE_123_UNSHIFT = KEYCODE_NONE
+        var KEYCODE_NUMBER_SHIFT = KEYCODE_NONE
         var KEYCODE_SPACE = KEYCODE_NONE
         var KEYCODE_NA_PO_MYA_NA = KEYCODE_NONE
         var KEYCODE_MYA_TI_MYA_NA = KEYCODE_NONE
@@ -446,5 +461,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val SHIFT_IDX = 2
         const val SYM_IDX = 3
         const val SYM_SHIFT_IDX = 4
+        const val NUMBER_IDX = 5
     }
 }

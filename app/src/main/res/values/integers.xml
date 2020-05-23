@@ -2,4 +2,5 @@
 <resources>
     <integer name="keycode_sym_unshift">-1000</integer>
     <integer name="keycode_sym_shift">-999</integer>
+    <integer name="keycode_number_shift">-1001</integer>
 </resources>
