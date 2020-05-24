@@ -138,43 +138,13 @@
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/candidates_list">
+                android:id="@+id/candidatesList">
                 <Button
                     android:layout_height="40dp"
                     android:layout_width="wrap_content"
                     android:text="Rathanak"
                     android:layout_marginLeft="5dp"
                     android:id="@+id/candidate0" />
-                <Button
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:text="Rathanak 1"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/candidate2" />
-                <Button
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:text="Rathanak 2"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/candidate3" />
-                <Button
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:text="Rathanak 4"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/candidate4" />
-                <Button
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:text="Rathanak 5"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/candidate5" />
-                <Button
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:text="Rathanak 6"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/candidate6" />
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

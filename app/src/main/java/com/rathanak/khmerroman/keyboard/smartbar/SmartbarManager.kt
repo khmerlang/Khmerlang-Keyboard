@@ -43,12 +43,12 @@ class SmartbarManager(
         this.smartbarView!!.toggleOption!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_mini_logo)
-                this.smartbarView!!.settingsList.visibility = View.GONE
                 toggleBarLayOut(true)
+                this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_chevron_right)
-                this.smartbarView!!.settingsList.visibility = View.VISIBLE
                 toggleBarLayOut(false)
+                this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
         }
 
@@ -64,16 +64,25 @@ class SmartbarManager(
         }
 
         this.smartbarView!!.settingsList.visibility = View.GONE
-        this.smartbarView!!.bannerContainer.visibility = View.GONE
-        this.smartbarView!!.numbersList.visibility = View.GONE
-        this.smartbarView!!.candidatesContainer.visibility = View.GONE
         if (show) {
             if (r_2_khmer.currentInputPassword) {
                 this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
+                this.smartbarView!!.bannerContainer.visibility = View.GONE
+                this.smartbarView!!.candidatesContainer.visibility = View.GONE
+            } else if (true) {
+                this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
+                this.smartbarView!!.numbersList!!.visibility = View.GONE
+                this.smartbarView!!.bannerContainer.visibility = View.GONE
             } else {
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
+                this.smartbarView!!.candidatesContainer.visibility = View.GONE
+                this.smartbarView!!.numbersList!!.visibility = View.GONE
             }
             // else if has text for suggestion show suggestion
+        } else {
+            this.smartbarView!!.bannerContainer!!.visibility = View.GONE
+            this.smartbarView!!.candidatesContainer.visibility = View.GONE
+            this.smartbarView!!.numbersList!!.visibility = View.GONE
         }
     }
 
