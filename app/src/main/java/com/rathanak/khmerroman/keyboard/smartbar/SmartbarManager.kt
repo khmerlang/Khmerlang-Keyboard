@@ -1,22 +1,18 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
-import android.content.Context
 import android.content.Intent
-import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
-import android.view.textservice.TextServicesManager
 import android.widget.Button
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.children
+import androidx.core.view.marginLeft
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
-import com.rathanak.khmerroman.keyboard.common.PageType
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 
@@ -101,7 +97,7 @@ class SmartbarManager(
 
     fun generateCandidatesFromComposing(composingText: String?) {
         Log.i("hello", composingText.toString())
-//        if (composingText == null) {
+        if (composingText == null) {
 //            candidateViewList[0].text = "candidate"
 //            candidateViewList[1].text = "suggestions"
 //            candidateViewList[2].text = "nyi"
@@ -110,7 +106,11 @@ class SmartbarManager(
 //            candidateViewList[0].text = ""
 //            candidateViewList[1].text = composingText + "test"
 //            candidateViewList[2].text = ""
-//        }
+        }
+        this.smartbarView!!.candidatesList.removeAllViews()
+        val btnTag = Button(r_2_khmer.context)
+        btnTag.setText("Love")
+        this.smartbarView!!.candidatesList.addView(btnTag)
         toggleBarLayOut(true)
     }
 
