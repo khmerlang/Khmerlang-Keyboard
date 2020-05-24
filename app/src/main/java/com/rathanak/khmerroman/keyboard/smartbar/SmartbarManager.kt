@@ -1,14 +1,19 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
+import android.text.InputType
 import android.view.View
 import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.children
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.R2KhmerService
+import com.rathanak.khmerroman.keyboard.common.KeyData
+import com.rathanak.khmerroman.keyboard.common.PageType
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 
@@ -32,26 +37,38 @@ class SmartbarManager(
         this.smartbarView!!.toggleOption!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_mini_logo)
-                toggleOptionBarLayout(View.GONE)
+                this.smartbarView!!.settingsList.visibility = View.GONE
+                toggleBarLayOut(true)
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_chevron_right)
-                toggleOptionBarLayout(View.VISIBLE)
+                this.smartbarView!!.settingsList.visibility = View.VISIBLE
+                toggleBarLayOut(false)
             }
         }
 
-        showBarLayOut()
+        toggleBarLayOut(true)
+        handleNumberClick()
 
         return smartbarView
     }
 
-    private fun showBarLayOut() {}
+    fun toggleBarLayOut(show: Boolean) {
+        if (this.smartbarView == null) {
+            return
+        }
 
-    private fun toggleOptionBarLayout(visibility: Int) {
-        this.smartbarView!!.settingsList.visibility = visibility
-        // hide all other
+        this.smartbarView!!.settingsList.visibility = View.GONE
+        this.smartbarView!!.bannerContainer.visibility = View.GONE
         this.smartbarView!!.numbersList.visibility = View.GONE
         this.smartbarView!!.candidatesContainer.visibility = View.GONE
-        this.smartbarView!!.bannerContainer.visibility = View.GONE
+        if (show) {
+            if (r_2_khmer.currentInputPassword) {
+                this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
+            } else {
+                this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
+            }
+            // else if has text for suggestion show suggestion
+        }
     }
 
     private fun launchApp() {
@@ -61,5 +78,30 @@ class SmartbarManager(
         if(intent!=null){
             r_2_khmer.context.startActivity(intent)
         }
+    }
+
+    private fun handleNumberClick() {
+        for (numberButton in this.smartbarView!!.numbersList.children) {
+            if (numberButton is Button) {
+                numberButton.setOnClickListener(numberButtonOnClickListener)
+            }
+        }
+    }
+
+    private val numberButtonOnClickListener = View.OnClickListener { v ->
+        val keyData = when (v.id) {
+            R.id.btnNum0 -> KeyData(48, "0")
+            R.id.btnNum1 -> KeyData(49, "1")
+            R.id.btnNum2 -> KeyData(50, "2")
+            R.id.btnNum3 -> KeyData(51, "3")
+            R.id.btnNum4 -> KeyData(52, "4")
+            R.id.btnNum5 -> KeyData(53, "5")
+            R.id.btnNum6 -> KeyData(54, "6")
+            R.id.btnNum7 -> KeyData(55, "7")
+            R.id.btnNum8 -> KeyData(56, "8")
+            R.id.btnNum9 -> KeyData(57, "9")
+            else -> KeyData(0)
+        }
+        r_2_khmer.sendKeyPress(keyData)
     }
 }

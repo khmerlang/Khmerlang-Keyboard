@@ -26,6 +26,7 @@ import com.rathanak.khmerroman.BuildConfig
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
+import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.KeyStyle
 import com.rathanak.khmerroman.keyboard.common.KeyboardStyle
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
@@ -77,6 +78,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             customInputMethodView?.updateKeyboardPage(newPage)
         }
     }
+    var currentInputPassword: Boolean = false
 
     private lateinit var preferences: KeyboardPreferences
 
@@ -262,6 +264,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         mComposing.setLength(0)
 
         mPredictionOn = false
+        currentInputPassword = false
         when ((attribute?.inputType)?.and(InputType.TYPE_MASK_CLASS)) {
             InputType.TYPE_CLASS_DATETIME ->
                 currentKeyboardPage = SYMBOL
@@ -270,11 +273,19 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             InputType.TYPE_CLASS_TEXT -> {
                 currentKeyboardPage = NORMAL
                 mPredictionOn = true
+                when (attribute.inputType and InputType.TYPE_MASK_VARIATION) {
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
+                    InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD -> {
+                        currentInputPassword = true
+                    }
+                }
             }
             else -> {
                 currentKeyboardPage = NORMAL
             }
         }
+        smartbarManager!!.toggleBarLayOut(true)
         // update label on Enter key here
     }
 
@@ -290,18 +301,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         if (enableSound) playClick(primaryCode)
         when (primaryCode) {
             Keyboard.KEYCODE_DELETE -> {
-//                handleBackspace()
-
-                val selectedText: CharSequence? = inputConnection.getSelectedText(0)
-                if (selectedText == null) {
-                    inputConnection.deleteSurroundingText(1, 0)
-                } else {
-                    if (selectedText.isEmpty()) {
-                        inputConnection.deleteSurroundingText(1, 0)
-                    } else {
-                        inputConnection.commitText("", 1)
-                    }
-                }
+                handleDelete()
             }
             KEYCODE_ABC -> {
                 currentKeyboardPage = NORMAL
@@ -338,10 +338,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 mgr?.showInputMethodPicker()
             }
             Keyboard.KEYCODE_DONE -> {
-                val event = (KeyEvent(0, 0, MotionEvent.ACTION_DOWN,
-                    KeyEvent.KEYCODE_ENTER, 0, 0, 0, 0,
-                    KeyEvent.FLAG_SOFT_KEYBOARD))
-                inputConnection.sendKeyEvent(event)
+                handleEnter()
             }
             else -> {
                 inputConnection.commitText(primaryCode.toChar().toString(), 1)
@@ -354,6 +351,76 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
+    fun sendKeyPress(keyData: KeyData) {
+        val ic = currentInputConnection
+        when (keyData.code) {
+            Keyboard.KEYCODE_DELETE -> handleDelete()
+            Keyboard.KEYCODE_DONE -> handleEnter()
+            else -> {
+                ic.beginBatchEdit()
+                resetComposingText()
+                val text = keyData.code.toChar().toString()
+                ic.commitText(text, 1)
+                ic.endBatchEdit()
+            }
+        }
+    }
+
+    private fun handleDelete() {
+        val ic = currentInputConnection
+        ic.beginBatchEdit()
+        resetComposingText()
+        ic.sendKeyEvent(
+            KeyEvent(
+                KeyEvent.ACTION_DOWN,
+                KeyEvent.KEYCODE_DEL
+            )
+        )
+        ic.endBatchEdit()
+    }
+    private fun handleEnter() {
+        val ic = currentInputConnection
+        ic.beginBatchEdit()
+        resetComposingText()
+        val action = currentInputEditorInfo.imeOptions
+        if (action and EditorInfo.IME_FLAG_NO_ENTER_ACTION > 0) {
+            currentInputConnection.sendKeyEvent(
+                KeyEvent(
+                    KeyEvent.ACTION_DOWN,
+                    KeyEvent.KEYCODE_ENTER
+                )
+            )
+        } else {
+            when (action and EditorInfo.IME_MASK_ACTION) {
+                EditorInfo.IME_ACTION_DONE,
+                EditorInfo.IME_ACTION_GO,
+                EditorInfo.IME_ACTION_NEXT,
+                EditorInfo.IME_ACTION_PREVIOUS,
+                EditorInfo.IME_ACTION_SEARCH,
+                EditorInfo.IME_ACTION_SEND -> {
+                    currentInputConnection.performEditorAction(action)
+                }
+                else -> {
+                    currentInputConnection.sendKeyEvent(
+                        KeyEvent(
+                            KeyEvent.ACTION_DOWN,
+                            KeyEvent.KEYCODE_ENTER
+                        )
+                    )
+                }
+            }
+        }
+        ic.endBatchEdit()
+    }
+    private fun resetComposingText(notifyInputConnection: Boolean = true) {
+        if (notifyInputConnection) {
+            val ic = currentInputConnection
+            ic.finishComposingText()
+        }
+//        composingText = null
+//        composingTextStart = null
+    }
+
 //    private fun handleCharacter(primaryCode: Int, keyCodes: IntArray?) {
 //        var primaryCode = primaryCode
 //        if (isAlphabet(primaryCode) && mPredictionOn) {
@@ -363,21 +430,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //        } else {
 //            currentInputConnection.commitText(
 //                primaryCode.toChar().toString(), 1)
-//        }
-//    }
-
-//    private fun handleBackspace() {
-//        val length = mComposing.length
-//        if (length > 1) {
-//            mComposing.delete(length - 1, length)
-//            currentInputConnection.setComposingText(mComposing, 1)
-//            updateCandidates()
-//        } else if (length > 0) {
-//            mComposing.setLength(0)
-//            currentInputConnection.commitText("", 0)
-//            updateCandidates()
-//        } else {
-//            keyDownUp(KeyEvent.KEYCODE_DEL)
 //        }
 //    }
 
