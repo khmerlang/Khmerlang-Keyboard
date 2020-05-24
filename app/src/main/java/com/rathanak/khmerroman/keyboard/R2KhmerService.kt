@@ -12,12 +12,8 @@ import android.text.InputType
 import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
-import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.CompletionInfo
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.*
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -30,10 +26,10 @@ import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.KeyStyle
 import com.rathanak.khmerroman.keyboard.common.KeyboardStyle
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
+import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NUMBER
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SHIFT
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL_SHIFT
-import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NUMBER
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
@@ -41,6 +37,7 @@ import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import kotlin.properties.Delegates
+
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
@@ -65,8 +62,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var currentSelectedLanguageIdx = 0
     private var enableVibration = true
     private var enableSound = true
-    private var mPredictionOn: Boolean = false
-    private val mComposing = StringBuilder()
+//    private var mPredictionOn: Boolean = false
+//    private val mComposing = StringBuilder()
+    private var composingText: String? = null
+    private var composingTextStart: Int? = null
+//    private var cursorPos: Int = 0
+    private var isComposingEnabled: Boolean = false
+    private var isTextSelected: Boolean = false
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -259,12 +261,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         renderCurrentLanguage()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        currentInputConnection.requestCursorUpdates(InputConnection.CURSOR_UPDATE_MONITOR)
         super.onStartInput(attribute, restarting)
-        mComposing.setLength(0)
-
-        mPredictionOn = false
         currentInputPassword = false
+        isComposingEnabled = false
         when ((attribute?.inputType)?.and(InputType.TYPE_MASK_CLASS)) {
             InputType.TYPE_CLASS_DATETIME ->
                 currentKeyboardPage = SYMBOL
@@ -272,12 +274,20 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 currentKeyboardPage = NUMBER
             InputType.TYPE_CLASS_TEXT -> {
                 currentKeyboardPage = NORMAL
-                mPredictionOn = true
+                isComposingEnabled = true
                 when (attribute.inputType and InputType.TYPE_MASK_VARIATION) {
+                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+                    InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS -> {
+                        isComposingEnabled = false
+                    }
+                    InputType.TYPE_TEXT_VARIATION_URI -> {
+                        isComposingEnabled = false
+                    }
                     InputType.TYPE_TEXT_VARIATION_PASSWORD,
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
                     InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD -> {
                         currentInputPassword = true
+                        isComposingEnabled = false
                     }
                 }
             }
@@ -285,14 +295,18 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 currentKeyboardPage = NORMAL
             }
         }
+        smartbarManager.onStartInputView(isComposingEnabled)
         smartbarManager!!.toggleBarLayOut(true)
         // update label on Enter key here
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onFinishInput() {
+        currentInputConnection.requestCursorUpdates(0)
         super.onFinishInput()
-        mComposing.setLength(0)
         currentKeyboardPage = NORMAL
+        resetComposingText()
+        smartbarManager.onFinishInputView()
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
@@ -341,8 +355,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 handleEnter()
             }
             else -> {
+                inputConnection.beginBatchEdit()
+                resetComposingText()
                 inputConnection.commitText(primaryCode.toChar().toString(), 1)
-                //handleCharacter(primaryCode, keyCodes)
+                inputConnection.endBatchEdit()
             }
         }
         // Switch back to normal if the selected page type is shift.
@@ -362,6 +378,60 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 val text = keyData.code.toChar().toString()
                 ic.commitText(text, 1)
                 ic.endBatchEdit()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onUpdateCursorAnchorInfo(cursorAnchorInfo: CursorAnchorInfo?) {
+        cursorAnchorInfo ?: return
+        //super.onUpdateCursorAnchorInfo(cursorAnchorInfo)
+        val ic = currentInputConnection
+
+        if (isComposingEnabled) {
+            if (cursorAnchorInfo.selectionEnd - cursorAnchorInfo.selectionStart == 0) {
+                val newCursorPos = cursorAnchorInfo.selectionStart
+                val prevComposingText = (cursorAnchorInfo.composingText ?: "").toString()
+                val inputText =
+                    (ic.getExtractedText(ExtractedTextRequest(), 0).text ?: "").toString()
+                var oldStart = composingTextStart
+                var oldEnd = composingTextStart?.plus(composingText!!.length)
+                setComposingTextBasedOnInput(inputText, newCursorPos)
+                var newEnd = composingTextStart?.plus(composingText!!.length)
+                if ((oldStart == composingTextStart) && (oldEnd == newEnd)) {
+                    // Ignore this, as nothing has changed
+                } else {
+                    if (composingText != null && composingTextStart != null) {
+                        ic.setComposingRegion(
+                            composingTextStart!!,
+                            composingTextStart!! + composingText!!.length
+                        )
+                    } else {
+                        resetComposingText()
+                    }
+                }
+            } else {
+                resetComposingText()
+            }
+
+            smartbarManager.generateCandidatesFromComposing(composingText)
+        }
+    }
+
+    private fun setComposingTextBasedOnInput(inputText: String, inputCursorPos: Int) {
+        // goal by given input and current cursor
+        // findTextIngroup of cursor position
+        // get its start and end index
+        val words = inputText.split("[^\\p{L}]".toRegex())
+        var pos = 0
+        resetComposingText(false)
+        for (word in words) {
+            if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
+                composingText = word
+                composingTextStart = pos
+                break
+            } else {
+                pos += word.length + 1
             }
         }
     }
@@ -417,35 +487,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             val ic = currentInputConnection
             ic.finishComposingText()
         }
-//        composingText = null
-//        composingTextStart = null
+        composingText = null
+        composingTextStart = null
     }
 
-//    private fun handleCharacter(primaryCode: Int, keyCodes: IntArray?) {
-//        var primaryCode = primaryCode
-//        if (isAlphabet(primaryCode) && mPredictionOn) {
-//            mComposing.append(primaryCode.toChar())
-//            currentInputConnection.setComposingText(mComposing, 1)
-//            updateCandidates()
-//        } else {
-//            currentInputConnection.commitText(
-//                primaryCode.toChar().toString(), 1)
-//        }
-//    }
-
-//    private fun keyDownUp(keyEventCode: Int) {
-//        currentInputConnection.sendKeyEvent(
-//            KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode))
-//        currentInputConnection.sendKeyEvent(
-//            KeyEvent(KeyEvent.ACTION_UP, keyEventCode))
-//    }
-
     private fun isAlphabet(code: Int): Boolean {
-        return if (Character.isLetter(code)) {
-            true
-        } else {
-            false
-        }
+        return Character.isLetter(code)
     }
 
     private fun vibrate() {

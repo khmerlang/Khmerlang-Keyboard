@@ -1,11 +1,14 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
+import android.content.Context
 import android.content.Intent
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
+import android.view.textservice.TextServicesManager
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat.startActivity
@@ -21,6 +24,9 @@ class SmartbarManager(
     private val r_2_khmer: R2KhmerService
 ) : SpellCheckerSession.SpellCheckerSessionListener {
     private var smartbarView: LinearLayout? = null
+    private var isComposingEnabled: Boolean = false
+    private var spellCheckerSession: SpellCheckerSession? = null
+//    private val candidateViewList: MutableList<Button> = mutableListOf()
     
     override fun onGetSentenceSuggestions(p0: Array<out SentenceSuggestionsInfo>?) {
     }
@@ -69,6 +75,34 @@ class SmartbarManager(
             }
             // else if has text for suggestion show suggestion
         }
+    }
+
+    fun onStartInputView(isComposingEnabled: Boolean) {
+        this.isComposingEnabled = isComposingEnabled
+        if(isComposingEnabled) {
+//            val tsm = r_2_khmer.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
+//            spellCheckerSession = tsm.newSpellCheckerSession(null, null, this, true)
+        }
+
+    }
+
+    fun onFinishInputView() {
+        spellCheckerSession?.close()
+    }
+
+    fun generateCandidatesFromComposing(composingText: String?) {
+        Log.i("hello", composingText.toString())
+//        if (composingText == null) {
+//            candidateViewList[0].text = "candidate"
+//            candidateViewList[1].text = "suggestions"
+//            candidateViewList[2].text = "nyi"
+//        } else {
+//            toggleBarLayOut(true)
+//            candidateViewList[0].text = ""
+//            candidateViewList[1].text = composingText + "test"
+//            candidateViewList[2].text = ""
+//        }
+        toggleBarLayOut(true)
     }
 
     private fun launchApp() {
