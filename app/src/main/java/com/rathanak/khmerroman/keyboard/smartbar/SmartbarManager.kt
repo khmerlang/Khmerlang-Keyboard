@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
@@ -21,8 +22,9 @@ class SmartbarManager(
 ) : SpellCheckerSession.SpellCheckerSessionListener {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
+    private var isShowBanner: Boolean = true
     private var spellCheckerSession: SpellCheckerSession? = null
-//    private val candidateViewList: MutableList<Button> = mutableListOf()
+    var isTyping: Boolean = false
     
     override fun onGetSentenceSuggestions(p0: Array<out SentenceSuggestionsInfo>?) {
     }
@@ -59,17 +61,23 @@ class SmartbarManager(
             return
         }
 
+        this.smartbarView!!.toggleOption!!.isChecked = show
+        if(isTyping) {
+            return
+        }
+
+        var suggestionCount = this.smartbarView!!.candidatesList.childCount
         this.smartbarView!!.settingsList.visibility = View.GONE
         if (show) {
             if (r_2_khmer.currentInputPassword) {
                 this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
                 this.smartbarView!!.bannerContainer.visibility = View.GONE
                 this.smartbarView!!.candidatesContainer.visibility = View.GONE
-            } else if (true) {
+            } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
                 this.smartbarView!!.numbersList!!.visibility = View.GONE
                 this.smartbarView!!.bannerContainer.visibility = View.GONE
-            } else {
+            } else if(isShowBanner) {
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
                 this.smartbarView!!.candidatesContainer.visibility = View.GONE
                 this.smartbarView!!.numbersList!!.visibility = View.GONE
@@ -96,24 +104,29 @@ class SmartbarManager(
     }
 
     fun generateCandidatesFromComposing(composingText: String?) {
+        if(isTyping) {
+            return
+        }
+
         if (this.smartbarView == null) {
             return
         }
-        Log.i("hello", composingText.toString())
+
         if (composingText == null) {
-//            candidateViewList[0].text = "candidate"
-//            candidateViewList[1].text = "suggestions"
-//            candidateViewList[2].text = "nyi"
-//        } else {
-//            toggleBarLayOut(true)
-//            candidateViewList[0].text = ""
-//            candidateViewList[1].text = composingText + "test"
-//            candidateViewList[2].text = ""
+            this.smartbarView!!.candidatesList.removeAllViews()
+        } else {
+            this.smartbarView!!.candidatesList.removeAllViews()
+            var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            layoutParams.rightMargin = 10
+
+            for (i in 1..5) {
+                val btnSuggestion = Button(r_2_khmer.context)
+                btnSuggestion.layoutParams =layoutParams
+                btnSuggestion.text = composingText + i.toString()
+                this.smartbarView!!.candidatesList.addView(btnSuggestion)
+            }
         }
-        this.smartbarView!!.candidatesList.removeAllViews()
-        val btnTag = Button(r_2_khmer.context)
-        btnTag.setText("Love")
-        this.smartbarView!!.candidatesList.addView(btnTag)
+
         toggleBarLayOut(true)
     }
 

@@ -341,11 +341,13 @@ class CustomInputMethodView @JvmOverloads constructor(
                 }
                 MotionEvent.ACTION_DOWN,
                 MotionEvent.ACTION_POINTER_DOWN -> {
+                    keyboardViewListener?.onKeyTouchDown()
                     detectKey(event.getX(pointerIndex), event.getY(pointerIndex), pointerId, false)
                 }
                 MotionEvent.ACTION_HOVER_EXIT,
                 MotionEvent.ACTION_UP,
                 MotionEvent.ACTION_POINTER_UP -> {
+                    keyboardViewListener?.onKeyTouchUp()
                     sendKey(pressedKeys.get(pointerId))
                     pressedKeys.remove(pointerId)
                     removeMessages()
@@ -501,6 +503,8 @@ class CustomInputMethodView @JvmOverloads constructor(
 }
 
 interface KeyboardActionListener {
+    fun onKeyTouchDown()
+    fun onKeyTouchUp()
     fun onKey(primaryCode: Int, keyCodes: IntArray?)
     fun onSwipeLeft()
     fun onSwipeRight()

@@ -62,13 +62,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var currentSelectedLanguageIdx = 0
     private var enableVibration = true
     private var enableSound = true
-//    private var mPredictionOn: Boolean = false
-//    private val mComposing = StringBuilder()
     private var composingText: String? = null
     private var composingTextStart: Int? = null
-//    private var cursorPos: Int = 0
     private var isComposingEnabled: Boolean = false
-    private var isTextSelected: Boolean = false
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -307,6 +303,14 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentKeyboardPage = NORMAL
         resetComposingText()
         smartbarManager.onFinishInputView()
+    }
+
+    override fun onKeyTouchDown() {
+        smartbarManager.isTyping = true
+    }
+
+    override fun onKeyTouchUp() {
+        smartbarManager.isTyping = false
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
