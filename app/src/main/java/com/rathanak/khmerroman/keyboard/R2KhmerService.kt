@@ -393,7 +393,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 val newCursorPos = cursorAnchorInfo.selectionStart
                 val prevComposingText = (cursorAnchorInfo.composingText ?: "").toString()
                 val inputText =
-                    (ic.getExtractedText(ExtractedTextRequest(), 0).text ?: "").toString()
+                    (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
                 var oldStart = composingTextStart
                 var oldEnd = composingTextStart?.plus(composingText!!.length)
                 setComposingTextBasedOnInput(inputText, newCursorPos)

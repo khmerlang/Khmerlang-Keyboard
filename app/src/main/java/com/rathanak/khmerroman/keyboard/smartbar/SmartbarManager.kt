@@ -96,6 +96,9 @@ class SmartbarManager(
     }
 
     fun generateCandidatesFromComposing(composingText: String?) {
+        if (this.smartbarView == null) {
+            return
+        }
         Log.i("hello", composingText.toString())
         if (composingText == null) {
 //            candidateViewList[0].text = "candidate"
