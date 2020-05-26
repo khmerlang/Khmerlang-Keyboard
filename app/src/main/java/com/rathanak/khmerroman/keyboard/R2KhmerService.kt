@@ -306,11 +306,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onKeyTouchDown() {
-        smartbarManager.isTyping = true
+        smartbarManager.setTypeing(true)
     }
 
     override fun onKeyTouchUp() {
-        smartbarManager.isTyping = false
+        smartbarManager.setTypeing(false)
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
@@ -369,6 +369,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         if (currentKeyboardPage == SHIFT) {
             currentKeyboardPage = NORMAL
         }
+    }
+
+    fun commitCandidate(candidateText: String) {
+        val ic = currentInputConnection
+        ic.setComposingText(candidateText, 1)
+        ic.finishComposingText()
     }
 
     fun sendKeyPress(keyData: KeyData) {

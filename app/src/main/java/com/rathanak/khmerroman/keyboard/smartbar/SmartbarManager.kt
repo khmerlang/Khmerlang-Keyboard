@@ -8,29 +8,23 @@ import android.view.textservice.SentenceSuggestionsInfo
 import android.view.textservice.SpellCheckerSession
 import android.view.textservice.SuggestionsInfo
 import android.widget.Button
+import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.core.view.marginLeft
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.core.Levenshtein
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 
-class SmartbarManager(
-    private val r_2_khmer: R2KhmerService
-) : SpellCheckerSession.SpellCheckerSessionListener {
+class SmartbarManager(private val r_2_khmer: R2KhmerService) {
+    private var levenshtein: Levenshtein? = null
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isShowBanner: Boolean = true
-    private var spellCheckerSession: SpellCheckerSession? = null
     var isTyping: Boolean = false
-    
-    override fun onGetSentenceSuggestions(p0: Array<out SentenceSuggestionsInfo>?) {
-    }
-
-    override fun onGetSuggestions(p0: Array<out SuggestionsInfo>?) {
-    }
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -93,14 +87,14 @@ class SmartbarManager(
     fun onStartInputView(isComposingEnabled: Boolean) {
         this.isComposingEnabled = isComposingEnabled
         if(isComposingEnabled) {
-//            val tsm = r_2_khmer.getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
-//            spellCheckerSession = tsm.newSpellCheckerSession(null, null, this, true)
+            levenshtein = Levenshtein(1,1,1,1)
+            Log.i("hello", "Distance:" + levenshtein!!.Distance("hallo", "holla").toString())
         }
 
     }
 
     fun onFinishInputView() {
-        spellCheckerSession?.close()
+
     }
 
     fun generateCandidatesFromComposing(composingText: String?) {
@@ -124,10 +118,33 @@ class SmartbarManager(
                 btnSuggestion.layoutParams =layoutParams
                 btnSuggestion.text = composingText + i.toString()
                 this.smartbarView!!.candidatesList.addView(btnSuggestion)
+                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
             }
+
+            this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
         }
 
         toggleBarLayOut(true)
+    }
+
+    fun setTypeing(typing: Boolean) {
+        isTyping = typing
+//        if(!isTyping) {
+//
+//        }
+    }
+
+    private val candidateViewOnLongClickListener = View.OnLongClickListener { v ->
+        true
+    }
+
+    private val candidateViewOnClickListener = View.OnClickListener { v ->
+        val view = v as Button
+        val text = view.text.toString()
+        if (text.isNotEmpty()) {
+            r_2_khmer.commitCandidate(text)
+        }
     }
 
     private fun launchApp() {
