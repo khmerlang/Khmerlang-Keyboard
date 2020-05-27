@@ -3,16 +3,16 @@ package com.rathanak.khmerroman.core
 class Bktree {
     private var root : Node? = null
 
-    fun add(word : String) {
+    fun add(word : String, range: Int) {
         if( root == null ){
-            root = Node(word)
+            root = Node(word, range)
         }
         else {
-            add(root, word)
+            add(root, word, range)
         }
     }
 
-    private fun add( node : Node? , word : String ) {
+    private fun add( node : Node? , word : String, range: Int ) {
         if( node == null )
             return
 
@@ -22,10 +22,10 @@ class Bktree {
             return
 
         if( node.children[distance] == null ){
-            node.children.put(distance , Node(word) )
+            node.children.put(distance , Node(word, range) )
         }
         else{
-            add( node.children[distance] , word )
+            add( node.children[distance] , word, range )
         }
     }
 
@@ -33,7 +33,9 @@ class Bktree {
         if( root != null ) {
             val suggestionStr: MutableList<String> = mutableListOf()
             var suggestion = getSpellSuggestion(root!!, word.decapitalize(), tolerance)
-            suggestion = suggestion.sortedBy { it.distance }.take(10)
+//            suggestion = suggestion.sortedByDescending { it.range }.take(10)
+            suggestion = suggestion.sortedWith(compareBy<Result>{ it.distance }.thenBy { it.range })
+                .asReversed().take(10)
             suggestion.forEach {
                 suggestionStr.add(it.word)
             }
@@ -46,7 +48,7 @@ class Bktree {
         val result: MutableList<Result> = mutableListOf()
         val distance = LevenshteinDistance(word, node.word)
         if (distance <= tolerance)
-            result.add(Result(node.word, distance))
+            result.add(Result(node.word, distance, node.range))
 
         // iterate over the children having tolerance in range (distance-tolerance , distance+tolerance)
         val start = if ((distance - tolerance) < 0) 1 else distance - tolerance

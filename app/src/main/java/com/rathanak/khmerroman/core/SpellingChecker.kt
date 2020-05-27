@@ -8,13 +8,11 @@ class SpellingChecker(private val context: Context, private val filePart: String
 
     fun loadData() {
         try {
-            val lineList = mutableListOf<String>()
-            context.assets.open(filePart).bufferedReader().useLines { lines -> lines.forEach { lineList.add(it) } }
-            lineList.forEach {
-                var word = it.trim()
-                if(!word.isEmpty()) {
-                    bk.add(word)
-                }
+            context.assets.open(filePart).bufferedReader().useLines {
+                    lines -> lines.forEach {
+                        val word = it.split(",")
+                        bk.add(word[0].trim(), word[1].toInt())
+                    }
             }
         } catch (ex:Exception){
             Log.e("read_file", ex.localizedMessage)
@@ -24,6 +22,6 @@ class SpellingChecker(private val context: Context, private val filePart: String
 
     fun getSuggestion(misspelling: String) : List<String> {
 
-        return bk.getSpellSuggestion(misspelling, 1)
+        return bk.getSpellSuggestion(misspelling, 2)
     }
 }
