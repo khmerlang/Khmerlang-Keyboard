@@ -1,26 +1,21 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.textservice.SentenceSuggestionsInfo
-import android.view.textservice.SpellCheckerSession
-import android.view.textservice.SuggestionsInfo
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
-import androidx.core.view.marginLeft
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.core.Levenshtein
+import com.rathanak.khmerroman.core.SpellingChecker
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 
 class SmartbarManager(private val r_2_khmer: R2KhmerService) {
-    private var levenshtein: Levenshtein? = null
+    private var spellingCheckerEN: SpellingChecker = SpellingChecker(r_2_khmer.context, "en_words.txt")
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isShowBanner: Boolean = true
@@ -87,8 +82,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     fun onStartInputView(isComposingEnabled: Boolean) {
         this.isComposingEnabled = isComposingEnabled
         if(isComposingEnabled) {
-            levenshtein = Levenshtein(1,1,1,1)
-            Log.i("hello", "Distance:" + levenshtein!!.Distance("hallo", "holla").toString())
+            spellingCheckerEN.loadData()
         }
 
     }
@@ -112,11 +106,11 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams.rightMargin = 10
-
-            for (i in 1..5) {
+            val suggestionList = spellingCheckerEN.getSuggestion(composingText)
+            for (word in suggestionList) {
                 val btnSuggestion = Button(r_2_khmer.context)
                 btnSuggestion.layoutParams =layoutParams
-                btnSuggestion.text = composingText + i.toString()
+                btnSuggestion.text = word
                 this.smartbarView!!.candidatesList.addView(btnSuggestion)
                 btnSuggestion.setOnClickListener(candidateViewOnClickListener)
                 btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
