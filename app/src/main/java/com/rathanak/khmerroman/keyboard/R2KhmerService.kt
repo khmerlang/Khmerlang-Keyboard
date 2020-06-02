@@ -36,8 +36,10 @@ import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
+import com.rathanak.nlp.LanguageModel
+import com.rathanak.nlp.NGrams
+import org.koin.android.ext.android.inject
 import kotlin.properties.Delegates
-
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
@@ -65,6 +67,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
+    private var previousWords: MutableList<String> = mutableListOf()
+
+    val ngrams: NGrams by inject()
+    val languageModel: LanguageModel by inject()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -424,7 +430,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 resetComposingText()
             }
 
-            smartbarManager.generateCandidatesFromComposing(composingText)
+            val firstResult = ngrams.generateCandidates(languageModel, 3, previousWords)
+            smartbarManager.generateCandidatesFromComposing(firstResult, composingText)
         }
     }
 
@@ -435,6 +442,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         val words = inputText.split("[^\\p{L}]".toRegex())
         var pos = 0
         resetComposingText(false)
+        previousWords = mutableListOf()
+        previousWords.add(NGrams.START_WORD)
         for (word in words) {
             if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
                 composingText = word
@@ -442,6 +451,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 break
             } else {
                 pos += word.length + 1
+                previousWords.add(word)
             }
         }
     }

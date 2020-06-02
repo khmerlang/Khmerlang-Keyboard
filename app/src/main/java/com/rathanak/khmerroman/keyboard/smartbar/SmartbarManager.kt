@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -8,14 +9,15 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.core.SpellingChecker
+import com.rathanak.khmerroman.core.LevenshteinDistance
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
+import com.rathanak.nlp.LanguageModel
+import com.rathanak.nlp.NGrams
 import kotlinx.android.synthetic.main.smartbar.view.*
 
-
+private const val MODEL_ORDER = 5
 class SmartbarManager(private val r_2_khmer: R2KhmerService) {
-    private var spellingCheckerEN: SpellingChecker = SpellingChecker(r_2_khmer.context, "en_words.txt")
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isShowBanner: Boolean = true
@@ -82,16 +84,14 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     fun onStartInputView(isComposingEnabled: Boolean) {
         this.isComposingEnabled = isComposingEnabled
         if(isComposingEnabled) {
-            spellingCheckerEN.loadData()
         }
-
     }
 
     fun onFinishInputView() {
 
     }
 
-    fun generateCandidatesFromComposing(composingText: String?) {
+    fun generateCandidatesFromComposing(candidates: Map<String, Float>, composingText: String?) {
         if(isTyping) {
             return
         }
@@ -106,17 +106,28 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams.rightMargin = 10
-            val suggestionList = spellingCheckerEN.getSuggestion(composingText)
-            for (word in suggestionList) {
-                val btnSuggestion = Button(r_2_khmer.context)
-                btnSuggestion.layoutParams =layoutParams
-                btnSuggestion.text = word
-                this.smartbarView!!.candidatesList.addView(btnSuggestion)
-                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+//            suggestion here
+            if (candidates.isNotEmpty()) {
+                var wordsList: MutableMap<String, Int> = mutableMapOf()
+                val orderedCandi = candidates.toList().sortedBy { (_, score) -> score }.take(50).toMap()
+//                Log.i("hello", orderedCandi.toString())
+                for(candidate in orderedCandi) {
+                    wordsList[candidate.key] = LevenshteinDistance(candidate.key, composingText)
+                }
+                val orderedWords = wordsList.toList().sortedBy { (_, distance) -> distance }.take(10).toMap()
+//                Log.i("hello", orderedWords.toString())
+                for (word in orderedWords) {
+                    val btnSuggestion = Button(r_2_khmer.context)
+                    btnSuggestion.layoutParams =layoutParams
+                    btnSuggestion.text = word.key
+                    this.smartbarView!!.candidatesList.addView(btnSuggestion)
+                    btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+                    btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+                }
+                this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
+            } else {
+                this.smartbarView!!.candidatesList.removeAllViews()
             }
-
-            this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
         }
 
         toggleBarLayOut(true)
