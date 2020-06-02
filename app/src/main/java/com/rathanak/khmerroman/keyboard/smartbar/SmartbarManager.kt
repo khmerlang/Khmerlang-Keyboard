@@ -109,7 +109,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 //            suggestion here
             if (candidates.isNotEmpty()) {
                 var wordsList: MutableMap<String, Int> = mutableMapOf()
-                val orderedCandi = candidates.toList().sortedBy { (_, score) -> score }.take(50).toMap()
+                val orderedCandi = candidates.toList().sortedBy { (_, score) -> score }.reversed().take(50).toMap()
 //                Log.i("hello", orderedCandi.toString())
                 for(candidate in orderedCandi) {
                     wordsList[candidate.key] = LevenshteinDistance(candidate.key, composingText)
