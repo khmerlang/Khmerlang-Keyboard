@@ -431,6 +431,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
 
             val firstResult = ngrams.generateCandidates(languageModel, 3, previousWords)
+            Log.i("hello", previousWords.toString())
             smartbarManager.generateCandidatesFromComposing(firstResult, composingText)
         }
     }
@@ -443,7 +444,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         var pos = 0
         resetComposingText(false)
         previousWords = mutableListOf()
-        previousWords.add(NGrams.START_WORD)
+        previousWords.add("START")
         for (word in words) {
             if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
                 composingText = word
@@ -451,7 +452,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 break
             } else {
                 pos += word.length + 1
-                previousWords.add(word)
+                if ((word == ".") or (word == "!") or (word == "?")) {
+                    previousWords.add("START")
+                } else {
+                    previousWords.add(word.toLowerCase())
+                }
+
             }
         }
     }

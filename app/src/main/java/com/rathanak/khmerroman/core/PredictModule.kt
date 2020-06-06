@@ -13,7 +13,6 @@ import com.rathanak.nlp.StupidBackoffRanking
 val predictModule = module {
     single {
         val fileName = "enModel"
-
         val fileDescriptor = androidApplication().assets.open(fileName)
         ObjectInputStream(fileDescriptor).use { ois ->
             @Suppress("UNCHECKED_CAST")
