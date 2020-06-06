@@ -38,7 +38,10 @@ import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import com.rathanak.nlp.LanguageModel
 import com.rathanak.nlp.NGrams
+import com.rathanak.nlp.StupidBackoffRanking
+import kotlinx.coroutines.*
 import org.koin.android.ext.android.inject
+import java.io.ObjectInputStream
 import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
@@ -69,8 +72,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var isComposingEnabled: Boolean = false
     private var previousWords: MutableList<String> = mutableListOf()
 
-    val ngrams: NGrams by inject()
-    val languageModel: LanguageModel by inject()
+//    val ngrams: NGrams by inject()
+//    val languageModel: LanguageModel by inject()
+    val ngrams: NGrams = NGrams(StupidBackoffRanking())
+    var languageModel: LanguageModel = LanguageModel()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -91,6 +96,26 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         initSharedPreference()
         loadKeyCodes()
         initKeyboards()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            loadSpelling()
+        }
+    }
+
+    private suspend fun loadSpelling() {
+        Log.i("hello", "load file")
+        coroutineScope {
+            async(Dispatchers.IO) {
+                val fileName = "enModel"
+                val fileDescriptor = context.assets.open(fileName)
+                ObjectInputStream(fileDescriptor).use { ois ->
+                    @Suppress("UNCHECKED_CAST")
+                    languageModel = ois.readObject() as LanguageModel
+                }
+            }
+        }
+
+
     }
 
     private fun initSharedPreference() {
@@ -432,7 +457,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
 
             Log.i("hello", previousWords.toString())
-            val candidates = ngrams.generateCandidates(languageModel, 3, previousWords)
+            val candidates = ngrams.generateCandidates(languageModel, 2, previousWords)
             smartbarManager.generateCandidatesFromComposing(candidates, inputText, composingText)
         }
     }

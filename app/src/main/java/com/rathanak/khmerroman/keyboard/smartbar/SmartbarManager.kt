@@ -124,6 +124,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
                 }
             }
+            this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
         }
 
 //        this.smartbarView!!.candidatesList.removeAllViews()
