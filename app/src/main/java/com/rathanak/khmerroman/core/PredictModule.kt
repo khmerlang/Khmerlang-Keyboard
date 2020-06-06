@@ -12,12 +12,15 @@ import com.rathanak.nlp.StupidBackoffRanking
 
 val predictModule = module {
     single {
+        Log.i("hello", "Load file")
         val fileName = "enModel"
         val fileDescriptor = androidApplication().assets.open(fileName)
         ObjectInputStream(fileDescriptor).use { ois ->
             @Suppress("UNCHECKED_CAST")
             ois.readObject() as LanguageModel
         }
+
+//        LanguageModel()
     }
 
     single {
