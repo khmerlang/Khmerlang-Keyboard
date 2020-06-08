@@ -100,22 +100,16 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-        Log.i("hello", inputText)
-
         if (inputText.isEmpty()) {
             this.smartbarView!!.candidatesList.removeAllViews()
         } else {
-            Log.i("hello", candidates.toString())
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             layoutParams.rightMargin = 10
-            val btnSuggestion = Button(r_2_khmer.context)
-            btnSuggestion.layoutParams =layoutParams
-            if (candidates.isNotEmpty()) {
-                var wordsList: MutableMap<String, Int> = mutableMapOf()
-                val orderedCandi = candidates.toList().distinctBy { (k,_) -> k.toUpperCase() }
-                    .sortedByDescending { (_, score) -> score }.take(10).toMap()
-                for (word in orderedCandi) {
+            if (!composingText.isNullOrEmpty()) {
+                val result = r_2_khmer.spellingCorrector.correct(composingText)
+
+                if (!result.isNullOrEmpty()) for(word in result) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams
                     btnSuggestion.text = word.key.toString()
@@ -124,6 +118,21 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
                 }
             }
+
+
+//            if (candidates.isNotEmpty()) {
+//                var wordsList: MutableMap<String, Int> = mutableMapOf()
+//                val orderedCandi = candidates.toList().distinctBy { (k,_) -> k.toUpperCase() }
+//                    .sortedByDescending { (_, score) -> score }.take(10).toMap()
+//                for (word in orderedCandi) {
+//                    val btnSuggestion = Button(r_2_khmer.context)
+//                    btnSuggestion.layoutParams =layoutParams
+//                    btnSuggestion.text = word.key.toString()
+//                    this.smartbarView!!.candidatesList.addView(btnSuggestion)
+//                    btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+//                    btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+//                }
+//            }
             this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
         }
 

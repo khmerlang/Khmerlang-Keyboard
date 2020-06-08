@@ -34,6 +34,7 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
+import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import com.rathanak.nlp.LanguageModel
@@ -76,6 +77,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //    val languageModel: LanguageModel by inject()
     val ngrams: NGrams = NGrams(StupidBackoffRanking())
     var languageModel: LanguageModel = LanguageModel()
+    var spellingCorrector: SpellCorrector = SpellCorrector()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -105,13 +107,17 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private suspend fun loadSpelling() {
         Log.i("hello", "load file")
         coroutineScope {
+//            async(Dispatchers.IO) {
+//                val fileName = "enModel"
+//                val fileDescriptor = context.assets.open(fileName)
+//                ObjectInputStream(fileDescriptor).use { ois ->
+//                    @Suppress("UNCHECKED_CAST")
+//                    languageModel = ois.readObject() as LanguageModel
+//                }
+//            }
             async(Dispatchers.IO) {
-                val fileName = "enModel"
-                val fileDescriptor = context.assets.open(fileName)
-                ObjectInputStream(fileDescriptor).use { ois ->
-                    @Suppress("UNCHECKED_CAST")
-                    languageModel = ois.readObject() as LanguageModel
-                }
+                val fileName = "words.txt"
+                spellingCorrector.loadData(context, fileName)
             }
         }
 
