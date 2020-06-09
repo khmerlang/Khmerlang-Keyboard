@@ -116,7 +116,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //                }
 //            }
             async(Dispatchers.IO) {
-                val fileName = "words.txt"
+                val fileName = "words_list.txt"
                 spellingCorrector.loadData(context, fileName)
             }
         }

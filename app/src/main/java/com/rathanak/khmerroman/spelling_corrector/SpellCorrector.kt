@@ -10,7 +10,7 @@ class SpellCorrector() {
     private var EDIT_LIMIT: Int = 3
     private var SUGGESTED_WORD_LIST_LIMIT: Int = 5
     var inputString: String?= null
-    var suggestedWords: PriorityQueue<PQElement> = PriorityQueue<PQElement>(5)
+    var suggestedWords: PriorityQueue<PQElement> = PriorityQueue<PQElement>(10)
 
     fun loadData(context: Context, filePart: String) {
         try {
@@ -44,8 +44,10 @@ class SpellCorrector() {
         var i = 0
         while (!suggestedWords.isEmpty() && i < SUGGESTED_WORD_LIST_LIMIT) {
             val element = suggestedWords.poll()
-            outputMap[element.word] = element.editDistance
-            i++
+            if (getEditDistance(str, element.word) <= EDIT_LIMIT) {
+                outputMap[element.word] = element.editDistance
+                i++
+            }
         }
         return outputMap
     }
@@ -75,21 +77,23 @@ class SpellCorrector() {
         root.right?.let { traverse(it, str) }
     }
 
-    private fun  getEditDistance(a: String, b: String): Int {
-        val costs = IntArray(b.length + 1)
+    private fun  getEditDistance(tmpA: String, tmpB: String): Int {
+//        val tmpA = a.toLowerCase()
+//        val tmpB = b.toLowerCase()
+        val costs = IntArray(tmpB.length + 1)
         for (j in costs.indices) costs[j] = j
-        for (i in 1..a.length) {
+        for (i in 1..tmpA.length) {
             costs[0] = i
             var nw = i - 1
-            for (j in 1..b.length) {
+            for (j in 1..tmpB.length) {
                 val cj = Math.min(
                     1 + Math.min(costs[j], costs[j - 1]),
-                    if (a[i - 1] === b[j - 1]) nw else nw + 1
+                    if (tmpA[i - 1] === tmpB[j - 1]) nw else nw + 1
                 )
                 nw = costs[j]
                 costs[j] = cj
             }
         }
-        return costs[b.length]
+        return costs[tmpB.length]
     }
 }

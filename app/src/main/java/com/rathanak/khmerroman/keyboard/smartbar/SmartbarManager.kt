@@ -1,7 +1,6 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -9,11 +8,8 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.core.LevenshteinDistance
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
-import com.rathanak.nlp.LanguageModel
-import com.rathanak.nlp.NGrams
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 private const val MODEL_ORDER = 5
