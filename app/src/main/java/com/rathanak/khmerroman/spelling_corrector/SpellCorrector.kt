@@ -5,12 +5,31 @@ import android.util.Log
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
+fun getEditDistance(tmpA: String, tmpB: String): Int {
+//        val tmpA = a.toLowerCase()
+//        val tmpB = b.toLowerCase()
+    val costs = IntArray(tmpB.length + 1)
+    for (j in costs.indices) costs[j] = j
+    for (i in 1..tmpA.length) {
+        costs[0] = i
+        var nw = i - 1
+        for (j in 1..tmpB.length) {
+            val cj = Math.min(
+                1 + Math.min(costs[j], costs[j - 1]),
+                if (tmpA[i - 1] === tmpB[j - 1]) nw else nw + 1
+            )
+            nw = costs[j]
+            costs[j] = cj
+        }
+    }
+    return costs[tmpB.length]
+}
 class SpellCorrector() {
     var tst: TST = TST()
     private var EDIT_LIMIT: Int = 3
     private var SUGGESTED_WORD_LIST_LIMIT: Int = 5
     var inputString: String?= null
-    var suggestedWords: PriorityQueue<PQElement> = PriorityQueue<PQElement>(10)
+    var suggestedWords: PriorityQueue<PQElement> = PriorityQueue<PQElement>(5)
 
     fun loadData(context: Context, filePart: String) {
         try {
@@ -44,10 +63,10 @@ class SpellCorrector() {
         var i = 0
         while (!suggestedWords.isEmpty() && i < SUGGESTED_WORD_LIST_LIMIT) {
             val element = suggestedWords.poll()
-            if (getEditDistance(str, element.word) <= EDIT_LIMIT) {
+//            if (getEditDistance(str, element.word) <= EDIT_LIMIT) {
                 outputMap[element.word] = element.editDistance
                 i++
-            }
+//            }
         }
         return outputMap
     }
@@ -75,25 +94,5 @@ class SpellCorrector() {
         }
         root.mid?.let { traverse(it, str + root.ch) }
         root.right?.let { traverse(it, str) }
-    }
-
-    private fun  getEditDistance(tmpA: String, tmpB: String): Int {
-//        val tmpA = a.toLowerCase()
-//        val tmpB = b.toLowerCase()
-        val costs = IntArray(tmpB.length + 1)
-        for (j in costs.indices) costs[j] = j
-        for (i in 1..tmpA.length) {
-            costs[0] = i
-            var nw = i - 1
-            for (j in 1..tmpB.length) {
-                val cj = Math.min(
-                    1 + Math.min(costs[j], costs[j - 1]),
-                    if (tmpA[i - 1] === tmpB[j - 1]) nw else nw + 1
-                )
-                nw = costs[j]
-                costs[j] = cj
-            }
-        }
-        return costs[tmpB.length]
     }
 }

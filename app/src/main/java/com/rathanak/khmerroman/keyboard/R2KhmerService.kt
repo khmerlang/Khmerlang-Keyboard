@@ -462,9 +462,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 resetComposingText()
             }
 
-            Log.i("hello", previousWords.toString())
-            val candidates = ngrams.generateCandidates(languageModel, 2, previousWords)
-            smartbarManager.generateCandidatesFromComposing(candidates, inputText, composingText)
+//            Log.i("hello", previousWords.toString())
+            smartbarManager.generateCandidatesFromComposing(inputText, composingText)
         }
     }
 
