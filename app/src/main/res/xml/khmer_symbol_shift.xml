@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:keyHeight="@dimen/key_height">
+
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:codes="126"
+            android:keyLabel="~" />
+        <Key
+            android:codes="177"
+            android:keyLabel="±" />
+        <Key
+            android:codes="215"
+            android:keyLabel="×" />
+        <Key
+            android:codes="247"
+            android:keyLabel="÷" />
+        <Key
+            android:codes="8226"
+            android:keyLabel="•" />
+        <Key
+            android:codes="176"
+            android:keyLabel="°" />
+        <Key
+            android:codes="96"
+            android:keyLabel="`" />
+        <Key
+            android:codes="180"
+            android:keyLabel="´" />
+        <Key
+            android:codes="123"
+            android:keyLabel="{" />
+        <Key
+            android:keyEdgeFlags="right"
+            android:codes="125"
+            android:keyLabel="}" />
+    </Row>
+
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:codes="169"
+            android:keyLabel="©"/>
+        <Key
+            android:codes="163"
+            android:keyLabel="£" />
+        <Key
+            android:codes="8364"
+            android:keyLabel="€" />
+        <Key
+            android:codes="94"
+            android:keyLabel="^" />
+        <Key
+            android:codes="174"
+            android:keyLabel="®" />
+        <Key
+            android:codes="165"
+            android:keyLabel="¥" />
+        <Key
+            android:codes="95"
+            android:keyLabel="_" />
+        <Key
+            android:codes="43"
+            android:keyLabel="+" />
+        <Key
+            android:codes="91"
+            android:keyLabel="[" />
+        <Key
+            android:codes="93"
+            android:keyLabel="]"
+            android:keyEdgeFlags="right" />
+    </Row>
+
+    <Row>
+        <Key
+            android:codes="@integer/keycode_sym_unshift"
+            android:keyEdgeFlags="left"
+            android:keyLabel="\?123"
+            android:keyWidth="15%p" />
+        <Key
+            android:codes="6107"
+            android:keyLabel="៛" />
+        <Key
+            android:codes="6106"
+            android:keyLabel="៚" />
+        <Key
+            android:codes="161"
+            android:keyLabel="¡" />
+        <Key
+            android:codes="162"
+            android:keyLabel="¢" />
+        <Key
+            android:codes="124"
+            android:keyLabel="|" />
+        <Key
+            android:codes="92"
+            android:keyLabel="\\" />
+        <Key
+            android:codes="191"
+            android:keyLabel="¿" />
+        <Key
+            android:codes="@integer/keycode_delete"
+            android:isRepeatable="true"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/ic_backspace"
+            android:keyWidth="15%p" />
+    </Row>
+
+    <Row
+        android:keyHeight="@dimen/bottom_keys_height"
+        android:rowEdgeFlags="bottom">
+        <Key
+            android:codes="@integer/keycode_abc"
+            android:keyEdgeFlags="left"
+            android:keyLabel="ABC"
+            android:keyWidth="15%p"
+            app:keyTextSize="6dp" />
+        <Key
+            android:codes="@integer/keycode_number_shift"
+            android:keyIcon="@drawable/ic_dialpad"
+            android:keyWidth="10%p" />
+        <Key
+            android:codes="60"
+            android:keyLabel="&lt;"
+            android:keyWidth="10%p" />
+        <Key
+            android:codes="32"
+            android:keyWidth="40%p"
+            android:keyLabel="@string/app_name"
+            app:keyTextSize="6dp" />
+        <Key
+            android:codes="62"
+            android:keyLabel="&gt;"
+            android:keyWidth="10%p" />
+        <Key
+            android:codes="@integer/keycode_done"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/ic_keyboard_return"
+            android:keyWidth="15%p" />
+    </Row>
+</Keyboard>

@@ -2,6 +2,7 @@
 <resources>
     <array name="languages">
         <item>@array/english</item>
+        <item>@array/khmer</item>
     </array>
 
     <array name="english">
@@ -10,6 +11,14 @@
         <item>@xml/qwerty_shift</item>
         <item>@xml/qwerty_symbol</item>
         <item>@xml/qwerty_symbol_shift</item>
+        <item>@xml/number</item>
+    </array>
+    <array name="khmer">
+        <item>ខ្មែរ</item>
+        <item>@xml/khmer_qwerty</item>
+        <item>@xml/khmer_qwerty_shift</item>
+        <item>@xml/khmer_symbol</item>
+        <item>@xml/khmer_symbol_shift</item>
         <item>@xml/number</item>
     </array>
 </resources>

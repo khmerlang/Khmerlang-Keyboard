@@ -404,7 +404,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
         // Switch back to normal if the selected page type is shift.
         if (currentKeyboardPage == SHIFT) {
-            currentKeyboardPage = NORMAL
+//            currentKeyboardPage = NORMAL
         }
     }
 
