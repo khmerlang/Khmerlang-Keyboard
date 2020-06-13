@@ -34,15 +34,14 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
-import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
+//import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
+import com.rathanak.khmerroman.spelling_corrector.bktree.SpellCorrector
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import com.rathanak.nlp.LanguageModel
 import com.rathanak.nlp.NGrams
 import com.rathanak.nlp.StupidBackoffRanking
 import kotlinx.coroutines.*
-import org.koin.android.ext.android.inject
-import java.io.ObjectInputStream
 import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
