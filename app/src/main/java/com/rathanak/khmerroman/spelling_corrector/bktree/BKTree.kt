@@ -55,21 +55,24 @@ class Bktree {
             }
 
             val totalKeys = result.keys.size
-            val takeEach = limit / totalKeys
-            for(key in result.keys.sorted()) {
-                var i = 0
-                var suggestedWords = result[key]
-                Log.i("hello", key.toString())
-                if (suggestedWords != null) {
-                    while (!suggestedWords.isEmpty() && i < takeEach) {
+            if (totalKeys > 0) {
+                val takeEach = limit / totalKeys
+                for(key in result.keys.sorted()) {
+                    var i = 0
+                    var suggestedWords = result[key]
+                    Log.i("hello", key.toString())
+                    if (suggestedWords != null) {
+                        while (!suggestedWords.isEmpty() && i < takeEach) {
 
-                        var element = suggestedWords.poll()
-                        Log.i("hello", element.word)
-                        suggestionStr.add(element.word)
-                        i++
+                            var element = suggestedWords.poll()
+                            Log.i("hello", element.word)
+                            suggestionStr.add(element.word)
+                            i++
+                        }
                     }
                 }
             }
+
             return suggestionStr//.take(limit)
         }
         return listOf()

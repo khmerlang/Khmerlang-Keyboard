@@ -25,7 +25,7 @@ class SpellCorrector() {
 
     fun correct(misspelling: String): LinkedHashMap<String, Int> {
         var outputMap: LinkedHashMap<String, Int> = LinkedHashMap<String, Int>()
-        for(word in bk.getSpellSuggestion(misspelling, 2, 8)) {
+        for(word in bk.getSpellSuggestion(misspelling, 3, 9)) {
             outputMap[word] = 1
         }
         return outputMap
