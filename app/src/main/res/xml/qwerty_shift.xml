@@ -129,6 +129,7 @@
         <Key
             android:codes="32"
             android:keyWidth="40%p"
+            app:isChangeLanguageKey="true"
             app:keyTextSize="6dp"
             android:keyLabel="@string/app_name"/>
         <Key
