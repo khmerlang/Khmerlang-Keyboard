@@ -98,13 +98,16 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         loadKeyCodes()
         initKeyboards()
 
-        GlobalScope.launch(Dispatchers.Main) {
-            loadSpelling()
-        }
+        loadSpellingData()
         Log.i("hello", "started")
     }
 
-    private suspend fun loadSpelling() {
+    private fun loadSpellingData() {
+        GlobalScope.launch(Dispatchers.Main) {
+            loadSpelling(currentSelectedLanguageIdx == 1)
+        }
+    }
+    private suspend fun loadSpelling(isKhmer: Boolean) {
         Log.i("hello", "load file")
         coroutineScope {
 //            async(Dispatchers.IO) {
@@ -116,8 +119,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //                }
 //            }
             async(Dispatchers.IO) {
-                val fileName = "words_list.txt"
-//                val fileName = "khmer_words.txt"
+                var fileName: String
+                if (isKhmer) {
+                    fileName ="khmer_words.txt"
+                } else {
+                    fileName = "words_list.txt"
+                }
                 spellingCorrector.loadData(context, fileName)
             }
         }
@@ -293,6 +300,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
         saveCurrentState()
         renderCurrentLanguage()
+        loadSpellingData()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

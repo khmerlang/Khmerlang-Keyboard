@@ -10,6 +10,7 @@ class SpellCorrector() {
     private var bk: Bktree = Bktree()
 
     fun loadData(context: Context, filePart: String) {
+        bk = Bktree()
         try {
             context.assets.open(filePart).bufferedReader().useLines {
                     lines -> lines.forEach {
