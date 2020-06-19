@@ -101,6 +101,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         GlobalScope.launch(Dispatchers.Main) {
             loadSpelling()
         }
+        Log.i("hello", "started")
     }
 
     private suspend fun loadSpelling() {
@@ -116,6 +117,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //            }
             async(Dispatchers.IO) {
                 val fileName = "words_list.txt"
+//                val fileName = "khmer_words.txt"
                 spellingCorrector.loadData(context, fileName)
             }
         }
@@ -470,8 +472,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // goal by given input and current cursor
         // findTextIngroup of cursor position
         // get its start and end index
-        val words = inputText.split("[^\\p{L}]".toRegex())
+//        val words = inputText.split("[^\\p{L}]".toRegex())
+        val words = inputText.split("[.,!@#$%^&*()\"\' ]".toRegex())
         var pos = 0
+        Log.i("hello", inputText)
+        Log.i("hello", words.toString())
         resetComposingText(false)
         previousWords = mutableListOf()
         previousWords.add("START")
