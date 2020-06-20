@@ -146,8 +146,8 @@
             android:keyLabel="ម"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06086"
-            android:keyLabel="ំ"
+            android:codes="06054"
+            android:keyLabel="ឦ"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06100"
@@ -171,7 +171,7 @@
         <Key
             android:codes="@integer/keycode_sym"
             android:keyEdgeFlags="left"
-            android:keyLabel="\?123"
+            android:keyLabel="១២៣"
             android:keyWidth="15%p"
             app:keyTextSize="6dp" />
         <Key

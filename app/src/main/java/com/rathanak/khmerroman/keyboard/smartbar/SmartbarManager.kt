@@ -138,7 +138,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         val view = v as Button
         val text = view.text.toString()
         if (text.isNotEmpty()) {
-            r_2_khmer.commitCandidate(text + " ")
+//            r_2_khmer.commitCandidate(text + " ")
+            r_2_khmer.commitCandidate(text)
         }
     }
 

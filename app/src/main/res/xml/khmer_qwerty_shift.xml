@@ -58,9 +58,9 @@
 
     <Row>
         <Key
-            android:codes="06070"
+            android:codes="06059"
             android:keyEdgeFlags="left"
-            android:keyLabel="ា"
+            android:keyLabel="ឫ"
             android:keyWidth="10%p"/>
         <Key
             android:codes="06083"
@@ -95,17 +95,17 @@
             android:keyLabel="ឡ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06084"
-            android:keyLabel="ោ"
+            android:codes="06102"
+            android:keyLabel="៖"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06089"
             android:keyLabel="៉"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06063"
+            android:codes="06062"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឯ"
+            android:keyLabel="ឮ"
             android:keyWidth="10%p"/>
     </Row>
 
@@ -146,8 +146,8 @@
             android:keyLabel="ំ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06087"
-            android:keyLabel="ះ"
+            android:codes="06065"
+            android:keyLabel="ឱ"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06101"
@@ -171,7 +171,7 @@
         <Key
             android:codes="@integer/keycode_sym"
             android:keyEdgeFlags="left"
-            android:keyLabel="\?123"
+            android:keyLabel="១២៣"
             android:keyWidth="15%p"
             app:keyTextSize="6dp" />
         <Key
