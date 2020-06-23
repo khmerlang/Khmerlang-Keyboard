@@ -67,6 +67,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var currentSelectedLanguageIdx = 0
     private var enableVibration = true
     private var enableSound = true
+    private var candidateChoosed = false
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
@@ -407,10 +408,19 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             else -> {
                 inputConnection.beginBatchEdit()
                 resetComposingText()
-                inputConnection.commitText(primaryCode.toChar().toString(), 1)
+                var space = ""
+                if (candidateChoosed) {
+                    if (primaryCode.toChar() in 'ក'..'ឳ') {
+                        space = "​"
+                    } else if(isAlphabet(primaryCode)) {
+                        space = " "
+                    }
+                }
+                inputConnection.commitText(space + primaryCode.toChar().toString(), 1)
                 inputConnection.endBatchEdit()
             }
         }
+        candidateChoosed = false
         // Switch back to normal if the selected page type is shift.
         if (currentKeyboardPage == SHIFT) {
             currentKeyboardPage = NORMAL
@@ -421,6 +431,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         val ic = currentInputConnection
         ic.setComposingText(candidateText, 1)
         ic.finishComposingText()
+        candidateChoosed = true
     }
 
     fun sendKeyPress(keyData: KeyData) {
@@ -481,7 +492,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // findTextIngroup of cursor position
         // get its start and end index
 //        val words = inputText.split("[^\\p{L}]".toRegex())
-        val words = inputText.split("[.,!@#$%^&*()\"\' ]".toRegex())
+        val words = inputText.split("[​.,!@#$%^&*()\"\' ]".toRegex())
         var pos = 0
         Log.i("hello", inputText)
         Log.i("hello", words.toString())
