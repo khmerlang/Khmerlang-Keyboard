@@ -124,7 +124,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 if (isKhmer) {
                     fileName ="khmer_words.txt"
                 } else {
-                    fileName = "words_list.txt"
+//                    fileName = "words_list.txt"
+                    fileName = "roman.txt"
                 }
                 spellingCorrector.loadData(context, fileName)
             }

@@ -2,7 +2,8 @@ package com.rathanak.khmerroman.spelling_corrector
 
 class PQElement(var word: String="",
                 var editDistance: Int=0,
-                var frequency: String = ""): Comparable<PQElement> {
+                var frequency: String = "",
+                var other: String=""): Comparable<PQElement> {
     override fun compareTo(element: PQElement): Int {
         if (this.editDistance > element.editDistance) {
             return 1

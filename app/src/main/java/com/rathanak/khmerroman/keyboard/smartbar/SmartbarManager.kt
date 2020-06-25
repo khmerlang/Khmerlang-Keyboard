@@ -107,14 +107,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             if (!composingText.isNullOrEmpty()) {
                 val result = r_2_khmer.spellingCorrector.correct(composingText)
                 if (!result.isNullOrEmpty()) for(word in result) {
-                    if (getEditDistance(composingText, word.key) <= 3) {
-                        val btnSuggestion = Button(r_2_khmer.context)
-                        btnSuggestion.layoutParams =layoutParams
-                        btnSuggestion.text = word.key.toString()
-                        this.smartbarView!!.candidatesList.addView(btnSuggestion)
-                        btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-                        btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
-                    }
+                    val btnSuggestion = Button(r_2_khmer.context)
+                    btnSuggestion.layoutParams =layoutParams
+                    btnSuggestion.text = word.key.toString()
+                    this.smartbarView!!.candidatesList.addView(btnSuggestion)
+                    btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+                    btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
                 }
             }
             this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)

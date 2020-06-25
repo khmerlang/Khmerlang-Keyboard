@@ -6,19 +6,19 @@ import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDista
 import java.util.*
 
 class Bktree {
-    private var root : Node? = null
+    var root : Node? = null
     private var SUGGESTED_WORD_LIST_LIMIT: Int = 5
 
-    fun add(word : String, range: Int) {
+    fun add(word : String, range: Int, other : String) {
         if( root == null ){
-            root = Node(word, range)
+            root = Node(word, range, other)
         }
         else {
-            add(root, word, range)
+            add(root, word, range, other)
         }
     }
 
-    private fun add( node : Node? , word : String, range: Int ) {
+    private fun add( node : Node? , word : String, range: Int, other : String ) {
         if( node == null )
             return
 
@@ -32,10 +32,10 @@ class Bktree {
             return
 
         if( node.children[distance] == null ){
-            node.children.put(distance , Node(word, range) )
+            node.children.put(distance , Node(word, range, other) )
         }
         else{
-            add( node.children[distance] , word, range )
+            add( node.children[distance] , word, range, other )
         }
     }
 
@@ -51,7 +51,7 @@ class Bktree {
                 if (result[it.distance].isNullOrEmpty()) {
                     result[it.distance] = PriorityQueue<PQElement>(5)
                 }
-                result[it.distance]?.add(PQElement(it.word, it.distance, it.freq.toString()))
+                result[it.distance]?.add(PQElement(it.word, it.distance, it.freq.toString(), it.other))
             }
 
             val totalKeys = result.keys.size
@@ -60,12 +60,10 @@ class Bktree {
                 for(key in result.keys.sorted()) {
                     var i = 0
                     var suggestedWords = result[key]
-                    Log.i("hello", key.toString())
                     if (suggestedWords != null) {
                         while (!suggestedWords.isEmpty() && i < takeEach) {
 
                             var element = suggestedWords.poll()
-                            Log.i("hello", element.word)
                             suggestionStr.add(element.word)
                             i++
                         }
@@ -78,7 +76,7 @@ class Bktree {
         return listOf()
     }
 
-    private fun getSpellSuggestion( node : Node , word: String , tolerance : Int = 1 ) : List<Result> {
+    fun getSpellSuggestion( node : Node , word: String , tolerance : Int = 1 ) : List<Result> {
         val result: MutableList<Result> = mutableListOf()
         val distance =
             LevenshteinDistance(
@@ -86,7 +84,7 @@ class Bktree {
                 node.word
             )
         if (distance <= tolerance) {
-            result.add(Result(node.word, distance, node.range))
+            result.add(Result(node.word, distance, node.range, node.other))
         }
 
 
