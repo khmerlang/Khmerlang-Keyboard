@@ -9,14 +9,21 @@ import kotlin.collections.LinkedHashMap
 
 class SpellCorrector() {
     private var bk: Bktree = Bktree()
+    private var isRoman = false
 
-    fun loadData(context: Context, filePart: String) {
+    fun loadData(context: Context, filePart: String, roman: Boolean) {
         bk = Bktree()
+        isRoman = roman
         try {
             context.assets.open(filePart).bufferedReader().useLines {
                     lines -> lines.forEach {
                 val word = it.split("\\s".toRegex())//split(",")
-                bk.add(word[0].trim(), word[1].toInt(), word[2])
+                val other = if (word.size == 3) {
+                    word[2]
+                } else {
+                    ""
+                }
+                bk.add(word[0].trim(), word[1].toInt(), other)
             }
             }
         } catch (ex:Exception){
@@ -55,7 +62,11 @@ class SpellCorrector() {
                         while (!suggestedWords.isEmpty() && i < takeEach) {
                             var element = suggestedWords.poll()
                             if (getEditDistance(misspelling, element.word) <= 3) {
-                                outputMap[element.other] = 1
+                                if (isRoman) {
+                                    outputMap[element.other] = 1
+                                } else {
+                                    outputMap[element.word] = 1
+                                }
                                 i++
                             }
                         }

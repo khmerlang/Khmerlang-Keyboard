@@ -121,14 +121,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //                }
 //            }
             async(Dispatchers.IO) {
-                var fileName: String
                 if (isKhmer) {
-                    fileName ="khmer_words.txt"
+                    spellingCorrector.loadData(context, "khmer_words.txt", false)
                 } else {
 //                    fileName = "words_list.txt"
-                    fileName = "roman.txt"
+                    spellingCorrector.loadData(context, "roman.txt", true)
                 }
-                spellingCorrector.loadData(context, fileName)
+
             }
         }
 
