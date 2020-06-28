@@ -68,6 +68,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var enableVibration = true
     private var enableSound = true
     private var candidateChoosed = false
+    private var preCandidateKhmer = false
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
@@ -288,7 +289,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onChangeKeyboardSwipe(direction: Int) {
-        changeLanguage(direction)
+        val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        mgr?.showInputMethodPicker()
+//        changeLanguage(direction)
     }
 
     private fun saveCurrentState() {
@@ -400,8 +403,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
 
             KEYCODE_LANGUAGE -> {
-                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                mgr?.showInputMethodPicker()
+//                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+//                mgr?.showInputMethodPicker()
+                changeLanguage(1)
             }
             Keyboard.KEYCODE_DONE -> {
                 handleEnter()
@@ -411,10 +415,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 resetComposingText()
                 var space = ""
                 if (candidateChoosed) {
-                    if (primaryCode.toChar() in 'ក'..'ឳ') {
-                        space = "​"
-                    } else if(isAlphabet(primaryCode)) {
-                        space = " "
+                    if ((primaryCode.toChar() in 'ក'..'ឳ') || isAlphabet(primaryCode)) {
+                        Log.i("hello", preCandidateKhmer.toString())
+                        if(preCandidateKhmer) {
+                            space = "​"
+                        } else {
+                            space = " "
+                        }
                     }
                 }
                 inputConnection.commitText(space + primaryCode.toChar().toString(), 1)
@@ -429,10 +436,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     fun commitCandidate(candidateText: String) {
+        candidateChoosed = true
+        preCandidateKhmer = !(candidateText[0] in 'a'..'z' || candidateText[0] in 'A'..'Z')
         val ic = currentInputConnection
         ic.setComposingText(candidateText, 1)
         ic.finishComposingText()
-        candidateChoosed = true
+
     }
 
     fun sendKeyPress(keyData: KeyData) {
