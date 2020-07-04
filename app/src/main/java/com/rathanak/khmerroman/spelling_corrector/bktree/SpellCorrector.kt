@@ -9,41 +9,59 @@ import kotlin.collections.LinkedHashMap
 
 class SpellCorrector() {
     private var bk: Bktree = Bktree()
+    private var bkEN: Bktree = Bktree()
     private var isRoman = false
 
-    fun loadData(context: Context, filePart: String, roman: Boolean) {
+    fun reset() {
+        bkEN = Bktree()
         bk = Bktree()
+    }
+
+    fun loadData(context: Context, roman: Boolean) {
         isRoman = roman
+        if(isRoman) {
+            bk = readModel(context, "roman.txt")
+            bkEN = readModel(context, "final_words_v2.txt")
+        } else {
+            bk = readModel(context, "khmer_words.txt")
+            bkEN = Bktree()
+        }
+    }
+
+    private fun readModel(context: Context, filePart: String): Bktree {
+        var model = Bktree()
         try {
-            context.assets.open(filePart).bufferedReader().useLines {
-                    lines -> lines.forEach {
-                val word = it.split("\\s".toRegex())//split(",")
-                val other = if (word.size == 3) {
-                    word[2]
-                } else {
-                    ""
+            context.assets.open(filePart).bufferedReader().useLines { lines -> lines.forEach {
+                    val word = it.split("\\s".toRegex())//split(",")
+                    val other = if (word.size == 3) {
+                        word[2]
+                    } else {
+                        ""
+                    }
+                model.add(word[0].trim(), word[1].toInt(), other)
                 }
-                bk.add(word[0].trim(), word[1].toInt(), other)
-            }
             }
         } catch (ex:Exception){
             Log.e("read_file", ex.localizedMessage)
         }
 
+        return model
     }
 
-    fun correct(misspelling: String): LinkedHashMap<String, Int> {
-        var outputMap: LinkedHashMap<String, Int> = LinkedHashMap<String, Int>()
-//        for(word in bk.getSpellSuggestion(misspelling, 3, 9)) {
-//            if (getEditDistance(misspelling, word) <= 3) {
-//                outputMap[word] = 1
-//            }
-//        }
-//        return outputMap
+    fun correct(misspelling: String): List<String> {
+        return if (isRoman) {
+            var outputENMap = correctBy(bkEN, misspelling, 10, false)
+            var outputMap =correctBy(bk, misspelling, 10, true)
+            outputENMap.take(1) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
+        } else {
+            correctBy(bk, misspelling, 10, false)
+        }
+    }
 
-        if (bk.root != null) {
-            val limit = 10
-            var suggestion = bk.getSpellSuggestion(bk.root!!, misspelling.decapitalize(), 3)
+    fun correctBy(model: Bktree, misspelling: String, limit: Int, isOther: Boolean): List<String> {
+        var outputMap: MutableList<String> = mutableListOf()
+        if (model.root != null) {
+            var suggestion = model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), 3)
             var result: MutableMap<Int, PriorityQueue<PQElement>> = mutableMapOf()
             suggestion.forEach {
                 if (result[it.distance].isNullOrEmpty()) {
@@ -51,7 +69,6 @@ class SpellCorrector() {
                 }
                 result[it.distance]?.add(PQElement(it.word, it.distance, it.freq.toString(), it.other))
             }
-
             val totalKeys = result.keys.size
             if (totalKeys > 0) {
                 val takeEach = limit / totalKeys
@@ -62,10 +79,10 @@ class SpellCorrector() {
                         while (!suggestedWords.isEmpty() && i < takeEach) {
                             var element = suggestedWords.poll()
                             if (getEditDistance(misspelling, element.word) <= 3) {
-                                if (isRoman) {
-                                    outputMap[element.other] = 1
+                                if (isOther) {
+                                    outputMap.add(element.other)
                                 } else {
-                                    outputMap[element.word] = 1
+                                    outputMap.add(element.word)
                                 }
                                 i++
                             }
@@ -74,7 +91,6 @@ class SpellCorrector() {
                 }
             }
         }
-
         return outputMap
     }
 }

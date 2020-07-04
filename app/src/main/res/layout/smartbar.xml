@@ -135,14 +135,13 @@
         android:visibility="gone">
         <HorizontalScrollView
             android:id="@+id/candidatesScrollContainer"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:scrollbars="none">
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:id="@+id/candidatesList"
                 android:orientation="horizontal">
                 <!--   suggestions here             -->

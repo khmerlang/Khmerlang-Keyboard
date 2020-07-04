@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -103,13 +104,13 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         } else {
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            layoutParams.rightMargin = 10
             if (!composingText.isNullOrEmpty()) {
                 val result = r_2_khmer.spellingCorrector.correct(composingText)
                 if (!result.isNullOrEmpty()) for(word in result) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams
-                    btnSuggestion.text = word.key.toString()
+                    btnSuggestion.text = word.toString()
+                    btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
                     this.smartbarView!!.candidatesList.addView(btnSuggestion)
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)

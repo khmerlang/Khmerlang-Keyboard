@@ -76,8 +76,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
 //    val ngrams: NGrams by inject()
 //    val languageModel: LanguageModel by inject()
-    val ngrams: NGrams = NGrams(StupidBackoffRanking())
-    var languageModel: LanguageModel = LanguageModel()
+//    val ngrams: NGrams = NGrams(StupidBackoffRanking())
+//    var languageModel: LanguageModel = LanguageModel()
     var spellingCorrector: SpellCorrector = SpellCorrector()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
@@ -101,37 +101,25 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         initKeyboards()
 
         loadSpellingData()
-        Log.i("hello", "started")
     }
 
     private fun loadSpellingData() {
-        GlobalScope.launch(Dispatchers.Main) {
+        spellingCorrector.reset()
+        val job= GlobalScope.launch(Dispatchers.Main) {
             loadSpelling(currentSelectedLanguageIdx == 1)
         }
+
     }
     private suspend fun loadSpelling(isKhmer: Boolean) {
-        Log.i("hello", "load file")
         coroutineScope {
-//            async(Dispatchers.IO) {
-//                val fileName = "enModel"
-//                val fileDescriptor = context.assets.open(fileName)
-//                ObjectInputStream(fileDescriptor).use { ois ->
-//                    @Suppress("UNCHECKED_CAST")
-//                    languageModel = ois.readObject() as LanguageModel
-//                }
-//            }
             async(Dispatchers.IO) {
                 if (isKhmer) {
-                    spellingCorrector.loadData(context, "khmer_words.txt", false)
+                    spellingCorrector.loadData(context, false)
                 } else {
-//                    fileName = "words_list.txt"
-                    spellingCorrector.loadData(context, "roman.txt", true)
+                    spellingCorrector.loadData(context, true)
                 }
-
             }
         }
-
-
     }
 
     private fun initSharedPreference() {
