@@ -20,25 +20,33 @@ class SpellCorrector() {
     fun loadData(context: Context, roman: Boolean) {
         isRoman = roman
         if(isRoman) {
-            bk = readModel(context, "roman.txt")
-            bkEN = readModel(context, "final_words_v2.txt")
+            bk = readModel(context, "khmer_words_freq_roman.txt", true, true)
+            bkEN = readModel(context, "final_words_v2.txt", false, false)
         } else {
-            bk = readModel(context, "khmer_words.txt")
+            bk = readModel(context, "khmer_words_freq_roman.txt", false, false)
             bkEN = Bktree()
         }
     }
 
-    private fun readModel(context: Context, filePart: String): Bktree {
+    private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
         var model = Bktree()
+        var indexWord = 0
+        var indexOther = 2
+        if(wordLast) {
+            indexWord = 2
+            indexOther = 0
+        }
         try {
             context.assets.open(filePart).bufferedReader().useLines { lines -> lines.forEach {
                     val word = it.split("\\s".toRegex())//split(",")
-                    val other = if (word.size == 3) {
-                        word[2]
+                    val word_1 = word[indexWord].trim()
+                    val freq = word[1].toInt()
+                    val other = if (isOther && word.size == 3) {
+                        word[indexOther]
                     } else {
                         ""
                     }
-                model.add(word[0].trim(), word[1].toInt(), other)
+                    model.add(word_1, freq, other)
                 }
             }
         } catch (ex:Exception){

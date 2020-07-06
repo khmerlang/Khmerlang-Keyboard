@@ -7,14 +7,13 @@ import android.os.Handler
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import com.rathanak.khmerroman.*
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NOT_FIRST_RUN
 import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.enable_keyboard_dialog.view.*
 import kotlin.system.exitProcess
 
 

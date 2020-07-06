@@ -5,7 +5,11 @@ class PQElement(var word: String="",
                 var frequency: String = "",
                 var other: String=""): Comparable<PQElement> {
     override fun compareTo(element: PQElement): Int {
-        if (this.editDistance > element.editDistance) {
+        if(this.editDistance == 0) {
+            return -1
+        } else if(element.editDistance == 0) {
+            return 1
+        } else if (this.editDistance > element.editDistance) {
             return 1
         } else if (this.editDistance < element.editDistance) {
             return -1
