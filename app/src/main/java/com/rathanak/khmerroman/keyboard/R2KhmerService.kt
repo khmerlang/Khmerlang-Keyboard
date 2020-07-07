@@ -34,6 +34,7 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
+import com.rathanak.khmerroman.segmentation.Segmentation
 //import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.spelling_corrector.bktree.SpellCorrector
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
@@ -79,6 +80,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //    val ngrams: NGrams = NGrams(StupidBackoffRanking())
 //    var languageModel: LanguageModel = LanguageModel()
     var spellingCorrector: SpellCorrector = SpellCorrector()
+    var segmentation: Segmentation = Segmentation()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -105,13 +107,27 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun loadSpellingData() {
         spellingCorrector.reset()
+        segmentation.reset()
         val job= GlobalScope.launch(Dispatchers.Main) {
             loadSpelling(currentSelectedLanguageIdx == 1)
+            loadSegmentation(currentSelectedLanguageIdx == 1)
         }
 
     }
+
+    private suspend fun loadSegmentation(isKhmer: Boolean) {
+        coroutineScope {
+            async(Dispatchers.IO) {
+                if (isKhmer) {
+                    segmentation.loadData(context)
+                }
+            }
+        }
+    }
     private suspend fun loadSpelling(isKhmer: Boolean) {
         coroutineScope {
+
+
             async(Dispatchers.IO) {
                 if (isKhmer) {
                     spellingCorrector.loadData(context, false)

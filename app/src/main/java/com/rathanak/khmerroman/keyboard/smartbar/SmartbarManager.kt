@@ -114,6 +114,11 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     this.smartbarView!!.candidatesList.addView(btnSuggestion)
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+                } else {
+                    if (composingText != null) {
+                        val words = r_2_khmer.segmentation.forwardSegment(composingText)
+                        Log.i("hello1", words.toString())
+                    }
                 }
             }
             this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)

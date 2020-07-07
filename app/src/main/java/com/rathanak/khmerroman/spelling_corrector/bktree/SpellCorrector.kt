@@ -20,10 +20,10 @@ class SpellCorrector() {
     fun loadData(context: Context, roman: Boolean) {
         isRoman = roman
         if(isRoman) {
-            bk = readModel(context, "khmer_words_freq_roman.txt", true, true)
+            bk = readModel(context, "khmer_words_freq_roman_v1.txt", true, true)
             bkEN = readModel(context, "final_words_v2.txt", false, false)
         } else {
-            bk = readModel(context, "khmer_words_freq_roman.txt", false, false)
+            bk = readModel(context, "khmer_words_freq_roman_v1.txt", false, false)
             bkEN = Bktree()
         }
     }
