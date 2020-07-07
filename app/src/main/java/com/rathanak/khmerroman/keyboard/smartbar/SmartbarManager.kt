@@ -21,6 +21,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var isComposingEnabled: Boolean = false
     private var isShowBanner: Boolean = true
     var isTyping: Boolean = false
+    private var prevComposingText = ""
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -91,6 +92,15 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     fun generateCandidatesFromComposing(inputText: String, composingText: String?) {
+        if (composingText == null) {
+            return
+        }
+
+        if (composingText!! == prevComposingText) {
+            return
+        }
+        prevComposingText = composingText!!
+
         if(isTyping) {
             return
         }
@@ -105,7 +115,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             if (!composingText.isNullOrEmpty()) {
-                val result = r_2_khmer.spellingCorrector.correct(composingText)
+                var result = r_2_khmer.spellingCorrector.correct(composingText)
                 if (!result.isNullOrEmpty()) for(word in result) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams
@@ -117,7 +127,21 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 } else {
                     if (composingText != null) {
                         val words = r_2_khmer.segmentation.forwardSegment(composingText)
-                        Log.i("hello1", words.toString())
+                        if(words.size > 1) {
+                            val endWord = words.last()
+                            val toEndWord = words.take(words.size - 1).joinToString("")
+                            result = r_2_khmer.spellingCorrector.correct(words.last())
+                            if (!result.isNullOrEmpty()) for(word in result) {
+                                val btnSuggestion = Button(r_2_khmer.context)
+                                btnSuggestion.layoutParams =layoutParams
+                                btnSuggestion.text = toEndWord + word.toString()
+
+                                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
+                                this.smartbarView!!.candidatesList.addView(btnSuggestion)
+                                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+                                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+                            }
+                        }
                     }
                 }
             }
@@ -159,6 +183,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun handleNumberClick() {
         for (numberButton in this.smartbarView!!.numbersList.children) {
             if (numberButton is Button) {
+                prevComposingText = ""
                 numberButton.setOnClickListener(numberButtonOnClickListener)
             }
         }

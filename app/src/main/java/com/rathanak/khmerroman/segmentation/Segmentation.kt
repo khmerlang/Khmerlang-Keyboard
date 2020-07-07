@@ -59,7 +59,9 @@ class Segmentation {
             word += ch
 
             if (model.searchPrefix(word)) {
-                foundWord = word
+                if (model.search(word)) {
+                    foundWord = word
+                }
             } else if (model.search(word)) {
                 return word
             } else {
