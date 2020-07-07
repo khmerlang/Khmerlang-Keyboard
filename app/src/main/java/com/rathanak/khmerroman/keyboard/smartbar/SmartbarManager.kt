@@ -92,14 +92,14 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     fun generateCandidatesFromComposing(inputText: String, composingText: String?) {
-        if (composingText == null) {
-            return
-        }
-
-        if (composingText!! == prevComposingText) {
-            return
-        }
-        prevComposingText = composingText!!
+//        if (composingText == null) {
+//            return
+//        }
+//
+//        if (composingText!! == prevComposingText) {
+//            return
+//        }
+//        prevComposingText = composingText!!
 
         if(isTyping) {
             return
@@ -125,24 +125,24 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
                 } else {
-                    if (composingText != null) {
-                        val words = r_2_khmer.segmentation.forwardSegment(composingText)
-                        if(words.size > 1) {
-                            val endWord = words.last()
-                            val toEndWord = words.take(words.size - 1).joinToString("")
-                            result = r_2_khmer.spellingCorrector.correct(words.last())
-                            if (!result.isNullOrEmpty()) for(word in result) {
-                                val btnSuggestion = Button(r_2_khmer.context)
-                                btnSuggestion.layoutParams =layoutParams
-                                btnSuggestion.text = toEndWord + word.toString()
-
-                                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
-                                this.smartbarView!!.candidatesList.addView(btnSuggestion)
-                                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-                                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
-                            }
-                        }
-                    }
+//                    if (composingText != null) {
+//                        val words = r_2_khmer.segmentation.forwardSegment(composingText)
+//                        if(words.size > 1) {
+//                            val endWord = words.last()
+//                            val toEndWord = words.take(words.size - 1).joinToString("")
+//                            result = r_2_khmer.spellingCorrector.correct(words.last())
+//                            if (!result.isNullOrEmpty()) for(word in result) {
+//                                val btnSuggestion = Button(r_2_khmer.context)
+//                                btnSuggestion.layoutParams =layoutParams
+//                                btnSuggestion.text = toEndWord + word.toString()
+//
+//                                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
+//                                this.smartbarView!!.candidatesList.addView(btnSuggestion)
+//                                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+//                                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+//                            }
+//                        }
+//                    }
                 }
             }
             this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
@@ -183,7 +183,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun handleNumberClick() {
         for (numberButton in this.smartbarView!!.numbersList.children) {
             if (numberButton is Button) {
-                prevComposingText = ""
+//                prevComposingText = ""
                 numberButton.setOnClickListener(numberButtonOnClickListener)
             }
         }
