@@ -28,8 +28,10 @@ class Bktree {
                 word
             )
         //it means that two string is the same
-        if( distance == 0 )
+        if( distance == 0 ) {
+            node.other = node.other + "_" + other
             return
+        }
 
         if( node.children[distance] == null ){
             node.children.put(distance , Node(word, range, other) )
