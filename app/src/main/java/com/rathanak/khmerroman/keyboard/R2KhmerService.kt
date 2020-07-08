@@ -119,7 +119,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         coroutineScope {
             async(Dispatchers.IO) {
                 if (isKhmer) {
-                    segmentation.loadData(context)
+//                    segmentation.loadData(context)
                 }
             }
         }
