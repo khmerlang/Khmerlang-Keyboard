@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.spelling_corrector.PQElement
 import com.rathanak.khmerroman.spelling_corrector.getEditDistance
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
@@ -20,10 +21,10 @@ class SpellCorrector() {
     fun loadData(context: Context, roman: Boolean) {
         isRoman = roman
         if(isRoman) {
-            bk = readModel(context, "khmer_words_freq_roman.txt", true, true)
-            bkEN = readModel(context, "final_words_v2.txt", false, false)
+            bk = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
+            bkEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
         } else {
-            bk = readModel(context, "khmer_words_freq_roman.txt", false, false)
+            bk = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
             bkEN = Bktree()
         }
     }

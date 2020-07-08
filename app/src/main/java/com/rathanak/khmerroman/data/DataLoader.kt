@@ -29,7 +29,7 @@ class DataLoader(val context: Context ) {
     fun loadRoman2DB() {
         try {
             realm.beginTransaction()
-            context.assets.open("khmer_words_freq_roman.txt").bufferedReader().useLines { lines -> lines.forEach {
+            context.assets.open(Roman2KhmerApp.khmerWordsFile).bufferedReader().useLines { lines -> lines.forEach {
                 val word = it.split("\\s".toRegex())//split(",")
                 val kh = word[0].trim()
                 val freq = word[1].toInt()

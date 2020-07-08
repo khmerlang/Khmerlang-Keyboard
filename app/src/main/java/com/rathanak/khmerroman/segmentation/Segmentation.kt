@@ -2,6 +2,7 @@ package com.rathanak.khmerroman.segmentation
 
 import android.content.Context
 import android.util.Log
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 
 class Segmentation {
     private var model: Trie = Trie()
@@ -114,7 +115,7 @@ class Segmentation {
 
     fun loadData(context: Context) {
         try {
-            context.assets.open("khmer_words_freq_roman_v1.txt").bufferedReader().useLines { lines -> lines.forEach {
+            context.assets.open(Roman2KhmerApp.khmerWordsFile).bufferedReader().useLines { lines -> lines.forEach {
                 val word = it.split("\\s".toRegex())//split(",")
                 model.insert(word[0].trim())
             }

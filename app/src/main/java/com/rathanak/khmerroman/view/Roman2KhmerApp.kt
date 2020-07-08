@@ -31,5 +31,7 @@ class Roman2KhmerApp : Application() {
 
     companion object {
         var dbConfig: RealmConfiguration? = null
+        const val khmerWordsFile = "khmer_words_freq_roman.txt"
+        const val englishWordsFile = "final_words_v2.txt"
     }
 }
