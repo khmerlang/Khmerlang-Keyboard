@@ -10,4 +10,5 @@ open class RomanItem : RealmObject() {
     var roman: String? = ""
     var khmer: String? = ""
     var custom: Boolean? = false
+    var freq: Int = 0
 }

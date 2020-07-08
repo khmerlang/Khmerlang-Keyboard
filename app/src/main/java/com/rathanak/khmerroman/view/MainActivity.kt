@@ -12,13 +12,11 @@ import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NOT_FIRST_RUN
 import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
-import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var realm: Realm
     private lateinit var preferences: KeyboardPreferences
     private var enabledKeyboard: Boolean = false
 
@@ -26,11 +24,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         preferences = KeyboardPreferences(applicationContext)
 
-        Realm.init(this)
-        realm = Realm.getDefaultInstance()
         // check is first open app
         if (!preferences.getBoolean(KEY_NOT_FIRST_RUN)) {
-            // load data to realm db
+            // load data to db
             var dataLoader = DataLoader(this)
             dataLoader.reInitRomanData()
             preferences.putBoolean(KEY_NOT_FIRST_RUN, true)

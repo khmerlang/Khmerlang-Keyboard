@@ -68,6 +68,7 @@ class CustomMapping : AppCompatActivity() {
             RomanDialog(
                 "",
                 "",
+                100,
                 applicationContext
             )
         dialog.show(supportFragmentManager, "RomanDialog")

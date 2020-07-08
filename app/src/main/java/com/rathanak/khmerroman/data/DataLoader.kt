@@ -1,24 +1,15 @@
 package com.rathanak.khmerroman.data
 
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.rathanak.khmerroman.migration.MyMigration
+import android.util.Log
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 import io.realm.Realm
-import io.realm.RealmConfiguration
 import io.realm.RealmResults
-import java.io.IOException
 import java.util.*
 
 
-class DataLoader(applicationContext: Context ) {
-    private var realm: Realm
-    private var context: Context
-
-    init {
-        realm = Realm.getDefaultInstance()
-        context = applicationContext
-    }
+class DataLoader(val context: Context ) {
+    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
     data class RomanData(val r: String, val k: String) {}
     fun reInitRomanData() {
@@ -36,29 +27,27 @@ class DataLoader(applicationContext: Context ) {
     }
 
     fun loadRoman2DB() {
-        val jsonFileString = getJsonDataFromAsset(context, "roman_khmer.json")
-        val gson = Gson()
-        val listPersonType = object : TypeToken<List<RomanData>>() {}.type
-
-        var romans: List<RomanData> = gson.fromJson(jsonFileString, listPersonType)
-        realm.beginTransaction()
-        romans.forEach {
-            var roman = it
-            val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
-            romanKhmer.khmer = roman.k
-            romanKhmer.roman = roman.r
-            realm.insert(romanKhmer)
-        }
-        realm.commitTransaction()
-    }
-    private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
-        val jsonString: String
         try {
-            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        } catch (ioException: IOException) {
-            ioException.printStackTrace()
-            return null
+            realm.beginTransaction()
+            context.assets.open("khmer_words_freq_roman.txt").bufferedReader().useLines { lines -> lines.forEach {
+                val word = it.split("\\s".toRegex())//split(",")
+                val kh = word[0].trim()
+                val freq = word[1].toInt()
+                val rm = if (word.size == 3) {
+                    word[2]
+                } else {
+                    ""
+                }
+                val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
+                romanKhmer.khmer = kh
+                romanKhmer.roman = rm
+                romanKhmer.freq = freq
+                realm.insert(romanKhmer)
+            }
+            }
+            realm.commitTransaction()
+        } catch (ex:Exception){
+            Log.e("read_file", ex.localizedMessage)
         }
-        return jsonString
     }
 }

@@ -8,22 +8,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.data.RealmMigrations
 import com.rathanak.khmerroman.data.RomanItem
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.roman_dialog.view.*
+import java.io.FileNotFoundException
 import java.util.*
 
-class RomanDialog(txtK: String, txtR: String, appContext: Context) : DialogFragment() {
-    private var appCon: Context
-    private var txtRoman: String
-    private var txtKhmer: String
-    private var realm: Realm
-    init {
-        realm = Realm.getDefaultInstance()
-        appCon = appContext
-        txtRoman = txtR
-        txtKhmer = txtK
-    }
+class RomanDialog(var txtKhmer: String, var txtRoman: String, var freq: Int, val appCon: Context) : DialogFragment() {
+    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
     private fun updateRecord(txtK: String, txtR: String) {
         // TODO create, update table
@@ -31,6 +26,7 @@ class RomanDialog(txtK: String, txtR: String, appContext: Context) : DialogFragm
             val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
             romanKhmer.khmer = txtK
             romanKhmer.roman = txtR
+            romanKhmer.freq = freq
             romanKhmer.custom = true
             realm.insert(romanKhmer)
         realm.commitTransaction()
