@@ -95,7 +95,7 @@ last 110573 Last
 because 108894 Because
 got 108743 Got
 too 108526 Too
-us 107533 Us
+us 107533
 way 106633 Way
 really 105653 Really
 after 105318 After
@@ -162,7 +162,6 @@ world 54615 World
 help 53291 Help
 such 53133 Such
 own 53095
-ca 52862 Ca
 ninetieth 52816
 find 52795 Find
 sure 52675 Sure
@@ -218,7 +217,6 @@ friends 39032 Friends
 someone 39017 Someone
 fun 38965 Fun
 during 38934 During
-Na 38915
 everyone 38875 Everyone
 money 38789 Money
 looking 38762 Looking
@@ -289,7 +287,7 @@ believe 30267 Believe
 business 30241 Business
 everything 30237 Everything
 later 30233 Later
-don 30231 Don
+don 30231
 course 29901 Course
 kind 29782 Kind
 guys 29596 Guys
@@ -526,7 +524,6 @@ beer 16511 Beer
 tried 16465
 especially 16433 Especially
 pick 16431 Pick
-ll 16414
 hour 16396 Hour
 building 16354 Building
 death 16324 Death
@@ -638,7 +635,6 @@ held 13638
 control 13615 Control
 recently 13608 Recently
 wan 13565 Wan
-ya 13532 Ya
 include 13511
 South 13474 south
 personal 13443 Personal
@@ -888,7 +884,7 @@ sitting 9804 Sitting
 join 9789 Join
 text 9781 Text
 upon 9781 Upon
-Im 9764
+I'm 9764
 fell 9757
 performance 9756 Performance
 seemed 9749
@@ -1379,7 +1375,6 @@ library 6414 Library
 cuts 6414
 clearly 6413 Clearly
 losing 6413 Losing
-Bay 6409 bay
 exciting 6407 Exciting
 model 6390
 cash 6388 Cash
@@ -1428,7 +1423,6 @@ happening 6186
 episode 6180 Episode
 River 6179 river
 wide 6174
-Jim 6164
 likes 6163
 Baltimore 6157
 hang 6151
@@ -1532,7 +1526,6 @@ Europe 5688
 claim 5685
 movement 5680 Movement
 battle 5671 Battle
-ha 5667 Ha
 becomes 5665
 limited 5664 Limited
 mentioned 5660
@@ -1719,7 +1712,6 @@ kinda 5108 Kinda
 managed 5102
 changing 5088 Changing
 signs 5078
-Lee 5076
 stars 5072 Stars
 lie 5071
 honest 5068
@@ -1880,7 +1872,6 @@ pic 4609
 falling 4609 Falling
 obvious 4608
 investment 4606 Investment
-cuz 4604
 proposal 4597
 wit 4597
 truck 4593
@@ -1979,7 +1970,6 @@ feed 4309
 conditions 4309
 mood 4307
 gain 4305
-yo 4304 Yo
 religious 4300 Religious
 talks 4298
 stayed 4290
@@ -2014,7 +2004,6 @@ letting 4193
 hungry 4192 Hungry
 concept 4186
 moves 4183
-La 4179 la
 Island 4171 island
 critical 4164 Critical
 Holy 4164 holy
@@ -2045,7 +2034,6 @@ stress 4116 Stress
 sleeping 4115 Sleeping
 package 4111
 allowing 4108
-Dan 4108
 pack 4107 Pack
 ate 4107
 prevent 4105
@@ -2097,7 +2085,6 @@ storm 4010
 entered 4009
 rare 4006
 walls 4006
-Ah 4004 ah
 massive 4003 Massive
 figured 4001
 injuries 3993 Injuries
@@ -2191,7 +2178,6 @@ Japan 3846
 Canada 3845
 markets 3844 Markets
 male 3841
-Ben 3840
 mixed 3839
 giant 3838
 ages 3838
@@ -2270,7 +2256,6 @@ attended 3696
 consumers 3695 Consumers
 Unfortunately 3691 unfortunately
 Festival 3691 festival
-ad 3688
 rice 3687 Rice
 professor 3686 Professor
 shift 3682
@@ -2327,7 +2312,6 @@ treated 3596
 votes 3592
 facility 3591 Facility
 closing 3587 Closing
-St 3585
 profile 3585
 blow 3583
 flat 3579
@@ -2364,7 +2348,6 @@ threat 3533
 windows 3533 Windows
 Joseph 3530
 Meanwhile 3529 meanwhile
-vs 3528
 suffered 3525
 determine 3524
 grab 3522
@@ -2479,7 +2462,6 @@ Wisconsin 3323
 hired 3323
 Jordan 3322
 asks 3321
-em 3320
 comedy 3318 Comedy
 tracks 3316
 Orlando 3316
@@ -2615,7 +2597,6 @@ links 3119
 junior 3118 Junior
 tape 3116
 authors 3113 Authors
-Ron 3110
 trail 3109 Trail
 Disney 3107
 brief 3105
@@ -2661,7 +2642,6 @@ delivered 3046
 suffering 3044
 voting 3041 Voting
 detail 3039
-Ray 3039
 receiving 3034
 celebration 3032 Celebration
 Golden 3030 golden
@@ -2671,7 +2651,6 @@ beans 3024
 typically 3021 Typically
 originally 3019 Originally
 thin 3018
-Kim 3016
 intense 3016
 hardly 3015
 counts 3015
@@ -2763,7 +2742,6 @@ materials 2901 Materials
 numerous 2901 Numerous
 refused 2900
 seed 2897
-Dr 2897
 returns 2894
 deliver 2892
 tradition 2891 Tradition
@@ -2899,7 +2877,6 @@ Jewish 2723
 Italy 2723
 properly 2721
 fixed 2718
-Ed 2718
 champion 2718 Champion
 exact 2714
 studying 2714 Studying
@@ -3032,7 +3009,6 @@ tone 2575
 ears 2575
 immediate 2574
 situations 2574
-El 2573
 tables 2572
 vintage 2571 Vintage
 volunteers 2571 Volunteers
@@ -3250,7 +3226,6 @@ graduation 2336 Graduation
 wines 2336
 internal 2334 Internal
 meets 2333
-Al 2331
 dessert 2331
 ocean 2330 Ocean
 proof 2328
@@ -3628,9 +3603,7 @@ Russian 2039
 roster 2039
 repair 2038
 sample 2037
-De 2036
 throws 2036
-yr 2034
 patterns 2033
 sounded 2033
 index 2032
@@ -3831,7 +3804,6 @@ blocked 1916
 fitness 1915 Fitness
 expansion 1915
 editing 1915 Editing
-um 1913 Um
 jacket 1912
 liquid 1912
 Ducks 1911
@@ -4055,7 +4027,6 @@ battery 1790
 desert 1790 Desert
 pretend 1790
 seemingly 1790
-cc 1789
 sooner 1789
 blogger 1787 Blogger
 recalled 1787
@@ -4166,7 +4137,6 @@ staring 1727
 gains 1727
 Fred 1726
 styles 1726
-ex 1724
 stole 1724
 celebrity 1724 Celebrity
 bonds 1724
@@ -4267,7 +4237,6 @@ shrimp 1677 Shrimp
 pour 1676 Pour
 installed 1676
 albums 1676
-bc 1675
 bat 1675
 reception 1674 Reception
 muscle 1673
@@ -4314,7 +4283,6 @@ managers 1651 Managers
 Republic 1651 republic
 accomplish 1650
 Todd 1650
-aw 1648 Aw
 logo 1648
 format 1646
 stressed 1644
@@ -4471,6 +4439,7 @@ Tiger 1583
 ninth 1581
 vital 1581
 terrific 1581 Terrific
+bay 1580
 establish 1580
 representative 1580 Representative
 deputy 1580 Deputy
@@ -4809,7 +4778,6 @@ decides 1433
 accent 1431
 cure 1431
 Mount 1431 mount
-Hm 1430
 saves 1429
 reducing 1429
 entitled 1428
@@ -4834,7 +4802,6 @@ popped 1420
 spectacular 1420
 essay 1418
 scream 1418 Scream
-uh 1418 Uh
 hurting 1418
 Katie 1418
 vendors 1417
@@ -5193,7 +5160,6 @@ Newt 1290
 upstairs 1289
 overwhelmed 1289
 restore 1288
-Le 1288
 reportedly 1288
 Idol 1287 idol
 concerts 1286
@@ -5333,7 +5299,6 @@ robbery 1243
 Harper 1243
 responding 1242
 infection 1241
-xx 1241
 sustainable 1241 Sustainable
 versus 1241
 filming 1241
@@ -5485,7 +5450,6 @@ Amanda 1193
 Ralph 1193
 conscious 1192
 Hmm 1192
-en 1192
 adopt 1191
 boot 1191
 container 1191
@@ -5525,7 +5489,6 @@ Rockies 1181
 tragic 1181
 predict 1180
 fundamental 1178
-Bo 1178
 Simpson 1178
 talents 1178
 eliminated 1177
@@ -5717,7 +5680,6 @@ fairy 1125
 freezing 1125
 fires 1125
 foreclosure 1125
-Mo 1124
 cholesterol 1123
 locals 1123
 Saturday 1122
@@ -5738,7 +5700,6 @@ elbow 1117
 loads 1117
 Kent 1117
 removing 1117
-Av 1117
 belongs 1116
 counted 1116
 Beijing 1116
@@ -5778,7 +5739,6 @@ gaining 1106
 admire 1105
 pursuit 1105
 cared 1105
-Co 1105
 certified 1105 Certified
 vegetarian 1104 Vegetarian
 autism 1104 Autism
@@ -5879,7 +5839,6 @@ privilege 1085
 establishment 1085
 murdered 1084
 chatting 1084
-eh 1084
 Sierra 1084
 Alliance 1084 alliance
 rewards 1084
@@ -5991,7 +5950,6 @@ peers 1059
 intersection 1059
 imma 1058
 punched 1058
-mg 1058
 vary 1057
 converted 1056
 transformed 1056
