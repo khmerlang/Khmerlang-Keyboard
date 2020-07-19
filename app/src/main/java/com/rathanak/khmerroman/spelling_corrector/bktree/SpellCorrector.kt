@@ -61,7 +61,7 @@ class SpellCorrector() {
         return if (isRoman) {
             var outputENMap = correctBy(bkEN, misspelling, 10, false)
             var outputMap =correctBy(bk, misspelling, 10, true)
-            outputENMap.take(1) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
+            outputENMap.take(2) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
         } else {
             correctBy(bk, misspelling, 10, false)
         }
