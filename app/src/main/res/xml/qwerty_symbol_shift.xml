@@ -7,16 +7,20 @@
         <Key
             android:keyEdgeFlags="left"
             android:codes="126"
-            android:keyLabel="~" />
+            android:keyLabel="~"
+            app:subLabel="៎"/>
         <Key
             android:codes="177"
-            android:keyLabel="±" />
+            android:keyLabel="±"
+            app:subLabel="ឭ"/>
         <Key
             android:codes="215"
-            android:keyLabel="×" />
+            android:keyLabel="×"
+            app:subLabel="ឮ"/>
         <Key
             android:codes="247"
-            android:keyLabel="÷" />
+            android:keyLabel="÷"
+            app:subLabel="ឳ"/>
         <Key
             android:codes="8226"
             android:keyLabel="•" />

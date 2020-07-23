@@ -29,6 +29,11 @@
         android:paddingLeft="5dp"
         android:visibility="gone">
         <ImageButton
+            android:id="@+id/btnToggleKey"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_settings"/>
+        <ImageButton
             android:id="@+id/btnOpenApp"
             android:layout_width="40dp"
             android:layout_height="40dp"

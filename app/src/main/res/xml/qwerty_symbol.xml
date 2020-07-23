@@ -7,70 +7,90 @@
         <Key
             android:codes="49"
             android:keyEdgeFlags="left"
-            android:keyLabel="1" />
+            android:keyLabel="1"
+            app:subLabel="១"/>
         <Key
             android:codes="50"
-            android:keyLabel="2" />
+            android:keyLabel="2"
+            app:subLabel="២"/>
         <Key
             android:codes="51"
-            android:keyLabel="3" />
+            android:keyLabel="3"
+            app:subLabel="៣"/>
         <Key
             android:codes="52"
-            android:keyLabel="4" />
+            android:keyLabel="4"
+            app:subLabel="៤"/>
         <Key
             android:codes="53"
-            android:keyLabel="5" />
+            android:keyLabel="5"
+            app:subLabel="៥"/>
         <Key
             android:codes="54"
-            android:keyLabel="6" />
+            android:keyLabel="6"
+            app:subLabel="៦"/>
         <Key
             android:codes="55"
-            android:keyLabel="7" />
+            android:keyLabel="7"
+            app:subLabel="៧"/>
         <Key
             android:codes="56"
-            android:keyLabel="8" />
+            android:keyLabel="8"
+            app:subLabel="៨"/>
         <Key
             android:codes="57"
-            android:keyLabel="9" />
+            android:keyLabel="9"
+            app:subLabel="៩"/>
         <Key
             android:codes="48"
             android:keyEdgeFlags="right"
-            android:keyLabel="0" />
+            android:keyLabel="0"
+            app:subLabel="០"/>
     </Row>
 
     <Row>
         <Key
             android:keyEdgeFlags="left"
             android:codes="64"
-            android:keyLabel="\@" />
+            android:keyLabel="\@"
+            app:subLabel="ៗ"/>
         <Key
             android:codes="35"
-            android:keyLabel="\#" />
+            android:keyLabel="\#"
+            app:subLabel="៛"/>
         <Key
             android:codes="36"
-            android:keyLabel="$" />
+            android:keyLabel="$"
+            app:subLabel="៍"/>
         <Key
             android:codes="37"
-            android:keyLabel="%" />
+            android:keyLabel="%"
+            app:subLabel="័"/>
         <Key
             android:codes="38"
-            android:keyLabel="&amp;" />
+            android:keyLabel="&amp;"
+            app:subLabel="៏"/>
         <Key
             android:codes="42"
-            android:keyLabel="*" />
+            android:keyLabel="*"
+            app:subLabel="៌"/>
         <Key
             android:codes="45"
-            android:keyLabel="-" />
+            android:keyLabel="-"
+            app:subLabel="់"/>
         <Key
             android:codes="61"
-            android:keyLabel="=" />
+            android:keyLabel="="
+            app:subLabel="៉"/>
         <Key
             android:codes="40"
-            android:keyLabel="(" />
+            android:keyLabel="("
+            app:subLabel="៖"/>
         <Key
             android:codes="41"
             android:keyEdgeFlags="right"
-            android:keyLabel=")" />
+            android:keyLabel=")"
+            app:subLabel="ឧ"/>
     </Row>
 
     <Row>
@@ -84,25 +104,32 @@
 
         <Key
             android:codes="33"
-            android:keyLabel="!" />
+            android:keyLabel="!"
+            app:subLabel="ឥ"/>
         <Key
             android:codes="34"
-            android:keyLabel="&quot;" />
+            android:keyLabel="&quot;"
+            app:subLabel="ឲ"/>
         <Key
             android:codes="39"
-            android:keyLabel="\'" />
+            android:keyLabel="\'"
+            app:subLabel="ឰ"/>
         <Key
             android:codes="58"
-            android:keyLabel=":" />
+            android:keyLabel=":"
+            app:subLabel="ឯ"/>
         <Key
             android:codes="59"
-            android:keyLabel=";" />
+            android:keyLabel=";"
+            app:subLabel="ៀ"/>
         <Key
             android:codes="47"
-            android:keyLabel="/" />
+            android:keyLabel="/"
+            app:subLabel="ឿ"/>
         <Key
             android:codes="63"
-            android:keyLabel="\?" />
+            android:keyLabel="\?"
+            app:subLabel="ឪ"/>
         <Key
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"
