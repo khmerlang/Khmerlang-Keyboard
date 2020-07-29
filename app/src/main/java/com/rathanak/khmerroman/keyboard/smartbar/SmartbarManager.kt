@@ -10,9 +10,11 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.spelling_corrector.getEditDistance
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 private const val MODEL_ORDER = 5
@@ -40,6 +42,19 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
         }
+
+        this.smartbarView!!.btnToggleKhmerKey.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.ic_baseline_swap_select)
+            } else {
+                buttonView.setBackgroundResource(R.drawable.ic_baseline_swap)
+            }
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, !isChecked)
+            r_2_khmer.reRenderKeylayout()
+        }
+
+        val isChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE)
+        this.smartbarView!!.btnToggleKhmerKey.isChecked = isChecked!!
 
         toggleBarLayOut(true)
         handleNumberClick()

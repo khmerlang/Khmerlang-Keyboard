@@ -33,6 +33,7 @@ class KeyboardPreferences(context: Context) {
         const val KEY_CURRENT_LANGUAGE_IDX = "key_current_language_idx"
         const val KEY_ENABLE_VIBRATION = "key_enable_vibration"
         const val KEY_ENABLE_SOUND = "key_enable_sound"
+        const val KEY_RM_CORRECTION_MODE = "key_rm_correction_mode"
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
     }
 }

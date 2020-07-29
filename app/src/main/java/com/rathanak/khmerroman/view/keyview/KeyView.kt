@@ -5,8 +5,10 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
+import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlin.math.min
 
 class KeyView @JvmOverloads constructor(
@@ -144,7 +146,8 @@ class KeyView @JvmOverloads constructor(
         }
 
         // Draw the sub label on the key
-        if (key.subLabel != null) {
+        val isKhmerCorrection = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE)
+        if (key.subLabel != null && !isKhmerCorrection!!) {
             var multiplicativeWidthRatio = 1.5F
             var multiplicativeHeightRatio = 1.5F
             if (canvas.width / canvas.height < 0.75) {

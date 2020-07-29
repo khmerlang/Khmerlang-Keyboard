@@ -178,10 +178,17 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
+    fun reRenderKeylayout() {
+        if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
+            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
+        }
+    }
+
     private fun loadSharedPreferences() {
         currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
         enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
+
     }
 
     private fun loadStyles() {

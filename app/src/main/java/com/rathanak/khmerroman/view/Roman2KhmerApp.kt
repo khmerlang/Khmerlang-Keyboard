@@ -2,6 +2,7 @@ package com.rathanak.khmerroman.view
 
 import android.app.Application
 import com.rathanak.khmerroman.core.predictModule
+import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.RealmMigrations
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -24,12 +25,14 @@ class Roman2KhmerApp : Application() {
                 // If the Realm file doesn't exist, just ignore.
             }
         }
+        preferences = KeyboardPreferences(applicationContext)
 
         // start Koin!
         startKoin(this, listOf(predictModule))
     }
 
     companion object {
+        var preferences: KeyboardPreferences? = null
         var dbConfig: RealmConfiguration? = null
         const val khmerWordsFile = "khmer_words_freq_roman.txt"
         const val englishWordsFile = "final_words_v2.txt"
