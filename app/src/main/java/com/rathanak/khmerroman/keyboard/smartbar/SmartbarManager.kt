@@ -139,6 +139,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     this.smartbarView!!.candidatesList.addView(btnSuggestion)
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)
                     btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+                    btnSuggestion.setPadding(10,1,10,1)
                 } else {
 //                    if (composingText != null) {
 //                        val words = r_2_khmer.segmentation.forwardSegment(composingText)
