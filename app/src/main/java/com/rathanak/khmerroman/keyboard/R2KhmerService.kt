@@ -73,7 +73,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
-    private var previousWords: MutableList<String> = mutableListOf()
+    private var previousWord = ""
 
 //    val ngrams: NGrams by inject()
 //    val languageModel: LanguageModel by inject()
@@ -109,31 +109,17 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         spellingCorrector.reset()
         segmentation.reset()
         val job= GlobalScope.launch(Dispatchers.Main) {
-            loadSpelling(currentSelectedLanguageIdx == 1)
-            loadSegmentation(currentSelectedLanguageIdx == 1)
+            loadSpelling()
         }
 
     }
 
-    private suspend fun loadSegmentation(isKhmer: Boolean) {
-        coroutineScope {
-            async(Dispatchers.IO) {
-                if (isKhmer) {
-//                    segmentation.loadData(context)
-                }
-            }
-        }
-    }
-    private suspend fun loadSpelling(isKhmer: Boolean) {
+    private suspend fun loadSpelling() {
         coroutineScope {
 
 
             async(Dispatchers.IO) {
-                if (isKhmer) {
-                    spellingCorrector.loadData(context, false)
-                } else {
-                    spellingCorrector.loadData(context, true)
-                }
+                spellingCorrector.loadData(context)
             }
         }
     }
@@ -315,7 +301,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
         saveCurrentState()
         renderCurrentLanguage()
-        loadSpellingData()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -426,7 +411,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 var space = ""
                 if (candidateChoosed) {
                     if ((primaryCode.toChar() in 'ក'..'ឳ') || isAlphabet(primaryCode)) {
-                        Log.i("hello", preCandidateKhmer.toString())
                         if(preCandidateKhmer) {
                             space = "​"
                         } else {
@@ -502,8 +486,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 resetComposingText()
             }
 
-//            Log.i("hello", previousWords.toString())
-            smartbarManager.generateCandidatesFromComposing(inputText, composingText)
+            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
         }
     }
 
@@ -514,11 +497,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 //        val words = inputText.split("[^\\p{L}]".toRegex())
         val words = inputText.split("[​.,!@#$%^&*()\"\' ]".toRegex())
         var pos = 0
-        Log.i("hello", inputText)
-        Log.i("hello", words.toString())
         resetComposingText(false)
-        previousWords = mutableListOf()
-        previousWords.add("START")
+        previousWord = "START"
         for (word in words) {
             if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
                 composingText = word
@@ -527,9 +507,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             } else {
                 pos += word.length + 1
                 if ((word == ".") or (word == "!") or (word == "?")) {
-                    previousWords.add("START")
+                    previousWord = "START"
                 } else if(word.isNotEmpty()) {
-                    previousWords.add(word.toLowerCase())
+                    previousWord = word.toLowerCase()
                 }
 
             }

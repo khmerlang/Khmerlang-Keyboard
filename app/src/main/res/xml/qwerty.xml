@@ -87,7 +87,7 @@
             android:codes="108"
             android:keyEdgeFlags="right"
             android:keyLabel="l"
-            app:subLabel="ក"/>
+            app:subLabel="ល"/>
     </Row>
 
     <Row>

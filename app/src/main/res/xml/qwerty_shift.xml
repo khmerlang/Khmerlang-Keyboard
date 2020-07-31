@@ -151,7 +151,7 @@
         <Key
             android:codes="44"
             android:keyLabel=","
-            app:subLabel="ឯ"
+            app:subLabel="៊"
             android:keyWidth="10%p" />
         <Key
             android:codes="32"
@@ -162,7 +162,7 @@
         <Key
             android:codes="46"
             android:keyLabel="."
-            app:subLabel="៕"
+            app:subLabel="។"
             android:keyWidth="10%p" />
         <Key
             android:codes="@integer/keycode_done"

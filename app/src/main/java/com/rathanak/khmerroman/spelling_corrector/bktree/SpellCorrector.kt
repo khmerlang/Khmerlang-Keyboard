@@ -9,24 +9,20 @@ import java.util.*
 import kotlin.collections.LinkedHashMap
 
 class SpellCorrector() {
-    private var bk: Bktree = Bktree()
-    private var bkEN: Bktree = Bktree()
-    private var isRoman = false
+    private var bKM: Bktree = Bktree()
+    private var bRM: Bktree = Bktree()
+    private var bEN: Bktree = Bktree()
 
     fun reset() {
-        bkEN = Bktree()
-        bk = Bktree()
+        bKM = Bktree()
+        bRM = Bktree()
+        bEN = Bktree()
     }
 
-    fun loadData(context: Context, roman: Boolean) {
-        isRoman = roman
-        if(isRoman) {
-            bk = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
-            bkEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
-        } else {
-            bk = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
-            bkEN = Bktree()
-        }
+    fun loadData(context: Context) {
+        bRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
+        bEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
+        bKM = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
     }
 
     private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
@@ -57,13 +53,19 @@ class SpellCorrector() {
         return model
     }
 
-    fun correct(misspelling: String): List<String> {
-        return if (isRoman) {
-            var outputENMap = correctBy(bkEN, misspelling, 10, false)
-            var outputMap =correctBy(bk, misspelling, 10, true)
+    private fun isENString(str: String) : Boolean {
+        return (str[0] in 'a'..'z' || str[0] in 'A'..'Z')
+    }
+
+    fun correct(previousWord: String, misspelling: String): List<String> {
+//        previousWord
+        return if (isENString(misspelling)) {
+            var outputENMap = correctBy(bEN, misspelling, 10, false)
+            var outputMap = correctBy(bRM, misspelling, 10, true)
+
             outputENMap.take(2) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
         } else {
-            correctBy(bk, misspelling, 10, false)
+            correctBy(bKM, misspelling, 10, false)
         }
     }
 
