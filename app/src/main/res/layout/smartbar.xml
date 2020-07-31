@@ -29,10 +29,26 @@
         android:paddingLeft="5dp"
         android:visibility="gone">
         <ToggleButton
-            android:id="@+id/btnToggleKhmerKey"
+            android:id="@+id/btnToggleENCorrection"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_baseline_swap_select"
+            android:checked="true"
+            android:textOff=""
+            android:textOn="" />
+        <ToggleButton
+            android:id="@+id/btnToggleKHCorrection"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_khmer_toggle_on"
+            android:checked="true"
+            android:textOff=""
+            android:textOn="" />
+        <ToggleButton
+            android:id="@+id/btnToggleRMCorrection"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_roman_toggle_on"
             android:checked="true"
             android:textOff=""
             android:textOn="" />

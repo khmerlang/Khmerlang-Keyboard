@@ -20,8 +20,12 @@ class KeyboardPreferences(context: Context) {
         preference.edit()?.putInt(key, data)?.apply()
     }
 
-    fun getBoolean(key: String): Boolean {
-        return preference.getBoolean(key, false)
+//    fun getBoolean(key: String): Boolean {
+//        return preference.getBoolean(key, false)
+//    }
+
+    fun getBoolean(key: String, defaultVale: Boolean = false): Boolean {
+        return preference.getBoolean(key, defaultVale)
     }
 
     fun getInt(key: String, defaultInt: Int): Int {
@@ -34,6 +38,8 @@ class KeyboardPreferences(context: Context) {
         const val KEY_ENABLE_VIBRATION = "key_enable_vibration"
         const val KEY_ENABLE_SOUND = "key_enable_sound"
         const val KEY_RM_CORRECTION_MODE = "key_rm_correction_mode"
+        const val KEY_KM_CORRECTION_MODE = "key_km_correction_mode"
+        const val KEY_EN_CORRECTION_MODE = "key_en_correction_mode"
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
     }
 }

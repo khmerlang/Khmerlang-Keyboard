@@ -146,8 +146,8 @@ class KeyView @JvmOverloads constructor(
         }
 
         // Draw the sub label on the key
-        val isKhmerCorrection = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE)
-        if (key.subLabel != null && !isKhmerCorrection!!) {
+        val isKhmerCorrection = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, true)
+        if (key.subLabel != null && isKhmerCorrection!!) {
             var multiplicativeWidthRatio = 1.5F
             var multiplicativeHeightRatio = 1.5F
             if (canvas.width / canvas.height < 0.75) {

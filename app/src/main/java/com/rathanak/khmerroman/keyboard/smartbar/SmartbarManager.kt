@@ -42,24 +42,49 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
         }
+        initToggleButton()
+        toggleBarLayOut(true)
+        handleNumberClick()
 
-        this.smartbarView!!.btnToggleKhmerKey.setOnCheckedChangeListener { buttonView, isChecked ->
+        return smartbarView
+    }
+
+    private fun initToggleButton() {
+        this.smartbarView!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.ic_roman_toggle_on)
+            } else {
+                buttonView.setBackgroundResource(R.drawable.ic_roman_toggle_off)
+            }
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, !isChecked)
+            r_2_khmer.reRenderKeylayout()
+        }
+        val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+        this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
+
+        this.smartbarView!!.btnToggleKHCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.ic_khmer_toggle_on)
+            } else {
+                buttonView.setBackgroundResource(R.drawable.ic_khmer_toggle_off)
+            }
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, !isChecked)
+            r_2_khmer.reRenderKeylayout()
+        }
+        val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, true)
+        this.smartbarView!!.btnToggleKHCorrection.isChecked = isENChecked!!
+
+        this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_baseline_swap_select)
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_baseline_swap)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, !isChecked)
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, !isChecked)
             r_2_khmer.reRenderKeylayout()
         }
-
-        val isChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE)
-        this.smartbarView!!.btnToggleKhmerKey.isChecked = isChecked!!
-
-        toggleBarLayOut(true)
-        handleNumberClick()
-
-        return smartbarView
+        val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
+        this.smartbarView!!.btnToggleENCorrection.isChecked = isKMChecked!!
     }
 
     fun toggleBarLayOut(show: Boolean) {
