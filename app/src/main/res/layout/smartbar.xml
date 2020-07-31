@@ -35,7 +35,8 @@
             android:background="@drawable/ic_english_toggle_on"
             android:checked="true"
             android:textOff=""
-            android:textOn="" />
+            android:textOn=""
+            android:layout_marginRight="5dp"/>
         <ToggleButton
             android:id="@+id/btnToggleKHCorrection"
             android:layout_width="40dp"
@@ -43,7 +44,8 @@
             android:background="@drawable/ic_khmer_toggle_on"
             android:checked="true"
             android:textOff=""
-            android:textOn="" />
+            android:textOn=""
+            android:layout_marginRight="5dp"/>
         <ToggleButton
             android:id="@+id/btnToggleRMCorrection"
             android:layout_width="40dp"
@@ -51,7 +53,8 @@
             android:background="@drawable/ic_roman_toggle_on"
             android:checked="true"
             android:textOff=""
-            android:textOn="" />
+            android:textOn=""
+            android:layout_marginRight="5dp"/>
         <ImageButton
             android:id="@+id/btnOpenApp"
             android:layout_width="40dp"

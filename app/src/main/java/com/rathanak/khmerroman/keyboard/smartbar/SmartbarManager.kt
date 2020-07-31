@@ -56,7 +56,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_roman_toggle_off)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, !isChecked)
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
             r_2_khmer.reRenderKeylayout()
         }
         val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
@@ -68,7 +68,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_khmer_toggle_off)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, !isChecked)
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, isChecked)
             r_2_khmer.reRenderKeylayout()
         }
         val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, true)
@@ -80,7 +80,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_english_toggle_off)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, !isChecked)
+            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
             r_2_khmer.reRenderKeylayout()
         }
         val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
