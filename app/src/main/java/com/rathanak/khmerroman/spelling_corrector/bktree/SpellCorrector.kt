@@ -66,7 +66,7 @@ class SpellCorrector() {
             outputENMap.take(2) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
         } else {
             correctBy(bKM, misspelling, 10, false)
-        }
+        }.distinctBy { it.toLowerCase() }
     }
 
     fun correctBy(model: Bktree, misspelling: String, limit: Int, isOther: Boolean): List<String> {
@@ -99,13 +99,13 @@ class SpellCorrector() {
                                     outputMap.add(element.word)
                                     i++
                                 }
-
                             }
                         }
                     }
                 }
             }
         }
+
         return outputMap
     }
 }
