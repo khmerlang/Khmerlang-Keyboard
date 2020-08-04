@@ -2,6 +2,8 @@ package com.rathanak.khmerroman.spelling_corrector.bktree
 
 import android.content.Context
 import android.util.Log
+import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.spelling_corrector.EnglishKhmerMap
 import com.rathanak.khmerroman.spelling_corrector.PQElement
 import com.rathanak.khmerroman.spelling_corrector.getEditDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
@@ -57,15 +59,69 @@ class SpellCorrector() {
         return (str[0] in 'a'..'z' || str[0] in 'A'..'Z')
     }
 
+    private fun en2Khmer(str: String): String {
+        var khmerStr = ""
+        for(ch in str) {
+            if(ch in EnglishKhmerMap.en2Khmer.keys) {
+                khmerStr += EnglishKhmerMap.en2Khmer[ch]
+            }
+        }
+        return khmerStr
+    }
+
     fun correct(previousWord: String, misspelling: String): List<String> {
 //        previousWord
-        return if (isENString(misspelling)) {
-            var outputENMap = correctBy(bEN, misspelling, 10, false)
-            var outputMap = correctBy(bRM, misspelling, 10, true)
+        val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, false)
+        val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
+        val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+        val arrStatus = listOf(isENChecked!!, isKMChecked!!, isRMChecked!!)
+        var count = 0
+        val MAX_WORDS_SHOW = 4
+        for(status in arrStatus) {
+            if(status) {
+                count += 1
+            }
+        }
 
-            outputENMap.take(2) + outputMap //+ outputENMap.takeLast(outputENMap.size - 1)
+        return if (isENString(misspelling)) {
+            var outputENMap: List<String> = mutableListOf()
+            var outputRMMap: List<String> = mutableListOf()
+            var outputKMMap: List<String> = mutableListOf()
+            if (isENChecked) {
+                outputENMap = correctBy(bEN, misspelling, 10, false)
+            }
+
+            if (isRMChecked) {
+                outputRMMap = correctBy(bRM, misspelling, 10, true)
+            }
+
+            if (isKMChecked) {
+                outputKMMap = correctBy(bKM, en2Khmer(misspelling), 10, false)
+            }
+
+            val suggestWords: MutableList<String> = mutableListOf()
+            val testEN = outputENMap.chunked(MAX_WORDS_SHOW - count)
+            val testKM = outputKMMap.chunked(MAX_WORDS_SHOW - count)
+            val testRM = outputRMMap.chunked(MAX_WORDS_SHOW - count)
+            for (i in 0..10) {
+                if(testEN.size > i) {
+                    suggestWords += testEN[i]
+                }
+                if(testKM.size > i) {
+                    suggestWords += testKM[i]
+                }
+                if(testRM.size > i) {
+                    suggestWords += testRM[i]
+                }
+            }
+
+            suggestWords
         } else {
-            correctBy(bKM, misspelling, 10, false)
+            if (isKMChecked) {
+                correctBy(bKM, misspelling, 10, false)
+            }  else {
+                listOf()
+            }
         }.distinctBy { it.toLowerCase() }
     }
 
