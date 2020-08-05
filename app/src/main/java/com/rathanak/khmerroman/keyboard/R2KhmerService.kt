@@ -453,22 +453,69 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onUpdateCursorAnchorInfo(cursorAnchorInfo: CursorAnchorInfo?) {
-        cursorAnchorInfo ?: return
-        //super.onUpdateCursorAnchorInfo(cursorAnchorInfo)
-        val ic = currentInputConnection
+//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+//    override fun onUpdateCursorAnchorInfo(cursorAnchorInfo: CursorAnchorInfo?) {
+//        cursorAnchorInfo ?: return
+//        //super.onUpdateCursorAnchorInfo(cursorAnchorInfo)
+//        val ic = currentInputConnection
+//
+//        if (isComposingEnabled) {
+//            var inputText = ""
+//            Log.i("hello", "onUpdateCursorAnchorInfo:-------------------")
+//            Log.i("hello", "cursorAnchorInfo.selectionStart=" + cursorAnchorInfo.selectionStart.toString())
+//            Log.i("hello", "cursorAnchorInfo.selectionEnd=" + cursorAnchorInfo.selectionEnd.toString())
+//
+//            if (cursorAnchorInfo.selectionEnd - cursorAnchorInfo.selectionStart == 0) {
+//                val newCursorPos = cursorAnchorInfo.selectionStart
+//                val prevComposingText = (cursorAnchorInfo.composingText ?: "").toString()
+//                inputText =
+//                    (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
+//                var oldStart = composingTextStart
+//                var oldEnd = composingTextStart?.plus(composingText!!.length)
+//                setComposingTextBasedOnInput(inputText, newCursorPos)
+//                var newEnd = composingTextStart?.plus(composingText!!.length)
+//                if ((oldStart == composingTextStart) && (oldEnd == newEnd)) {
+//                    // Ignore this, as nothing has changed
+//                } else {
+//                    if (composingText != null && composingTextStart != null) {
+//                        ic.setComposingRegion(
+//                            composingTextStart!!,
+//                            composingTextStart!! + composingText!!.length
+//                        )
+//                    } else {
+//                        resetComposingText()
+//                    }
+//                }
+//            } else {
+//                resetComposingText()
+//            }
+//
+//            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
+//        }
+//    }
 
+    /**
+     * Deal with the editor reporting movement of its cursor.
+     */
+    override fun onUpdateSelection(
+        oldSelStart: Int, oldSelEnd: Int,
+        newSelStart: Int, newSelEnd: Int,
+        candidatesStart: Int, candidatesEnd: Int
+    ) {
+        super.onUpdateSelection(
+            oldSelStart, oldSelEnd, newSelStart, newSelEnd,
+            candidatesStart, candidatesEnd
+        )
+        val ic = currentInputConnection
         if (isComposingEnabled) {
             var inputText = ""
-            if (cursorAnchorInfo.selectionEnd - cursorAnchorInfo.selectionStart == 0) {
-                val newCursorPos = cursorAnchorInfo.selectionStart
-                val prevComposingText = (cursorAnchorInfo.composingText ?: "").toString()
+            if (newSelEnd - newSelStart == 0) {
                 inputText =
                     (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
                 var oldStart = composingTextStart
                 var oldEnd = composingTextStart?.plus(composingText!!.length)
-                setComposingTextBasedOnInput(inputText, newCursorPos)
+                setComposingTextBasedOnInput(inputText, newSelStart)
+
                 var newEnd = composingTextStart?.plus(composingText!!.length)
                 if ((oldStart == composingTextStart) && (oldEnd == newEnd)) {
                     // Ignore this, as nothing has changed
@@ -481,12 +528,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                     } else {
                         resetComposingText()
                     }
+                    smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
                 }
             } else {
                 resetComposingText()
+                smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
             }
-
-            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
         }
     }
 
