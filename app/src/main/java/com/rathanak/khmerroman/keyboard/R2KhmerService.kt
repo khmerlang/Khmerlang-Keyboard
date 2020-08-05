@@ -573,6 +573,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             )
         )
         ic.endBatchEdit()
+        val inputText =
+            (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
+        if(inputText.isEmpty()) {
+            resetComposingText()
+            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
+        }
     }
     private fun handleEnter() {
         val ic = currentInputConnection
