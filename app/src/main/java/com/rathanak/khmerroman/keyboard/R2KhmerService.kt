@@ -528,12 +528,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                     } else {
                         resetComposingText()
                     }
-                    smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
                 }
             } else {
                 resetComposingText()
-                smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
             }
+            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
         }
     }
 
