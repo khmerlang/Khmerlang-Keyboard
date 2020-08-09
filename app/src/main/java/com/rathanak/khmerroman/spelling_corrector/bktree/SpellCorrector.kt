@@ -69,6 +69,10 @@ class SpellCorrector() {
         return khmerStr
     }
 
+    private fun specialKhmer(str: String): String {
+        return str.replace("េី", "ើ").replace("េា", "ោ")
+    }
+
     fun correct(previousWord: String, misspelling: String): List<String> {
 //        previousWord
         val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, false)
@@ -76,6 +80,8 @@ class SpellCorrector() {
         val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
         val arrStatus = listOf(isENChecked!!, isKMChecked!!, isRMChecked!!)
         var count = 0
+        var tolerance = 3
+        var limitResult = 10
         val MAX_WORDS_SHOW = 4
         for(status in arrStatus) {
             if(status) {
@@ -84,19 +90,23 @@ class SpellCorrector() {
         }
 
         return if (isENString(misspelling)) {
+            if(count > 2) {
+                tolerance = 2
+                limitResult = 6
+            }
             var outputENMap: List<String> = mutableListOf()
             var outputRMMap: List<String> = mutableListOf()
             var outputKMMap: List<String> = mutableListOf()
             if (isENChecked) {
-                outputENMap = correctBy(bEN, misspelling, 10, false)
+                outputENMap = correctBy(bEN, misspelling, limitResult, false, tolerance)
             }
 
             if (isRMChecked) {
-                outputRMMap = correctBy(bRM, misspelling, 10, true)
+                outputRMMap = correctBy(bRM, misspelling, limitResult, true, tolerance)
             }
 
             if (isKMChecked) {
-                outputKMMap = correctBy(bKM, en2Khmer(misspelling), 10, false)
+                outputKMMap = correctBy(bKM, specialKhmer(en2Khmer(misspelling)), limitResult, false, tolerance)
             }
 
             val suggestWords: MutableList<String> = mutableListOf()
@@ -118,17 +128,17 @@ class SpellCorrector() {
             suggestWords
         } else {
             if (isKMChecked) {
-                correctBy(bKM, misspelling, 10, false)
+                correctBy(bKM, specialKhmer(misspelling), limitResult, false, tolerance)
             }  else {
                 listOf()
             }
         }.distinctBy { it.toLowerCase() }
     }
 
-    fun correctBy(model: Bktree, misspelling: String, limit: Int, isOther: Boolean): List<String> {
+    fun correctBy(model: Bktree, misspelling: String, limit: Int, isOther: Boolean, tolerance: Int): List<String> {
         var outputMap: MutableList<String> = mutableListOf()
         if (model.root != null) {
-            var suggestion = model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), 3)
+            var suggestion = model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), tolerance)
             var result: MutableMap<Int, PriorityQueue<PQElement>> = mutableMapOf()
             suggestion.forEach {
                 if (result[it.distance].isNullOrEmpty()) {
