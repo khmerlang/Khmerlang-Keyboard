@@ -29,6 +29,15 @@
         android:paddingLeft="5dp"
         android:visibility="gone">
         <ToggleButton
+            android:id="@+id/btnToggleShowLabel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_baseline_toggle_on"
+            android:checked="true"
+            android:textOff=""
+            android:textOn=""
+            android:layout_marginRight="5dp"/>
+        <ToggleButton
             android:id="@+id/btnToggleENCorrection"
             android:layout_width="40dp"
             android:layout_height="40dp"

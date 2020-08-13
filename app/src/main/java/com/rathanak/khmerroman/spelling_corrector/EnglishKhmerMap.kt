@@ -92,5 +92,64 @@ class EnglishKhmerMap {
             '\\' to 'ឿ',
             '?' to 'ឿ'
         )
+        val kh2English = mapOf(
+            'ឆ' to 'q',
+            'ឹ' to 'w',
+            'េ' to 'e',
+            'រ' to 'r',
+            'ត' to 't',
+            'យ' to 'y',
+            'ុ' to 'u',
+            'ិ' to 'i',
+            'ោ' to 'o',
+            'ផ' to 'p',
+
+            'ា' to 'a',
+            'ស' to 's',
+            'ដ' to 'd',
+            'ថ' to 'f',
+            'ង' to 'g',
+            'ហ' to 'h',
+            '្' to 'j',
+            'ក' to 'k',
+            'ល' to 'l',
+
+            'ឋ' to 'z',
+            'ខ' to 'x',
+            'ច' to 'c',
+            'វ' to 'v',
+            'ប' to 'b',
+            'ន' to 'n',
+            'ម' to 'm',
+
+            'ឈ' to 'Q',
+            'ឺ' to 'W',
+            'ែ' to 'E',
+            'ឬ' to 'R',
+            'ទ' to 'T',
+            'ួ' to 'Y',
+            'ូ' to 'U',
+            'ី' to 'I',
+            'ៅ' to 'O',
+            'ភ' to 'P',
+
+            'ឫ' to 'A',
+            'ៃ' to 'S',
+            'ឌ' to 'D',
+            'ធ' to 'F',
+            'អ' to 'G',
+            'ះ' to 'H',
+            'ញ' to 'J',
+            'គ' to 'K',
+            'ឡ' to 'L',
+
+            'ឍ' to 'Z',
+            'ឃ' to 'X',
+            'ជ' to 'C',
+            'ៈ' to 'V',
+            'ព' to 'B',
+            'ណ' to 'N',
+            'ំ' to 'M'
+        )
     }
 }

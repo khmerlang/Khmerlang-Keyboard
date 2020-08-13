@@ -69,6 +69,16 @@ class SpellCorrector() {
         return khmerStr
     }
 
+    private fun km2English(str: String) : String {
+        var englishStr = ""
+        for(ch in str) {
+            if(ch in EnglishKhmerMap.kh2English.keys) {
+                englishStr += EnglishKhmerMap.kh2English[ch]
+            }
+        }
+        return englishStr
+    }
+
     private fun specialKhmer(str: String): String {
         return str.replace("េី", "ើ").replace("េា", "ោ")
     }
@@ -127,11 +137,32 @@ class SpellCorrector() {
 
             suggestWords
         } else {
-            if (isKMChecked) {
-                correctBy(bKM, specialKhmer(misspelling), limitResult, false, tolerance)
-            }  else {
-                listOf()
+            if(count >= 2) {
+                tolerance = 2
+                limitResult = 6
             }
+            var outputKMMap: List<String> = mutableListOf()
+            var outputENMap: List<String> = mutableListOf()
+            if (isKMChecked) {
+                outputKMMap = correctBy(bKM, specialKhmer(misspelling), limitResult, false, tolerance)
+            }
+
+            if (isENChecked) {
+                outputENMap = correctBy(bEN, specialKhmer(km2English(misspelling)), limitResult, false, tolerance)
+            }
+            val suggestWords: MutableList<String> = mutableListOf()
+
+            val testEN = outputENMap.chunked(MAX_WORDS_SHOW - count)
+            val testKM = outputKMMap.chunked(MAX_WORDS_SHOW - count)
+            for (i in 0..10) {
+                if(testKM.size > i) {
+                    suggestWords += testKM[i]
+                }
+                if(testEN.size > i) {
+                    suggestWords += testEN[i]
+                }
+            }
+            suggestWords
         }.distinctBy { it.toLowerCase() }
     }
 
