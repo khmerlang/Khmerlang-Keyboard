@@ -14,7 +14,7 @@
         android:id="@+id/toggleOption"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/ic_mini_logo"
+        android:background="@drawable/ic_home_logo_btn"
         android:checked="true"
         android:textOff=""
         android:textOn="" />
@@ -32,7 +32,7 @@
             android:id="@+id/btnToggleShowLabel"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_baseline_toggle_on"
+            android:background="@drawable/ic_info_on_btn"
             android:checked="true"
             android:textOff=""
             android:textOn=""
@@ -41,7 +41,7 @@
             android:id="@+id/btnToggleENCorrection"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_english_toggle_on"
+            android:background="@drawable/ic_english_sug_on_btn"
             android:checked="true"
             android:textOff=""
             android:textOn=""
@@ -50,7 +50,7 @@
             android:id="@+id/btnToggleKHCorrection"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_khmer_toggle_on"
+            android:background="@drawable/ic_khmer_sug_on_btn"
             android:checked="true"
             android:textOff=""
             android:textOn=""
@@ -59,7 +59,7 @@
             android:id="@+id/btnToggleRMCorrection"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_roman_toggle_on"
+            android:background="@drawable/ic_roman_sug_on_btn"
             android:checked="true"
             android:textOff=""
             android:textOn=""
@@ -68,7 +68,7 @@
             android:id="@+id/btnOpenApp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_settings"/>
+            android:background="@drawable/ic_goto_setting_btn"/>
     </LinearLayout>
 
     <!--  Roman number keys here  -->
