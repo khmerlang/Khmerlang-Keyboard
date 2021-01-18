@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "com.rathanak.khmerroman"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        mlModelBinding true
     }
 
 }
@@ -44,6 +47,8 @@ dependencies {
     implementation "io.realm:realm-gradle-plugin:6.0.2"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.koin:koin-android:1.0.2'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0-rc1'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0-rc1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
