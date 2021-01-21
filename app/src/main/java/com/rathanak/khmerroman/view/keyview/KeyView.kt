@@ -127,7 +127,8 @@ class KeyView @JvmOverloads constructor(
     }
 
     private fun drawIcon(canvas: Canvas) {
-        val dimension = min(canvas.width, canvas.height) * .8
+        var size = 0.6
+        val dimension = min(canvas.width, canvas.height) * size
         val widthOffset = ((canvas.width - dimension) / 2).toInt()
         val heightOffset = ((canvas.height - dimension) / 2).toInt()
         key.icon.setBounds(

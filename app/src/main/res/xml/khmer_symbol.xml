@@ -143,7 +143,7 @@
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
-            android:keyIcon="@drawable/ic_backspace"
+            android:keyIcon="@drawable/ic_backspace_fill"
             android:keyWidth="15%p" />
     </Row>
 
