@@ -2,8 +2,69 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:keyHeight="@dimen/key_height">
-
-    <Row>
+    <Row android:keyHeight="@dimen/top_keys_height">
+        <Key
+            android:codes="06113"
+            android:keyEdgeFlags="left"
+            android:keyLabel="១"
+            app:subLabel="q"
+            android:keyWidth="10%p"/>
+        <Key
+            android:codes="06114"
+            android:keyLabel="២"
+            app:subLabel="w"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06115"
+            android:keyLabel="៣"
+            app:subLabel="e"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06116"
+            android:keyLabel="៤"
+            app:subLabel="r"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06117"
+            android:keyLabel="៥"
+            app:subLabel="t"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06118"
+            android:keyLabel="៦"
+            app:subLabel="y"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06119"
+            android:keyLabel="៧"
+            app:subLabel="u"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06120"
+            android:keyLabel ="៨"
+            app:subLabel="i"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06121"
+            android:keyLabel="៩"
+            app:subLabel="o"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06112"
+            android:keyLabel="០"
+            app:subLabel="p"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06053"
+            android:keyLabel="ឥ"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06066"
+            android:keyEdgeFlags="right"
+            android:keyLabel="ឲ"
+            android:keyWidth="10%p"/>
+    </Row>
+    <Row android:keyHeight="@dimen/key_kh_height">
         <Key
             android:codes="06053"
             android:keyEdgeFlags="left"
@@ -56,7 +117,7 @@
             android:keyWidth="10%p"/>
     </Row>
 
-    <Row>
+    <Row android:keyHeight="@dimen/key_kh_height">
         <Key
             android:codes="06063"
             android:keyEdgeFlags="left"
@@ -109,7 +170,7 @@
             android:keyWidth="10%p"/>
     </Row>
 
-    <Row>
+    <Row android:keyHeight="@dimen/key_kh_height">
         <Key
             android:codes="@integer/keycode_sym_shift"
             android:isModifier="true"
@@ -157,8 +218,8 @@
             android:keyWidth="15%p"
             app:keyTextSize="6dp" />
         <Key
-            android:codes="@integer/keycode_number_shift"
-            android:keyIcon="@drawable/ic_dialpad"
+            android:codes="@integer/keycode_switch_next_keyboard"
+            android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
             android:codes="44"

@@ -2,26 +2,27 @@ package com.rathanak.khmerroman.view.inputmethodview
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.AttributeSet
-import android.widget.LinearLayout
-import android.os.Handler
-import android.os.Message
-import android.util.SparseArray
-import com.rathanak.khmerroman.R
 import android.graphics.PixelFormat
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Message
+import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.Log
+import android.util.SparseArray
 import android.view.*
+import android.widget.LinearLayout
 import com.rathanak.khmerroman.BuildConfig
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.PAGE_TYPES
 import com.rathanak.khmerroman.keyboard.common.Styles
+import com.rathanak.khmerroman.keyboard.extensions.contains
+import com.rathanak.khmerroman.keyboard.extensions.forEach
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.view.keyview.CustomKeyPreview
 import com.rathanak.khmerroman.view.keyview.CustomKeyView
-import com.rathanak.khmerroman.keyboard.extensions.forEach
-import com.rathanak.khmerroman.keyboard.extensions.contains
+
 
 /**
  * The parent ViewGroup of the keyboard. The orientation is vertical.
@@ -96,7 +97,11 @@ class CustomInputMethodView @JvmOverloads constructor(
         * where we set the styles for the children views.
         * */
         val a = context.obtainStyledAttributes(attrs, R.styleable.CustomInputMethodView)
-        globalKeyTextSize = a.getDimension(R.styleable.CustomInputMethodView_keyTextSize, resources.getDimension(R.dimen.default_key_text_size))
+        globalKeyTextSize = a.getDimension(
+            R.styleable.CustomInputMethodView_keyTextSize, resources.getDimension(
+                R.dimen.default_key_text_size
+            )
+        )
 
         // recycle the typed array
         a.recycle()
@@ -189,52 +194,63 @@ class CustomInputMethodView @JvmOverloads constructor(
     }
 
     private fun initGestureDetector() {
-        gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-                var isChangeLanguageSwipe = 0x000
-                var direction = 0
-                var swipeThreshold = width / 2
+        gestureDetector = GestureDetector(
+            context,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onFling(
+                    e1: MotionEvent,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    var isChangeLanguageSwipe = 0x000
+                    var direction = 0
+                    var swipeThreshold = width / 2
 
-                val e1PointerId = e1.getPointerId(e1.actionIndex)
-                val e2PointerId = e2.getPointerId(e2.actionIndex)
-                if (e1PointerId != e2PointerId) return false
-                // Check if the swipe is within the area of the language switch key.
-                val e1Key = detectKey(e1.getX(e1.actionIndex), e1.getY(e1.actionIndex))
-                val e2Key = detectKey(e2.getX(e2.actionIndex), e2.getY(e1.actionIndex))
-                if (e1Key?.isChangeLanguage == true &&
-                    e2Key?.isChangeLanguage == true) {
-                    isChangeLanguageSwipe = 0x001 // 0x001 for being inside the key view.
-                    swipeThreshold = e1Key.width / 4
-                }
-                var result = false
-                val distanceY = e2.y - e1.y
-                val distanceX = e2.x - e1.x
-                if (Math.abs(distanceX) > Math.abs(distanceY) &&
-                    Math.abs(distanceX) > swipeThreshold &&
-                    Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    direction = if (distanceX > 0) {
-                        keyboardViewListener?.onSwipeRight()
-                        KeyboardActionListener.SWIPE_DIRECTION_RIGHT
-                    } else {
-                        keyboardViewListener?.onSwipeLeft()
-                        KeyboardActionListener.SWIPE_DIRECTION_LEFT
+                    val e1PointerId = e1.getPointerId(e1.actionIndex)
+                    val e2PointerId = e2.getPointerId(e2.actionIndex)
+                    if (e1PointerId != e2PointerId) return false
+                    // Check if the swipe is within the area of the language switch key.
+                    val e1Key = detectKey(e1.getX(e1.actionIndex), e1.getY(e1.actionIndex))
+                    val e2Key = detectKey(e2.getX(e2.actionIndex), e2.getY(e1.actionIndex))
+                    if (e1Key?.isChangeLanguage == true &&
+                        e2Key?.isChangeLanguage == true
+                    ) {
+                        isChangeLanguageSwipe = 0x001 // 0x001 for being inside the key view.
+                        swipeThreshold = e1Key.width / 4
                     }
-                    isChangeLanguageSwipe = isChangeLanguageSwipe or 0x010 // 0x011 for both being in the change language key view and swiping right or left.
-                } else if (Math.abs(distanceY) > height / 2 &&
-                    Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (distanceY > 0) {
-                        keyboardViewListener?.onSwipeDown()
-                    } else {
-                        keyboardViewListener?.onSwipeUp()
+                    var result = false
+                    val distanceY = e2.y - e1.y
+                    val distanceX = e2.x - e1.x
+                    if (Math.abs(distanceX) > Math.abs(distanceY) &&
+                        Math.abs(distanceX) > swipeThreshold &&
+                        Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+                    ) {
+                        direction = if (distanceX > 0) {
+                            keyboardViewListener?.onSwipeRight()
+                            KeyboardActionListener.SWIPE_DIRECTION_RIGHT
+                        } else {
+                            keyboardViewListener?.onSwipeLeft()
+                            KeyboardActionListener.SWIPE_DIRECTION_LEFT
+                        }
+                        isChangeLanguageSwipe =
+                            isChangeLanguageSwipe or 0x010 // 0x011 for both being in the change language key view and swiping right or left.
+                    } else if (Math.abs(distanceY) > height / 2 &&
+                        Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD
+                    ) {
+                        if (distanceY > 0) {
+                            keyboardViewListener?.onSwipeDown()
+                        } else {
+                            keyboardViewListener?.onSwipeUp()
+                        }
                     }
+                    if (isChangeLanguageSwipe == 0x011) {
+                        keyboardViewListener?.onChangeKeyboardSwipe(direction)
+                        result = true
+                    }
+                    return result
                 }
-                if (isChangeLanguageSwipe == 0x011) {
-                    keyboardViewListener?.onChangeKeyboardSwipe(direction)
-                    result = true
-                }
-                return result
-            }
-        })
+            })
     }
 
     /**
@@ -279,17 +295,30 @@ class CustomInputMethodView @JvmOverloads constructor(
             currentKeyboard.pages[type].forEachIndexed { idx, row ->
                 val rowLinearLayout = getChildAt(idx) as LinearLayout
                 rowLinearLayout.removeAllViews()
-                row.forEach { key -> rowLinearLayout.addView(key) }
+                row.forEach { key ->
+                    if(key.parent != null) {
+                        (key.parent as ViewGroup).removeView(key)
+                    }
+                    rowLinearLayout.addView(key)
+                }
             }
         } else {
             removeAllKeyViews() // Remove keys from the parent view
             removeAllViews() // Remove all of the row Linear Layout
             currentKeyboard.pages[type].forEach { row ->
                 val rowLinearLayout = LinearLayout(context)
-                rowLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                rowLinearLayout.layoutParams = LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT
+                )
                 rowLinearLayout.orientation = HORIZONTAL
                 rowLinearLayout.gravity = Gravity.CENTER
-                row.forEach { key -> rowLinearLayout.addView(key) }
+                row.forEach { key ->
+                    if(key.parent != null) {
+                        (key.parent as ViewGroup).removeView(key)
+                    }
+                    rowLinearLayout.addView(key)
+                }
                 addView(rowLinearLayout)
             }
         }
@@ -440,10 +469,12 @@ class CustomInputMethodView @JvmOverloads constructor(
             if (!isModKey) {
                 val keyPreviewWidth = key.width
                 val windowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                val params = WindowManager.LayoutParams(keyPreviewWidth.toInt(), pressedKey.height * 2,
+                val params = WindowManager.LayoutParams(
+                    keyPreviewWidth.toInt(), pressedKey.height * 2,
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSPARENT)
+                    PixelFormat.TRANSPARENT
+                )
                 params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 params.gravity = Gravity.START or Gravity.TOP
                 params.verticalMargin
