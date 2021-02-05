@@ -146,7 +146,7 @@
             app:keyTextSize="6dp" />
         <Key
             android:codes="@integer/keycode_switch_next_keyboard"
-            android:keyIcon="@drawable/ic_language"
+            android:keyIcon="@drawable/ic_baseline_swap_horiz"
             android:keyWidth="10%p" />
         <Key
             android:codes="44"

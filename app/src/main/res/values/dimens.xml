@@ -6,7 +6,7 @@
 
     <dimen name="bottom_keys_height">60dp</dimen>
     <dimen name="top_keys_height">40dp</dimen>
-    <dimen name="key_kh_height">50dip</dimen>
+    <dimen name="key_kh_height">48dp</dimen>
 
     <!--Default values-->
     <dimen name="default_key_text_size">20dp</dimen>
