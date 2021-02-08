@@ -260,7 +260,7 @@
         <Key
             android:codes="@integer/keycode_sym"
             android:keyEdgeFlags="left"
-            android:keyLabel="១២៣"
+            android:keyLabel="123"
             android:keyWidth="15%p"
             app:keyTextSize="6dp" />
         <Key

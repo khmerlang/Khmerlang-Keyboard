@@ -6,167 +6,160 @@
         <Key
             android:codes="06113"
             android:keyEdgeFlags="left"
-            android:keyLabel="១"
+            android:keyLabel="1"
             app:subLabel="q"
             android:keyWidth="10%p"/>
         <Key
             android:codes="06114"
-            android:keyLabel="២"
+            android:keyLabel="2"
             app:subLabel="w"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06115"
-            android:keyLabel="៣"
+            android:keyLabel="3"
             app:subLabel="e"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06116"
-            android:keyLabel="៤"
+            android:keyLabel="4"
             app:subLabel="r"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06117"
-            android:keyLabel="៥"
+            android:keyLabel="5"
             app:subLabel="t"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06118"
-            android:keyLabel="៦"
+            android:keyLabel="6"
             app:subLabel="y"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06119"
-            android:keyLabel="៧"
+            android:keyLabel="7"
             app:subLabel="u"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06120"
-            android:keyLabel ="៨"
+            android:keyLabel ="8"
             app:subLabel="i"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06121"
-            android:keyLabel="៩"
+            android:keyLabel="9"
             app:subLabel="o"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06112"
-            android:keyLabel="០"
-            app:subLabel="p"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06053"
-            android:keyLabel="ឥ"
-            android:keyWidth="8%p"/>
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06066"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឲ"
+            android:keyLabel="0"
             android:keyWidth="10%p"/>
     </Row>
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
-            android:codes="06053"
+            android:codes="06113"
             android:keyEdgeFlags="left"
-            android:keyLabel="ឥ"
+            android:keyLabel="+"
+            app:subLabel="q"
             android:keyWidth="10%p"/>
         <Key
-            android:codes="06113"
-            android:keyLabel="១"
-            android:keyWidth="8%p"/>
-        <Key
             android:codes="06114"
-            android:keyLabel="២"
-            android:keyWidth="8%p"/>
+            android:keyLabel="×"
+            app:subLabel="w"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06115"
-            android:keyLabel="៣"
-            android:keyWidth="8%p"/>
+            android:keyLabel="÷"
+            app:subLabel="e"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06116"
-            android:keyLabel="៤"
-            android:keyWidth="8%p"/>
+            android:keyLabel="="
+            app:subLabel="r"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06117"
-            android:keyLabel="៥"
-            android:keyWidth="8%p"/>
+            android:keyLabel="/"
+            app:subLabel="t"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06118"
-            android:keyLabel="៦"
-            android:keyWidth="8%p"/>
+            android:keyLabel="_"
+            app:subLabel="y"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06119"
-            android:keyLabel="៧"
-            android:keyWidth="8%p"/>
+            android:keyLabel="៛"
+            app:subLabel="u"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06120"
-            android:keyLabel="៨"
-            android:keyWidth="8%p"/>
+            android:keyLabel ="€"
+            app:subLabel="i"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06121"
-            android:keyLabel="៩"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06112"
-            android:keyLabel="០"
-            android:keyWidth="8%p"/>
+            android:keyLabel="£"
+            app:subLabel="o"
+            android:keyWidth="10%p"/>
         <Key
             android:codes="06066"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឲ"
+            android:keyLabel="¥"
             android:keyWidth="10%p"/>
     </Row>
 
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
-            android:codes="06063"
+            android:codes="06113"
             android:keyEdgeFlags="left"
-            android:keyLabel="ឯ"
+            android:keyLabel="!"
+            app:subLabel="q"
             android:keyWidth="10%p"/>
         <Key
-            android:codes="06064"
-            android:keyLabel="ឰ"
-            android:keyWidth="8%p"/>
+            android:codes="06114"
+            android:keyLabel="\@"
+            app:subLabel="w"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06092"
-            android:keyLabel="៌"
-            android:keyWidth="8%p"/>
+            android:codes="06115"
+            android:keyLabel="\#"
+            app:subLabel="e"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06093"
-            android:keyLabel="៍"
-            android:keyWidth="8%p"/>
+            android:codes="06116"
+            android:keyLabel="$"
+            app:subLabel="r"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06094"
-            android:keyLabel="៎"
-            android:keyWidth="8%p"/>
+            android:codes="06117"
+            android:keyLabel="%"
+            app:subLabel="t"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06095"
-            android:keyLabel="៏"
-            android:keyWidth="8%p"/>
+            android:codes="06118"
+            android:keyLabel="^"
+            app:subLabel="y"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06096"
-            android:keyLabel="័"
-            android:keyWidth="8%p"/>
+            android:codes="06119"
+            android:keyLabel="&amp;"
+            app:subLabel="u"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06097"
-            android:keyLabel="៑"
-            android:keyWidth="8%p"/>
+            android:codes="06120"
+            android:keyLabel ="*"
+            app:subLabel="i"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06099"
-            android:keyLabel="៓"
-            android:keyWidth="8%p"/>
+            android:codes="06121"
+            android:keyLabel="("
+            app:subLabel="o"
+            android:keyWidth="10%p"/>
         <Key
-            android:codes="06103"
-            android:keyLabel="ៗ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06045"
-            android:keyLabel="ឝ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06046"
+            android:codes="06066"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឞ"
+            android:keyLabel=")"
             android:keyWidth="10%p"/>
     </Row>
 
@@ -186,20 +179,20 @@
             android:codes="06106"
             android:keyLabel="៚" />
         <Key
-            android:codes="06107"
-            android:keyLabel="៛" />
-        <Key
             android:codes="06108"
             android:keyLabel="ៜ" />
         <Key
             android:codes="06109"
             android:keyLabel="៝" />
         <Key
+            android:codes="06107"
+            android:keyLabel=";" />
+        <Key
             android:codes="00036"
-            android:keyLabel="$" />
+            android:keyLabel="[" />
         <Key
             android:codes="00064"
-            android:keyLabel="\@" />
+            android:keyLabel="]" />
         <Key
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"
