@@ -169,7 +169,7 @@
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left"
-            android:keyLabel="=\\&gt;"
+            android:keyLabel="1/2"
             android:keyWidth="15%p" />
 
         <Key
