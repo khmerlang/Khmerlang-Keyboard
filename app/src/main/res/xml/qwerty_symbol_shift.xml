@@ -86,11 +86,11 @@
             android:codes="6106"
             android:keyLabel="៚" />
         <Key
-            android:codes="161"
-            android:keyLabel="¡" />
+            android:codes="60"
+            android:keyLabel="&lt;"/>
         <Key
-            android:codes="162"
-            android:keyLabel="¢" />
+            android:codes="62"
+            android:keyLabel="&gt;"/>
         <Key
             android:codes="124"
             android:keyLabel="|" />
@@ -122,8 +122,8 @@
             android:keyIcon="@drawable/ic_dialpad"
             android:keyWidth="10%p" />
         <Key
-            android:codes="60"
-            android:keyLabel="&lt;"
+            android:codes="@integer/keycode_mode_change"
+            android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
             android:codes="32"
@@ -132,8 +132,8 @@
             android:keyLabel="@string/app_name"
             app:keyTextSize="6dp" />
         <Key
-            android:codes="62"
-            android:keyLabel="&gt;"
+            android:codes="44"
+            android:keyLabel=","
             android:keyWidth="10%p" />
         <Key
             android:codes="@integer/keycode_done"

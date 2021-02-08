@@ -125,8 +125,8 @@
             android:keyIcon="@drawable/ic_dialpad"
             android:keyWidth="10%p" />
         <Key
-            android:codes="44"
-            android:keyLabel=","
+            android:codes="@integer/keycode_mode_change"
+            android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
             android:codes="32"

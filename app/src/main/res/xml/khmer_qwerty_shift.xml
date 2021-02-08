@@ -268,8 +268,8 @@
             android:keyIcon="@drawable/ic_baseline_swap_horiz"
             android:keyWidth="10%p" />
         <Key
-            android:codes="44"
-            android:keyLabel=","
+            android:codes="@integer/keycode_mode_change"
+            android:keyIcon="@drawable/ic_language"
             android:keyWidth="10%p" />
         <Key
             android:codes="32"
@@ -278,8 +278,8 @@
             android:keyLabel="@string/app_name_kh"
             app:isChangeLanguageKey="true"/>
         <Key
-            android:codes="46"
-            android:keyLabel="."
+            android:codes="44"
+            android:keyLabel=","
             android:keyWidth="10%p" />
         <Key
             android:codes="@integer/keycode_done"
