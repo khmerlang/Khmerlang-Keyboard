@@ -285,9 +285,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onChangeKeyboardSwipe(direction: Int) {
-        val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        mgr?.showInputMethodPicker()
-//        changeLanguage(direction)
+//        val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+//        mgr?.showInputMethodPicker()
+        changeLanguage(direction)
     }
 
     private fun saveCurrentState() {
@@ -397,10 +397,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 return
             }
 
-            KEYCODE_LANGUAGE -> {
-//                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-//                mgr?.showInputMethodPicker()
+            KEYCODE_MODE_CHANGE -> {
                 changeLanguage(1)
+            }
+            KEYCODE_LANGUAGE -> {
+                val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                mgr?.showInputMethodPicker()
             }
             Keyboard.KEYCODE_DONE -> {
                 handleEnter()
@@ -647,6 +649,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun loadKeyCodes() {
+        KEYCODE_MODE_CHANGE = -2
         KEYCODE_UNSHIFT = resources.getInteger(R.integer.keycode_unshift)
         KEYCODE_ABC = resources.getInteger(R.integer.keycode_abc)
         KEYCODE_123 = resources.getInteger(R.integer.keycode_sym)
@@ -674,6 +677,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         var KEYCODE_NA_PO_MYA_NA = KEYCODE_NONE
         var KEYCODE_MYA_TI_MYA_NA = KEYCODE_NONE
         var KEYCODE_LANGUAGE = KEYCODE_NONE
+        var KEYCODE_MODE_CHANGE = KEYCODE_NONE
         var KEYCODE_NA_PO = KEYCODE_NONE
         var KEYCODE_MYA_NA = KEYCODE_NONE
         var KEYCODE_MYA_TI = KEYCODE_NONE
