@@ -5,55 +5,45 @@
     android:verticalGap="0px">
     <Row android:keyHeight="@dimen/top_keys_height">
         <Key
-            android:codes="06113"
+            android:codes="33"
             android:keyEdgeFlags="left"
             android:keyLabel="!"
-            app:subLabel="q"
             android:keyWidth="10%p"/>
         <Key
-            android:codes="06114"
+            android:codes="6103"
             android:keyLabel="ៗ"
-            app:subLabel="w"
             android:keyWidth="8%p"/>
         <Key
             android:codes="34"
             android:keyLabel="&quot;"
-            app:subLabel="e"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06116"
+            android:codes="6107"
             android:keyLabel="៛"
-            app:subLabel="r"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06117"
+            android:codes="37"
             android:keyLabel="%"
-            app:subLabel="t"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06118"
+            android:codes="6093"
             android:keyLabel="៍"
-            app:subLabel="y"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06119"
+            android:codes="6096"
             android:keyLabel="័"
-            app:subLabel="u"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06120"
+            android:codes="6095"
             android:keyLabel ="៏"
-            app:subLabel="i"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06121"
+            android:codes="40"
             android:keyLabel="("
-            app:subLabel="o"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06112"
+            android:codes="41"
             android:keyLabel=")"
-            app:subLabel="p"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06053"
@@ -61,7 +51,7 @@
             android:keyWidth="8%p"/>
         <Key
             android:keyEdgeFlags="right"
-            android:codes="06094"
+            android:codes="6094"
             android:keyLabel="៎"
             android:keyWidth="10%p"/>
     </Row>
