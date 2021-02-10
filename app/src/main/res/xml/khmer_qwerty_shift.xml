@@ -14,6 +14,10 @@
             android:keyLabel="ៗ"
             android:keyWidth="8%p"/>
         <Key
+            android:codes="39"
+            android:keyLabel="'"
+            android:keyWidth="8%p"/>
+        <Key
             android:codes="34"
             android:keyLabel="&quot;"
             android:keyWidth="8%p"/>
@@ -38,22 +42,18 @@
             android:keyLabel ="៏"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="40"
-            android:keyLabel="("
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="41"
-            android:keyLabel=")"
-            android:keyWidth="8%p"/>
-        <Key
             android:codes="06053"
             android:keyLabel="៌"
             android:keyWidth="8%p"/>
         <Key
-            android:keyEdgeFlags="right"
             android:codes="6094"
             android:keyLabel="៎"
-            android:keyWidth="10%p"/>
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="06055"
+            android:keyLabel="ឧ"
+            android:keyWidth="10%p"
+            android:keyEdgeFlags="right"/>
     </Row>
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
@@ -112,9 +112,9 @@
             android:keyLabel="ឿ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06055"
+            android:codes="6063"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឧ"
+            android:keyLabel="ឯ"
             android:keyWidth="10%p"/>
     </Row>
 
