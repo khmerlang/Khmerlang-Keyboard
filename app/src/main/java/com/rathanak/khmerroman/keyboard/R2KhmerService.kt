@@ -420,7 +420,21 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                         }
                     }
                 }
-                inputConnection.commitText(space + primaryCode.toChar().toString(), 1)
+//                var keyCh = primaryCode.toChar().toString();
+                var keyCh = if(primaryCode == KEYCODE_OM) {
+                    "ុំ"
+                } else if (primaryCode == KEYCODE_AM) {
+                    "ាំ"
+                } else if (primaryCode == KEYCODE_AS) {
+                    "េះ"
+                } else if (primaryCode == KEYCODE_OS) {
+                    "ោះ"
+                } else if (primaryCode == KEYCODE_ORS) {
+                    "ុះ"
+                } else {
+                    primaryCode.toChar().toString();
+                }
+                inputConnection.commitText(space + keyCh, 1)
                 inputConnection.endBatchEdit()
             }
         }
@@ -663,6 +677,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         KEYCODE_MYA_TI = resources.getInteger(R.integer.keycode_mya_ti)
         KEYCODE_MYA_NA = resources.getInteger(R.integer.keycode_mya_na)
         KEYCODE_NA_PO = resources.getInteger(R.integer.keycode_na_po)
+        KEYCODE_AM = resources.getInteger(R.integer.keycode_am)
+        KEYCODE_OM = resources.getInteger(R.integer.keycode_om)
+        KEYCODE_OS = resources.getInteger(R.integer.keycode_os)
+        KEYCODE_AS = resources.getInteger(R.integer.keycode_as)
+        KEYCODE_ORS = resources.getInteger(R.integer.keycode_ors)
     }
 
     companion object {
@@ -681,6 +700,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         var KEYCODE_NA_PO = KEYCODE_NONE
         var KEYCODE_MYA_NA = KEYCODE_NONE
         var KEYCODE_MYA_TI = KEYCODE_NONE
+        var KEYCODE_AM = KEYCODE_NONE
+        var KEYCODE_OM = KEYCODE_NONE
+        var KEYCODE_OS = KEYCODE_NONE
+        var KEYCODE_AS = KEYCODE_NONE
+        var KEYCODE_ORS = KEYCODE_NONE
 
         const val RES_IDX = 1
         const val SHIFT_IDX = 2

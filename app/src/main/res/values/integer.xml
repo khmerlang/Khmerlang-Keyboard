@@ -25,4 +25,15 @@
     <integer name="keycode_mya_na">42236</integer>
     <integer name="keycode_mya_ti">42232</integer>
     <integer name="keycode_na_po">42233</integer>
+
+    <!-- ាំ  -->
+    <integer name="keycode_am">-10</integer>
+    <!-- ុំ  -->
+    <integer name="keycode_om">-11</integer>
+    <!-- ោះ   -->
+    <integer name="keycode_os">-12</integer>
+    <!-- េះ   -->
+    <integer name="keycode_as">-13</integer>
+    <!-- ុះ   -->
+    <integer name="keycode_ors">-14</integer>
 </resources>

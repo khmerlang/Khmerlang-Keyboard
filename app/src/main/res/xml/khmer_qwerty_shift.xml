@@ -112,17 +112,17 @@
             android:keyLabel="ឿ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="6063"
+            android:codes="6064"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឯ"
+            android:keyLabel="ឰ"
             android:keyWidth="10%p"/>
     </Row>
 
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
-            android:codes="06059"
+            android:codes="@integer/keycode_am"
             android:keyEdgeFlags="left"
-            android:keyLabel="ឫ"
+            android:keyLabel="ាំ"
             app:subLabel="A"
             android:keyWidth="10%p"/>
         <Key
@@ -166,18 +166,18 @@
             app:subLabel="L"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06102"
-            android:keyLabel="៖"
+            android:codes="06089"
+            android:keyLabel="៉"
             app:subLabel=":"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06089"
-            android:keyLabel="៉"
+            android:codes="6063"
+            android:keyLabel="ឯ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06062"
+            android:codes="@integer/keycode_os"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឮ"
+            android:keyLabel="ោះ"
             android:keyWidth="10%p"/>
     </Row>
 
@@ -205,8 +205,8 @@
             app:subLabel="C"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06088"
-            android:keyLabel="ៈ"
+            android:codes="@integer/keycode_as"
+            android:keyLabel="េះ"
             app:subLabel="V"
             android:keyWidth="8%p"/>
         <Key
@@ -225,8 +225,8 @@
             app:subLabel="M"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06065"
-            android:keyLabel="ឱ"
+            android:codes="@integer/keycode_ors"
+            android:keyLabel="ុះ"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06101"

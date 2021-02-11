@@ -235,8 +235,8 @@
             app:subLabel="m"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="06054"
-            android:keyLabel="ឦ"
+            android:codes="@integer/keycode_om"
+            android:keyLabel="ុំ"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06100"
