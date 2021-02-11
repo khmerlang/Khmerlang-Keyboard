@@ -37,15 +37,15 @@
 <!--            android:textOff=""-->
 <!--            android:textOn=""-->
 <!--            android:layout_marginRight="5dp"/>-->
-        <ToggleButton
-            android:id="@+id/btnToggleKHCorrection"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_khmer_sug_on_btn"
-            android:checked="true"
-            android:textOff=""
-            android:textOn=""
-            android:layout_marginRight="5dp"/>
+<!--        <ToggleButton-->
+<!--            android:id="@+id/btnToggleKHCorrection"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/ic_khmer_sug_on_btn"-->
+<!--            android:checked="true"-->
+<!--            android:textOff=""-->
+<!--            android:textOn=""-->
+<!--            android:layout_marginRight="5dp"/>-->
         <ToggleButton
             android:id="@+id/btnToggleRMCorrection"
             android:layout_width="40dp"

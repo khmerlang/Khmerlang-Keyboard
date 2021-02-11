@@ -11,20 +11,24 @@ import java.util.*
 import kotlin.collections.LinkedHashMap
 
 class SpellCorrector() {
-    private var bKM: Bktree = Bktree()
+    private var bkMain: Bktree = Bktree()
     private var bRM: Bktree = Bktree()
-    private var bEN: Bktree = Bktree()
+    private var isKhmerKeyboard = false
 
     fun reset() {
-        bKM = Bktree()
+        bkMain = Bktree()
         bRM = Bktree()
-        bEN = Bktree()
     }
 
-    fun loadData(context: Context) {
-        bRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
-        bEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
-        bKM = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
+    fun loadData(context: Context, isKhmer: Boolean) {
+        this.isKhmerKeyboard = isKhmer
+        bkMain = if(this.isKhmerKeyboard) {
+            readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
+        } else {
+            bRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
+            readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
+        }
+
     }
 
     private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
@@ -85,85 +89,46 @@ class SpellCorrector() {
 
     fun correct(previousWord: String, misspelling: String): List<String> {
 //        previousWord
-        val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, false)
-        val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
-        val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
-        val arrStatus = listOf(isENChecked!!, isKMChecked!!, isRMChecked!!)
-        var count = 0
-        var tolerance = 3
         var limitResult = 10
-        val MAX_WORDS_SHOW = 4
-        for(status in arrStatus) {
-            if(status) {
-                count += 1
+        var tolerance = 3
+        if(this.isKhmerKeyboard) {
+            var outputKMMap: List<String> = mutableListOf()
+            outputKMMap = correctBy(bkMain, specialKhmer(misspelling), limitResult, false, tolerance)
+            return outputKMMap.distinctBy { it.toLowerCase() }
+        } else {
+            val MAX_WORDS_SHOW = 4
+            val suggestWords: MutableList<String> = mutableListOf()
+            val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
+            val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+            if(!isENChecked!! && !isRMChecked!!) {
+                return emptyList()
             }
-        }
 
-        return if (isENString(misspelling)) {
-            if(count > 2) {
-                tolerance = 2
-                limitResult = 6
-            }
             var outputENMap: List<String> = mutableListOf()
             var outputRMMap: List<String> = mutableListOf()
-            var outputKMMap: List<String> = mutableListOf()
-            if (isENChecked) {
-                outputENMap = correctBy(bEN, misspelling, limitResult, false, tolerance)
+
+            if (isENChecked!!) {
+                outputENMap = correctBy(bkMain, misspelling, limitResult, false, tolerance)
             }
 
-            if (isRMChecked) {
+            if (isRMChecked!!) {
                 outputRMMap = correctBy(bRM, misspelling, limitResult, true, tolerance)
             }
 
-            if (isKMChecked) {
-                outputKMMap = correctBy(bKM, specialKhmer(en2Khmer(misspelling)), limitResult, false, tolerance)
-            }
-
-            val suggestWords: MutableList<String> = mutableListOf()
-            val testEN = outputENMap.chunked(MAX_WORDS_SHOW - count)
-            val testKM = outputKMMap.chunked(MAX_WORDS_SHOW - count)
-            val testRM = outputRMMap.chunked(MAX_WORDS_SHOW - count)
+            val testEN = outputENMap.chunked(MAX_WORDS_SHOW - 2)
+            val testRM = outputRMMap.chunked(MAX_WORDS_SHOW - 2)
             for (i in 0..10) {
-                if(testEN.size > i) {
+                if (testEN.size > i) {
                     suggestWords += testEN[i]
                 }
-                if(testKM.size > i) {
-                    suggestWords += testKM[i]
-                }
-                if(testRM.size > i) {
+
+                if (testRM.size > i) {
                     suggestWords += testRM[i]
                 }
             }
 
-            suggestWords
-        } else {
-            if(count >= 2) {
-                tolerance = 2
-                limitResult = 6
-            }
-            var outputKMMap: List<String> = mutableListOf()
-            var outputENMap: List<String> = mutableListOf()
-            if (isKMChecked) {
-                outputKMMap = correctBy(bKM, specialKhmer(misspelling), limitResult, false, tolerance)
-            }
-
-            if (isENChecked) {
-                outputENMap = correctBy(bEN, specialKhmer(km2English(misspelling)), limitResult, false, tolerance)
-            }
-            val suggestWords: MutableList<String> = mutableListOf()
-
-            val testEN = outputENMap.chunked(MAX_WORDS_SHOW - count)
-            val testKM = outputKMMap.chunked(MAX_WORDS_SHOW - count)
-            for (i in 0..10) {
-                if(testKM.size > i) {
-                    suggestWords += testKM[i]
-                }
-                if(testEN.size > i) {
-                    suggestWords += testEN[i]
-                }
-            }
-            suggestWords
-        }.distinctBy { it.toLowerCase() }
+            return suggestWords.distinctBy { it.toLowerCase() }
+        }
     }
 
     fun correctBy(model: Bktree, misspelling: String, limit: Int, isOther: Boolean, tolerance: Int): List<String> {

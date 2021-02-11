@@ -108,18 +108,19 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private fun loadSpellingData() {
         spellingCorrector.reset()
         segmentation.reset()
+        val isKhmerKeyboard = this.currentSelectedLanguageIdx == 1
         val job= GlobalScope.launch(Dispatchers.Main) {
-            loadSpelling()
+            loadSpelling(isKhmerKeyboard)
         }
 
     }
 
-    private suspend fun loadSpelling() {
+    private suspend fun loadSpelling(isKhmerKeyboard: Boolean) {
         coroutineScope {
 
 
             async(Dispatchers.IO) {
-                spellingCorrector.loadData(context)
+                spellingCorrector.loadData(context, isKhmerKeyboard)
             }
         }
     }
@@ -299,6 +300,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         if (BuildConfig.DEBUG) {
             Log.d("///AMOS", "CHANGE DIRECTION $currentSelectedLanguageIdx")
         }
+
+        loadSpellingData()
         saveCurrentState()
         renderCurrentLanguage()
     }
