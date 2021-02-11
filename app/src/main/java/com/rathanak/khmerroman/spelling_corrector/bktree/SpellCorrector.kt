@@ -3,12 +3,10 @@ package com.rathanak.khmerroman.spelling_corrector.bktree
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
-import com.rathanak.khmerroman.spelling_corrector.EnglishKhmerMap
 import com.rathanak.khmerroman.spelling_corrector.PQElement
 import com.rathanak.khmerroman.spelling_corrector.getEditDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import java.util.*
-import kotlin.collections.LinkedHashMap
 
 class SpellCorrector() {
     private var bkMain: Bktree = Bktree()
@@ -57,30 +55,6 @@ class SpellCorrector() {
         }
 
         return model
-    }
-
-    private fun isENString(str: String) : Boolean {
-        return (str[0] in 'a'..'z' || str[0] in 'A'..'Z')
-    }
-
-    private fun en2Khmer(str: String): String {
-        var khmerStr = ""
-        for(ch in str) {
-            if(ch in EnglishKhmerMap.en2Khmer.keys) {
-                khmerStr += EnglishKhmerMap.en2Khmer[ch]
-            }
-        }
-        return khmerStr
-    }
-
-    private fun km2English(str: String) : String {
-        var englishStr = ""
-        for(ch in str) {
-            if(ch in EnglishKhmerMap.kh2English.keys) {
-                englishStr += EnglishKhmerMap.kh2English[ch]
-            }
-        }
-        return englishStr
     }
 
     private fun specialKhmer(str: String): String {

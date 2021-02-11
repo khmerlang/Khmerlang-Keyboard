@@ -61,18 +61,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
     }
     private fun initToggleButton() {
-//        this.smartbarView!!.btnToggleShowLabel.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) {
-//                buttonView.setBackgroundResource(R.drawable.ic_info_on_btn)
-//            } else {
-//                buttonView.setBackgroundResource(R.drawable.ic_info_btn)
-//            }
-//            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, isChecked)
-//            r_2_khmer.reRenderKeylayout()
-//        }
-//        val isShowLabel = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, false)
-//        this.smartbarView!!.btnToggleShowLabel.isChecked = isShowLabel!!
-
         this.smartbarView!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_roman_sug_on_btn)
@@ -83,17 +71,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
         val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
         this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
-
-//        this.smartbarView!!.btnToggleKHCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked) {
-//                buttonView.setBackgroundResource(R.drawable.ic_khmer_sug_on_btn)
-//            } else {
-//                buttonView.setBackgroundResource(R.drawable.ic_khmer_sug_btn)
-//            }
-//            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, isChecked)
-//        }
-//        val isKMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_KM_CORRECTION_MODE, true)
-//        this.smartbarView!!.btnToggleKHCorrection.isChecked = isKMChecked!!
 
         this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
