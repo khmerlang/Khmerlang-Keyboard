@@ -14,21 +14,14 @@
             android:keyLabel="ៗ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="39"
-            android:keyLabel="'"
+            android:codes="6088"
+            android:keyLabel="ៈ"
             android:keyWidth="8%p"/>
         <Key
-            android:codes="34"
-            android:keyLabel="&quot;"
+            android:codes="6102"
+            android:keyLabel="៖"
             android:keyWidth="8%p"/>
-        <Key
-            android:codes="6107"
-            android:keyLabel="៛"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="37"
-            android:keyLabel="%"
-            android:keyWidth="8%p"/>
+
         <Key
             android:codes="6093"
             android:keyLabel="៍"
@@ -45,9 +38,18 @@
             android:codes="06053"
             android:keyLabel="៌"
             android:keyWidth="8%p"/>
+
         <Key
-            android:codes="6094"
-            android:keyLabel="៎"
+            android:codes="6059"
+            android:keyLabel="ឫ"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="6061"
+            android:keyLabel="ឭ"
+            android:keyWidth="8%p"/>
+        <Key
+            android:codes="6054"
+            android:keyLabel="ឦ"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06055"

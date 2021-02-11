@@ -108,18 +108,16 @@
             android:codes="61"
             android:keyLabel="="
             android:keyWidth="10%p"/>
-        <Key
-            android:codes="47"
-            android:keyLabel="/"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="92"
-            android:keyLabel="\\"
-            android:keyWidth="10%p"/>
+
         <Key
             android:codes="6107"
             android:keyLabel="៛"
             android:keyWidth="10%p"/>
+        <Key
+            android:codes="36"
+            android:keyLabel="$"
+            android:keyWidth="10%p"/>
+
         <Key
             android:codes="8364"
             android:keyLabel ="€"
@@ -130,9 +128,13 @@
             android:keyWidth="10%p"/>
         <Key
             android:codes="165"
-            android:keyEdgeFlags="right"
+
             android:keyLabel="¥"
             android:keyWidth="10%p"/>
+        <Key
+            android:keyEdgeFlags="right"
+            android:codes="6105"
+            android:keyLabel="៙" />
     </Row>
 
     <Row android:keyHeight="@dimen/key_kh_height">
@@ -144,12 +146,6 @@
             android:keyLabel="1/2"
             android:keyWidth="15%p" />
         <Key
-            android:codes="36"
-            android:keyLabel="$" />
-        <Key
-            android:codes="6105"
-            android:keyLabel="៙" />
-        <Key
             android:codes="6106"
             android:keyLabel="៚" />
         <Key
@@ -159,11 +155,17 @@
             android:codes="6109"
             android:keyLabel="៝" />
         <Key
-            android:codes="39"
-            android:keyLabel="'" />
+            android:codes="6094"
+            android:keyLabel="៎" />
         <Key
-            android:codes="34"
-            android:keyLabel="&quot;" />
+            android:codes="6045"
+            android:keyLabel="ឝ" />
+        <Key
+            android:codes="6105"
+            android:keyLabel="ឞ" />
+        <Key
+            android:codes="6067"
+            android:keyLabel="ឳ" />
         <Key
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"
