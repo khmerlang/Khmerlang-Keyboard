@@ -401,7 +401,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                         }
                     }
                 }
-//                var keyCh = primaryCode.toChar().toString();
+
                 var keyCh = if(primaryCode == KEYCODE_OM) {
                     "ុំ"
                 } else if (primaryCode == KEYCODE_AM) {
