@@ -35,7 +35,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_home_logo_btn)
                 toggleBarLayOut(true)
-                this.smartbarView!!.settingsList.visibility = View.GONE
+                this.smartbarView!!.settingsList.visibility = View.INVISIBLE//View.GONE
             } else {
                 checkButtonOptionsVisibility()
                 buttonView.setBackgroundResource(R.drawable.ic_home_btn)
@@ -53,8 +53,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun checkButtonOptionsVisibility() {
         val selectedLangIdx = Roman2KhmerApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         if(selectedLangIdx == 1) {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.GONE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.GONE
+            this.smartbarView!!.btnToggleRMCorrection.visibility = View.INVISIBLE//View.GONE
+            this.smartbarView!!.btnToggleENCorrection.visibility = View.INVISIBLE//View.GONE
         } else {
             this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
             this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE

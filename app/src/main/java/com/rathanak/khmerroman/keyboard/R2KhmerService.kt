@@ -34,20 +34,13 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
-import com.rathanak.khmerroman.segmentation.Segmentation
-//import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.spelling_corrector.bktree.SpellCorrector
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
-import com.rathanak.nlp.LanguageModel
-import com.rathanak.nlp.NGrams
-import com.rathanak.nlp.StupidBackoffRanking
 import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
-
-    //private lateinit var customInputMethodView: CustomInputMethodView
     private var customInputMethodView: CustomInputMethodView? = null
 
     private lateinit var keyboardNormal: CustomKeyboard
@@ -55,32 +48,27 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private lateinit var keyboardSymbol: CustomKeyboard
     private lateinit var keyboardSymbolShift: CustomKeyboard
     private lateinit var keyboardNumber: CustomKeyboard
-
     private var languageNames: MutableList<String> = mutableListOf()
     private var languageXmlRes: MutableList<Int> = mutableListOf()
     private var languageShiftXmlRes: MutableList<Int> = mutableListOf()
     private var languageSymbolXmlRes: MutableList<Int> = mutableListOf()
     private var languageSymbolShiftXmlRes: MutableList<Int> = mutableListOf()
     private var languageNumberXmlRes: MutableList<Int> = mutableListOf()
-
     private var keyboardsOfLanguages = SparseArray<SparseArray<CustomKeyboard>>()
 
     private var currentSelectedLanguageIdx = 0
-    private var enableVibration = true
-    private var enableSound = true
+    private var enableVibration = false
+    private var enableSound = false
     private var candidateChoosed = false
     private var preCandidateKhmer = false
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
     private var previousWord = ""
+    var currentInputPassword: Boolean = false
+    private lateinit var preferences: KeyboardPreferences
 
-//    val ngrams: NGrams by inject()
-//    val languageModel: LanguageModel by inject()
-//    val ngrams: NGrams = NGrams(StupidBackoffRanking())
-//    var languageModel: LanguageModel = LanguageModel()
     var spellingCorrector: SpellCorrector = SpellCorrector()
-    var segmentation: Segmentation = Segmentation()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -92,22 +80,17 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             customInputMethodView?.updateKeyboardPage(newPage)
         }
     }
-    var currentInputPassword: Boolean = false
-
-    private lateinit var preferences: KeyboardPreferences
 
     override fun onCreate() {
         super.onCreate()
         initSharedPreference()
         loadKeyCodes()
         initKeyboards()
-
         loadSpellingData()
     }
 
     private fun loadSpellingData() {
         spellingCorrector.reset()
-        segmentation.reset()
         val isKhmerKeyboard = this.currentSelectedLanguageIdx == 1
         val job= GlobalScope.launch(Dispatchers.Main) {
             loadSpelling(isKhmerKeyboard)
@@ -117,8 +100,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private suspend fun loadSpelling(isKhmerKeyboard: Boolean) {
         coroutineScope {
-
-
             async(Dispatchers.IO) {
                 spellingCorrector.loadData(context, isKhmerKeyboard)
             }
@@ -175,7 +156,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
         enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
-
     }
 
     private fun loadStyles() {
@@ -411,8 +391,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 handleEnter()
             }
             else -> {
-                inputConnection.beginBatchEdit()
-                resetComposingText()
                 var space = ""
                 if (candidateChoosed) {
                     if ((primaryCode.toChar() in 'ក'..'ឳ') || isAlphabet(primaryCode)) {
@@ -437,6 +415,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 } else {
                     primaryCode.toChar().toString();
                 }
+                inputConnection.beginBatchEdit()
+                resetComposingText()
                 inputConnection.commitText(space + keyCh, 1)
                 inputConnection.endBatchEdit()
             }
@@ -471,47 +451,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
     }
-
-//    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-//    override fun onUpdateCursorAnchorInfo(cursorAnchorInfo: CursorAnchorInfo?) {
-//        cursorAnchorInfo ?: return
-//        //super.onUpdateCursorAnchorInfo(cursorAnchorInfo)
-//        val ic = currentInputConnection
-//
-//        if (isComposingEnabled) {
-//            var inputText = ""
-//            Log.i("hello", "onUpdateCursorAnchorInfo:-------------------")
-//            Log.i("hello", "cursorAnchorInfo.selectionStart=" + cursorAnchorInfo.selectionStart.toString())
-//            Log.i("hello", "cursorAnchorInfo.selectionEnd=" + cursorAnchorInfo.selectionEnd.toString())
-//
-//            if (cursorAnchorInfo.selectionEnd - cursorAnchorInfo.selectionStart == 0) {
-//                val newCursorPos = cursorAnchorInfo.selectionStart
-//                val prevComposingText = (cursorAnchorInfo.composingText ?: "").toString()
-//                inputText =
-//                    (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
-//                var oldStart = composingTextStart
-//                var oldEnd = composingTextStart?.plus(composingText!!.length)
-//                setComposingTextBasedOnInput(inputText, newCursorPos)
-//                var newEnd = composingTextStart?.plus(composingText!!.length)
-//                if ((oldStart == composingTextStart) && (oldEnd == newEnd)) {
-//                    // Ignore this, as nothing has changed
-//                } else {
-//                    if (composingText != null && composingTextStart != null) {
-//                        ic.setComposingRegion(
-//                            composingTextStart!!,
-//                            composingTextStart!! + composingText!!.length
-//                        )
-//                    } else {
-//                        resetComposingText()
-//                    }
-//                }
-//            } else {
-//                resetComposingText()
-//            }
-//
-//            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
-//        }
-//    }
 
     /**
      * Deal with the editor reporting movement of its cursor.
@@ -560,7 +499,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // findTextIngroup of cursor position
         // get its start and end index
 //        val words = inputText.split("[^\\p{L}]".toRegex())
-        val words = inputText.split("[​.,!@#$%^&*()\"\' ]".toRegex())
+        val words = inputText.split("[\n\t\b​.,!@#$%^&*()\"\' ]".toRegex())
         var pos = 0
         resetComposingText(false)
         previousWord = "START"
