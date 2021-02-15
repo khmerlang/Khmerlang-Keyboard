@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/dialog_layout"
     android:padding="16dp">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/grey_darker"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:id="@+id/title"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"
         android:text="@string/enable_keyboard_title"/>
 
     <TextView
@@ -21,6 +24,7 @@
         android:textColor="@color/grey_darker"
         android:textSize="16sp"
         android:id="@+id/description"
+        android:layout_marginBottom="15dp"
         android:text="@string/enable_keyboard_description"
         />
 
@@ -30,5 +34,5 @@
         android:text="@string/ok"
         android:id="@+id/btn_ok"
         android:layout_marginTop="16dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@drawable/my_button"/>
 </LinearLayout>
