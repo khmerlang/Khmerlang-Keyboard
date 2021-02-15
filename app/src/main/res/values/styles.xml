@@ -10,7 +10,7 @@
 
     <style name="HomeButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">#6C63FF</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:padding">20dp</item>
