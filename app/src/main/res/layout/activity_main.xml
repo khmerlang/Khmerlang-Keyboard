@@ -32,7 +32,7 @@
                     android:id="@+id/btnSetting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/my_button"
                     android:text="@string/setting"
                     android:theme="@style/HomeButton" />
@@ -41,7 +41,7 @@
                     android:id="@+id/btnCustomRoman"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/my_button"
                     android:text="@string/custom_mapping"
                     android:theme="@style/HomeButton" />
@@ -50,7 +50,7 @@
                     android:id="@+id/btnRoman"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/my_button"
                     android:text="@string/roman_mapping"
                     android:theme="@style/HomeButton" />
@@ -59,7 +59,7 @@
                     android:id="@+id/btnAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/my_button"
                     android:text="@string/about"
                     android:theme="@style/HomeButton" />
