@@ -15,4 +15,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_roman"
         android:hint="@string/edit_roman"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:theme="@style/HomeButton"
+            android:text="@string/submit" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/my_button_default"
+            android:theme="@style/ButtonDefault"
+            android:text="@string/cancel"/>
+    </LinearLayout>
+
+
 </LinearLayout>
