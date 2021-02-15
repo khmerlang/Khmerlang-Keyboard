@@ -15,5 +15,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:padding">20dp</item>
     </style>
+    <style name="ButtonDanger">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#F32013</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">20dp</item>
+    </style>
 
 </resources>

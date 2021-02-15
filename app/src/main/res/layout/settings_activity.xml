@@ -13,8 +13,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
-        android:background="#FF0000"
-        android:textColor="#FFFFFF"
         android:id="@+id/btnReset"
+        android:theme="@style/ButtonDanger"
+        android:background="@drawable/my_button_danger"
         android:text="Reset default"/>
 </LinearLayout>
