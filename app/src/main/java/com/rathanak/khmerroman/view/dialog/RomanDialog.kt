@@ -13,6 +13,7 @@ import com.rathanak.khmerroman.data.RomanItem
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import kotlinx.android.synthetic.main.roman_dialog.*
 import kotlinx.android.synthetic.main.roman_dialog.view.*
 import java.io.FileNotFoundException
 import java.util.*
@@ -41,18 +42,15 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var freq: Int, val
             rkDialogView.edit_khmer.setText(txtKhmer)
             rkDialogView.edit_roman.setText(txtRoman)
             builder.setView(rkDialogView)
-                .setPositiveButton(
-                    R.string.submit,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        var editKhmer = rkDialogView.edit_khmer.text.toString()
-                        var editRomanr = rkDialogView.edit_roman.text.toString()
-                        updateRecord(editKhmer, editRomanr)
-                    })
-                .setNegativeButton(
-                    R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        getDialog()?.cancel()
-                    })
+            rkDialogView.btnSubmit.setOnClickListener {
+                var editKhmer = rkDialogView.edit_khmer.text.toString()
+                var editRomanr = rkDialogView.edit_roman.text.toString()
+                updateRecord(editKhmer, editRomanr)
+                dismiss()
+            }
+            rkDialogView.btnCancel.setOnClickListener {
+                dismiss()
+            }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
