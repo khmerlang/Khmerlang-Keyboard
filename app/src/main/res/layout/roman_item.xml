@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,39 +9,52 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:background="@drawable/border_line"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp">
 
-        <TextView
-            android:id="@+id/txtKhmer"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/border_line"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:text="Khmer"
-            android:textColor="#343434"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            android:gravity="center"/>
+            android:padding="10dp">
 
-        <TextView
-            android:id="@+id/txtRoman"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Roman"
-            android:textColor="#343434"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            android:gravity="center"/>
-        <ImageButton
-            android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_delete"
-            android:background="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/txtKhmer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:text="Khmer"
+                android:textColor="#343434"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRoman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="Roman"
+                android:textColor="#343434"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_danger_cicle"
+                android:src="@drawable/ic_delete" />
+        </LinearLayout>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/button"
                     android:text="@string/setting"
                     android:theme="@style/HomeButton" />
 
@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/button"
                     android:text="@string/custom_mapping"
                     android:theme="@style/HomeButton" />
 
@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/button"
                     android:text="@string/roman_mapping"
                     android:theme="@style/HomeButton" />
 
@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/button"
                     android:text="@string/about"
                     android:theme="@style/HomeButton" />
 
@@ -68,7 +68,7 @@
                     android:id="@+id/btnClose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/my_button"
+                    android:background="@drawable/button"
                     android:text="@string/close"
                     android:theme="@style/HomeButton" />
             </LinearLayout>
