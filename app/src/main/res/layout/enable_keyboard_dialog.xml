@@ -34,5 +34,6 @@
         android:text="@string/ok"
         android:id="@+id/btn_ok"
         android:layout_marginTop="16dp"
+        android:theme="@style/HomeButton"
         android:background="@drawable/my_button"/>
 </LinearLayout>
