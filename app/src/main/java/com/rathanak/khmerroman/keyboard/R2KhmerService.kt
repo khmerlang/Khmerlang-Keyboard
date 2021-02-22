@@ -425,13 +425,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     fun commitCandidate(candidateText: String) {
-
         preCandidateKhmer = !(candidateText[0] in 'a'..'z' || candidateText[0] in 'A'..'Z')
         val ic = currentInputConnection
         var text = candidateText
-//        if(candidateChoosed) {
-//            text = getSpaceBy(preCandidateKhmer) + text
-//        }
+        if(candidateChoosed) {
+            text = getSpaceBy(preCandidateKhmer) + text
+        }
         ic.setComposingText(text, 1)
         ic.finishComposingText()
         candidateChoosed = true
@@ -473,6 +472,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             newSelStart, newSelEnd,
             candidatesStart, candidatesEnd
         )
+        if (candidateChoosed) {
+            return
+        }
 
         val ic = currentInputConnection
         if (isComposingEnabled) {
