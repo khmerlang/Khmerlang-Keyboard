@@ -394,11 +394,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 var space = ""
                 if (candidateChoosed) {
                     if ((primaryCode.toChar() in 'ក'..'ឳ') || isAlphabet(primaryCode)) {
-                        if(preCandidateKhmer) {
-                            space = "​"
-                        } else {
-                            space = " "
-                        }
+                        space = getSpaceBy(preCandidateKhmer)
                     }
                 }
 
@@ -429,12 +425,24 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     fun commitCandidate(candidateText: String) {
-        candidateChoosed = true
+
         preCandidateKhmer = !(candidateText[0] in 'a'..'z' || candidateText[0] in 'A'..'Z')
         val ic = currentInputConnection
-        ic.setComposingText(candidateText, 1)
+        var text = candidateText
+//        if(candidateChoosed) {
+//            text = getSpaceBy(preCandidateKhmer) + text
+//        }
+        ic.setComposingText(text, 1)
         ic.finishComposingText()
+        candidateChoosed = true
+    }
 
+    private fun getSpaceBy(isKhmer: Boolean): String {
+      return if(isKhmer) {
+            "​"
+        } else {
+            " "
+        }
     }
 
     fun sendKeyPress(keyData: KeyData) {
@@ -461,9 +469,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         candidatesStart: Int, candidatesEnd: Int
     ) {
         super.onUpdateSelection(
-            oldSelStart, oldSelEnd, newSelStart, newSelEnd,
+            oldSelStart, oldSelEnd,
+            newSelStart, newSelEnd,
             candidatesStart, candidatesEnd
         )
+
         val ic = currentInputConnection
         if (isComposingEnabled) {
             var inputText = ""
