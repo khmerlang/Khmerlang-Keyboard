@@ -60,6 +60,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var enableVibration = false
     private var enableSound = false
     private var candidateChoosed = false
+    private var firstCommitCandidate = false
     private var preCandidateKhmer = false
     private var composingText: String? = null
     private var composingTextStart: Int? = null
@@ -418,6 +419,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
         candidateChoosed = false
+        firstCommitCandidate = false
         // Switch back to normal if the selected page type is shift.
         if (currentKeyboardPage == SHIFT) {
             currentKeyboardPage = NORMAL
@@ -428,12 +430,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         preCandidateKhmer = !(candidateText[0] in 'a'..'z' || candidateText[0] in 'A'..'Z')
         val ic = currentInputConnection
         var text = candidateText
-        if(candidateChoosed) {
-            text = getSpaceBy(preCandidateKhmer) + text
-        }
+        ic.beginBatchEdit()
         ic.setComposingText(text, 1)
         ic.finishComposingText()
+        ic.endBatchEdit()
         candidateChoosed = true
+        firstCommitCandidate = true
+        smartbarManager.generateCandidatesFromComposing("", "", "")
     }
 
     private fun getSpaceBy(isKhmer: Boolean): String {
@@ -472,7 +475,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             newSelStart, newSelEnd,
             candidatesStart, candidatesEnd
         )
-        if (candidateChoosed) {
+        if (candidateChoosed && firstCommitCandidate) {
+            firstCommitCandidate = false
             return
         }
 
@@ -487,7 +491,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 setComposingTextBasedOnInput(inputText, newSelStart)
 
                 var newEnd = composingTextStart?.plus(composingText!!.length)
-                if ((oldStart == composingTextStart) && (oldEnd == newEnd)) {
+                if (((oldStart == composingTextStart) && (oldEnd == newEnd))) {
                     // Ignore this, as nothing has changed
                 } else {
                     if (composingText != null && composingTextStart != null) {
