@@ -35,6 +35,7 @@ import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.spelling_corrector.bktree.SpellCorrector
+import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import kotlinx.coroutines.*
@@ -514,24 +515,25 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // goal by given input and current cursor
         // findTextIngroup of cursor position
         // get its start and end index
-//        val words = inputText.split("[^\\p{L}]".toRegex())
-        val words = inputText.split("[\n\t\b​.,!@#$%^&*()\"\' ]".toRegex())
+        val wt: WordTokenizer = WordTokenizer()
+        val words = wt.tokenize(inputText)
+
         var pos = 0
         resetComposingText(false)
         previousWord = "START"
         for (word in words) {
-            if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
+            if (word.length == 1 && WordTokenizer.CHAR_SYMBOL.contains(word[0])) {
+                previousWord = "START"
+                pos += word.length
+            } else if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
                 composingText = word
                 composingTextStart = pos
                 break
             } else {
                 pos += word.length + 1
-                if ((word == ".") or (word == "!") or (word == "?")) {
-                    previousWord = "START"
-                } else if(word.isNotEmpty()) {
+                if(word.isNotEmpty()) {
                     previousWord = word.toLowerCase()
                 }
-
             }
         }
     }
