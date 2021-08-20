@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.spelling_corrector.PQElement
-import com.rathanak.khmerroman.spelling_corrector.getEditDistance
+import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import java.util.*
 
@@ -125,7 +125,7 @@ class SpellCorrector() {
                     if (suggestedWords != null) {
                         while (!suggestedWords.isEmpty() && i < takeEach) {
                             var element = suggestedWords.poll()
-                            if (getEditDistance(misspelling, element.word) <= 3) {
+                            if (LevenshteinDistance(misspelling, element.word) <= 3) {
                                 if (isOther) {
                                     for (word in element.other.split("_")) {
                                         outputMap.add(word)

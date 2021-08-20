@@ -13,7 +13,6 @@ import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
-import com.rathanak.khmerroman.spelling_corrector.getEditDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlinx.android.synthetic.main.smartbar.view.*
 
