@@ -1,8 +1,11 @@
 package com.rathanak.khmerroman.utils
 
+import com.rathanak.khmerroman.segmentation.KhmerSegment
+
 class WordTokenizer {
-    fun coreSegment(inputText: String): MutableList<String> {
+    fun baseSegment(inputText: String): MutableList<String> {
         val words: MutableList<String> = arrayListOf()
+        val ks: KhmerSegment = KhmerSegment()
         inputText.split("[\n\t\b​ ]".toRegex()).forEach {
             var word = it
             if (word.length <= 1) {
@@ -19,13 +22,7 @@ class WordTokenizer {
             //       else
             //          break whole text
             if (word[0] in 'ក'..'ឳ') {
-//                if (true) {
-//
-//                } else {
-//
-//                }
-                //    remove later
-                words.add(word)
+                words += ks.segmentWord(word)
             } else {
                 words.add(word)
             }
@@ -35,7 +32,7 @@ class WordTokenizer {
 
     fun tokenize(inputText: String): Array<String> {
         val words: MutableList<String> = arrayListOf()
-        coreSegment(inputText).forEach {
+        baseSegment(inputText).forEach {
             var word = it
             if (word.length <= 1) {
                 words.add(word)

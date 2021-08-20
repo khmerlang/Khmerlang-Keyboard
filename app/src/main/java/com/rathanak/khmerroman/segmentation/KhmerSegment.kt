@@ -38,7 +38,7 @@ class KhmerSegment {
         return 1.0f / (1.0f + exp((-x).toDouble()))
     }
 
-    fun segmentWord() {
+    fun segmentWord(inputText: String) :MutableList<String> {
 //        //     val str = "ការស្រឡាញ់ដែលអាចមានភាពឋិតឋេរចំពោះគ្នា"
 //        //     var input = char2idx(str)
 //        //     println(input.joinToString(","))
@@ -57,5 +57,14 @@ class KhmerSegment {
 //
 //        // Releases model resources if no longer used.
 //        model.close()
+
+//                if (true) {
+//
+//                } else {
+//
+//                }
+        val words: MutableList<String> = arrayListOf()
+        words.add(inputText)
+        return words
     }
 }
