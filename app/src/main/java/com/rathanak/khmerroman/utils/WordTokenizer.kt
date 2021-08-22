@@ -1,11 +1,95 @@
 package com.rathanak.khmerroman.utils
 
-import com.rathanak.khmerroman.segmentation.KhmerSegment
+import android.content.Context
+import android.util.Log
+import com.rathanak.khmerroman.ml.WordSegModel
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import kotlin.math.exp
 
-class WordTokenizer {
-    fun baseSegment(inputText: String): MutableList<String> {
+class WordTokenizer(private val context: Context) {
+    private val KHCONST = "កខគឃងចឆជឈញដឋឌឍណតថទធនបផពភមយរលវឝឞសហឡអឣឤឥឦឧឨឩឪឫឬឭឮឯឰឱឲឳ"
+    private val KHVOWEL = "឴឵ាិីឹឺុូួើឿៀេែៃោៅំះៈ"
+    private val KHSUB = "្"
+    private val KHDIAC = "៉៊់៌៍៎៏័"
+    private val KHSYM = "៕។៛ៗ៚៙៘,.? "
+    private val KHNUMBER = "០១២៣៤៥៦៧៨៩0123456789"
+    private val KHLUNAR = "᧠᧡᧢᧣᧤᧥᧦᧧᧨᧩᧪᧫᧬᧭᧮᧯᧰᧱᧲᧳᧴᧵᧶᧷᧸᧹᧺᧻᧼᧽᧾᧿"
+    private val CHARS = "P" + "U" + KHCONST + KHVOWEL + KHSUB + KHDIAC + KHSYM + KHNUMBER + KHLUNAR
+    private val MAX_WORD = 328
+    private var model: WordSegModel = WordSegModel.newInstance(context)
+
+    fun destroy() {
+        // Releases model resources if no longer used.
+        model.close()
+    }
+
+    private fun char2idx(str: String): IntArray {
+        var arrIdx = IntArray(str.length)
+        str.forEachIndexed { index, ch ->
+            val num = CHARS.indexOf(ch)
+
+            arrIdx[index] = if (num >= 0) num else 1
+        }
+
+        return arrIdx
+    }
+
+    private fun idx2char(arrIdx: IntArray): String {
+        var str = ""
+        arrIdx.forEach {
+            str += CHARS.get(it)
+        }
+        return str
+    }
+
+
+    private fun sigmoid(x: Float): Double {
+        return 1.0f / (1.0f + exp((-x).toDouble()))
+    }
+
+    private fun segmentKhmerWord(inputText: String) :MutableList<String> {
         val words: MutableList<String> = arrayListOf()
-        val ks: KhmerSegment = KhmerSegment()
+        var khmerWords = inputText
+        khmerWords = khmerWords.replace(" ", "")
+        khmerWords = khmerWords.replace("​", "")
+        if (khmerWords.length > MAX_WORD) {
+            words.add(khmerWords)
+            return words
+        }
+
+        val inputIdx = char2idx(khmerWords)
+        val inputFeature = TensorBuffer.createFixedSize(intArrayOf(1, 328), DataType.FLOAT32)
+        var wordArr = IntArray(328) {0}
+        for (i in inputIdx.indices) {
+            wordArr[i] = inputIdx[i]
+        }
+
+        inputFeature.loadArray(wordArr)
+        // Runs model inference and gets result.
+        val outputs = model.process(inputFeature)
+        val outputFeature = outputs.outputFeature0AsTensorBuffer
+
+        var segWord = ""
+        for (i in inputIdx.indices) {
+            if (sigmoid(outputFeature.floatArray[i]) > 0.6) {
+                if (segWord != "") {
+                    words.add(segWord)
+                }
+                segWord = khmerWords[i].toString()
+            } else {
+                segWord += khmerWords[i].toString()
+            }
+        }
+
+        if (segWord != "") {
+            words.add(segWord)
+        }
+        return words
+    }
+
+    private fun baseSegment(inputText: String): MutableList<String> {
+        val words: MutableList<String> = arrayListOf()
         inputText.split("[\n\t\b​ ]".toRegex()).forEach {
             var word = it
             if (word.length <= 1) {
@@ -14,19 +98,13 @@ class WordTokenizer {
             }
 
             // if Khmer word
-            //    if Khmer word and correct
-            //       No segment
-            //    else
-            //       if long then max length
-            //          break line and seg
-            //       else
-            //          break whole text
             if (word[0] in 'ក'..'ឳ') {
-                words += ks.segmentWord(word)
+                words += segmentKhmerWord(word)
             } else {
                 words.add(word)
             }
         }
+
         return words
     }
 

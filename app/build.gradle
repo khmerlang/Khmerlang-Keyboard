@@ -37,6 +37,9 @@ android {
         mlModelBinding true
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {

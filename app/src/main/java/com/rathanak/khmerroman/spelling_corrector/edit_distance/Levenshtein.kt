@@ -25,7 +25,8 @@ fun LevenshteinDistance(str1 : String , str2 : String) : Int {
                 arr[row][col] = arr[row - 1][col - 1]
             }
             else{
-                arr[row][col] = 2 + min( arr[row][col-1] , arr[row-1][col] , arr[row-1][col-1] )
+//                arr[row][col] = 2 + min( arr[row][col-1] , arr[row-1][col] , arr[row-1][col-1] )
+                arr[row][col] = 1 + min( arr[row][col-1] , arr[row-1][col] , arr[row-1][col-1] )
             }
         }
     }

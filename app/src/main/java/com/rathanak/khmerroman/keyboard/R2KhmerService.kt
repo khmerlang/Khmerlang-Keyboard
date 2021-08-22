@@ -49,6 +49,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private lateinit var keyboardSymbol: CustomKeyboard
     private lateinit var keyboardSymbolShift: CustomKeyboard
     private lateinit var keyboardNumber: CustomKeyboard
+    private lateinit var wordTokenize: WordTokenizer
     private var languageNames: MutableList<String> = mutableListOf()
     private var languageXmlRes: MutableList<Int> = mutableListOf()
     private var languageShiftXmlRes: MutableList<Int> = mutableListOf()
@@ -89,6 +90,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         loadKeyCodes()
         initKeyboards()
         loadSpellingData()
+        wordTokenize = WordTokenizer(context)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        wordTokenize.destroy()
     }
 
     private fun loadSpellingData() {
@@ -515,12 +522,53 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // goal by given input and current cursor
         // findTextIngroup of cursor position
         // get its start and end index
-        val wt: WordTokenizer = WordTokenizer()
-        val words = wt.tokenize(inputText)
-
-        var pos = 0
+        var startSlice = inputCursorPos - 40
+        var endSlice = inputCursorPos + 20
+        if (startSlice < 0) {
+            startSlice = 0
+        }
+        if (endSlice > inputText.length - 1) {
+            endSlice = inputText.length - 1
+        }
+        val selectInput = inputText.slice(startSlice..endSlice)
+        val words = wordTokenize.tokenize(selectInput)
+        var pos = startSlice
         resetComposingText(false)
         previousWord = "START"
+        var currentWord = ""
+        var wordIndex = 0
+//        for (i in startSlice..endSlice) {
+//            if(wordIndex >= words.size) {
+//                break
+//            }
+//
+//            currentWord += inputText[i].toString()
+//            currentWord = currentWord.replace(" ", "")
+//            currentWord = currentWord.replace("​", "")
+//            currentWord = currentWord.replace("\b", "")
+//            currentWord = currentWord.replace("\t", "")
+//            currentWord = currentWord.replace("\n", "")
+//            if (currentWord == words[wordIndex]) {
+////                Log.d("khmerlang", words[wordIndex])
+//                if ((inputCursorPos >= i) && inputCursorPos <= (i + words[wordIndex].length) && words[wordIndex].isNotEmpty()) {
+//                    Log.d("khmerlang", words[wordIndex])
+//                    Log.d("khmerlang", i.toString())
+//                    composingText = words[wordIndex]
+//                    composingTextStart = i
+//                    break
+//                } else {
+//                    if (words[wordIndex].length == 1 && WordTokenizer.CHAR_SYMBOL.contains(words[wordIndex][0])) {
+//                        previousWord = "START"
+//                    } else if(words[wordIndex].isNotEmpty()) {
+//                        previousWord = words[wordIndex].toLowerCase()
+//                    }
+//                    wordIndex += 1
+//                }
+//
+//                currentWord = ""
+//            }
+//        }
+
         for (word in words) {
             if (word.length == 1 && WordTokenizer.CHAR_SYMBOL.contains(word[0])) {
                 previousWord = "START"
@@ -530,6 +578,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 composingTextStart = pos
                 break
             } else {
+                // find other aprouch to work for khmer and english
                 pos += word.length + 1
                 if(word.isNotEmpty()) {
                     previousWord = word.toLowerCase()
