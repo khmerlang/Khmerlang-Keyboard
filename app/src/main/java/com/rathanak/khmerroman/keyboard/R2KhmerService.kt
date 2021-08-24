@@ -68,9 +68,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
     private var previousWord = ""
+    private var isKeyDown: Boolean = false
     var currentInputPassword: Boolean = false
     private lateinit var preferences: KeyboardPreferences
-
     var spellingCorrector: SpellCorrector = SpellCorrector()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
@@ -344,10 +344,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onKeyTouchDown() {
+        isKeyDown = true
         smartbarManager.setTypeing(true)
     }
 
     override fun onKeyTouchUp() {
+        isKeyDown = false
         smartbarManager.setTypeing(false)
     }
 
@@ -488,6 +490,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             return
         }
 
+        if (isKeyDown) {
+            return
+        }
+
         val ic = currentInputConnection
         if (isComposingEnabled) {
             var inputText = ""
@@ -537,52 +543,37 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         previousWord = "START"
         var currentWord = ""
         var wordIndex = 0
-//        for (i in startSlice..endSlice) {
-//            if(wordIndex >= words.size) {
-//                break
-//            }
-//
-//            currentWord += inputText[i].toString()
-//            currentWord = currentWord.replace(" ", "")
-//            currentWord = currentWord.replace("​", "")
-//            currentWord = currentWord.replace("\b", "")
-//            currentWord = currentWord.replace("\t", "")
-//            currentWord = currentWord.replace("\n", "")
-//            if (currentWord == words[wordIndex]) {
-////                Log.d("khmerlang", words[wordIndex])
-//                if ((inputCursorPos >= i) && inputCursorPos <= (i + words[wordIndex].length) && words[wordIndex].isNotEmpty()) {
-//                    Log.d("khmerlang", words[wordIndex])
-//                    Log.d("khmerlang", i.toString())
-//                    composingText = words[wordIndex]
-//                    composingTextStart = i
-//                    break
-//                } else {
-//                    if (words[wordIndex].length == 1 && WordTokenizer.CHAR_SYMBOL.contains(words[wordIndex][0])) {
-//                        previousWord = "START"
-//                    } else if(words[wordIndex].isNotEmpty()) {
-//                        previousWord = words[wordIndex].toLowerCase()
-//                    }
-//                    wordIndex += 1
-//                }
-//
-//                currentWord = ""
-//            }
-//        }
-
-        for (word in words) {
-            if (word.length == 1 && WordTokenizer.CHAR_SYMBOL.contains(word[0])) {
-                previousWord = "START"
-                pos += word.length
-            } else if (inputCursorPos >= pos && inputCursorPos <= pos + word.length && word.isNotEmpty()) {
-                composingText = word
-                composingTextStart = pos
+        for (i in startSlice..endSlice) {
+            if(wordIndex >= words.size) {
                 break
-            } else {
-                // find other aprouch to work for khmer and english
-                pos += word.length + 1
-                if(word.isNotEmpty()) {
-                    previousWord = word.toLowerCase()
+            }
+
+            if (WordTokenizer.CHAR_SYMBOL.contains(inputText[i])) {
+                currentWord = ""
+                pos = i + 1
+                continue
+            } else if (WordTokenizer.SEG_SYMBOL.contains(inputText[i].toString())) {
+                currentWord = ""
+                pos = i + 1
+                continue
+            }
+
+            currentWord += inputText[i].toString()
+            if (currentWord == words[wordIndex]) {
+                if ((inputCursorPos >= pos) && inputCursorPos <= (pos + words[wordIndex].length) && words[wordIndex].isNotEmpty()) {
+                    composingText = words[wordIndex]
+                    composingTextStart = pos
+                    break
+                } else {
+                    if (words[wordIndex].length == 1 && WordTokenizer.CHAR_SYMBOL.contains(words[wordIndex][0])) {
+                        previousWord = "START"
+                    } else if(words[wordIndex].isNotEmpty()) {
+                        previousWord = words[wordIndex].toLowerCase()
+                    }
+                    wordIndex += 1
                 }
+                pos = i + 1
+                currentWord = ""
             }
         }
     }

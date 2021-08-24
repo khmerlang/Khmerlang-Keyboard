@@ -18,6 +18,8 @@ class WordTokenizer(private val context: Context) {
     private val CHARS = "P" + "U" + KHCONST + KHVOWEL + KHSUB + KHDIAC + KHSYM + KHNUMBER + KHLUNAR
     private val MAX_WORD = 328
     private var model: WordSegModel = WordSegModel.newInstance(context)
+    private var prevInput = ""
+    private var prevSeg: Array<String> = emptyArray()
 
     fun destroy() {
         // Releases model resources if no longer used.
@@ -109,9 +111,17 @@ class WordTokenizer(private val context: Context) {
     }
 
     fun tokenize(inputText: String): Array<String> {
+        if (prevInput == inputText) {
+            return  prevSeg
+        }
+
         val words: MutableList<String> = arrayListOf()
         baseSegment(inputText).forEach {
             var word = it
+            if (word.isEmpty()) {
+                return@forEach
+            }
+
             if (word.length <= 1) {
                 words.add(word)
                 return@forEach
@@ -128,10 +138,15 @@ class WordTokenizer(private val context: Context) {
                 words.add(word)
             }
         }
-        return words.toTypedArray()
+
+        // cache last input
+        prevInput = inputText
+        prevSeg = words.toTypedArray()
+        return prevSeg
     }
 
     companion object {
         var CHAR_SYMBOL = arrayOf('.', '?', '!', '"', ',', '(', ')', '។', '៕', '៖', '៘', '៚')
+        var SEG_SYMBOL = arrayOf("\n", "\t", "\b", " ", "​")
     }
 }
