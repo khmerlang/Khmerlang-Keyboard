@@ -43,7 +43,6 @@ import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var customInputMethodView: CustomInputMethodView? = null
-
     private lateinit var keyboardNormal: CustomKeyboard
     private lateinit var keyboardShift: CustomKeyboard
     private lateinit var keyboardSymbol: CustomKeyboard
@@ -71,7 +70,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var isKeyDown: Boolean = false
     var currentInputPassword: Boolean = false
     private lateinit var preferences: KeyboardPreferences
-    var spellingCorrector: SpellCorrector = SpellCorrector()
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -150,12 +148,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun renderCurrentLanguage() {
-        if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
-            customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
-        }
-    }
-
-    fun reRenderKeylayout() {
         if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
             customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
@@ -250,29 +242,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         languagesArray.recycle()
     }
 
-    override fun onSwipeRight() {
-        if (BuildConfig.DEBUG) {
-            Log.d("///AMOS", "SWIPE RIGHT")
-        }
-    }
-
-    override fun onSwipeLeft() {
-        if (BuildConfig.DEBUG) {
-            Log.d("///AMOS", "SWIPE LEFT")
-        }
-    }
-
-    override fun onSwipeUp() {
-        if (BuildConfig.DEBUG) {
-            Log.d("///AMOS", "SWIPE UP")
-        }
-    }
-
-    override fun onSwipeDown() {
-        if (BuildConfig.DEBUG) {
-            Log.d("///AMOS", "SWIPE DOWN")
-        }
-    }
+    override fun onSwipeRight() {}
+    override fun onSwipeLeft() {}
+    override fun onSwipeUp() {}
+    override fun onSwipeDown() {}
 
     override fun onChangeKeyboardSwipe(direction: Int) {
 //        val mgr = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -286,10 +259,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun changeLanguage(direction: Int) {
         currentSelectedLanguageIdx = ((currentSelectedLanguageIdx + direction) + languageNames.size) % languageNames.size
-        if (BuildConfig.DEBUG) {
-            Log.d("///AMOS", "CHANGE DIRECTION $currentSelectedLanguageIdx")
-        }
-
         loadSpellingData()
         saveCurrentState()
         renderCurrentLanguage()
@@ -711,5 +680,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val SYM_IDX = 3
         const val SYM_SHIFT_IDX = 4
         const val NUMBER_IDX = 5
+
+        var spellingCorrector: SpellCorrector = SpellCorrector()
     }
 }
