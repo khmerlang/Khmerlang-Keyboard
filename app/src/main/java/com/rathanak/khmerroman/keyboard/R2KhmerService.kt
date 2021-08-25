@@ -522,7 +522,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 pos = i + 1
                 continue
             }
-
             currentWord += inputText[i].toString()
             if (currentWord == words[wordIndex]) {
                 if (WordTokenizer.CHAR_SYMBOL.contains(inputText[i])) {
