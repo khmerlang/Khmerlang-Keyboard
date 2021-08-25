@@ -517,11 +517,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 break
             }
 
-            if (WordTokenizer.CHAR_SYMBOL.contains(inputText[i])) {
-                currentWord = ""
-                pos = i + 1
-                continue
-            } else if (WordTokenizer.SEG_SYMBOL.contains(inputText[i].toString())) {
+            if (WordTokenizer.SEG_SYMBOL.contains(inputText[i].toString())) {
                 currentWord = ""
                 pos = i + 1
                 continue
@@ -529,7 +525,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
             currentWord += inputText[i].toString()
             if (currentWord == words[wordIndex]) {
-                if ((inputCursorPos >= pos) && inputCursorPos <= (pos + words[wordIndex].length) && words[wordIndex].isNotEmpty()) {
+                if (WordTokenizer.CHAR_SYMBOL.contains(inputText[i])) {
+                    currentWord = ""
+                    pos = i + 1
+                    wordIndex += 1
+                    continue
+                } else if ((inputCursorPos >= pos) && inputCursorPos <= (pos + words[wordIndex].length) && words[wordIndex].isNotEmpty()) {
                     composingText = words[wordIndex]
                     composingTextStart = pos
                     break
