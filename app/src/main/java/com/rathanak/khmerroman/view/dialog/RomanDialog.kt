@@ -23,7 +23,7 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
     private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
     private fun updateRecord(keyword: String, roman: String) {
-        if (keyword.isNotEmpty()) {
+        if (keyword.isNotEmpty() && roman.isNotEmpty()) {
             // TODO create, update table
             realm.beginTransaction()
                 val ngramData: Ngram = realm.createObject(Ngram::class.java, UUID.randomUUID().toString())
