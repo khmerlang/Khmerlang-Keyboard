@@ -1,32 +1,28 @@
-package com.rathanak.khmerroman.spelling_corrector.bktree
+package com.rathanak.khmerroman.spelling_corrector
 
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
-import com.rathanak.khmerroman.spelling_corrector.PQElement
+import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import java.util.*
 
 class SpellCorrector() {
-    private var bkMain: Bktree = Bktree()
-    private var bRM: Bktree = Bktree()
-    private var isKhmerKeyboard = false
+    private var bkKH: Bktree = Bktree()
+    private var bkEN: Bktree = Bktree()
+    private var bkRM: Bktree = Bktree()
 
     fun reset() {
-        bkMain = Bktree()
-        bRM = Bktree()
+        bkKH = Bktree()
+        bkRM = Bktree()
+        bkEN = Bktree()
     }
 
-    fun loadData(context: Context, isKhmer: Boolean) {
-        this.isKhmerKeyboard = isKhmer
-        bkMain = if(this.isKhmerKeyboard) {
-            readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
-        } else {
-            bRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
-            readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
-        }
-
+    fun loadData(context: Context) {
+        bkKH = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
+        bkRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
+        bkEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
     }
 
     private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
@@ -62,12 +58,16 @@ class SpellCorrector() {
     }
 
     fun correct(previousWord: String, misspelling: String): List<String> {
+        if(misspelling.isEmpty()) {
+            return emptyList()
+        }
+
 //        previousWord
         var limitResult = 10
         var tolerance = 3
-        if(this.isKhmerKeyboard) {
+        if (misspelling[0] in 'ក'..'ឳ') {
             var outputKMMap: List<String> = mutableListOf()
-            outputKMMap = correctBy(bkMain, specialKhmer(misspelling), limitResult, false, tolerance)
+            outputKMMap = correctBy(bkKH, specialKhmer(misspelling), limitResult, false, tolerance)
             return outputKMMap.distinctBy { it.toLowerCase() }
         } else {
             val MAX_WORDS_SHOW = 4
@@ -82,11 +82,11 @@ class SpellCorrector() {
             var outputRMMap: List<String> = mutableListOf()
 
             if (isENChecked!!) {
-                outputENMap = correctBy(bkMain, misspelling, limitResult, false, tolerance)
+                outputENMap = correctBy(bkEN, misspelling, limitResult, false, tolerance)
             }
 
             if (isRMChecked!!) {
-                outputRMMap = correctBy(bRM, misspelling, limitResult, true, tolerance)
+                outputRMMap = correctBy(bkRM, misspelling, limitResult, true, tolerance)
             }
 
             val testEN = outputENMap.chunked(MAX_WORDS_SHOW - 2)

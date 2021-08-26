@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
-import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
@@ -18,7 +17,6 @@ import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
-import com.rathanak.khmerroman.BuildConfig
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
@@ -34,7 +32,7 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
-import com.rathanak.khmerroman.spelling_corrector.bktree.SpellCorrector
+import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
@@ -96,19 +94,19 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         wordTokenize.destroy()
     }
 
+    //  load spell suggestion data
     private fun loadSpellingData() {
         spellingCorrector.reset()
-        val isKhmerKeyboard = this.currentSelectedLanguageIdx == 1
         val job= GlobalScope.launch(Dispatchers.Main) {
-            loadSpelling(isKhmerKeyboard)
+            loadSpelling()
         }
 
     }
 
-    private suspend fun loadSpelling(isKhmerKeyboard: Boolean) {
+    private suspend fun loadSpelling() {
         coroutineScope {
             async(Dispatchers.IO) {
-                spellingCorrector.loadData(context, isKhmerKeyboard)
+                spellingCorrector.loadData(context)
             }
         }
     }
@@ -259,7 +257,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun changeLanguage(direction: Int) {
         currentSelectedLanguageIdx = ((currentSelectedLanguageIdx + direction) + languageNames.size) % languageNames.size
-        loadSpellingData()
         saveCurrentState()
         renderCurrentLanguage()
     }
