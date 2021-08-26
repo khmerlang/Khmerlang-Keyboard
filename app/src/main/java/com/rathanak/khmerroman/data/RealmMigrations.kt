@@ -1,8 +1,10 @@
 package com.rathanak.khmerroman.data
 
+import android.util.Log
 import io.realm.DynamicRealm
 import io.realm.FieldAttribute
 import io.realm.RealmMigration
+import java.util.*
 
 class RealmMigrations : RealmMigration {
 
@@ -16,15 +18,29 @@ class RealmMigrations : RealmMigration {
         val schema = realm.schema
 
         if (oldVersion == 0L) {
-            val romanItemSchema = schema["RomanItem"]
-            if (romanItemSchema != null) {
-                romanItemSchema
-                    .addField("roman", String::class.java, FieldAttribute.REQUIRED)
-                    .addField("khmer", String::class.java, FieldAttribute.REQUIRED)
-                    .addField("custom", Boolean::class.java)
-                    .addField("freq", Int::class.java)
-            }
+            schema.get("Ngram")!!
+                .addField("roman", String::class.java, FieldAttribute.REQUIRED)
+                .addField("khmer", String::class.java, FieldAttribute.REQUIRED)
+                .addField("custom", Boolean::class.java)
+                .addField("freq", Int::class.java)
             oldVersion++
+        }
+
+        if (oldVersion == 1L) {
+            schema.create("Ngram")
+                .addField("keyword", String::class.java, FieldAttribute.REQUIRED, FieldAttribute.INDEXED)
+                .addField("roman", String::class.java, FieldAttribute.INDEXED)
+                .addField("lang", Int::class.java)
+                .addField("gram", Int::class.java)
+                .addField("count", Int::class.java)
+                .addField("is_custom", Boolean::class.java)
+
+            oldVersion++
+        }
+
+        if (oldVersion == 2L) {
+            schema.get("Ngram")!!
+                .addField("id", String::class.java, FieldAttribute.PRIMARY_KEY)
         }
     }
 }

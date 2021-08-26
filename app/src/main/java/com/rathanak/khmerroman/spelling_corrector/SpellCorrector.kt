@@ -3,15 +3,18 @@ package com.rathanak.khmerroman.spelling_corrector
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.data.RomanItem
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
+import io.realm.Realm
 import java.util.*
 
 class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
+//    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
     fun reset() {
         bkKH = Bktree()
@@ -23,10 +26,19 @@ class SpellCorrector() {
         bkKH = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
         bkRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
         bkEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
+
+//        var realm = Realm.getDefaultInstance()
+//        val wordList = realm.where(RomanItem::class.java)
+//            .equalTo("custom", false).findAll()
+//        wordList.forEach {
+//            Log.d("khmerlang", it.roman + ":" + it.khmer)
+//        }
+//        realm.close()
     }
 
     private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
         var model = Bktree()
+
         var indexWord = 0
         var indexOther = 2
         if(wordLast) {
