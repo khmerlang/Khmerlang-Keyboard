@@ -17,15 +17,6 @@ class RealmMigrations : RealmMigration {
         var oldVersion = oldVersion
         val schema = realm.schema
 
-        if (oldVersion == 0L) {
-            schema.get("Ngram")!!
-                .addField("roman", String::class.java, FieldAttribute.REQUIRED)
-                .addField("khmer", String::class.java, FieldAttribute.REQUIRED)
-                .addField("custom", Boolean::class.java)
-                .addField("freq", Int::class.java)
-            oldVersion++
-        }
-
         if (oldVersion == 1L) {
             schema.create("Ngram")
                 .addField("keyword", String::class.java, FieldAttribute.REQUIRED, FieldAttribute.INDEXED)

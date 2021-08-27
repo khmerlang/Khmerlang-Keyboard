@@ -16,15 +16,13 @@ class DataLoader(val context: Context ) {
         // clear all data
         // load default data
         clearData()
-        loadRoman2DB()
-
         // TODO merge and download from server
         loadSpellCheckKH()
         loadSpellCheckEN()
     }
 
     fun clearData() {
-        val results: RealmResults<RomanItem> = realm.where<RomanItem>(RomanItem::class.java).findAll()
+        val results: RealmResults<Ngram> = realm.where<Ngram>(Ngram::class.java).findAll()
         realm.beginTransaction()
         results.deleteAllFromRealm()
         realm.commitTransaction()
@@ -82,31 +80,6 @@ class DataLoader(val context: Context ) {
                     ngramData.is_custom = false
                     realm.insert(ngramData)
                 }
-            }
-            }
-            realm.commitTransaction()
-        } catch (ex:Exception){
-            Log.e("read_file", ex.localizedMessage)
-        }
-    }
-
-    private fun loadRoman2DB() {
-        try {
-            realm.beginTransaction()
-            context.assets.open(Roman2KhmerApp.khmerWordsFile).bufferedReader().useLines { lines -> lines.forEach {
-                val word = it.split("\\s".toRegex())//split(",")
-                val kh = word[0].trim()
-                val freq = word[1].toInt()
-                val rm = if (word.size == 3) {
-                    word[2]
-                } else {
-                    ""
-                }
-                val romanKhmer: RomanItem = realm.createObject(RomanItem::class.java, UUID.randomUUID().toString())
-                romanKhmer.khmer = kh
-                romanKhmer.roman = rm
-                romanKhmer.freq = freq
-                realm.insert(romanKhmer)
             }
             }
             realm.commitTransaction()

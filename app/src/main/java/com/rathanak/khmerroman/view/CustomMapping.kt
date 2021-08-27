@@ -33,7 +33,6 @@ class CustomMapping : AppCompatActivity() {
             }
 
             R.id.action_add -> {
-                Log.i("test", "Heelo")
                 showRomanDialog()
                 return true
             }
@@ -68,7 +67,7 @@ class CustomMapping : AppCompatActivity() {
             RomanDialog(
                 "",
                 "",
-                100,
+                1,
                 applicationContext
             )
         dialog.show(supportFragmentManager, "RomanDialog")

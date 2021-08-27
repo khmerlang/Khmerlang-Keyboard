@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_custom_mapping.xml" value="0.1515625" />
+        <entry key="app/src/main/res/layout/activity_roman_mapping.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/keybaord.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/roman_item.xml" value="0.20208333333333334" />
       </map>

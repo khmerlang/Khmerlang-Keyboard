@@ -4,13 +4,12 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
-import com.rathanak.khmerroman.data.RealmMigrations
-import com.rathanak.khmerroman.data.RomanItem
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -29,10 +28,10 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
                 val ngramData: Ngram = realm.createObject(Ngram::class.java, UUID.randomUUID().toString())
                 ngramData.keyword = keyword
                 ngramData.roman = roman
-                ngramData.count = count
-                ngramData.is_custom = true
                 ngramData.lang = Roman2KhmerApp.LANG_KH
                 ngramData.gram = Roman2KhmerApp.ONE_GRAM
+                ngramData.count = count
+                ngramData.is_custom = true
                 realm.insert(ngramData)
             realm.commitTransaction()
             Toast.makeText(appCon,"record  created",Toast.LENGTH_LONG).show()

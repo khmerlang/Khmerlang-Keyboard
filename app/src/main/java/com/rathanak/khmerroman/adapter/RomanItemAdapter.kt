@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
-import com.rathanak.khmerroman.data.RomanItem
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import io.realm.Case
 import io.realm.Realm
@@ -25,7 +24,7 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
     init {
         romanItemsList = realm.where(Ngram::class.java)
             .equalTo("is_custom", isCustom)
-            .equalTo("count", Roman2KhmerApp.ONE_GRAM)
+            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
             .equalTo("lang", Roman2KhmerApp.LANG_KH)
             .findAll()
             .sort("keyword")
@@ -52,7 +51,7 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
         holder.view.btnDelete.setOnClickListener {
             Toast.makeText(appContext,item?.keyword + ":" + item?.roman + " deleted", Toast.LENGTH_LONG).show()
             realm.beginTransaction()
-                var result = realm.where(RomanItem::class.java)
+                var result = realm.where(Ngram::class.java)
                     .equalTo("id", item?.id)
                     .equalTo("is_custom", true)
                     .findAll()
@@ -74,7 +73,7 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                 romanItemsList = if (newText == null || newText.isEmpty()) {
                     realm.where(Ngram::class.java)
                         .equalTo("is_custom", isCustom)
-                        .equalTo("count", Roman2KhmerApp.ONE_GRAM)
+                        .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
                         .equalTo("lang", Roman2KhmerApp.LANG_KH)
                         .findAll()
                         .sort("keyword")
@@ -87,7 +86,7 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                         .endGroup()
                         .and()
                         .equalTo("is_custom", isCustom)
-                        .equalTo("count", Roman2KhmerApp.ONE_GRAM)
+                        .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
                         .equalTo("lang", Roman2KhmerApp.LANG_KH)
                         .findAll()
                         .sort("keyword")

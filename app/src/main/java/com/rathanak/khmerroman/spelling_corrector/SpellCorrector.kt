@@ -3,7 +3,6 @@ package com.rathanak.khmerroman.spelling_corrector
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
-import com.rathanak.khmerroman.data.RomanItem
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
