@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.spelling_corrector
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.Roman2KhmerApp
@@ -13,7 +14,6 @@ class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
-//    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
     fun reset() {
         bkKH = Bktree()
@@ -22,46 +22,28 @@ class SpellCorrector() {
     }
 
     fun loadData(context: Context) {
-        bkKH = readModel(context, Roman2KhmerApp.khmerWordsFile, false, false)
-        bkRM = readModel(context, Roman2KhmerApp.khmerWordsFile, true, true)
-        bkEN = readModel(context, Roman2KhmerApp.englishWordsFile, false, false)
-
-//        var realm = Realm.getDefaultInstance()
-//        val wordList = realm.where(RomanItem::class.java)
-//            .equalTo("custom", false).findAll()
-//        wordList.forEach {
-//            Log.d("khmerlang", it.roman + ":" + it.khmer)
-//        }
-//        realm.close()
-    }
-
-    private fun readModel(context: Context, filePart: String, isOther: Boolean, wordLast: Boolean): Bktree {
-        var model = Bktree()
-
-        var indexWord = 0
-        var indexOther = 2
-        if(wordLast) {
-            indexWord = 2
-            indexOther = 0
+        var realm = Realm.getDefaultInstance()
+        val khWordList = realm.where(Ngram::class.java)
+            // .equalTo("is_custom", isCustom)
+            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
+            .equalTo("lang", Roman2KhmerApp.LANG_KH)
+            .findAll()
+            .sort("keyword")
+        khWordList.forEach {
+            bkKH.add(it.keyword, it.count, "")
+            it.roman?.let { it1 -> bkRM.add(it1, it.count, it.keyword) }
         }
-        try {
-            context.assets.open(filePart).bufferedReader().useLines { lines -> lines.forEach {
-                    val word = it.split("\\s".toRegex())//split(",")
-                    val word_1 = word[indexWord].trim()
-                    val freq = word[1].toInt()
-                    val other = if (isOther && word.size == 3) {
-                        word[indexOther]
-                    } else {
-                        ""
-                    }
-                    model.add(word_1, freq, other)
-                }
-            }
-        } catch (ex:Exception){
-            Log.e("read_file", ex.localizedMessage)
+        val enWordList = realm.where(Ngram::class.java)
+            // .equalTo("is_custom", isCustom)
+            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
+            .equalTo("lang", Roman2KhmerApp.LANG_EN)
+            .findAll()
+            .sort("keyword")
+        enWordList.forEach {
+            bkEN.add(it.keyword, it.count, "")
         }
 
-        return model
+        realm.close()
     }
 
     private fun specialKhmer(str: String): String {
