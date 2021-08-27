@@ -19,6 +19,7 @@ class RealmMigrations : RealmMigration {
 
         if (oldVersion == 1L) {
             schema.create("Ngram")
+                .addField("id", Int::class.java, FieldAttribute.PRIMARY_KEY)
                 .addField("keyword", String::class.java, FieldAttribute.REQUIRED, FieldAttribute.INDEXED)
                 .addField("roman", String::class.java, FieldAttribute.INDEXED)
                 .addField("lang", Int::class.java)
@@ -27,11 +28,6 @@ class RealmMigrations : RealmMigration {
                 .addField("is_custom", Boolean::class.java)
 
             oldVersion++
-        }
-
-        if (oldVersion == 2L) {
-            schema.get("Ngram")!!
-                .addField("id", String::class.java, FieldAttribute.PRIMARY_KEY)
         }
     }
 }

@@ -21,11 +21,13 @@ import java.util.*
 class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, val appCon: Context) : DialogFragment() {
     private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
 
-    private fun updateRecord(keyword: String, roman: String) {
+    private fun createRecord(keyword: String, roman: String) {
         if (keyword.isNotEmpty() && roman.isNotEmpty()) {
             // TODO create, update table
+//            var nextId = realm.where(Ngram::class.java).max("id") as Int + 1
+            var nextId =  Roman2KhmerApp.getNextKey()
             realm.beginTransaction()
-                val ngramData: Ngram = realm.createObject(Ngram::class.java, UUID.randomUUID().toString())
+                val ngramData: Ngram = realm.createObject(Ngram::class.java, nextId)
                 ngramData.keyword = keyword
                 ngramData.roman = roman
                 ngramData.lang = Roman2KhmerApp.LANG_KH
@@ -49,9 +51,10 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
             rkDialogView.edit_roman.setText(txtRoman)
             builder.setView(rkDialogView)
             rkDialogView.btnSubmit.setOnClickListener {
+                // TODO validation
                 var keyword = rkDialogView.edit_khmer.text.toString()
                 var roman = rkDialogView.edit_roman.text.toString()
-                updateRecord(keyword, roman)
+                createRecord(keyword, roman)
                 dismiss()
             }
             rkDialogView.btnCancel.setOnClickListener {

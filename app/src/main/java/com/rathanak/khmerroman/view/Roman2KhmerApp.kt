@@ -5,6 +5,7 @@ import android.util.Log
 import com.rathanak.khmerroman.core.predictModule
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.data.RealmMigrations
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -19,7 +20,7 @@ class Roman2KhmerApp : Application() {
         if(dbConfig == null) {
             dbConfig = RealmConfiguration.Builder()
                 .name("khmer_roman.realm")
-                .schemaVersion(3)
+                .schemaVersion(2)
                 .build()
             try {
                 Realm.migrateRealm(dbConfig, RealmMigrations())
@@ -53,5 +54,18 @@ class Roman2KhmerApp : Application() {
         const val LANG_EN = 2
         const val ONE_GRAM = 1
         const val TWO_GRAM = 2
+
+        fun getNextKey(): Int {
+            return try {
+                val number: Number? = Realm.getDefaultInstance().where(Ngram::class.java).max("id")
+                if (number != null) {
+                    number.toInt() + 1
+                } else {
+                    0
+                }
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                0
+            }
+        }
     }
 }

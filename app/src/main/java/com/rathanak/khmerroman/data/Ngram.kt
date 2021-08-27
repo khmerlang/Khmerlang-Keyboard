@@ -5,10 +5,11 @@ import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.Required
 import java.util.*
+import io.realm.RealmQuery
 
 open class Ngram : RealmObject() {
     @PrimaryKey
-    var id: String = UUID.randomUUID().toString()
+    var id: Int = 0
     @Required
     @Index
     var keyword: String = ""

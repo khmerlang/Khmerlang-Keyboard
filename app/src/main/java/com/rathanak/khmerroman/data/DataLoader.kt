@@ -29,6 +29,8 @@ class DataLoader(val context: Context ) {
     }
 
     private fun loadSpellCheckKH() {
+//        var nextId = realm.where(Ngram::class.java).max("id") as Int + 1
+        var nextId =  Roman2KhmerApp.getNextKey()
         try {
             realm.beginTransaction()
             context.assets.open(Roman2KhmerApp.khmerWordsFile).bufferedReader().useLines { lines -> lines.forEach {
@@ -43,7 +45,7 @@ class DataLoader(val context: Context ) {
                 }
 
                 if(keyword.isNotEmpty()) {
-                    val ngramData: Ngram = realm.createObject(Ngram::class.java, UUID.randomUUID().toString())
+                    val ngramData: Ngram = realm.createObject(Ngram::class.java, nextId)
                     ngramData.keyword = keyword
                     ngramData.roman = roman
                     ngramData.lang = Roman2KhmerApp.LANG_KH
@@ -51,6 +53,7 @@ class DataLoader(val context: Context ) {
                     ngramData.count = count
                     ngramData.is_custom = false
                     realm.insert(ngramData)
+                    nextId++
                 }
             }
             }
@@ -61,6 +64,8 @@ class DataLoader(val context: Context ) {
     }
 
     private fun loadSpellCheckEN() {
+//        var nextId = realm.where(Ngram::class.java).max("id") as Int + 1
+        var nextId =  Roman2KhmerApp.getNextKey()
         try {
             realm.beginTransaction()
             context.assets.open(Roman2KhmerApp.englishWordsFile).bufferedReader().useLines { lines -> lines.forEach {
@@ -71,7 +76,7 @@ class DataLoader(val context: Context ) {
                 val roman = ""
 
                 if(keyword.isNotEmpty()) {
-                    val ngramData: Ngram = realm.createObject(Ngram::class.java, UUID.randomUUID().toString())
+                    val ngramData: Ngram = realm.createObject(Ngram::class.java, nextId)
                     ngramData.keyword = keyword
                     ngramData.roman = roman
                     ngramData.lang = Roman2KhmerApp.LANG_EN
@@ -79,6 +84,7 @@ class DataLoader(val context: Context ) {
                     ngramData.count = count
                     ngramData.is_custom = false
                     realm.insert(ngramData)
+                    nextId++
                 }
             }
             }
