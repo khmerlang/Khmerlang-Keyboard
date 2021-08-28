@@ -50,13 +50,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         initToggleButton()
         toggleBarLayOut(true)
         handleNumberClick()
-        if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
-            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
-        } else {
-            this.smartbarView!!.noDataContainer!!.visibility = View.GONE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
-        }
 
         return smartbarView
     }
@@ -98,6 +91,15 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     fun toggleBarLayOut(show: Boolean) {
         if (this.smartbarView == null) {
             return
+        }
+
+        if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
+            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
+            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
+            return
+        } else {
+            this.smartbarView!!.noDataContainer!!.visibility = View.GONE
+            this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
         }
 
         this.smartbarView!!.toggleOption!!.isChecked = show

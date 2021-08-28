@@ -100,7 +100,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         val job= GlobalScope.launch(Dispatchers.Main) {
             loadSpelling()
         }
-
     }
 
     private suspend fun loadSpelling() {

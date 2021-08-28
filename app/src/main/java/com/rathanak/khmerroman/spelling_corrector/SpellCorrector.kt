@@ -14,7 +14,7 @@ class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
-    var isSpellDataExist = false
+    var isSpellDataExist = true
 
     fun reset() {
         bkKH = Bktree()
@@ -24,6 +24,7 @@ class SpellCorrector() {
     }
 
     fun loadData(context: Context) {
+        isSpellDataExist = true
         var realm = Realm.getDefaultInstance()
         val khWordList = realm.where(Ngram::class.java)
             // .equalTo("is_custom", isCustom)
@@ -45,8 +46,8 @@ class SpellCorrector() {
             bkEN.add(it.keyword, it.count, "")
         }
 
-        if (khWordList.size > 0 || enWordList.size > 0) {
-            isSpellDataExist = true
+        if (!(khWordList.size > 0 || enWordList.size > 0)) {
+            isSpellDataExist = false
         }
 
         realm.close()
