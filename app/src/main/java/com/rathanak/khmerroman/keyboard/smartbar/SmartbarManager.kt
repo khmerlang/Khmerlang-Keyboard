@@ -34,7 +34,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_home_logo_btn)
                 toggleBarLayOut(true)
-                this.smartbarView!!.settingsList.visibility = View.INVISIBLE//View.GONE
+                this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
                 checkButtonOptionsVisibility()
                 buttonView.setBackgroundResource(R.drawable.ic_home_btn)
@@ -42,9 +42,21 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
         }
+        this.smartbarView!!.btnDownloadData.setOnClickListener {
+            it.visibility = View.GONE
+            this.smartbarView!!.downloadingData.visibility = View.VISIBLE
+        }
+
         initToggleButton()
         toggleBarLayOut(true)
         handleNumberClick()
+        if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
+            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
+            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
+        } else {
+            this.smartbarView!!.noDataContainer!!.visibility = View.GONE
+            this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
+        }
 
         return smartbarView
     }
@@ -94,26 +106,20 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         var suggestionCount = this.smartbarView!!.candidatesList.childCount
+
         this.smartbarView!!.settingsList.visibility = View.GONE
+        this.smartbarView!!.bannerContainer!!.visibility = View.GONE
+        this.smartbarView!!.candidatesContainer.visibility = View.GONE
+        this.smartbarView!!.numbersList!!.visibility = View.GONE
         if (show) {
             if (r_2_khmer.currentInputPassword) {
                 this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
-                this.smartbarView!!.bannerContainer.visibility = View.GONE
-                this.smartbarView!!.candidatesContainer.visibility = View.GONE
             } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
-                this.smartbarView!!.numbersList!!.visibility = View.GONE
-                this.smartbarView!!.bannerContainer.visibility = View.GONE
-            } else if(isShowBanner) {
+            } else {
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
-                this.smartbarView!!.candidatesContainer.visibility = View.GONE
-                this.smartbarView!!.numbersList!!.visibility = View.GONE
             }
             // else if has text for suggestion show suggestion
-        } else {
-            this.smartbarView!!.bannerContainer!!.visibility = View.GONE
-            this.smartbarView!!.candidatesContainer.visibility = View.GONE
-            this.smartbarView!!.numbersList!!.visibility = View.GONE
         }
     }
 
@@ -142,6 +148,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         if (this.smartbarView == null) {
+            return
+        }
+
+        if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
             return
         }
 

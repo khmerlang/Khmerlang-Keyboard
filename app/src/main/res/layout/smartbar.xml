@@ -6,197 +6,240 @@
     android:layout_height="50dp"
     android:maxHeight="50dp"
     android:background="@color/grey_light"
-    tools:ignore="NestedWeights"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="5dp">
-    <ToggleButton
-        android:id="@+id/toggleOption"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_home_logo_btn"
-        android:checked="true"
-        android:textOff=""
-        android:textOn="" />
-
-    <!--  Setting options here  -->
+    android:orientation="horizontal">
+    <!--  Case No data  -->
     <LinearLayout
-        android:animateLayoutChanges="true"
-        android:layout_height="wrap_content"
+        android:maxHeight="50dp"
+        android:background="@color/grey_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:id="@+id/settingsList"
-        android:gravity="right"
-        android:paddingLeft="5dp"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        tools:ignore="NestedWeights"
+        android:id="@+id/noDataContainer"
         android:visibility="gone">
-<!--        <ToggleButton-->
-<!--            android:id="@+id/btnToggleShowLabel"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:background="@drawable/ic_info_on_btn"-->
-<!--            android:checked="true"-->
-<!--            android:textOff=""-->
-<!--            android:textOn=""-->
-<!--            android:layout_marginRight="5dp"/>-->
-<!--        <ToggleButton-->
-<!--            android:id="@+id/btnToggleKHCorrection"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:background="@drawable/ic_khmer_sug_on_btn"-->
-<!--            android:checked="true"-->
-<!--            android:textOff=""-->
-<!--            android:textOn=""-->
-<!--            android:layout_marginRight="5dp"/>-->
-        <ToggleButton
-            android:id="@+id/btnToggleRMCorrection"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_roman_sug_on_btn"
-            android:checked="true"
-            android:textOff=""
-            android:textOn=""
-            android:layout_marginRight="5dp"/>
-        <ToggleButton
-            android:id="@+id/btnToggleENCorrection"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_english_sug_on_btn"
-            android:checked="true"
-            android:textOff=""
-            android:textOn=""
-            android:layout_marginRight="5dp"/>
-        <ImageButton
-            android:id="@+id/btnOpenApp"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_goto_setting_btn"/>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/downloadingData"
+                android:visibility="gone"/>
+            <ImageButton
+                android:gravity="center"
+                android:id="@+id/btnDownloadData"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:src="@drawable/app_banner"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <!--  Roman number keys here  -->
+    <!--  Case No exist  -->
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:maxHeight="50dp"
+        android:background="@color/grey_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:id="@+id/numbersList"
-        android:gravity="right"
-        android:paddingLeft="5dp"
-        android:visibility="gone">
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum1"
-            android:text="1"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum2"
-            android:text="2"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum3"
-            android:text="3"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum4"
-            android:text="4"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum5"
-            android:text="5"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum6"
-            android:text="6"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum7"
-            android:text="7"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum8"
-            android:text="8"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum9"
-            android:text="9"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:layout_marginRight="2dp"
-            android:id="@+id/btnNum0"
-            android:text="0"/>
-    </LinearLayout>
+        android:layout_height="50dp"
+        android:padding="5dp"
+        tools:ignore="NestedWeights"
+        android:id="@+id/hasDataContainer">
+        <ToggleButton
+            android:id="@+id/toggleOption"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_home_logo_btn"
+            android:checked="true"
+            android:textOff=""
+            android:textOn="" />
 
-    <!--  Roman suggestion here  -->
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/candidatesContainer"
-        android:paddingLeft="5dp"
-        android:gravity="center"
-        android:visibility="gone">
-        <HorizontalScrollView
-            android:id="@+id/candidatesScrollContainer"
-            android:layout_width="wrap_content"
+        <!--  Setting options here  -->
+        <LinearLayout
+            android:animateLayoutChanges="true"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:scrollbars="none">
-            <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/settingsList"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:visibility="gone">
+            <!--        <ToggleButton-->
+            <!--            android:id="@+id/btnToggleShowLabel"-->
+            <!--            android:layout_width="40dp"-->
+            <!--            android:layout_height="40dp"-->
+            <!--            android:background="@drawable/ic_info_on_btn"-->
+            <!--            android:checked="true"-->
+            <!--            android:textOff=""-->
+            <!--            android:textOn=""-->
+            <!--            android:layout_marginRight="5dp"/>-->
+            <!--        <ToggleButton-->
+            <!--            android:id="@+id/btnToggleKHCorrection"-->
+            <!--            android:layout_width="40dp"-->
+            <!--            android:layout_height="40dp"-->
+            <!--            android:background="@drawable/ic_khmer_sug_on_btn"-->
+            <!--            android:checked="true"-->
+            <!--            android:textOff=""-->
+            <!--            android:textOn=""-->
+            <!--            android:layout_marginRight="5dp"/>-->
+            <ToggleButton
+                android:id="@+id/btnToggleRMCorrection"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_roman_sug_on_btn"
+                android:checked="true"
+                android:textOff=""
+                android:textOn=""
+                android:layout_marginRight="5dp"/>
+            <ToggleButton
+                android:id="@+id/btnToggleENCorrection"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_english_sug_on_btn"
+                android:checked="true"
+                android:textOff=""
+                android:textOn=""
+                android:layout_marginRight="5dp"/>
+            <ImageButton
+                android:id="@+id/btnOpenApp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_goto_setting_btn"/>
+        </LinearLayout>
+
+        <!--  Roman number keys here  -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/numbersList"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:visibility="gone">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:id="@+id/candidatesList"
-                android:orientation="horizontal">
-                <!--   suggestions here             -->
-            </LinearLayout>
-        </HorizontalScrollView>
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum1"
+                android:text="1"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum2"
+                android:text="2"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum3"
+                android:text="3"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum4"
+                android:text="4"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum5"
+                android:text="5"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum6"
+                android:text="6"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum7"
+                android:text="7"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum8"
+                android:text="8"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum9"
+                android:text="9"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:layout_marginRight="2dp"
+                android:id="@+id/btnNum0"
+                android:text="0"/>
+        </LinearLayout>
+
+        <!--  Roman suggestion here  -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/candidatesContainer"
+            android:paddingLeft="5dp"
+            android:gravity="center"
+            android:visibility="gone">
+            <HorizontalScrollView
+                android:id="@+id/candidatesScrollContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/candidatesList"
+                    android:orientation="horizontal">
+                    <!--   suggestions here             -->
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!--  Setting ad here  -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/bannerContainer"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:src="@drawable/app_banner"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <!--  Setting ad here  -->
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/bannerContainer"
-        android:gravity="center"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:visibility="gone">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:src="@drawable/app_banner"/>
-    </LinearLayout>
 </LinearLayout>

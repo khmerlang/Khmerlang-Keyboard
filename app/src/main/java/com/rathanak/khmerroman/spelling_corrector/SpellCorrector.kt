@@ -14,11 +14,13 @@ class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
+    var isSpellDataExist = false
 
     fun reset() {
         bkKH = Bktree()
         bkRM = Bktree()
         bkEN = Bktree()
+        isSpellDataExist = false
     }
 
     fun loadData(context: Context) {
@@ -41,6 +43,10 @@ class SpellCorrector() {
             .sort("keyword")
         enWordList.forEach {
             bkEN.add(it.keyword, it.count, "")
+        }
+
+        if (khWordList.size > 0 || enWordList.size > 0) {
+            isSpellDataExist = true
         }
 
         realm.close()
