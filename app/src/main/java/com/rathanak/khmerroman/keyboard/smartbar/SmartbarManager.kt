@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.core.view.children
+import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
@@ -96,6 +97,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
             this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
             this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
+            Glide.with(r_2_khmer.context)
+                .load("https://moi-static.sgp1.digitaloceanspaces.com/uploads/adsense/ads_image/32/3_3.png")
+                .error(R.drawable.ads_banner)
+                .into(this.smartbarView!!.btnDownloadData);
             return
         } else {
             this.smartbarView!!.noDataContainer!!.visibility = View.GONE
