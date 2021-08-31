@@ -13,7 +13,8 @@
         android:maxHeight="50dp"
         android:background="@color/grey_light"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="5dp"
@@ -21,22 +22,26 @@
         android:id="@+id/noDataContainer"
         android:visibility="gone">
         <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
             android:gravity="center"
+            android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
             <ProgressBar
+                android:id="@+id/downloadingData"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/downloadingData"
-                android:visibility="gone"/>
+                android:visibility="gone" />
             <ImageButton
-                android:gravity="center"
                 android:id="@+id/btnDownloadData"
-                android:layout_width="wrap_content"
+                android:layout_width="380dp"
                 android:layout_height="40dp"
-                android:src="@drawable/app_banner"/>
+                android:gravity="center"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ads_banner" />
         </LinearLayout>
     </LinearLayout>
 
@@ -238,7 +243,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:src="@drawable/app_banner"/>
+                android:src="@drawable/ads_banner"/>
         </LinearLayout>
     </LinearLayout>
 
