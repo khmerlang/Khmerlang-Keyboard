@@ -46,6 +46,15 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         this.smartbarView!!.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
             this.smartbarView!!.downloadingData.visibility = View.VISIBLE
+            // download data
+            // save to DB
+            // load to model
+            // set visibility to GONE
+            //
+        }
+
+        this.smartbarView!!.bannerImage.setOnClickListener {
+            //  open banner URl
         }
 
         initToggleButton()
@@ -124,6 +133,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
             } else {
+                Glide.with(r_2_khmer.context)
+                    .load(R.drawable.ads_banner)
+                    .error(R.drawable.ads_banner)
+                    .into(this.smartbarView!!.bannerImage);
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
             }
             // else if has text for suggestion show suggestion
