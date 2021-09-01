@@ -24,6 +24,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var isShowBanner: Boolean = true
     var isTyping: Boolean = false
     private var prevComposingText = ""
+    private var currentBannerIndex = 0
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -51,6 +52,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             // load to model
             // set visibility to GONE
             //
+            //  currentBannerIndex
         }
 
         this.smartbarView!!.bannerImage.setOnClickListener {
@@ -133,6 +135,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
             } else {
+                nextBannerIndex()
+                //  currentBannerIndex
                 Glide.with(r_2_khmer.context)
                     .load(R.drawable.ads_banner)
                     .error(R.drawable.ads_banner)
@@ -202,7 +206,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 //                                val btnSuggestion = Button(r_2_khmer.context)
 //                                btnSuggestion.layoutParams =layoutParams
 //                                btnSuggestion.text = toEndWord + word.toString()
-//
 //                                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
 //                                this.smartbarView!!.candidatesList.addView(btnSuggestion)
 //                                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
@@ -254,6 +257,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 numberButton.setOnClickListener(numberButtonOnClickListener)
             }
         }
+    }
+
+    private  fun  nextBannerIndex() {
+        currentBannerIndex = (currentBannerIndex + 1) % 10
     }
 
     private val numberButtonOnClickListener = View.OnClickListener { v ->
