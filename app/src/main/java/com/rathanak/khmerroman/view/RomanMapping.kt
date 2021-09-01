@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
+import kotlinx.coroutines.*
 
 class RomanMapping : AppCompatActivity() {
     private var rAdapter: RomanItemAdapter? = null
@@ -40,16 +42,19 @@ class RomanMapping : AppCompatActivity() {
         val searchItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
+        searchView.setOnQueryTextListener(
+            DebouncingQueryTextListener(
+                this@RomanMapping.lifecycle
+            ) { newText ->
+                newText?.let {
+                    if (it.isEmpty()) {
+                        rAdapter?.getFilter()?.filter("")
+                    } else {
+                        rAdapter?.getFilter()?.filter(it)
+                    }
+                }
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                rAdapter?.getFilter()?.filter(newText)
-                return false
-            }
-        })
+        )
 
         return true
     }
