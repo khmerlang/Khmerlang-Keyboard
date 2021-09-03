@@ -75,6 +75,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private lateinit var preferences: KeyboardPreferences
     var bannerIdsData: MutableList<String> = mutableListOf()
     var currentBannerIndex = 0
+    var bannerTargetUrl = "http://khmerlang.com/"
     var lastFetchBannerAt: Date? = null
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
@@ -139,6 +140,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         if(bannerIdsData.isNotEmpty()) {
             currentBannerIndex = (currentBannerIndex + 1) % bannerIdsData.size
             smartbarManager.setBannerImage(BANNER_IMAGE + bannerIdsData[currentBannerIndex])
+            bannerTargetUrl = BANNER_VISIT + bannerIdsData[currentBannerIndex]
         }
     }
 
@@ -723,6 +725,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val NUMBER_IDX = 5
         const val BANNER_META = "https://banner.khmerlang.com/mobile/meta"
         const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images/"
+        const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits/"
 
         var spellingCorrector: SpellCorrector = SpellCorrector()
     }

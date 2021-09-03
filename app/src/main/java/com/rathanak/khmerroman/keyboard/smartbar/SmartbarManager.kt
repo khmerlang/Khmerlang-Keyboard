@@ -2,12 +2,14 @@ package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
@@ -16,6 +18,10 @@ import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlinx.android.synthetic.main.smartbar.view.*
+import androidx.core.content.ContextCompat.startActivity
+
+
+
 
 private const val MODEL_ORDER = 5
 class SmartbarManager(private val r_2_khmer: R2KhmerService) {
@@ -55,7 +61,11 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         this.smartbarView!!.bannerImage.setOnClickListener {
-            //  open banner URl
+            if(r_2_khmer.bannerTargetUrl != "") {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(r_2_khmer.bannerTargetUrl))
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                r_2_khmer.context.startActivity(intent)
+            }
         }
 
         initToggleButton()
@@ -285,10 +295,5 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             else -> KeyData(0)
         }
         r_2_khmer.sendKeyPress(keyData)
-    }
-
-    companion object {
-        const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images/"
-        const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits/"
     }
 }
