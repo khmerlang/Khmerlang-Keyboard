@@ -20,6 +20,10 @@ class KeyboardPreferences(context: Context) {
         preference.edit()?.putInt(key, data)?.apply()
     }
 
+    fun putString(key: String, data: String) {
+        preference.edit()?.putString(key, data)?.apply()
+    }
+
 //    fun getBoolean(key: String): Boolean {
 //        return preference.getBoolean(key, false)
 //    }
@@ -32,6 +36,10 @@ class KeyboardPreferences(context: Context) {
         return preference.getInt(key, defaultInt)
     }
 
+    fun getString(key: String, defaultInt: String): String? {
+        return preference.getString(key, defaultInt)
+    }
+
     companion object {
         const val KEY_NOT_FIRST_RUN = "key_not_first_run"
         const val KEY_CURRENT_LANGUAGE_IDX = "key_current_language_idx"
@@ -42,5 +50,6 @@ class KeyboardPreferences(context: Context) {
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
         const val KEY_DATA_LOADED = "key_data_load"
+        const val KEY_BANNER_IDS = "key_banner_ids"
     }
 }

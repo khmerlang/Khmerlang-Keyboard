@@ -138,7 +138,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 nextBannerIndex()
                 //  currentBannerIndex
                 Glide.with(r_2_khmer.context)
-                    .load(R.drawable.ads_banner)
+                    .load("https://banner.khmerlang.com/mobile/images/1")
                     .error(R.drawable.ads_banner)
                     .into(this.smartbarView!!.bannerImage);
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
