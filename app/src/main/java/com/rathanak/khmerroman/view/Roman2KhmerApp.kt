@@ -43,28 +43,8 @@ class Roman2KhmerApp : Application() {
         preferences = KeyboardPreferences(applicationContext)
 
         //  preferences!!.getString(KeyboardPreferences.KEY_BANNER_IDS, "")
-        bannerData = ""
-        GlobalScope.launch(Dispatchers.Main) {
-            fetchData()
-        }
-
-//        val connectivityManager = getSystemService(ConnectivityManager::class.java)
-//        connectivityManager.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
-//
-//        }
-
         // start Koin!
         startKoin(this, listOf(predictModule))
-    }
-
-    private suspend fun fetchData() {
-        coroutineScope {
-            async(Dispatchers.IO) {
-                val result = URL(BANNER_META).readText()
-                val data = JSONTokener(result).nextValue() as JSONObject
-                bannerData = data.getJSONArray("banner_ids").join(",")
-            }
-        }
     }
 
     companion object {
@@ -77,9 +57,6 @@ class Roman2KhmerApp : Application() {
         const val LANG_EN = 2
         const val ONE_GRAM = 1
         const val TWO_GRAM = 2
-        const val BANNER_META = "https://banner.khmerlang.com/mobile/meta"
-        const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images"
-        const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits"
 
         fun getNextKey(): Int {
             return try {

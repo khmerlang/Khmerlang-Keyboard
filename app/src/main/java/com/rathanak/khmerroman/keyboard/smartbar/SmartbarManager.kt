@@ -24,7 +24,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var isShowBanner: Boolean = true
     var isTyping: Boolean = false
     private var prevComposingText = ""
-    private var currentBannerIndex = 0
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -135,15 +134,27 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
             } else {
-                nextBannerIndex()
-                //  currentBannerIndex
-                Glide.with(r_2_khmer.context)
-                    .load("https://banner.khmerlang.com/mobile/images/1")
-                    .error(R.drawable.ads_banner)
-                    .into(this.smartbarView!!.bannerImage);
                 this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
             }
             // else if has text for suggestion show suggestion
+        }
+    }
+
+    fun setBannerImage(bannerID: String) {
+        if (this.smartbarView == null) {
+            return
+        }
+
+        if(bannerID != "") {
+            Glide.with(r_2_khmer.context)
+                .load(bannerID)
+                .error(R.drawable.ads_banner)
+                .into(this.smartbarView!!.bannerImage);
+        } else {
+            Glide.with(r_2_khmer.context)
+                .load(R.drawable.ads_banner)
+                .error(R.drawable.ads_banner)
+                .into(this.smartbarView!!.bannerImage);
         }
     }
 
@@ -259,10 +270,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
     }
 
-    private  fun  nextBannerIndex() {
-        currentBannerIndex = (currentBannerIndex + 1) % 10
-    }
-
     private val numberButtonOnClickListener = View.OnClickListener { v ->
         val keyData = when (v.id) {
             R.id.btnNum0 -> KeyData(48, "0")
@@ -278,5 +285,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             else -> KeyData(0)
         }
         r_2_khmer.sendKeyPress(keyData)
+    }
+
+    companion object {
+        const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images/"
+        const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits/"
     }
 }

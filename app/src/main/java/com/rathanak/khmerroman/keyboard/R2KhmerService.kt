@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
+import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
@@ -37,6 +38,10 @@ import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import kotlinx.coroutines.*
+import org.json.JSONObject
+import org.json.JSONTokener
+import java.net.URL
+import java.util.*
 import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
@@ -68,6 +73,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var isKeyDown: Boolean = false
     var currentInputPassword: Boolean = false
     private lateinit var preferences: KeyboardPreferences
+    var bannerIdsData: MutableList<String> = mutableListOf()
+    var currentBannerIndex = 0
+    var lastFetchBannerAt: Date? = null
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
@@ -119,6 +127,43 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         if (preferences.getBoolean(KEY_NEEDS_RELOAD)) {
             loadSharedPreferences()
         }
+
+        // check if banner recent or long load
+        val currentDate = Date()
+        if(lastFetchBannerAt == null || (currentDate.time - lastFetchBannerAt!!.time >= 30*60*1000)) {
+            val job= GlobalScope.launch(Dispatchers.Main) {
+                loadBannerData()
+            }
+        }
+
+        if(bannerIdsData.isNotEmpty()) {
+            currentBannerIndex = (currentBannerIndex + 1) % bannerIdsData.size
+            smartbarManager.setBannerImage(BANNER_IMAGE + bannerIdsData[currentBannerIndex])
+        }
+    }
+
+    private suspend fun loadBannerData() {
+        coroutineScope {
+            async(Dispatchers.IO) {
+                try {
+                    val result = URL(BANNER_META).readText()
+                    val data = JSONTokener(result).nextValue() as JSONObject
+                    val bannerIds = data.getJSONArray("banner_ids")
+                    if (bannerIds != null) {
+                        bannerIdsData.clear()
+                        for (i in 0 until bannerIds.length()) {
+                            bannerIdsData.add(bannerIds.getString(i))
+                        }
+                    }
+                    if(bannerIdsData.isNotEmpty()) {
+                        lastFetchBannerAt = Date()
+                    }
+                } catch (e: Exception) {
+                    bannerIdsData.clear()
+                }
+            }
+        }
+
     }
 
     override fun onInitializeInterface() {
@@ -676,6 +721,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val SYM_IDX = 3
         const val SYM_SHIFT_IDX = 4
         const val NUMBER_IDX = 5
+        const val BANNER_META = "https://banner.khmerlang.com/mobile/meta"
+        const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images/"
 
         var spellingCorrector: SpellCorrector = SpellCorrector()
     }
