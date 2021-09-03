@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
@@ -18,12 +17,7 @@ import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlinx.android.synthetic.main.smartbar.view.*
-import androidx.core.content.ContextCompat.startActivity
 
-
-
-
-private const val MODEL_ORDER = 5
 class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
