@@ -10,69 +10,141 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:gravity="center"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
-        <ScrollView
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="150dp"
+           android:background="@color/colorPrimary"
+           android:gravity="center"
+           android:orientation="vertical"
+           >
+           <ImageView
+               android:layout_marginTop="25dp"
+               android:layout_width="wrap_content"
+               android:layout_height="70dp"
+               android:contentDescription="@string/app_logo_alt"
+               android:src="@drawable/ic_khmer_lang_logo"/>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="40dp"
+               android:gravity="center"
+               android:orientation="horizontal">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="30dp"
+                   android:textColor="#000000"
+                   android:textSize="20sp"
+                   android:text="@string/app_welcome"/>
+               <TextView
+                   android:paddingLeft="5dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="30dp"
+                   android:textColor="#FFFFFF"
+                   android:textSize="20sp"
+                   android:text="@string/to_khmerlang"/>
+           </LinearLayout>
+
+       </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:orientation="horizontal"
+            android:gravity="center">
             <LinearLayout
+                android:background="@drawable/rounded_rect_shape"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:gravity="center"
-                android:padding="50dp">
-                <ImageView
-                    android:id="@+id/imageView2"
+                android:gravity="center">
+                <ScrollView
+                    android:fillViewport="true"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginBottom="15dp"
-                    app:srcCompat="@drawable/undraw_welcome_cats_thqn" />
-                <Button
-                    android:id="@+id/btnSetting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/button"
-                    android:text="@string/setting"
-                    android:theme="@style/HomeButton" />
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/btnCustomRoman"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/button"
-                    android:text="@string/custom_mapping"
-                    android:theme="@style/HomeButton" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="50dp">
 
-                <Button
-                    android:id="@+id/btnRoman"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/button"
-                    android:text="@string/roman_mapping"
-                    android:theme="@style/HomeButton" />
+                        <Button
+                            android:id="@+id/btnSetting"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/button"
+                            android:text="@string/setting"
+                            android:theme="@style/HomeButton" />
 
-                <Button
-                    android:id="@+id/btnAbout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/button"
-                    android:text="@string/about"
-                    android:theme="@style/HomeButton" />
+                        <Button
+                            android:id="@+id/btnCustomRoman"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/button"
+                            android:text="@string/custom_mapping"
+                            android:theme="@style/HomeButton" />
 
-                <Button
-                    android:id="@+id/btnClose"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button"
-                    android:text="@string/close"
-                    android:theme="@style/HomeButton" />
+                        <Button
+                            android:id="@+id/btnRoman"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/button"
+                            android:text="@string/roman_mapping"
+                            android:theme="@style/HomeButton" />
+
+                        <Button
+                            android:id="@+id/btnAbout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/button"
+                            android:text="@string/about"
+                            android:theme="@style/HomeButton" />
+
+                        <Button
+                            android:id="@+id/btnClose"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button"
+                            android:text="@string/close"
+                            android:theme="@style/HomeButton" />
+                    </LinearLayout>
+                </ScrollView>
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:background="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textColor="#000000"
+                    android:text="@string/khmerlang_url"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/ic_wave_bottom"/>-->
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

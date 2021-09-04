@@ -3,11 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/border_line.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/button.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/button_danger.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/button_danger_cicle.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/button_default.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_khmer_lang_logo.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_space_bar.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_wave.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/key_background.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/normal.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/pressed.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/rounded_rect_shape.xml" value="0.3765625" />
+        <entry key="app/src/main/res/layout/activity_about.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/activity_custom_mapping.xml" value="0.1515625" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_roman_mapping.xml" value="0.1515625" />
+        <entry key="app/src/main/res/layout/enable_keyboard_dialog.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/keybaord.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/layout/keyboard_popup_layout.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/preview.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/roman_2_khmer.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/roman_dialog.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/roman_item.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/smartbar.xml" value="0.21829710144927536" />
+        <entry key="app/src/main/res/menu/search_add_menu.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/menu/search_menu.xml" value="0.36041666666666666" />
       </map>
     </option>
   </component>

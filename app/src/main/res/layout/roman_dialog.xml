@@ -42,6 +42,4 @@
             android:text="@string/cancel"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
-
-
 </LinearLayout>

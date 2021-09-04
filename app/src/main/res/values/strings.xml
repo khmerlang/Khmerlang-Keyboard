@@ -21,12 +21,13 @@
     <string name="select_language">Select input languages</string>
     <string name="general_category">General</string>
 
-    <string name="my_account">My Account</string>
-    <string name="custom_mapping">Custom Mapping</string>
-    <string name="roman_mapping">Roman Mapping</string>
-    <string name="about">About Me</string>
-    <string name="close">Close</string>
-    <string name="title_activity_profile_settings">Settings</string>
+    <string name="my_account">គណនី​របស់ខ្ញុំ</string>
+    <string name="custom_mapping">វចនានុក្រមផ្ទាល់ខ្លួន</string>
+    <string name="roman_mapping">វចនានុក្រមរ៉ូម៉ាំង</string>
+    <string name="about">អំពី​ពួក​យើង</string>
+    <string name="close">បិទកម្មវិធី</string>
+    <string name="setting">ការកំណត់</string>
+    <string name="title_activity_profile_settings">ការកំណត់</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -42,11 +43,10 @@
     <string name="enable_summary_on">Show converted Roman character to Khmer and its suggestion
     </string>
     <string name="enable_summary_off">Show only Roman character for input email/pass</string>
-    <string name="app_logo_alt">App Logo</string>
+    <string name="app_logo_alt">Khmerlang</string>
     <string name="back_home">Back</string>
     <string name="title_activity_roman_mapping">Roman Mapping</string>
     <string name="title_activity_custom_mapping">Custom Mapping</string>
-    <string name="setting">Settings</string>
     <string name="dialogConfirmTitle">Are you sure?</string>
     <string name="dialogConfirmMessage">When you reset all your custom data will remove.</string>
     <string name="roman">Roman</string>
@@ -58,5 +58,7 @@
     <string name="enable_keyboard_title">Enable Keyboard</string>
     <string name="enable_keyboard_description">Please enable the Roman2ខ្មែរ Keyboard in the settings.</string>
     <string name="app_name_kh">ខម្ែរ</string>
-    <string name="banner_meta_url">https://banner.khmerlang.com/mobile/meta</string>
+    <string name="app_welcome">ស្វាគមន៍​មកកាន់</string>
+    <string name="to_khmerlang"> ភាសាខ្មែរ(KhmerLang)!</string>
+    <string name="khmerlang_url">www.khmerlang.com</string>
 </resources>
