@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">R2ខ្មែរ</string>
     <string name="ime_name">R2ខ្មែរ</string>
-    <string name="app_description">This is a new Khmer Keybaord for mapping inputted Roman character into Khmer word.</string>
+    <string name="app_about_description">យើងបានចាប់ផ្តើមការស្រាវជ្រាវនិងការអភិវឌ្ន៍កម្មវិធីរបស់យើងតាំងពីពាក់កណ្តាលឆ្នាំ ២០១៩ ។ ភាសាខ្មែរ (Khmerlang) ត្រូវបានបង្កើតឡើងដោយមានគោលដៅសាមញ្ញគឺធ្វើឱ្យភាសាខ្មែរងាយស្រួលប្រើប្រាស់ក្នុងជីវិតប្រចាំថ្ងៃរបស់យើង។ </string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
@@ -44,7 +44,7 @@
     </string>
     <string name="enable_summary_off">Show only Roman character for input email/pass</string>
     <string name="app_logo_alt">Khmerlang</string>
-    <string name="back_home">Back</string>
+    <string name="back_home">ត្រលប់ក្រោយ</string>
     <string name="title_activity_roman_mapping">Roman Mapping</string>
     <string name="title_activity_custom_mapping">Custom Mapping</string>
     <string name="dialogConfirmTitle">Are you sure?</string>
@@ -61,4 +61,6 @@
     <string name="app_welcome">ស្វាគមន៍​មកកាន់</string>
     <string name="to_khmerlang"> ភាសាខ្មែរ(KhmerLang)!</string>
     <string name="khmerlang_url">www.khmerlang.com</string>
+    <string name="app_about">អំពី</string>
+    <string name="app_about_find_us">អ្នកអាចរកឃើញយើងនៅ៖</string>
 </resources>

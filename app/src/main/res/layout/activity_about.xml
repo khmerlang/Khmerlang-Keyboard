@@ -5,42 +5,149 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.About">
-    <ScrollView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="#FFFFFF">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="150dp"
+            android:background="@color/colorPrimary"
             android:gravity="center"
-            android:padding="50dp">
+            android:orientation="vertical"
+            >
             <ImageView
-                android:id="@+id/imageView"
+                android:layout_marginTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:contentDescription="@string/app_logo_alt"
+                android:src="@drawable/ic_khmer_lang_logo"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginBottom="15dp"
-                app:srcCompat="@drawable/undraw_about_me_wa29" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:gravity="center"
-                android:text="@string/app_description"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                 />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:text="@string/app_about"/>
+                <TextView
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:text="@string/to_khmerlang"/>
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/back_home"
-                android:theme="@style/HomeButton"
-                android:background="@drawable/button"
-                android:layout_marginTop="50dp"/>
         </LinearLayout>
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:background="@drawable/rounded_rect_shape"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ScrollView
+                    android:fillViewport="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="50dp">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_about_description"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            />
+
+                        <TextView
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/textFindUs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_about_find_us"
+                            android:textColor="#000000"
+                            android:textSize="16sp"
+                            />
+
+                        <Button
+                            android:id="@+id/btnEmil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill"
+                            android:text="sreangrathanak@yahoo.com" />
+                        <Button
+                            android:id="@+id/btnFb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill"
+                            android:text="https://www.facebook.com/sreang.rathanak" />
+                        <Button
+                            android:id="@+id/btnGithub"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill"
+                            android:text="https://github.com/khmerlang" />
+                        <Button
+                            android:id="@+id/btnWeb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill"
+                            android:text="https://khmerlang.com/" />
+
+                        <Button
+                            android:id="@+id/btn_back"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/back_home"
+                            android:theme="@style/HomeButton"
+                            android:background="@drawable/button"
+                            android:layout_marginTop="50dp"/>
+
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <LinearLayout
+                android:background="#FFFFFF"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:textColor="#000000"
+                    android:text="@string/khmerlang_url"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

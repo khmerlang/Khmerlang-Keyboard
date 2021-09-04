@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
         btnClose.setOnClickListener {
             moveTaskToBack(true);
-            exitProcess(-1)
+            finish()
         }
     }
 

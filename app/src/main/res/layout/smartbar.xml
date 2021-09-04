@@ -114,7 +114,7 @@
                 android:id="@+id/btnOpenApp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_goto_setting_btn"/>
+                android:background="@drawable/ic_settings"/>
         </LinearLayout>
 
         <!--  Roman number keys here  -->
