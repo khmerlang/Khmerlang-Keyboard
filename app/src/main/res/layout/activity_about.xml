@@ -88,35 +88,60 @@
                             android:text="@string/app_about_find_us"
                             android:textColor="#000000"
                             android:textSize="16sp"
+                            android:layout_marginBottom="8dp"
                             />
 
                         <Button
-                            android:id="@+id/btnEmil"
+                            android:id="@+id/btnEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="fill"
-                            android:text="sreangrathanak@yahoo.com" />
+                            android:text="sreangrathanak@yahoo.com"
+                            android:drawablePadding="5dp"
+                            android:textSize="12sp"
+                            android:drawableLeft="@drawable/ic_baseline_email_24"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginBottom="5dp"
+                            android:paddingLeft="5dp"/>
                         <Button
                             android:id="@+id/btnFb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="fill"
-                            android:text="https://www.facebook.com/sreang.rathanak" />
+                            android:text="khmerlang.official"
+                            android:textSize="12sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/ic_baseline_facebook_24"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginBottom="5dp"
+                            android:paddingLeft="5dp"/>
                         <Button
                             android:id="@+id/btnGithub"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="fill"
-                            android:text="https://github.com/khmerlang" />
+                            android:text="khmerlang"
+                            android:textSize="12sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/ic_github"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginBottom="5dp"
+                            android:paddingLeft="5dp"/>
                         <Button
                             android:id="@+id/btnWeb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="fill"
-                            android:text="https://khmerlang.com/" />
+                            android:text="https://khmerlang.com/"
+                            android:textSize="12sp"
+                            android:drawablePadding="5dp"
+                            android:drawableLeft="@drawable/ic_baseline_language_24"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginBottom="5dp"
+                            android:paddingLeft="5dp"/>
 
                         <Button
-                            android:id="@+id/btn_back"
+                            android:id="@+id/btnBack"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/back_home"
@@ -143,6 +168,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/txtKhmerlang"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textColor="#000000"

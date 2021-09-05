@@ -33,7 +33,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:text="Khmer"
+                android:text="@string/roman_item_khmer"
                 android:textColor="#343434"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:text="Roman"
+                android:text="@string/roman_item_roman"
                 android:textColor="#343434"
                 android:textSize="20sp" />
 

@@ -135,6 +135,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/txtKhmerlang"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:textColor="#000000"
