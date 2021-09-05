@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/normal.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/pressed.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/rounded_rect_shape.xml" value="0.3765625" />
+        <entry key="app/src/main/res/font/hanuman.xml" value="0.390625" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/activity_custom_mapping.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
