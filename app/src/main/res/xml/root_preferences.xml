@@ -2,16 +2,17 @@
     <PreferenceCategory>
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="key_enable_vibration"
+            app:title="@string/vibrate_title" />
 
         <SwitchPreferenceCompat
-            app:key="enable"
-            app:summaryOff="@string/enable_summary_off"
-            app:summaryOn="@string/enable_summary_on"
-            app:title="@string/enable_title" />
+            app:key="key_enable_sound"
+            app:title="@string/sound_effect_title" />
 
-
+        <SwitchPreferenceCompat
+            app:isPreferenceVisible="false"
+            app:key="key_enable_dark_mood"
+            app:title="@string/dark_theme_title" />
 
     </PreferenceCategory>
 

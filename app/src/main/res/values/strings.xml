@@ -38,11 +38,10 @@
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync custom Roman to cloud</string>
-    <string name="enable_title">Enable mapping Roman to Khmer</string>
-    <string name="enable_summary_on">Show converted Roman character to Khmer and its suggestion
-    </string>
-    <string name="enable_summary_off">Show only Roman character for input email/pass</string>
+    <string name="vibrate_title">បើករំញ័រនៅពេលចុចគ្រាប់ចុច។</string>
+    <string name="sound_effect_title">បើកសំឡេងនៅពេលចុចគ្រាប់ចុច។</string>
+    <string name="dark_theme_title">បើកដំណើរគ្រោងការក្តារចុចពណ៍ខ្មៅ។</string>
+
     <string name="app_logo_alt">Khmerlang</string>
     <string name="back_home">ត្រលប់ក្រោយ</string>
     <string name="title_activity_roman_mapping">វចនានុក្រមរ៉ូម៉ាំង</string>

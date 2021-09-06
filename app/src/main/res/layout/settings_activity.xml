@@ -16,5 +16,6 @@
         android:id="@+id/btnReset"
         android:theme="@style/ButtonDanger"
         android:background="@drawable/button_danger"
+        android:visibility="gone"
         android:text="@string/reset_default"/>
 </LinearLayout>

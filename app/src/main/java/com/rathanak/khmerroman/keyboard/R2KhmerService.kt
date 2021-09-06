@@ -201,6 +201,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
         enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
+        preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, false)
     }
 
     private fun loadStyles() {
@@ -358,6 +359,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     override fun onKeyTouchDown() {
         isKeyDown = true
         smartbarManager.setTypeing(true)
+        if (enableVibration) vibrate()
     }
 
     override fun onKeyTouchUp() {
@@ -367,7 +369,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
         val inputConnection = currentInputConnection
-        if (enableVibration) vibrate()
+//        if (enableVibration) vibrate()
         if (enableSound) playClick(primaryCode)
         when (primaryCode) {
             Keyboard.KEYCODE_DELETE -> {

@@ -2,44 +2,52 @@ package com.rathanak.khmerroman.view
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.data.DataLoader
-import kotlinx.android.synthetic.main.settings_activity.*
+import com.rathanak.khmerroman.data.KeyboardPreferences
 
 class ProfileSettingsActivity : AppCompatActivity() {
+    private lateinit var preferences: KeyboardPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = KeyboardPreferences(applicationContext)
         setContentView(R.layout.settings_activity)
         supportFragmentManager
             .beginTransaction()
             .replace(
                 R.id.settings,
-                SettingsFragment()
+                SettingsFragment(preferences)
             )
             .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
-        btnReset.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(R.string.dialogConfirmTitle)
-            builder.setMessage(R.string.dialogConfirmMessage)
-            builder.setIcon(android.R.drawable.ic_dialog_alert)
-            builder.setPositiveButton("Yes"){dialogInterface, which ->
-                Toast.makeText(applicationContext,"reseting data",Toast.LENGTH_LONG).show()
-                var dataLoader = DataLoader(this)
-                dataLoader.reInitRomanData()
+    class SettingsFragment(private val preferences: KeyboardPreferences) : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            val enableVibration: SwitchPreferenceCompat? = findPreference(KeyboardPreferences.KEY_ENABLE_VIBRATION)
+            enableVibration?.setOnPreferenceChangeListener{ _, newValue ->
+                preferences.putBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION,
+                    newValue as Boolean
+                )
+                preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, true)
+                true
             }
-            builder.setNeutralButton("Cancel"){dialogInterface , which ->
-                Toast.makeText(applicationContext,"operation cancel",Toast.LENGTH_LONG).show()
+            val enableSound: SwitchPreferenceCompat? = findPreference(KeyboardPreferences.KEY_ENABLE_SOUND)
+            enableSound?.setOnPreferenceChangeListener{ _, newValue ->
+                preferences.putBoolean(KeyboardPreferences.KEY_ENABLE_SOUND, newValue as Boolean)
+                preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, true)
+                true
             }
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.setCancelable(false)
-            alertDialog.show()
+            val switchDarkMode: SwitchPreferenceCompat? = findPreference(KeyboardPreferences.KEY_ENABLE_DARK_MOOD)
+            switchDarkMode?.setOnPreferenceChangeListener{ _, newValue ->
+                preferences.putBoolean(KeyboardPreferences.KEY_ENABLE_DARK_MOOD, newValue as Boolean)
+                preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, true)
+                true
+            }
         }
     }
 
@@ -53,46 +61,4 @@ class ProfileSettingsActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-    class SettingsFragment : PreferenceFragmentCompat() {
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        }
-    }
-
-//    private fun setupActions() {
-//        binding.enableVibration.apply {
-//            isChecked = preferences.getBoolean(KEY_ENABLE_VIBRATION)
-//            setOnClickListener {
-//                isChecked = !isChecked
-//                preferences.putBoolean(KEY_ENABLE_VIBRATION, isChecked)
-//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
-//            }
-//        }
-//
-//        binding.enableSound.apply {
-//            isChecked = preferences.getBoolean(KEY_ENABLE_SOUND)
-//            setOnClickListener {
-//                isChecked = !isChecked
-//                preferences.putBoolean(KEY_ENABLE_SOUND, isChecked)
-//                preferences.putBoolean(KEY_NEEDS_RELOAD, true)
-//            }
-//        }
-//
-//        binding.email.setOnClickListener {
-//            val emailIntent = Intent(Intent.ACTION_SEND)
-//
-//            emailIntent.data = Uri.parse("mailto:")
-//            emailIntent.type = "text/plain"
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Lisu Keyboard Android] Feedback")
-//
-//            try {
-//                startActivity(Intent.createChooser(emailIntent, "Send feedback..."))
-//            } catch (ex: android.content.ActivityNotFoundException) {
-//                Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
-
 }
