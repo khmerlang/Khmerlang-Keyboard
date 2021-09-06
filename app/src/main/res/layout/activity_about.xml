@@ -147,8 +147,8 @@
                             android:text="@string/back_home"
                             android:theme="@style/HomeButton"
                             android:background="@drawable/button"
-                            android:layout_marginTop="20dp"/>
-
+                            android:layout_marginTop="20dp"
+                            android:drawableLeft="@drawable/ic_baseline_keyboard_backspace_white_24"/>
                     </LinearLayout>
                 </ScrollView>
             </LinearLayout>

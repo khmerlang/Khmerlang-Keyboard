@@ -80,7 +80,8 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/button"
                             android:text="@string/setting"
-                            android:theme="@style/HomeButton" />
+                            android:theme="@style/HomeButton"
+                            android:drawableLeft="@drawable/ic_baseline_settings_24"/>
 
                         <Button
                             android:id="@+id/btnCustomRoman"
@@ -89,7 +90,8 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/button"
                             android:text="@string/custom_mapping"
-                            android:theme="@style/HomeButton" />
+                            android:theme="@style/HomeButton"
+                            android:drawableLeft="@drawable/ic_baseline_sentiment_satisfied_alt_24"/>
 
                         <Button
                             android:id="@+id/btnRoman"
@@ -98,7 +100,8 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/button"
                             android:text="@string/roman_mapping"
-                            android:theme="@style/HomeButton" />
+                            android:theme="@style/HomeButton"
+                            android:drawableLeft="@drawable/ic_baseline_class_24"/>
 
                         <Button
                             android:id="@+id/btnAbout"
@@ -107,7 +110,8 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/button"
                             android:text="@string/about"
-                            android:theme="@style/HomeButton" />
+                            android:theme="@style/HomeButton"
+                            android:drawableLeft="@drawable/ic_baseline_info_24"/>
 
                         <Button
                             android:id="@+id/btnClose"
@@ -115,7 +119,8 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/button"
                             android:text="@string/close"
-                            android:theme="@style/HomeButton" />
+                            android:theme="@style/HomeButton"
+                            android:drawableLeft="@drawable/ic_baseline_close_24"/>
                     </LinearLayout>
                 </ScrollView>
             </LinearLayout>
