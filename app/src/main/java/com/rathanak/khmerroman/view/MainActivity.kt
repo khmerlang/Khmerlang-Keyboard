@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         txtKhmerlang.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("www.khmerlang.com"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.khmerlang.com"))
             startActivity(intent)
         }
     }

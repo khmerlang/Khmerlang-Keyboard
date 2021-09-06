@@ -7,5 +7,15 @@
     <font
         android:fontStyle="italic"
         android:fontWeight="400"
+        android:font="@font/hanuman_regular" />
+
+    <!-- bold -->
+    <font
+        android:font="@font/hanuman_bold"
+        android:fontStyle="normal"
+        android:fontWeight="700" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="700"
         android:font="@font/hanuman_bold" />
 </font-family>

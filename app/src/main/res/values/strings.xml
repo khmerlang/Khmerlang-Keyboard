@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">R2ខ្មែរ</string>
     <string name="ime_name">R2ខ្មែរ</string>
-    <string name="app_about_description">យើងបានចាប់ផ្តើមស្រាវជ្រាវនិងអភិវឌ្ន៍កម្មវិធីរបស់យើងឡើងតាំងពីពាក់កណ្តាលឆ្នាំ ២០១៩ ។ ភាសាខ្មែរ (Khmerlang) ត្រូវបានបង្កើតឡើងដោយមានគោលដៅសាមញ្ញមួយគឺធ្វើឱ្យភាសាខ្មែរមានភាពងាយស្រួលប្រើប្រាស់ក្នុងជីវិតប្រចាំថ្ងៃរបស់យើង។ </string>
+    <string name="app_about_description">\t\tយើងបានចាប់ផ្តើមស្រាវជ្រាវនិងអភិវឌ្ន៍កម្មវិធីរបស់យើងឡើងតាំងពីពាក់កណ្តាលឆ្នាំ ២០១៩ ។ ភាសាខ្មែរ (Khmerlang) ត្រូវបានបង្កើតឡើងដោយមានគោលដៅសាមញ្ញមួយគឺធ្វើឱ្យភាសាខ្មែរមានភាពងាយស្រួលប្រើប្រាស់ក្នុងជីវិតប្រចាំថ្ងៃរបស់យើង។ </string>
 
     <!-- Symbols that are commonly considered word separators in this language -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
@@ -45,8 +45,8 @@
     <string name="enable_summary_off">Show only Roman character for input email/pass</string>
     <string name="app_logo_alt">Khmerlang</string>
     <string name="back_home">ត្រលប់ក្រោយ</string>
-    <string name="title_activity_roman_mapping">Roman Mapping</string>
-    <string name="title_activity_custom_mapping">Custom Mapping</string>
+    <string name="title_activity_roman_mapping">វចនានុក្រមរ៉ូម៉ាំង</string>
+    <string name="title_activity_custom_mapping">វចនានុក្រមផ្ទាល់ខ្លួន</string>
     <string name="dialogConfirmTitle">Are you sure?</string>
     <string name="dialogConfirmMessage">When you reset all your custom data will remove.</string>
     <string name="roman">Roman</string>
@@ -63,7 +63,7 @@
     <string name="khmerlang_url">www.khmerlang.com</string>
     <string name="app_about">អំពី</string>
     <string name="app_about_find_us">អ្នកអាចរកឃើញយើងនៅ៖</string>
-    <string name="search">ស្វែងរក</string>
+    <string name="search">ស្វែងរក...</string>
     <string name="add">បន្ថែម</string>
     <string name="reset_default">កំណត់លំនាំ</string>
     <string name="roman_item_khmer">ខ្មែរ</string>

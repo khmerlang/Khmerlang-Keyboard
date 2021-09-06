@@ -47,6 +47,7 @@ class CustomMapping : AppCompatActivity() {
         inflater.inflate(R.menu.search_add_menu, menu)
         val searchItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.setQueryHint(getString(R.string.search))
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
         searchView.setOnQueryTextListener(
             DebouncingQueryTextListener(
