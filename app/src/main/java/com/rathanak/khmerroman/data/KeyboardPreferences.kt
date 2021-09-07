@@ -49,6 +49,7 @@ class KeyboardPreferences(context: Context) {
         const val KEY_RM_CORRECTION_MODE = "key_rm_correction_mode"
         const val KEY_EN_CORRECTION_MODE = "key_en_correction_mode"
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
+        const val KEY_NEEDS_RELOAD_STYLE = "key_needs_reload_style"
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
         const val KEY_DATA_LOADED = "key_data_load"
         const val KEY_BANNER_IDS = "key_banner_ids"

@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
+import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD_STYLE
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.KeyStyle
 import com.rathanak.khmerroman.keyboard.common.KeyboardStyle
@@ -63,6 +64,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var currentSelectedLanguageIdx = 0
     private var enableVibration = false
     private var enableSound = false
+    private var isDarkMood= false
     private var candidateChoosed = false
     private var firstCommitCandidate = false
     private var preCandidateKhmer = false
@@ -127,7 +129,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         super.onWindowShown()
         if (preferences.getBoolean(KEY_NEEDS_RELOAD)) {
             loadSharedPreferences()
+//            loadStyles()
         }
+
+//        if (preferences.getBoolean(KEY_NEEDS_RELOAD_STYLE)) {
+            //  loadStyles()
+//        }
 
         // check if banner recent or long load
         val currentDate = Date()
@@ -201,13 +208,34 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
         enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
+        isDarkMood = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_DARK_MOOD)
         preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, false)
     }
 
     private fun loadStyles() {
         // Load the styles and store them as Singleton values
+//        smartbarManager.setDarkMood(isDarkMood)
+//
+//        if (isDarkMood) {
+//            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.dark_keyboard_background_color))
+//            Styles.keyStyle = KeyStyle(
+//                getColorInt(R.color.dark_key_normal_background_color),
+//                getColorInt(R.color.dark_key_pressed_background_color),
+//                getColorInt(R.color.dark_key_shadow_color),
+//                getColorInt(R.color.dark_key_label_color),
+//                getColorInt(R.color.dark_key_sub_label_color)
+//            )
+//        } else {
+//            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
+//            Styles.keyStyle = KeyStyle(
+//                getColorInt(R.color.default_key_normal_background_color),
+//                getColorInt(R.color.default_key_pressed_background_color),
+//                getColorInt(R.color.default_key_shadow_color),
+//                getColorInt(R.color.default_key_label_color),
+//                getColorInt(R.color.default_key_sub_label_color)
+//            )
+//        }
         Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
-
         Styles.keyStyle = KeyStyle(
             getColorInt(R.color.default_key_normal_background_color),
             getColorInt(R.color.default_key_pressed_background_color),
@@ -218,8 +246,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     @ColorInt
-    private fun getColorInt(@ColorRes res: Int): Int {
-        return resources.getColor(res, null)
+    fun getColorInt(@ColorRes res: Int): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            resources.getColor(res, null)
+        } else {
+            context.getResources().getColor(res);
+        }
     }
 
     override fun onCreateInputView(): View? {

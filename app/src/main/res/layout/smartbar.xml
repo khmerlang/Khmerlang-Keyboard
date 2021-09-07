@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:maxHeight="50dp"
-    android:background="@color/grey_light"
+    android:background="@color/default_keyboard_background_color"
     android:gravity="center_vertical"
     android:orientation="horizontal">
     <!--  Case No data  -->
     <LinearLayout
         android:maxHeight="50dp"
-        android:background="@color/grey_light"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:layout_gravity="center"
@@ -48,7 +47,6 @@
     <!--  Case No exist  -->
     <LinearLayout
         android:maxHeight="50dp"
-        android:background="@color/grey_light"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"

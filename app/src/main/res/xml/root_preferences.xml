@@ -10,7 +10,6 @@
             app:title="@string/sound_effect_title" />
 
         <SwitchPreferenceCompat
-            app:isPreferenceVisible="false"
             app:key="key_enable_dark_mood"
             app:title="@string/dark_theme_title" />
 

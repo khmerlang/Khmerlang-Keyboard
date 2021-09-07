@@ -35,4 +35,19 @@
     <color name="default_key_pressed_background_color">@color/grey</color>
     <color name="default_key_shadow_color">@color/grey</color>
     <color name="default_key_sub_label_color">@color/grey_medium</color>
+
+    <!--Dark colors-->
+    <!--Keyboard-->
+<!--    #4C4C4C-->
+<!--    #262626-->
+<!--    #000000-->
+<!--    #6B6B6B-->
+<!--    #474747-->
+    <color name="dark_keyboard_background_color">#000000</color>
+    <!--Key-->
+    <color name="dark_key_label_color">#FFF</color>
+    <color name="dark_key_normal_background_color">#262626</color>
+    <color name="dark_key_pressed_background_color">#4C4C4C</color>
+    <color name="dark_key_shadow_color">#000000</color>
+    <color name="dark_key_sub_label_color">#262626</color>
 </resources>

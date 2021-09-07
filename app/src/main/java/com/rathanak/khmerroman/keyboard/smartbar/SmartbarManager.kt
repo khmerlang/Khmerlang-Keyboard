@@ -3,12 +3,15 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.core.view.children
 import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
@@ -22,6 +25,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isShowBanner: Boolean = true
+    private var isDarkMood: Boolean = false
     var isTyping: Boolean = false
     private var prevComposingText = ""
 
@@ -65,8 +69,24 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         initToggleButton()
         toggleBarLayOut(true)
         handleNumberClick()
+        updateByMood()
 
         return smartbarView
+    }
+
+    fun setDarkMood(darkMood: Boolean) {
+        isDarkMood = darkMood
+        if (this.smartbarView != null) {
+            updateByMood()
+        }
+    }
+
+    private fun updateByMood() {
+        if (isDarkMood) {
+            this.smartbarView!!.smartbar.setBackgroundColor(r_2_khmer.getColorInt(R.color.dark_keyboard_background_color))
+        } else {
+            this.smartbarView!!.smartbar.setBackgroundColor(r_2_khmer.getColorInt(R.color.default_keyboard_background_color))
+        }
     }
 
     private fun checkButtonOptionsVisibility() {
