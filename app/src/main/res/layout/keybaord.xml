@@ -4,5 +4,5 @@
     android:id="@+id/keyboardNormal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:keyTextSize="8dp" />
+    app:keyTextSize="8sp" />
 

@@ -129,12 +129,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         super.onWindowShown()
         if (preferences.getBoolean(KEY_NEEDS_RELOAD)) {
             loadSharedPreferences()
-//            loadStyles()
+            loadStyles()
         }
-
-//        if (preferences.getBoolean(KEY_NEEDS_RELOAD_STYLE)) {
-            //  loadStyles()
-//        }
 
         // check if banner recent or long load
         val currentDate = Date()
@@ -214,35 +210,30 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun loadStyles() {
         // Load the styles and store them as Singleton values
-//        smartbarManager.setDarkMood(isDarkMood)
-//
-//        if (isDarkMood) {
-//            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.dark_keyboard_background_color))
-//            Styles.keyStyle = KeyStyle(
-//                getColorInt(R.color.dark_key_normal_background_color),
-//                getColorInt(R.color.dark_key_pressed_background_color),
-//                getColorInt(R.color.dark_key_shadow_color),
-//                getColorInt(R.color.dark_key_label_color),
-//                getColorInt(R.color.dark_key_sub_label_color)
-//            )
-//        } else {
-//            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
-//            Styles.keyStyle = KeyStyle(
-//                getColorInt(R.color.default_key_normal_background_color),
-//                getColorInt(R.color.default_key_pressed_background_color),
-//                getColorInt(R.color.default_key_shadow_color),
-//                getColorInt(R.color.default_key_label_color),
-//                getColorInt(R.color.default_key_sub_label_color)
-//            )
-//        }
-        Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
-        Styles.keyStyle = KeyStyle(
-            getColorInt(R.color.default_key_normal_background_color),
-            getColorInt(R.color.default_key_pressed_background_color),
-            getColorInt(R.color.default_key_shadow_color),
-            getColorInt(R.color.default_key_label_color),
-            getColorInt(R.color.default_key_sub_label_color)
-        )
+        smartbarManager.setDarkMood(isDarkMood)
+
+        if (isDarkMood) {
+            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.dark_keyboard_background_color))
+            Styles.keyStyle = KeyStyle(
+                getColorInt(R.color.dark_key_normal_background_color),
+                getColorInt(R.color.dark_key_pressed_background_color),
+                getColorInt(R.color.dark_key_shadow_color),
+                getColorInt(R.color.dark_key_label_color),
+                getColorInt(R.color.dark_key_sub_label_color)
+            )
+        } else {
+            Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
+            Styles.keyStyle = KeyStyle(
+                getColorInt(R.color.default_key_normal_background_color),
+                getColorInt(R.color.default_key_pressed_background_color),
+                getColorInt(R.color.default_key_shadow_color),
+                getColorInt(R.color.default_key_label_color),
+                getColorInt(R.color.default_key_sub_label_color)
+            )
+        }
+        Styles.keyStyle.subLabelPaint.textSize = resources.getDimension(R.dimen.default_sub_key_text_size)
+        Styles.keyStyle.labelPaint.textSize = resources.getDimension(R.dimen.default_key_text_size)
+        customInputMethodView?.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
     }
 
     @ColorInt

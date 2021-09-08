@@ -225,6 +225,11 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams
                     btnSuggestion.text = word.toString()
+                    if (isDarkMood) {
+                        btnSuggestion.setTextColor(r_2_khmer.getColorInt(R.color.dark_key_label_color))
+                    } else {
+                        btnSuggestion.setTextColor(r_2_khmer.getColorInt(R.color.default_key_label_color))
+                    }
                     btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
                     this.smartbarView!!.candidatesList.addView(btnSuggestion)
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)
