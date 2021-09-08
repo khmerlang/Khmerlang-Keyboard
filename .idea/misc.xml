@@ -11,11 +11,47 @@
         <entry key="app/src/main/res/drawable/button_default.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_facebook_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_backspace_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_backspace_white_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_language_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_radio_button.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_radio_button_checked.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_sentiment_satisfied_alt_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_swap_horiz.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_swap_select.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_toggle_off.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_toggle_on.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_button_khmer.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_close_black.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_dialpad.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_english_sug_on_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_english_toggle_off.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_english_toggle_on.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_goto_setting_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_home_logo_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_info_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_info_on_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_keyboard_arrow_up.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_keyboard_arrow_up_blue.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_keyboard_capslock.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_keyboard_return.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_khmer_lang_logo.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_khmer_sug_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_khmer_sug_on_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_khmer_toggle_off.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_khmer_toggle_on.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_language.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_mini_logo.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_roman2khmer.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_roman_sug_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_roman_sug_on_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_roman_toggle_off.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_roman_toggle_on.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_space_bar.xml" value="0.3765625" />
