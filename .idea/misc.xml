@@ -9,6 +9,14 @@
         <entry key="app/src/main/res/drawable/button_danger.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/button_danger_cicle.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/button_default.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/dialog_layout.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_backspace.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_backspace_fill.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_backspace_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_class_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_facebook_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.3765625" />
@@ -19,6 +27,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_radio_button_checked.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_sentiment_satisfied_alt_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_swap.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_swap_horiz.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_swap_select.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_baseline_toggle_off.xml" value="0.3765625" />
@@ -28,11 +37,13 @@
         <entry key="app/src/main/res/drawable/ic_close_black.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_dialpad.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_english_sug_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_english_sug_on_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_english_toggle_off.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_english_toggle_on.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_goto_setting_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_home_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_home_logo_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_info_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_info_on_btn.xml" value="0.3765625" />
