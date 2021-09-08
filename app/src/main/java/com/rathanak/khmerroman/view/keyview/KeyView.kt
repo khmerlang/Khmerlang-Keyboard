@@ -2,13 +2,19 @@ package com.rathanak.khmerroman.view.keyview
 
 import android.content.Context
 import android.graphics.*
+import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.graphics.drawable.DrawableCompat
+import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
 import com.rathanak.khmerroman.view.Roman2KhmerApp
+import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlin.math.min
 
 class KeyView @JvmOverloads constructor(
@@ -138,6 +144,7 @@ class KeyView @JvmOverloads constructor(
             (heightOffset + dimension).toInt()
         )
         key.icon.draw(canvas)
+        DrawableCompat.setTint(key.icon, Styles.keyStyle.labelColor)
     }
 
     private fun drawLabel(canvas: Canvas) {

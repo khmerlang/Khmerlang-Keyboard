@@ -12,12 +12,14 @@ import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.children
 import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
+import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.view.Roman2KhmerApp
 import kotlinx.android.synthetic.main.smartbar.view.*
 
@@ -82,11 +84,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     private fun updateByMood() {
-        if (isDarkMood) {
-            this.smartbarView!!.smartbar.setBackgroundColor(r_2_khmer.getColorInt(R.color.dark_keyboard_background_color))
-        } else {
-            this.smartbarView!!.smartbar.setBackgroundColor(r_2_khmer.getColorInt(R.color.default_keyboard_background_color))
-        }
+        this.smartbarView!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
+        DrawableCompat.setTint(this.smartbarView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
     }
 
     private fun checkButtonOptionsVisibility() {
@@ -225,11 +224,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams
                     btnSuggestion.text = word.toString()
-                    if (isDarkMood) {
-                        btnSuggestion.setTextColor(r_2_khmer.getColorInt(R.color.dark_key_label_color))
-                    } else {
-                        btnSuggestion.setTextColor(r_2_khmer.getColorInt(R.color.default_key_label_color))
-                    }
+                    btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
                     btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
                     this.smartbarView!!.candidatesList.addView(btnSuggestion)
                     btnSuggestion.setOnClickListener(candidateViewOnClickListener)

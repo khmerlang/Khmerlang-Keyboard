@@ -2,6 +2,7 @@ package com.rathanak.khmerroman.keyboard
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.media.AudioManager
@@ -13,11 +14,14 @@ import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
+import android.view.Window
 import android.view.inputmethod.*
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
@@ -125,6 +129,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         preferences = KeyboardPreferences(applicationContext)
     }
 
+
     override fun onWindowShown() {
         super.onWindowShown()
         if (preferences.getBoolean(KEY_NEEDS_RELOAD)) {
@@ -210,8 +215,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun loadStyles() {
         // Load the styles and store them as Singleton values
-        smartbarManager.setDarkMood(isDarkMood)
-
         if (isDarkMood) {
             Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.dark_keyboard_background_color))
             Styles.keyStyle = KeyStyle(
@@ -234,6 +237,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         Styles.keyStyle.subLabelPaint.textSize = resources.getDimension(R.dimen.default_sub_key_text_size)
         Styles.keyStyle.labelPaint.textSize = resources.getDimension(R.dimen.default_key_text_size)
         customInputMethodView?.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
+        smartbarManager.setDarkMood(isDarkMood)
     }
 
     @ColorInt
@@ -241,7 +245,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             resources.getColor(res, null)
         } else {
-            context.getResources().getColor(res);
+            context.resources.getColor(res);
         }
     }
 
