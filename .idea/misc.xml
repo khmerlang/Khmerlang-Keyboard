@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/border_line.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/button.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/button_danger.xml" value="0.3765625" />
@@ -13,6 +14,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_language_24.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_github.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_goto_setting_btn.xml" value="0.3765625" />
+        <entry key="app/src/main/res/drawable/ic_home_logo_btn.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_khmer_lang_logo.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.3765625" />
         <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.3765625" />
@@ -38,6 +40,8 @@
         <entry key="app/src/main/res/layout/smartbar.xml" value="0.21829710144927536" />
         <entry key="app/src/main/res/menu/search_add_menu.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/menu/search_menu.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3765625" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.36041666666666666" />
       </map>
     </option>

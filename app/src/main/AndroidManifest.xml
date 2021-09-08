@@ -6,9 +6,8 @@
     <application
         android:name=".view.Roman2KhmerApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_roman2khmer"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_roman2khmer"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
