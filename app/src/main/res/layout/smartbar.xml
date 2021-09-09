@@ -58,7 +58,7 @@
             android:id="@+id/toggleOption"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_home_logo_btn"
+            android:background="@drawable/ic_khmerlang_mobile_btn"
             android:checked="true"
             android:textOff=""
             android:textOn="" />

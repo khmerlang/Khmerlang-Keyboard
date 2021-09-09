@@ -144,7 +144,6 @@ class KeyView @JvmOverloads constructor(
             (heightOffset + dimension).toInt()
         )
         key.icon.draw(canvas)
-        DrawableCompat.setTint(key.icon, Styles.keyStyle.labelColor)
     }
 
     private fun drawLabel(canvas: Canvas) {

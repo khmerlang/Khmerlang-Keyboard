@@ -53,6 +53,10 @@ class CustomKeyView @JvmOverloads constructor(
         keyTextView.label = newLabel
     }
 
+    fun updateColor() {
+
+    }
+
 }
 
 class CustomKeyPreview @JvmOverloads constructor(

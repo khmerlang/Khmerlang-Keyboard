@@ -39,12 +39,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
         this.smartbarView!!.toggleOption!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.ic_home_logo_btn)
+                buttonView.setBackgroundResource(R.drawable.ic_khmerlang_mobile_btn)
                 toggleBarLayOut(true)
                 this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
                 checkButtonOptionsVisibility()
-                buttonView.setBackgroundResource(R.drawable.ic_home_btn)
+                buttonView.setBackgroundResource(R.drawable.ic_khmerlang_mobile_btn_off)
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
