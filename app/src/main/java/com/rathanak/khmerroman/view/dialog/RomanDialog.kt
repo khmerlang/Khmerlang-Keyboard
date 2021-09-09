@@ -2,36 +2,30 @@ package com.rathanak.khmerroman.view.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
-import com.rathanak.khmerroman.view.Roman2KhmerApp
+import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import io.realm.RealmConfiguration
-import kotlinx.android.synthetic.main.roman_dialog.*
 import kotlinx.android.synthetic.main.roman_dialog.view.*
-import java.io.FileNotFoundException
-import java.util.*
 
 class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, val appCon: Context) : DialogFragment() {
-    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
+    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
 
     private fun createRecord(keyword: String, roman: String) {
         if (keyword.isNotEmpty() && roman.isNotEmpty()) {
             // TODO create, update table
 //            var nextId = realm.where(Ngram::class.java).max("id") as Int + 1
-            var nextId =  Roman2KhmerApp.getNextKey()
+            var nextId =  KhmerLangApp.getNextKey()
             realm.beginTransaction()
                 val ngramData: Ngram = realm.createObject(Ngram::class.java, nextId)
                 ngramData.keyword = keyword
                 ngramData.roman = roman
-                ngramData.lang = Roman2KhmerApp.LANG_KH
-                ngramData.gram = Roman2KhmerApp.ONE_GRAM
+                ngramData.lang = KhmerLangApp.LANG_KH
+                ngramData.gram = KhmerLangApp.ONE_GRAM
                 ngramData.count = count
                 ngramData.is_custom = true
                 realm.insert(ngramData)

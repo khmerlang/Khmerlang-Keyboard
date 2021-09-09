@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
-        android:name=".view.Roman2KhmerApp"
+        android:name=".view.KhmerLangApp"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +37,7 @@
         <service
             android:name=".keyboard.R2KhmerService"
             android:exported="false"
-            android:label="Roman2Khmer"
+            android:label="@string/app_service_label"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
                 <action android:name="android.view.InputMethod" />

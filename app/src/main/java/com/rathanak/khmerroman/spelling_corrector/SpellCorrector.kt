@@ -1,12 +1,11 @@
 package com.rathanak.khmerroman.spelling_corrector
 
 import android.content.Context
-import android.util.Log
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
-import com.rathanak.khmerroman.view.Roman2KhmerApp
+import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
 import java.util.*
 
@@ -28,8 +27,8 @@ class SpellCorrector() {
         var realm = Realm.getDefaultInstance()
         val khWordList = realm.where(Ngram::class.java)
             // .equalTo("is_custom", isCustom)
-            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
-            .equalTo("lang", Roman2KhmerApp.LANG_KH)
+            .equalTo("gram", KhmerLangApp.ONE_GRAM)
+            .equalTo("lang", KhmerLangApp.LANG_KH)
             .findAll()
             .sort("keyword")
         khWordList.forEach {
@@ -38,8 +37,8 @@ class SpellCorrector() {
         }
         val enWordList = realm.where(Ngram::class.java)
             // .equalTo("is_custom", isCustom)
-            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
-            .equalTo("lang", Roman2KhmerApp.LANG_EN)
+            .equalTo("gram", KhmerLangApp.ONE_GRAM)
+            .equalTo("lang", KhmerLangApp.LANG_EN)
             .findAll()
             .sort("keyword")
         enWordList.forEach {
@@ -72,8 +71,8 @@ class SpellCorrector() {
         } else {
             val MAX_WORDS_SHOW = 4
             val suggestWords: MutableList<String> = mutableListOf()
-            val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
-            val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+            val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
+            val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
             if(!isENChecked!! && !isRMChecked!!) {
                 return emptyList()
             }

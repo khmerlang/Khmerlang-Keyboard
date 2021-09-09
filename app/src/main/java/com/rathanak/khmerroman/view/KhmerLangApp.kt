@@ -23,7 +23,7 @@ import org.json.JSONObject
 
 
 
-class Roman2KhmerApp : Application() {
+class KhmerLangApp : Application() {
 
     override fun onCreate() {
         super.onCreate()

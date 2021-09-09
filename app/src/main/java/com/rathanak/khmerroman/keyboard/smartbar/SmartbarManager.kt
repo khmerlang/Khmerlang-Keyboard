@@ -16,7 +16,7 @@ import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.Styles
-import com.rathanak.khmerroman.view.Roman2KhmerApp
+import com.rathanak.khmerroman.view.KhmerLangApp
 import kotlinx.android.synthetic.main.smartbar.view.*
 
 class SmartbarManager(private val r_2_khmer: R2KhmerService) {
@@ -85,7 +85,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     private fun checkButtonOptionsVisibility() {
-        val selectedLangIdx = Roman2KhmerApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
+        val selectedLangIdx = KhmerLangApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         if(selectedLangIdx == 1) {
             this.smartbarView!!.btnToggleRMCorrection.visibility = View.INVISIBLE//View.GONE
             this.smartbarView!!.btnToggleENCorrection.visibility = View.INVISIBLE//View.GONE
@@ -101,9 +101,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_btn_roman_off)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
         }
-        val isRMChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+        val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
         this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
 
         this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -112,9 +112,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             } else {
                 buttonView.setBackgroundResource(R.drawable.ic_btn_english_off)
             }
-            Roman2KhmerApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
         }
-        val isENChecked = Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
+        val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
         this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
     }
 

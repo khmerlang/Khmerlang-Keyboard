@@ -1,7 +1,6 @@
 package com.rathanak.khmerroman.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -12,20 +11,20 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
-import com.rathanak.khmerroman.view.Roman2KhmerApp
+import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.roman_item.view.*
 
 class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
-    private var realm: Realm = Realm.getInstance(Roman2KhmerApp.dbConfig)
+    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
     var romanItemsList: RealmResults<Ngram>
     init {
         romanItemsList = realm.where(Ngram::class.java)
             .equalTo("is_custom", isCustom)
-            .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
-            .equalTo("lang", Roman2KhmerApp.LANG_KH)
+            .equalTo("gram", KhmerLangApp.ONE_GRAM)
+            .equalTo("lang", KhmerLangApp.LANG_KH)
             .findAll()
             .sort("keyword")
     }
@@ -73,8 +72,8 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                 romanItemsList = if (newText == null || newText.isEmpty()) {
                     realm.where(Ngram::class.java)
                         .equalTo("is_custom", isCustom)
-                        .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
-                        .equalTo("lang", Roman2KhmerApp.LANG_KH)
+                        .equalTo("gram", KhmerLangApp.ONE_GRAM)
+                        .equalTo("lang", KhmerLangApp.LANG_KH)
                         .findAll()
                         .sort("keyword")
                 } else {
@@ -86,8 +85,8 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                         .endGroup()
                         .and()
                         .equalTo("is_custom", isCustom)
-                        .equalTo("gram", Roman2KhmerApp.ONE_GRAM)
-                        .equalTo("lang", Roman2KhmerApp.LANG_KH)
+                        .equalTo("gram", KhmerLangApp.ONE_GRAM)
+                        .equalTo("lang", KhmerLangApp.LANG_KH)
                         .findAll()
                         .sort("keyword")
                 }

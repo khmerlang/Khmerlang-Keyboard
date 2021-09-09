@@ -2,19 +2,13 @@ package com.rathanak.khmerroman.view.keyview
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.graphics.drawable.DrawableCompat
-import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
-import com.rathanak.khmerroman.view.Roman2KhmerApp
-import kotlinx.android.synthetic.main.smartbar.view.*
+import com.rathanak.khmerroman.view.KhmerLangApp
 import kotlin.math.min
 
 class KeyView @JvmOverloads constructor(
@@ -153,7 +147,7 @@ class KeyView @JvmOverloads constructor(
         }
 
         // Draw the sub label on the key
-        val isShowLabel =Roman2KhmerApp.preferences?.getBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, false)
+        val isShowLabel =KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, false)
         if (key.subLabel != null && isShowLabel!!) {
             var multiplicativeWidthRatio = 1.5F
             var multiplicativeHeightRatio = 1.5F
