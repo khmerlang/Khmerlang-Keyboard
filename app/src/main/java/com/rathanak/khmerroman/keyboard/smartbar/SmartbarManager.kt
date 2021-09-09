@@ -3,15 +3,11 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.children
 import com.bumptech.glide.Glide
@@ -39,12 +35,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
         this.smartbarView!!.toggleOption!!.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.ic_khmerlang_mobile_btn)
+                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang)
                 toggleBarLayOut(true)
                 this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
                 checkButtonOptionsVisibility()
-                buttonView.setBackgroundResource(R.drawable.ic_khmerlang_mobile_btn_off)
+                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang_off)
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
