@@ -161,7 +161,7 @@ class KeyView @JvmOverloads constructor(
                 multiplicativeWidthRatio = 1.1F
             }
 
-//            val xPadding = multiplicativeWidthRatio * Styles.keyStyle.subLabelPaint.textSize//canvas.width - 10 - multiplicativeWidthRatio * Styles.keyStyle.subLabelPaint.textSize
+            //  val xPadding = multiplicativeWidthRatio * Styles.keyStyle.subLabelPaint.textSize//canvas.width - 10 - multiplicativeWidthRatio * Styles.keyStyle.subLabelPaint.textSize
             val xPadding = multiplicativeWidthRatio * 20
             val yPadding = multiplicativeHeightRatio * Styles.keyStyle.subLabelPaint.textSize
 
