@@ -130,6 +130,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum1"
+                android:background="@drawable/button_round"
                 android:text="1"/>
             <Button
                 android:layout_width="0dp"
@@ -138,6 +139,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum2"
+                android:background="@drawable/button_round"
                 android:text="2"/>
             <Button
                 android:layout_width="0dp"
@@ -146,6 +148,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum3"
+                android:background="@drawable/button_round"
                 android:text="3"/>
             <Button
                 android:layout_width="0dp"
@@ -154,6 +157,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum4"
+                android:background="@drawable/button_round"
                 android:text="4"/>
             <Button
                 android:layout_width="0dp"
@@ -162,6 +166,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum5"
+                android:background="@drawable/button_round"
                 android:text="5"/>
             <Button
                 android:layout_width="0dp"
@@ -170,6 +175,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum6"
+                android:background="@drawable/button_round"
                 android:text="6"/>
             <Button
                 android:layout_width="0dp"
@@ -178,6 +184,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum7"
+                android:background="@drawable/button_round"
                 android:text="7"/>
             <Button
                 android:layout_width="0dp"
@@ -186,6 +193,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum8"
+                android:background="@drawable/button_round"
                 android:text="8"/>
             <Button
                 android:layout_width="0dp"
@@ -194,6 +202,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum9"
+                android:background="@drawable/button_round"
                 android:text="9"/>
             <Button
                 android:layout_width="0dp"
@@ -202,6 +211,7 @@
                 android:padding="0dp"
                 android:layout_marginRight="2dp"
                 android:id="@+id/btnNum0"
+                android:background="@drawable/button_round"
                 android:text="0"/>
         </LinearLayout>
 

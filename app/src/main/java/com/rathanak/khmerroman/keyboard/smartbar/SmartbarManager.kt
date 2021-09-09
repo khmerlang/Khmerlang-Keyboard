@@ -82,6 +82,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun updateByMood() {
         this.smartbarView!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
         DrawableCompat.setTint(this.smartbarView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
+        for (numberButton in this.smartbarView!!.numbersList.children) {
+            if (numberButton is Button) {
+                DrawableCompat.setTint(numberButton.background, Styles.keyStyle.normalBackgroundColor)
+                numberButton.setTextColor(Styles.keyStyle.labelColor)
+            }
+        }
     }
 
     private fun checkButtonOptionsVisibility() {
@@ -92,6 +98,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         } else {
             this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
             this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
+        }
+
+        if (r_2_khmer.currentInputPassword) {
+            this.smartbarView!!.btnOpenApp.visibility = View.GONE
+        } else {
+            this.smartbarView!!.btnOpenApp.visibility = View.VISIBLE
         }
     }
     private fun initToggleButton() {
