@@ -2,9 +2,12 @@ package com.rathanak.khmerroman.view.keyview
 
 import android.content.Context
 import android.graphics.*
+import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
@@ -88,6 +91,7 @@ class KeyView @JvmOverloads constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun drawBackground(canvas: Canvas) {
         // Set canvas background to transparent
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.OVERLAY)
@@ -126,17 +130,21 @@ class KeyView @JvmOverloads constructor(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun drawIcon(canvas: Canvas) {
         var size = 0.6
         val dimension = min(canvas.width, canvas.height) * size
         val widthOffset = ((canvas.width - dimension) / 2).toInt()
         val heightOffset = ((canvas.height - dimension) / 2).toInt()
+
         key.icon.setBounds(
             widthOffset,
             heightOffset,
             (widthOffset + dimension).toInt(),
             (heightOffset + dimension).toInt()
         )
+
+//        key.icon.setTint(Styles.keyStyle.labelColor)
         key.icon.draw(canvas)
     }
 
