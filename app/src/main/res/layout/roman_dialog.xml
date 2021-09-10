@@ -10,11 +10,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_khmer"
         android:hint="@string/edit_khmer"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/danger"
+        android:textSize="10sp"
+        android:id="@+id/error_edit_khmer_msg"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_roman"
         android:hint="@string/edit_roman"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/danger"
+        android:textSize="10sp"
+        android:id="@+id/error_edit_roman_msg"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button"
+            android:background="@drawable/button_disable"
             android:theme="@style/HomeButton"
             android:text="@string/submit"
             android:layout_marginRight="10dp"/>

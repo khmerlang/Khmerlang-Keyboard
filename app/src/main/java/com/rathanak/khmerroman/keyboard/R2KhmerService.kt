@@ -376,8 +376,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onFinishInput() {
-        currentInputConnection.requestCursorUpdates(0)
+//        currentInputConnection.requestCursorUpdates(0)
         super.onFinishInput()
+        currentInputConnection.requestCursorUpdates(0)
         currentKeyboardPage = NORMAL
         resetComposingText()
         smartbarManager.onFinishInputView()

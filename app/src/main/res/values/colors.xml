@@ -26,6 +26,12 @@
     <color name="white">#FFFFFF</color>
     <color name="pink">#EE92C2</color>
 
+    <color name="colorDisableDark">#cccccc</color>
+    <color name="coloDisable">#cccccc</color>
+    <color name="colorDisableAccent">#cccccc</color>
+
+    <color name="danger">#dc3545</color>
+
     <!--Default colors-->
     <!--Keyboard-->
     <color name="default_keyboard_background_color">@color/grey_light</color>

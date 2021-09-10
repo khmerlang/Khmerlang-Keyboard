@@ -57,4 +57,9 @@
     <string name="roman_item_khmer">ខ្មែរ</string>
     <string name="roman_item_roman">Roman</string>
     <string name="app_service_label">Khmerlang</string>
+    <string name="item_empty">គ្មានពាក្យបង្កើត</string>
+    <string name="item_created">ពាក្យត្រូវបានបង្កើតឡើង</string>
+    <string name="error_must_khmer">ត្រូវតែជាអក្សរខ្មែរតែប៉ុណ្ណោះ។ គ្មានចន្លោះឬនិមិត្តសញ្ញាផ្សេងទៀតទេ។</string>
+    <string name="error_must_roman">ត្រូវតែជាអក្សរអង់គ្លេសតែប៉ុណ្ណោះ។ គ្មានចន្លោះឬនិមិត្តសញ្ញាផ្សេងទៀតទេ។</string>
+    <string name="error_must_not_empty">មិនអាចទទេ</string>
 </resources>
