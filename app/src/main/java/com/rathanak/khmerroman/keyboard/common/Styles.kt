@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.keyboard.common
 
 import android.graphics.Color
+import android.graphics.ColorFilter
 import android.graphics.Paint
 import androidx.annotation.ColorInt
 
@@ -19,6 +20,7 @@ data class KeyStyle(
     @ColorInt val shadowColor: Int,
     @ColorInt val labelColor: Int,
     @ColorInt val subLabelColor: Int,
+    val iconFilter: ColorFilter,
     val cornerRadius: Float = 15F,
     val widthPaddingRatio: Float = 0.07F,
     var widthPadding: Float = 0F,

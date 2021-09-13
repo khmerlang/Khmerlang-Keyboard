@@ -7,12 +7,12 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
 import com.rathanak.khmerroman.view.KhmerLangApp
 import kotlin.math.min
+import android.graphics.PorterDuff
 
 class KeyView @JvmOverloads constructor(
     context: Context,
@@ -130,13 +130,11 @@ class KeyView @JvmOverloads constructor(
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun drawIcon(canvas: Canvas) {
         var size = 0.6
         val dimension = min(canvas.width, canvas.height) * size
         val widthOffset = ((canvas.width - dimension) / 2).toInt()
         val heightOffset = ((canvas.height - dimension) / 2).toInt()
-
         key.icon.setBounds(
             widthOffset,
             heightOffset,
@@ -144,7 +142,7 @@ class KeyView @JvmOverloads constructor(
             (heightOffset + dimension).toInt()
         )
 
-//        key.icon.setTint(Styles.keyStyle.labelColor)
+        key.icon.colorFilter = Styles.keyStyle.iconFilter
         key.icon.draw(canvas)
     }
 

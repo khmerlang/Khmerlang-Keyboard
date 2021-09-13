@@ -3,6 +3,8 @@ package com.rathanak.khmerroman.keyboard
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.media.AudioManager
@@ -222,7 +224,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 getColorInt(R.color.dark_key_pressed_background_color),
                 getColorInt(R.color.dark_key_shadow_color),
                 getColorInt(R.color.dark_key_label_color),
-                getColorInt(R.color.dark_key_sub_label_color)
+                getColorInt(R.color.dark_key_sub_label_color),
+                PorterDuffColorFilter(getColorInt(R.color.dark_key_label_color), PorterDuff.Mode.SRC_IN)
             )
         } else {
             Styles.keyboardStyle = KeyboardStyle(getColorInt(R.color.default_keyboard_background_color))
@@ -231,7 +234,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 getColorInt(R.color.default_key_pressed_background_color),
                 getColorInt(R.color.default_key_shadow_color),
                 getColorInt(R.color.default_key_label_color),
-                getColorInt(R.color.default_key_sub_label_color)
+                getColorInt(R.color.default_key_sub_label_color),
+                PorterDuffColorFilter(getColorInt(R.color.default_key_label_color), PorterDuff.Mode.SRC_IN)
             )
         }
         Styles.keyStyle.subLabelPaint.textSize = resources.getDimension(R.dimen.default_sub_key_text_size)
