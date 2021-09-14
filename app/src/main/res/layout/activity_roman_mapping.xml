@@ -8,8 +8,26 @@
     tools:context=".view.RomanMapping">
     <LinearLayout
         android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/downloadingData"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:visibility="gone" />
+        <ImageButton
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:layout_width="380dp"
+            android:layout_margin="15dp"
+            android:id="@+id/btnDownloadData"
+            android:src="@drawable/banner_default"
+            android:background="@color/grey_light"
+            android:visibility="gone"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRomanList"
             android:layout_width="match_parent"

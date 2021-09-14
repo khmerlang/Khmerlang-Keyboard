@@ -3,14 +3,17 @@ package com.rathanak.khmerroman.view
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
+import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 
 class RomanMapping : AppCompatActivity() {
@@ -23,6 +26,19 @@ class RomanMapping : AppCompatActivity() {
         rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(false, applicationContext)
         rvRomanList.adapter = rAdapter
+
+        btnDownloadData.setOnClickListener {
+            it.visibility = View.GONE
+            downloadingData.visibility = View.VISIBLE
+        }
+        if (rAdapter!!.itemCount > 0) {
+//        if (rAdapter!!.itemCount <= 0) {
+            Glide.with(applicationContext)
+                .load(R.drawable.banner_download_data)
+                .error(R.drawable.banner_default_animate)
+                .into(btnDownloadData);
+            btnDownloadData.visibility = View.VISIBLE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -139,8 +139,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
             this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
             Glide.with(r_2_khmer.context)
-                .load("https://moi-static.sgp1.digitaloceanspaces.com/uploads/adsense/ads_image/32/3_3.png")
-                .error(R.drawable.ads_banner)
+                .load(R.drawable.banner_download_data)
+                .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.btnDownloadData);
             return
         } else {
@@ -179,12 +179,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         if(bannerID != "") {
             Glide.with(r_2_khmer.context)
                 .load(bannerID)
-                .error(R.drawable.ads_banner)
+                .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.bannerImage);
         } else {
             Glide.with(r_2_khmer.context)
-                .load(R.drawable.ads_banner)
-                .error(R.drawable.ads_banner)
+                .load(R.drawable.banner_default_animate)
+                .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.bannerImage);
         }
     }
