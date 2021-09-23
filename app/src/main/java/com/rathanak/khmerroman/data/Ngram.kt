@@ -14,9 +14,11 @@ open class Ngram : RealmObject() {
     @Index
     var keyword: String = ""
     @Index
-    var roman: String? = ""
     var lang: Int = 0
+    @Index
     var gram: Int = 1
+
+    var other: String? = ""
     var count: Int = 0
-    var is_custom: Boolean = false
+    var custom: Boolean = false
 }

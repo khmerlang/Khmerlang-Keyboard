@@ -29,5 +29,24 @@ class RealmMigrations : RealmMigration {
 
             oldVersion++
         }
+
+        if (oldVersion == 2L) {
+            schema.get("Ngram")!!
+                .addIndex("lang")
+                .addIndex("gram")
+                .addIndex("is_custom")
+                .renameField("roman", "other")
+
+            oldVersion++
+        }
+
+        if (oldVersion == 3L) {
+            schema.get("Ngram")!!
+                .removeIndex("is_custom")
+                .removeIndex("other")
+                .renameField("is_custom", "custom")
+
+            oldVersion++
+        }
     }
 }

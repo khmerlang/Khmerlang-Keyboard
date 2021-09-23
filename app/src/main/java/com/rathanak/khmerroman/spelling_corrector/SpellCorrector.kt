@@ -1,12 +1,14 @@
 package com.rathanak.khmerroman.spelling_corrector
 
 import android.content.Context
+import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
+import io.realm.Sort
 import java.util.*
 
 class SpellCorrector() {
@@ -29,18 +31,22 @@ class SpellCorrector() {
             // .equalTo("is_custom", isCustom)
             .equalTo("gram", KhmerLangApp.ONE_GRAM)
             .equalTo("lang", KhmerLangApp.LANG_KH)
+            .notEqualTo("keyword", "<s>")
             .findAll()
-            .sort("keyword")
+            .sort("count", Sort.DESCENDING)
         khWordList.forEach {
             bkKH.add(it.keyword, it.count, "")
-            it.roman?.let { it1 -> bkRM.add(it1, it.count, it.keyword) }
+            if (it.other?.isNotEmpty() == true) {
+                it.other!!.split(DataLoader.SEPERATOR).forEach { it1 -> bkRM.add(it1, it.count, it.keyword) }
+            }
         }
         val enWordList = realm.where(Ngram::class.java)
             // .equalTo("is_custom", isCustom)
             .equalTo("gram", KhmerLangApp.ONE_GRAM)
             .equalTo("lang", KhmerLangApp.LANG_EN)
+            .notEqualTo("keyword", "<s>")
             .findAll()
-            .sort("keyword")
+            .sort("count", Sort.DESCENDING)
         enWordList.forEach {
             bkEN.add(it.keyword, it.count, "")
         }

@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.utils
 
 import android.content.Context
+import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.serializable.NgramRecordSerializable
@@ -26,10 +27,12 @@ class DownloadData(private val context: Context) {
                     }
                 }
 
-//            Log.d("khmerlang", readResult[0].ngram.keyword)
+                val dataAdapter = DataLoader()
+                dataAdapter.saveDataToDB(readResult)
                 R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADED
-//                R2KhmerService.spellingCorrector.reset()
-//                R2KhmerService.spellingCorrector.loadData(context)
+                KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_DOWNLOADED)
+                R2KhmerService.spellingCorrector.reset()
+                R2KhmerService.spellingCorrector.loadData(context)
             }
         }
     }

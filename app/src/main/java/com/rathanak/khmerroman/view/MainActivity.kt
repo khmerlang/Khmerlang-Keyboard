@@ -9,12 +9,9 @@ import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.rathanak.khmerroman.R
-import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
-import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NOT_FIRST_RUN
 import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,14 +21,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferences = KeyboardPreferences(applicationContext)
-
-        // check is first open app
-        if (!preferences.getBoolean(KEY_NOT_FIRST_RUN)) {
-            // load data to db
-            var dataLoader = DataLoader(this)
-            dataLoader.reInitRomanData()
-            preferences.putBoolean(KEY_NOT_FIRST_RUN, true)
-        }
 
         setContentView(R.layout.activity_main)
 

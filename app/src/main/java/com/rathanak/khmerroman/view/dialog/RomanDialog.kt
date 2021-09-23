@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
@@ -22,17 +23,15 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
 
     private fun createRecord(keyword: String, roman: String) {
         if (keyword.isNotEmpty() && roman.isNotEmpty()) {
-            // TODO create, update table
-//            var nextId = realm.where(Ngram::class.java).max("id") as Int + 1
-            var nextId =  KhmerLangApp.getNextKey()
+            var nextId =  DataLoader.getNextKey()
             realm.beginTransaction()
                 val ngramData: Ngram = realm.createObject(Ngram::class.java, nextId)
                 ngramData.keyword = keyword
-                ngramData.roman = roman
+                ngramData.other = roman
                 ngramData.lang = KhmerLangApp.LANG_KH
                 ngramData.gram = KhmerLangApp.ONE_GRAM
                 ngramData.count = count
-                ngramData.is_custom = true
+                ngramData.custom = true
                 realm.insert(ngramData)
             realm.commitTransaction()
             Toast.makeText(appCon, R.string.item_created, Toast.LENGTH_LONG).show()
