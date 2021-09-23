@@ -27,7 +27,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
-import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD_STYLE
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.KeyStyle
 import com.rathanak.khmerroman.keyboard.common.KeyboardStyle

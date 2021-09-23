@@ -228,7 +228,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-        if (!R2KhmerService.spellingCorrector.isSpellDataExist) {
+        if (R2KhmerService.dataStatus > KeyboardPreferences.STATUS_DOWNLOADED) {
             return
         }
 

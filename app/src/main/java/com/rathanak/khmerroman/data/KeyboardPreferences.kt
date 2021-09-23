@@ -35,10 +35,10 @@ class KeyboardPreferences(context: Context) {
 
     companion object {
         const val STATUS_NONE = 0
-        const val STATUS_DOWNLOADING = 1
-        const val STATUS_DOWNLOADED = 2
+        const val STATUS_DOWNLOADING = 10
+        const val STATUS_DOWNLOAD_FAIL = 100
+        const val STATUS_DOWNLOADED = 200
 
-        const val KEY_NOT_FIRST_RUN = "key_not_first_run"
         const val KEY_CURRENT_LANGUAGE_IDX = "key_current_language_idx"
         const val KEY_ENABLE_VIBRATION = "key_enable_vibration"
         const val KEY_ENABLE_SOUND = "key_enable_sound"
@@ -46,9 +46,7 @@ class KeyboardPreferences(context: Context) {
         const val KEY_RM_CORRECTION_MODE = "key_rm_correction_mode"
         const val KEY_EN_CORRECTION_MODE = "key_en_correction_mode"
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
-        const val KEY_NEEDS_RELOAD_STYLE = "key_needs_reload_style"
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
         const val KEY_DATA_STATUS = "key_data_status"
-        const val KEY_BANNER_IDS = "key_banner_ids"
     }
 }
