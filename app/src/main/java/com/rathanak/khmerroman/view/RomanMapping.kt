@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,9 +13,15 @@ import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
+import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.keyboard.R2KhmerService
+import com.rathanak.khmerroman.serializable.NgramRecordSerializable
+import com.rathanak.khmerroman.utils.DownloadData
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
+import java.io.FileInputStream
+import java.io.ObjectInputStream
 
 class RomanMapping : AppCompatActivity() {
     private var rAdapter: RomanItemAdapter? = null
@@ -30,15 +37,14 @@ class RomanMapping : AppCompatActivity() {
         btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
             downloadingData.visibility = View.VISIBLE
+            R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
+            val download = DownloadData(applicationContext)
+            download.downloadKeyboardData()
+            listenJobDone()
         }
-        if (rAdapter!!.itemCount > 0) {
-//        if (rAdapter!!.itemCount <= 0) {
-            Glide.with(applicationContext)
-                .load(R.drawable.banner_download_data)
-                .error(R.drawable.banner_default_animate)
-                .into(btnDownloadData);
-            btnDownloadData.visibility = View.VISIBLE
-        }
+
+        updateVisibility()
+        listenJobDone()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,5 +80,33 @@ class RomanMapping : AppCompatActivity() {
         )
 
         return true
+    }
+
+    private fun listenJobDone() {
+        if (R2KhmerService.jobLoadData != null) {
+            R2KhmerService.jobLoadData!!.invokeOnCompletion {
+                btnDownloadData!!.visibility = View.GONE
+                downloadingData!!.visibility = View.GONE
+                rvRomanList!!.visibility = View.VISIBLE
+                rvRomanList.adapter?.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun updateVisibility() {
+        btnDownloadData!!.visibility = View.GONE
+        downloadingData!!.visibility = View.GONE
+        rvRomanList!!.visibility = View.GONE
+        if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_NONE) {
+            Glide.with(applicationContext)
+                .load(R.drawable.banner_download_data)
+                .error(R.drawable.banner_default_animate)
+                .into(btnDownloadData);
+            btnDownloadData.visibility = View.VISIBLE
+        } else if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
+            downloadingData!!.visibility = View.VISIBLE
+        } else {
+            rvRomanList!!.visibility = View.VISIBLE
+        }
     }
 }

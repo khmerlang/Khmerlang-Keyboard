@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.utils
 import android.content.Context
 import android.util.Log
 import com.rathanak.khmerroman.ml.WordSegModel
+import com.rathanak.khmerroman.ml.WordSegModelMini
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import kotlin.math.exp
@@ -17,7 +18,7 @@ class WordTokenizer(private val context: Context) {
     private val KHLUNAR = "᧠᧡᧢᧣᧤᧥᧦᧧᧨᧩᧪᧫᧬᧭᧮᧯᧰᧱᧲᧳᧴᧵᧶᧷᧸᧹᧺᧻᧼᧽᧾᧿"
     private val CHARS = "P" + "U" + KHCONST + KHVOWEL + KHSUB + KHDIAC + KHSYM + KHNUMBER + KHLUNAR
     private val MAX_WORD = 328
-    private var model: WordSegModel = WordSegModel.newInstance(context)
+    private var model: WordSegModelMini = WordSegModelMini.newInstance(context)
     private var prevInput = ""
     private var prevSeg: Array<String> = emptyArray()
 
@@ -74,7 +75,7 @@ class WordTokenizer(private val context: Context) {
 
         var segWord = ""
         for (i in inputIdx.indices) {
-            if (sigmoid(outputFeature.floatArray[i]) > 0.6) {
+            if (sigmoid(outputFeature.floatArray[i]) >= 0.62) {
                 if (segWord != "") {
                     words.add(segWord)
                 }

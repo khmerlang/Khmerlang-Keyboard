@@ -41,18 +41,37 @@ class KhmerLangApp : Application() {
             }
         }
         preferences = KeyboardPreferences(applicationContext)
+        // load status
+        if(preferences != null) {
+            R2KhmerService.dataStatus = preferences!!.getInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_NONE)
+        }
 
-        //  preferences!!.getString(KeyboardPreferences.KEY_BANNER_IDS, "")
+        loadSpellingData()
         // start Koin!
         startKoin(this, listOf(predictModule))
+    }
+
+    //  load spell suggestion data
+    private fun loadSpellingData() {
+        GlobalScope.launch(Dispatchers.Main) {
+            loadSpelling()
+        }
+    }
+
+    private suspend fun loadSpelling() {
+        coroutineScope {
+            async(Dispatchers.IO) {
+                R2KhmerService.spellingCorrector.loadData(applicationContext)
+            }
+        }
     }
 
     companion object {
         var preferences: KeyboardPreferences? = null
         var dbConfig: RealmConfiguration? = null
-        var bannerData: String = ""
         const val khmerWordsFile = "khmer_words_freq_roman.txt"
         const val englishWordsFile = "final_words_v2.txt"
+        const val mobiledataFile = "mobile-keyboard-data.bin"
         const val LANG_KH = 1
         const val LANG_EN = 2
         const val ONE_GRAM = 1

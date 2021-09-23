@@ -6,11 +6,8 @@ import android.content.SharedPreferences
 class KeyboardPreferences(context: Context) {
     private val KEYBOARD_PREFERENCES_NAME = "r2k_keyboard_preferences"
 
-    var preference: SharedPreferences
-
-    init {
-        preference = context.getSharedPreferences(KEYBOARD_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    }
+    var preference: SharedPreferences =
+        context.getSharedPreferences(KEYBOARD_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     fun putBoolean(key: String, data: Boolean) {
         preference.edit()?.putBoolean(key, data)?.apply()
@@ -23,10 +20,6 @@ class KeyboardPreferences(context: Context) {
     fun putString(key: String, data: String) {
         preference.edit()?.putString(key, data)?.apply()
     }
-
-//    fun getBoolean(key: String): Boolean {
-//        return preference.getBoolean(key, false)
-//    }
 
     fun getBoolean(key: String, defaultVale: Boolean = false): Boolean {
         return preference.getBoolean(key, defaultVale)
@@ -41,6 +34,10 @@ class KeyboardPreferences(context: Context) {
     }
 
     companion object {
+        const val STATUS_NONE = 0
+        const val STATUS_DOWNLOADING = 1
+        const val STATUS_DOWNLOADED = 2
+
         const val KEY_NOT_FIRST_RUN = "key_not_first_run"
         const val KEY_CURRENT_LANGUAGE_IDX = "key_current_language_idx"
         const val KEY_ENABLE_VIBRATION = "key_enable_vibration"
@@ -51,7 +48,7 @@ class KeyboardPreferences(context: Context) {
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
         const val KEY_NEEDS_RELOAD_STYLE = "key_needs_reload_style"
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
-        const val KEY_DATA_LOADED = "key_data_load"
+        const val KEY_DATA_STATUS = "key_data_status"
         const val KEY_BANNER_IDS = "key_banner_ids"
     }
 }

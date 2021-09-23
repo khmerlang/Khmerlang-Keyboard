@@ -102,7 +102,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         initSharedPreference()
         loadKeyCodes()
         initKeyboards()
-        loadSpellingData()
         wordTokenize = WordTokenizer(context)
     }
 
@@ -111,26 +110,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         wordTokenize.destroy()
     }
 
-    //  load spell suggestion data
-    private fun loadSpellingData() {
-        spellingCorrector.reset()
-        val job= GlobalScope.launch(Dispatchers.Main) {
-            loadSpelling()
-        }
-    }
-
-    private suspend fun loadSpelling() {
-        coroutineScope {
-            async(Dispatchers.IO) {
-                spellingCorrector.loadData(context)
-            }
-        }
-    }
-
     private fun initSharedPreference() {
         preferences = KeyboardPreferences(applicationContext)
     }
-
 
     override fun onWindowShown() {
         super.onWindowShown()
@@ -175,7 +157,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 }
             }
         }
-
     }
 
     override fun onInitializeInterface() {
@@ -708,6 +689,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
+
     private fun loadKeyCodes() {
         KEYCODE_MODE_CHANGE = -2
         KEYCODE_UNSHIFT = resources.getInteger(R.integer.keycode_unshift)
@@ -762,5 +744,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits/"
 
         var spellingCorrector: SpellCorrector = SpellCorrector()
+        var jobLoadData: Job? = null
+        var dataStatus = KeyboardPreferences.STATUS_NONE
     }
 }
