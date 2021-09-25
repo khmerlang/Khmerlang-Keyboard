@@ -210,7 +210,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 
     }
 
-    fun generateCandidatesFromComposing(inputText: String, previousWord: String, composingText: String?) {
+    fun generateCandidatesFromComposing(inputText: String, prevOne: String, prevTwo: String, isStartSen: Boolean,composingText: String?) {
 //        if (composingText == null) {
 //            return
 //        }
@@ -238,7 +238,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesList.removeAllViews()
             var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             if (!composingText.isNullOrEmpty()) {
-                var result = R2KhmerService.spellingCorrector.correct(previousWord, composingText)
+                var result = R2KhmerService.spellingCorrector.correct(prevOne, prevTwo, composingText, isStartSen)
                 if (!result.isNullOrEmpty()) for(word in result) {
                     val btnSuggestion = Button(r_2_khmer.context)
                     btnSuggestion.layoutParams =layoutParams

@@ -148,6 +148,8 @@ class WordTokenizer(private val context: Context) {
 
     companion object {
         var CHAR_SYMBOL = arrayOf('.', '?', '!', '"', ',', '(', ')', '។', '៕', '៖', '៘', '៚')
+        var CHAR_END_SENTENCE = arrayOf('.', '?', '!', '។', '៕', '៘', '៚')
+        var SEG_END_SENTENCE = arrayOf("\n")
         var SEG_SYMBOL = arrayOf("\n", "\t", "\b", " ", "​")
     }
 }

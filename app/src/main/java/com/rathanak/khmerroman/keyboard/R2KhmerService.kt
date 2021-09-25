@@ -76,7 +76,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
-    private var previousWord = ""
+    private var previousOne = "<s>"
+    private var previousTwo = "<s>"
+    private var isStartSen = true
     private var isKeyDown: Boolean = false
     var currentInputPassword: Boolean = false
     private lateinit var preferences: KeyboardPreferences
@@ -472,7 +474,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         ic.endBatchEdit()
         candidateChoosed = true
         firstCommitCandidate = true
-        smartbarManager.generateCandidatesFromComposing("", "", "")
+        smartbarManager.generateCandidatesFromComposing("", "", "", isStartSen,"")
     }
 
     private fun getSpaceBy(isKhmer: Boolean): String {
@@ -546,7 +548,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             } else {
                 resetComposingText()
             }
-            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
+            smartbarManager.generateCandidatesFromComposing(inputText, previousOne, previousTwo, isStartSen, composingText)
         }
     }
 
@@ -566,7 +568,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         val words = wordTokenize.tokenize(selectInput)
         var pos = startSlice
         resetComposingText(false)
-        previousWord = "START"
+        setPrevWord("<s>")
+        setPrevWord("<s>")
         var currentWord = ""
         var wordIndex = 0
         for (i in startSlice..endSlice) {
@@ -576,6 +579,14 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
             if (WordTokenizer.SEG_SYMBOL.contains(inputText[i].toString())) {
                 currentWord = ""
+                if (WordTokenizer.SEG_END_SENTENCE.contains(inputText[i].toString())) {
+                    setPrevWord("<s>")
+                    setPrevWord("<s>")
+                    isStartSen = true
+                } else {
+                    setPrevWord(currentWord)
+                    isStartSen = false
+                }
                 pos = i + 1
                 continue
             }
@@ -583,6 +594,14 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             if (currentWord == words[wordIndex]) {
                 if (WordTokenizer.CHAR_SYMBOL.contains(inputText[i])) {
                     currentWord = ""
+                    if (WordTokenizer.CHAR_END_SENTENCE.contains(inputText[i])) {
+                        setPrevWord("<s>")
+                        setPrevWord("<s>")
+                        isStartSen = true
+                    } else {
+                        setPrevWord(currentWord)
+                        isStartSen = false
+                    }
                     pos = i + 1
                     wordIndex += 1
                     continue
@@ -592,9 +611,12 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                     break
                 } else {
                     if (words[wordIndex].length == 1 && WordTokenizer.CHAR_SYMBOL.contains(words[wordIndex][0])) {
-                        previousWord = "START"
+                        setPrevWord("<s>")
+                        setPrevWord("<s>")
+                        isStartSen = true
                     } else if(words[wordIndex].isNotEmpty()) {
-                        previousWord = words[wordIndex].toLowerCase()
+                        setPrevWord(words[wordIndex].toLowerCase())
+                        isStartSen = false
                     }
                     wordIndex += 1
                 }
@@ -619,7 +641,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
         if(inputText.isEmpty()) {
             resetComposingText()
-            smartbarManager.generateCandidatesFromComposing(inputText, previousWord, composingText)
+            smartbarManager.generateCandidatesFromComposing(inputText, previousOne, previousTwo, isStartSen, composingText)
         }
     }
     private fun handleEnter() {
@@ -686,6 +708,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             Keyboard.KEYCODE_DELETE -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE)
             else -> audioManager.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
         }
+    }
+
+    private fun setPrevWord(word: String) {
+        previousOne = previousTwo
+        previousTwo = word
     }
 
 
