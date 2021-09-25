@@ -173,7 +173,9 @@ class SpellCorrector() {
 
         candidatesList.forEach {
             val word = it.keyword
-//            Log.d("khmerlang", resultDict.containsKey("$tokenOne $tokenTwo $word").toString())
+            Log.d("khmerlang", resultDict.containsKey("$tokenOne $tokenTwo $word").toString())
+            Log.d("khmerlang", resultDict.containsKey("$tokenTwo $word").toString())
+            Log.d("khmerlang", resultDict.containsKey("$word").toString())
 ////            isStartSen
 //            if (resultDict.containsKey("$tokenOne $tokenTwo $word")) {
 //                it.score = 1.0 * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
