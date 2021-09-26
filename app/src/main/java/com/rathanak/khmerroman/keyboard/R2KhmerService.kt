@@ -583,9 +583,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                     setPrevWord("<s>")
                     setPrevWord("<s>")
                     isStartSen = true
-                } else {
-                    setPrevWord(currentWord)
-                    isStartSen = false
                 }
                 pos = i + 1
                 continue

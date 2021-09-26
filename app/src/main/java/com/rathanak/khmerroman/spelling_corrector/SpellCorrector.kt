@@ -122,7 +122,9 @@ class SpellCorrector() {
         if(word.isEmpty()) {
             return "<oth>"
         }
-        if ((word[0] in '0'..'9') or (word[0] in '០'..'៩')) {
+        if ((word == "<s>") or (word == "<s> <s>")) {
+            return word
+        } else if ((word[0] in '0'..'9') or (word[0] in '០'..'៩')) {
             return "<num>"
         } else if ((word[0] in 'ក'..'ឳ') and (lang == KhmerLangApp.LANG_KH)) {
             return word
@@ -166,31 +168,23 @@ class SpellCorrector() {
         query = query.endGroup()
         query = query.and().equalTo("lang", lang)
 
-        val resultDict = HashMap<String, Int>()
+        var resultDict = HashMap<String, Int>()
         query.findAll().forEach {
             resultDict[it.keyword] = it.count
         }
 
         candidatesList.forEach {
             val word = it.keyword
-            Log.d("khmerlang", resultDict.containsKey("$tokenOne $tokenTwo $word").toString())
-            Log.d("khmerlang", resultDict.containsKey("$tokenTwo $word").toString())
-            Log.d("khmerlang", resultDict.containsKey("$word").toString())
-////            isStartSen
-//            if (resultDict.containsKey("$tokenOne $tokenTwo $word")) {
-//                it.score = 1.0 * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
-//            } else if (resultDict.containsKey("$tokenTwo $word")) {
-//                it.score = 0.4 * (resultDict.get("$tokenTwo $word")!! / resultDict.get("<s> <s>")!!)
-//            } else if (resultDict.containsKey(word)) {
-//                it.score = 0.4 * 0.4 * (resultDict.get(word)!! / resultDict.get("<s>")!!)
-//            }
-//            Log.d("khmerlang", "$tokenOne $tokenTwo $word")
-//            Log.d("khmerlang", "$tokenTwo $word")
-//            Log.d("khmerlang", word)
-//            Log.d("khmerlang", it.score.toString())
+            if (resultDict.get("$tokenOne $tokenTwo $word") != null && resultDict.get("<s> <s> <s>") != null) {
+                it.score = 1.0 * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
+            } else if (resultDict.get("$tokenTwo $word") != null && resultDict.get("<s> <s>") != null) {
+                it.score = 0.4 * resultDict.get("$tokenTwo $word")!! / resultDict.get("<s> <s>")!!
+            } else if (resultDict.get(word) != null && resultDict.get("<s>") != null) {
+                it.score = 0.4 * 0.4 * resultDict.get(word)!! / resultDict.get("<s>")!!
+            }
         }
-//        candidatesList.sortBy { it.score }
-//        return candidatesList.map { it.keyword }.distinctBy { it.toLowerCase() }.take(10)
-        return arrayListOf()
+
+        candidatesList.sortByDescending { it.score }
+        return candidatesList.map { it.keyword }.distinctBy { it.toLowerCase() }.take(10)
     }
 }
