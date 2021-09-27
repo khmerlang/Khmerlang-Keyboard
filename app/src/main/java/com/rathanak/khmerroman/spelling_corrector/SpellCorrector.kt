@@ -1,24 +1,17 @@
 package com.rathanak.khmerroman.spelling_corrector
 
 import android.content.Context
-import android.util.Log
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.Ngram
-import com.rathanak.khmerroman.serializable.NgramRecordSerializable
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
-import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import io.realm.RealmResults
 import io.realm.Sort
 import java.util.*
-import kotlin.collections.ArrayList
-import io.realm.RealmQuery
 
 
-
-data class Candidate(var keyword: String, var score: Double)
+data class Candidate(var keyword: String, var score: Double, var distance: Int)
 class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
@@ -150,16 +143,18 @@ class SpellCorrector() {
         query = query.or().equalTo("keyword", "<s> <s>")
         query = query.or().equalTo("keyword", "<s> <s> <s>")
         val candidatesList = arrayListOf<Candidate>()
-        model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), tolerance).forEach {
+        model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), tolerance).forEach { it ->
+            val distance = it.distance
             if(isOther) {
-                val word = it.other.toLowerCase()
-                candidatesList.add(Candidate(word, 0.0))
-                query = query.or().equalTo("keyword", word)
-                query = query.or().equalTo("keyword", "$tokenTwo $word")
-                query = query.or().equalTo("keyword", "$tokenOne $tokenTwo $word")
+                it.other.toLowerCase().split("_").forEach { it2 ->
+                    candidatesList.add(Candidate(it2, 0.0, distance))
+                    query = query.or().equalTo("keyword", it2)
+                    query = query.or().equalTo("keyword", "$tokenTwo $it2")
+                    query = query.or().equalTo("keyword", "$tokenOne $tokenTwo $it2")
+                }
             } else {
                 val word = it.word.toLowerCase()
-                candidatesList.add(Candidate(word, 0.0))
+                candidatesList.add(Candidate(word, 0.0, distance))
                 query = query.or().equalTo("keyword", word)
                 query = query.or().equalTo("keyword", "$tokenTwo $word")
                 query = query.or().equalTo("keyword", "$tokenOne $tokenTwo $word")
@@ -175,12 +170,21 @@ class SpellCorrector() {
 
         candidatesList.forEach {
             val word = it.keyword
-            if (resultDict.get("$tokenOne $tokenTwo $word") != null && resultDict.get("<s> <s> <s>") != null) {
-                it.score = 1.0 * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
+            val weight = if (it.distance <= 1) {
+                1.0
+            } else if (it.distance <= 3) {
+                0.8
+            } else {
+                0.7
+            }
+            if (it.distance == 0) {
+                it.score = 1.0
+            } else if (resultDict.get("$tokenOne $tokenTwo $word") != null && resultDict.get("<s> <s> <s>") != null) {
+                it.score = weight * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
             } else if (resultDict.get("$tokenTwo $word") != null && resultDict.get("<s> <s>") != null) {
-                it.score = 0.4 * resultDict.get("$tokenTwo $word")!! / resultDict.get("<s> <s>")!!
+                it.score = 0.4 * weight * resultDict.get("$tokenTwo $word")!! / resultDict.get("<s> <s>")!!
             } else if (resultDict.get(word) != null && resultDict.get("<s>") != null) {
-                it.score = 0.4 * 0.4 * resultDict.get(word)!! / resultDict.get("<s>")!!
+                it.score = 0.4 * 0.4 * weight * resultDict.get(word)!! / resultDict.get("<s>")!!
             }
         }
 
