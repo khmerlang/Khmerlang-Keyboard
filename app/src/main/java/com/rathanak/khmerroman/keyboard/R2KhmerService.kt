@@ -474,6 +474,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         ic.endBatchEdit()
         candidateChoosed = true
         firstCommitCandidate = true
+        isStartSen = false
         smartbarManager.generateCandidatesFromComposing("", "", "", isStartSen,"")
     }
 
@@ -558,8 +559,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // get its start and end index
         var startSlice = inputCursorPos - 40
         var endSlice = inputCursorPos + 20
-        if (startSlice < 0) {
+        if (startSlice <= 0) {
             startSlice = 0
+            isStartSen = true
         }
         if (endSlice > inputText.length - 1) {
             endSlice = inputText.length - 1
