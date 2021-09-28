@@ -49,7 +49,7 @@ class KhmerLangApp : Application() {
     private suspend fun loadSpelling() {
         coroutineScope {
             async(Dispatchers.IO) {
-                R2KhmerService.spellingCorrector.loadData(applicationContext)
+                R2KhmerService.spellingCorrector.loadData()
             }
         }
     }

@@ -29,10 +29,11 @@ class DownloadData(private val context: Context) {
 
                 val dataAdapter = DataLoader()
                 dataAdapter.saveDataToDB(readResult)
+                R2KhmerService.spellingCorrector.reset()
+                R2KhmerService.spellingCorrector.loadData()
                 R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADED
                 KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_DOWNLOADED)
-                R2KhmerService.spellingCorrector.reset()
-                R2KhmerService.spellingCorrector.loadData(context)
+
             }
         }
     }

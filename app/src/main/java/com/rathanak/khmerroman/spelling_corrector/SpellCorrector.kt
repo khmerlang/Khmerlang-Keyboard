@@ -1,6 +1,7 @@
 package com.rathanak.khmerroman.spelling_corrector
 
 import android.content.Context
+import android.util.Log
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.Ngram
@@ -16,7 +17,6 @@ class SpellCorrector() {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
-    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
     private var specialCases = HashMap<String, String?>()
 
     fun reset() {
@@ -25,7 +25,7 @@ class SpellCorrector() {
         bkEN = Bktree()
     }
 
-    fun loadData(context: Context) {
+    fun loadData() {
         var realm = Realm.getDefaultInstance()
         val khWordList = realm.where(Ngram::class.java)
             .equalTo("gram", KhmerLangApp.ONE_GRAM)
@@ -33,6 +33,7 @@ class SpellCorrector() {
             .notEqualTo("keyword", "<s>")
             .findAll()
             .sort("count", Sort.DESCENDING)
+
         khWordList.forEach {
             bkKH.add(it.keyword, "")
             if (it.other?.isNotEmpty() == true) {
@@ -75,7 +76,6 @@ class SpellCorrector() {
             tolerance = 4
         }
 
-//        previousWord
         if (misspelling[0] in 'ក'..'ឳ') {
             var outputKMMap: List<String> = mutableListOf()
             outputKMMap = correctBy(bkKH, specialKhmer(misspelling), false, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
@@ -140,6 +140,7 @@ class SpellCorrector() {
 
         val tokenOne = tokenizeWord(prevOne, lang)
         val tokenTwo = tokenizeWord(prevTwo, lang)
+        var realm = Realm.getDefaultInstance()
         var query = realm.where(Ngram::class.java);
 //        query = query.equalTo("lang", lang)
         query = query.beginGroup()
@@ -199,6 +200,7 @@ class SpellCorrector() {
         }
 
         candidatesList.sortByDescending { it.score }
+        realm.close()
         return candidatesList.map { it.keyword }.distinctBy { it.toLowerCase() }.take(10)
     }
 }
