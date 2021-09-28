@@ -612,7 +612,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                         setPrevWord("<s>")
                         isStartSen = true
                     } else if(words[wordIndex].isNotEmpty()) {
-                        setPrevWord(words[wordIndex].toLowerCase())
+                        setPrevWord(words[wordIndex])
                         isStartSen = false
                     }
                     wordIndex += 1
@@ -709,7 +709,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun setPrevWord(word: String) {
         previousOne = previousTwo
-        previousTwo = word
+        previousTwo = word.toLowerCase()
     }
 
 

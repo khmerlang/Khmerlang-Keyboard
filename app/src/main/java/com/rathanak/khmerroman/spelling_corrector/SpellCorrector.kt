@@ -17,6 +17,7 @@ class SpellCorrector() {
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
     private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+    private var specialCases = HashMap<String, String?>()
 
     fun reset() {
         bkKH = Bktree()
@@ -46,6 +47,9 @@ class SpellCorrector() {
             .sort("count", Sort.DESCENDING)
         enWordList.forEach {
             bkEN.add(it.keyword, "")
+            if (it.other?.isNotEmpty() == true) {
+                specialCases[it.keyword] = it.other
+            }
         }
 
         realm.close()
@@ -179,12 +183,18 @@ class SpellCorrector() {
             }
             if (it.distance == 0) {
                 it.score = 1.0
-            } else if (resultDict.get("$tokenOne $tokenTwo $word") != null && resultDict.get("<s> <s> <s>") != null) {
-                it.score = weight * resultDict.get("$tokenOne $tokenTwo $word")!! / resultDict.get("<s> <s> <s>")!!
-            } else if (resultDict.get("$tokenTwo $word") != null && resultDict.get("<s> <s>") != null) {
+            } else if (resultDict["$tokenOne $tokenTwo $word"] != null && resultDict["<s> <s> <s>"] != null) {
+                it.score = weight * resultDict["$tokenOne $tokenTwo $word"]!! / resultDict["<s> <s> <s>"]!!
+            } else if (resultDict["$tokenTwo $word"] != null && resultDict["<s> <s>"] != null) {
                 it.score = 0.4 * weight * resultDict.get("$tokenTwo $word")!! / resultDict.get("<s> <s>")!!
-            } else if (resultDict.get(word) != null && resultDict.get("<s>") != null) {
-                it.score = 0.4 * 0.4 * weight * resultDict.get(word)!! / resultDict.get("<s>")!!
+            } else if (resultDict[word] != null && resultDict["<s>"] != null) {
+                it.score = 0.4 * 0.4 * weight * resultDict[word]!! / resultDict["<s>"]!!
+            }
+
+            if (specialCases[it.keyword]?.isNotEmpty() == true) {
+                it.keyword = specialCases[it.keyword].toString()
+            } else if (lang == KhmerLangApp.LANG_EN && isStartSen) {
+                it.keyword = it.keyword.capitalize()
             }
         }
 
