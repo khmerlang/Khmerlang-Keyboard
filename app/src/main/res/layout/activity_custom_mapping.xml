@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:text="@string/upload_data"
             android:theme="@style/HomeButton"
-            android:background="@drawable/button" />
+            android:background="@drawable/button"
+            android:visibility="gone"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

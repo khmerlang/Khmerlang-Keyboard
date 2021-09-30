@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +13,9 @@ import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
 import com.rathanak.khmerroman.view.dialog.RomanDialog
+import kotlinx.android.synthetic.main.activity_custom_mapping.*
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
+import kotlinx.android.synthetic.main.activity_roman_mapping.rvRomanList
 
 class CustomMapping : AppCompatActivity() {
     private var rAdapter: RomanItemAdapter? = null
@@ -24,6 +27,11 @@ class CustomMapping : AppCompatActivity() {
         rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(true, applicationContext)
         rvRomanList.adapter = rAdapter
+
+//        btnUploadData.setOnClickListener {
+//            btnUploadData.visibility = View.GONE
+//            uploadingData.visibility = View.VISIBLE
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
