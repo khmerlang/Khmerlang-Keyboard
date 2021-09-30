@@ -10,13 +10,13 @@ import kotlinx.coroutines.*
 import java.io.ObjectInputStream
 
 class DownloadData(private val context: Context) {
-    fun downloadKeyboardData() {
+    fun downloadKeyboardData(isRemoveCustom: Boolean = false) {
         R2KhmerService.jobLoadData = GlobalScope.launch(Dispatchers.Main) {
-            downloadData()
+            downloadData(isRemoveCustom)
         }
     }
 
-    private suspend fun downloadData() {
+    private suspend fun downloadData(isRemoveCustom: Boolean = false) {
         coroutineScope {
             async(Dispatchers.IO) {
                 //  TODO download from internet
@@ -28,7 +28,7 @@ class DownloadData(private val context: Context) {
                 }
 
                 val dataAdapter = DataLoader()
-                dataAdapter.saveDataToDB(readResult)
+                dataAdapter.saveDataToDB(readResult, isRemoveCustom)
                 R2KhmerService.spellingCorrector.reset()
                 R2KhmerService.spellingCorrector.loadData()
                 R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADED

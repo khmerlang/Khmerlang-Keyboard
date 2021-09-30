@@ -39,7 +39,7 @@ class RomanMapping : AppCompatActivity() {
             downloadingData.visibility = View.VISIBLE
             R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
             val download = DownloadData(applicationContext)
-            download.downloadKeyboardData()
+            download.downloadKeyboardData(true)
             listenJobDone()
         }
 

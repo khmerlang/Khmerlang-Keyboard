@@ -5,17 +5,31 @@
     <LinearLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:orientation="vertical"
         android:layout_marginTop="30dp"
-        android:id="@+id/btnReset"
-        android:theme="@style/ButtonDanger"
-        android:background="@drawable/button_danger"
-        android:visibility="gone"
-        android:text="@string/reset_default"/>
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/btnReseting"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="15dp"
+            android:visibility="gone" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/btnResetDownload"
+            android:theme="@style/ButtonDanger"
+            android:background="@drawable/button_danger"
+            android:visibility="visible"
+            android:text="@string/reset_download"/>
+    </LinearLayout>
+
 </LinearLayout>

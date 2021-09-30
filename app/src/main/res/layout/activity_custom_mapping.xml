@@ -8,10 +8,32 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRomanList"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRomanList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/uploadingData"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:visibility="gone" />
+        <Button
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:id="@+id/btnUploadData"
+            android:layout_width="match_parent"
+            android:text="@string/upload_data"
+            android:theme="@style/HomeButton"
+            android:background="@drawable/button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

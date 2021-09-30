@@ -62,4 +62,6 @@
     <string name="error_must_khmer">ត្រូវតែជាអក្សរខ្មែរតែប៉ុណ្ណោះ។ គ្មានចន្លោះឬនិមិត្តសញ្ញាផ្សេងទៀតទេ។</string>
     <string name="error_must_roman">ត្រូវតែជាអក្សរអង់គ្លេសតែប៉ុណ្ណោះ។ គ្មានចន្លោះឬនិមិត្តសញ្ញាផ្សេងទៀតទេ។</string>
     <string name="error_must_not_empty">មិនអាចទទេ</string>
+    <string name="reset_download">កំណត់ទិន្នន័យឡើងវិញ</string>
+    <string name="upload_data">បញ្ជូនទិន្នន័យ</string>
 </resources>

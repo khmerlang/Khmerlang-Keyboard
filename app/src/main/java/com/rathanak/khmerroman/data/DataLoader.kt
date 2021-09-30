@@ -23,8 +23,8 @@ class DataLoader() {
         realm.close()
     }
 
-    fun saveDataToDB(ngramRecords: ArrayList<NgramRecordSerializable>) {
-        clearDBData(false)
+    fun saveDataToDB(ngramRecords: ArrayList<NgramRecordSerializable>, isRemoveCustom: Boolean) {
+        clearDBData(isRemoveCustom)
         var nextId = getNextKey()
         try {
             var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
