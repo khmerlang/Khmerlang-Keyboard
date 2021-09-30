@@ -33,7 +33,6 @@ class DownloadData(private val context: Context) {
                 R2KhmerService.spellingCorrector.loadData()
                 R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADED
                 KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_DOWNLOADED)
-
             }
         }
     }

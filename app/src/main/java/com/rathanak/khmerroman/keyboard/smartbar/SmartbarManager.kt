@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -212,19 +213,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     fun generateCandidatesFromComposing(inputText: String, prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
-//        if (composingText == null) {
+//        if(isTyping) {
 //            return
 //        }
-//
-//        if (composingText!! == prevComposingText) {
-//            return
-//        }
-//        prevComposingText = composingText!!
-
-        if(isTyping) {
-            return
-        }
-
         if (this.smartbarView == null) {
             return
         }
@@ -236,7 +227,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         if (inputText.isEmpty()) {
             this.smartbarView!!.candidatesList.removeAllViews()
         } else {
-            result = emptyList()
+            //result = emptyList()
             suggestionJob?.cancel()
             suggestionJob = GlobalScope.launch(Dispatchers.Main) {
                 if (composingText != null) {

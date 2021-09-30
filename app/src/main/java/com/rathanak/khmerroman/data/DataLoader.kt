@@ -9,9 +9,10 @@ import io.realm.RealmResults
 
 
 class DataLoader() {
-    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+//    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
 
     private fun clearDBData(removeCustom: Boolean = false) {
+        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
         realm.beginTransaction()
         if (removeCustom) {
             realm.where<Ngram>(Ngram::class.java).findAll().deleteAllFromRealm()
@@ -19,12 +20,14 @@ class DataLoader() {
             realm.where<Ngram>(Ngram::class.java).equalTo("custom", false).findAll().deleteAllFromRealm()
         }
         realm.commitTransaction()
+        realm.close()
     }
 
     fun saveDataToDB(ngramRecords: ArrayList<NgramRecordSerializable>) {
         clearDBData(false)
         var nextId = getNextKey()
         try {
+            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
             realm.beginTransaction()
             ngramRecords.forEach {
                 val ngram = it.ngram
@@ -41,6 +44,7 @@ class DataLoader() {
                 }
             }
             realm.commitTransaction()
+            realm.close()
         } catch (ex:Exception) {
             Log.e("read_file", ex.localizedMessage)
         }

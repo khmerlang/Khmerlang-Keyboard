@@ -26,14 +26,13 @@ class SpellCorrector() {
     }
 
     fun loadData() {
-        var realm = Realm.getDefaultInstance()
+        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
         val khWordList = realm.where(Ngram::class.java)
             .equalTo("gram", KhmerLangApp.ONE_GRAM)
             .equalTo("lang", KhmerLangApp.LANG_KH)
             .notEqualTo("keyword", "<s>")
             .findAll()
             .sort("count", Sort.DESCENDING)
-
         khWordList.forEach {
             bkKH.add(it.keyword, "")
             if (it.other?.isNotEmpty() == true) {
@@ -46,6 +45,7 @@ class SpellCorrector() {
             .notEqualTo("keyword", "<s>")
             .findAll()
             .sort("count", Sort.DESCENDING)
+
         enWordList.forEach {
             bkEN.add(it.keyword, "")
             if (it.other?.isNotEmpty() == true) {
@@ -140,7 +140,7 @@ class SpellCorrector() {
 
         val tokenOne = tokenizeWord(prevOne, lang)
         val tokenTwo = tokenizeWord(prevTwo, lang)
-        var realm = Realm.getDefaultInstance()
+        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
         var query = realm.where(Ngram::class.java);
 //        query = query.equalTo("lang", lang)
         query = query.beginGroup()
