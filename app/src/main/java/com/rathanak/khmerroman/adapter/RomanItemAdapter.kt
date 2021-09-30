@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
+import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Case
 import io.realm.Realm
@@ -52,8 +53,12 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                     .findAll()
                 result.deleteAllFromRealm()
             realm.commitTransaction()
-//            notifyItemRemoved(position)
             notifyDataSetChanged()
+            item?.keyword?.let { it1 -> item?.other?.let { it2 ->
+                R2KhmerService.spellingCorrector.removeKhmerWord(it1,
+                    it2
+                )
+            } }
         }
 
     }

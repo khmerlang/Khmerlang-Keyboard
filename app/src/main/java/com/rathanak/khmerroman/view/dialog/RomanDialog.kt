@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.Ngram
+import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
 import kotlinx.android.synthetic.main.roman_dialog.*
@@ -34,6 +35,7 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
                 ngramData.custom = true
                 realm.insert(ngramData)
             realm.commitTransaction()
+            R2KhmerService.spellingCorrector.addKhmerWord(keyword, roman)
             Toast.makeText(appCon, R.string.item_created, Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(appCon, R.string.item_empty, Toast.LENGTH_LONG).show()

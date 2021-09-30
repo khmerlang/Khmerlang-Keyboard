@@ -56,6 +56,16 @@ class SpellCorrector() {
         realm.close()
     }
 
+    fun addKhmerWord(keyword: String, roman: String) {
+        bkKH.add(keyword, "")
+        bkRM.add(roman, keyword)
+    }
+
+    fun removeKhmerWord(keyword: String, roman: String) {
+//        bkKH.add(keyword, "")
+//        bkRM.add(roman, keyword)
+    }
+
     private fun specialKhmer(str: String): String {
         return str.replace("េី", "ើ").replace("េា", "ោ")
     }

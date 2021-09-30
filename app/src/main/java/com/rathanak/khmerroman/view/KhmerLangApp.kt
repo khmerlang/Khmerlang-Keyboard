@@ -20,6 +20,7 @@ class KhmerLangApp : Application() {
             dbConfig = RealmConfiguration.Builder()
                 .name("khmer_roman.realm")
                 .schemaVersion(5)
+                .compactOnLaunch()
                 .build()
             try {
                 Realm.migrateRealm(dbConfig, RealmMigrations())
