@@ -43,7 +43,7 @@ class ProfileSettingsActivity : AppCompatActivity() {
                         btnReseting.visibility = View.VISIBLE
                         R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
                         val download = DownloadData(applicationContext)
-                        download.downloadKeyboardData()
+                        download.downloadKeyboardData(true)
                         listenJobDone()
                     })
                 .setNegativeButton(R.string.cancel,
