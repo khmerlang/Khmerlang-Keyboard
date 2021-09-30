@@ -18,9 +18,14 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.roman_item.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
     private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+    private var spellCorrectJob: Job? = null
     var romanItemsList: RealmResults<Ngram>
     init {
         romanItemsList = buildQuery()
@@ -54,11 +59,7 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
                 result.deleteAllFromRealm()
             realm.commitTransaction()
             notifyDataSetChanged()
-            item?.keyword?.let { it1 -> item?.other?.let { it2 ->
-                R2KhmerService.spellingCorrector.removeKhmerWord(it1,
-                    it2
-                )
-            } }
+            updateSpellCorrectModel()
         }
 
     }
@@ -117,5 +118,13 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
         }
 
         return query
+    }
+
+    private fun updateSpellCorrectModel() {
+        spellCorrectJob?.cancel()
+        spellCorrectJob = GlobalScope.launch(Dispatchers.Main) {
+            R2KhmerService.spellingCorrector.reset()
+            R2KhmerService.spellingCorrector.loadData()
+        }
     }
 }

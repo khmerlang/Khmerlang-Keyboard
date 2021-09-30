@@ -34,7 +34,7 @@ class Bktree {
             node.children.put(distance , Node(word, other) )
         }
         else{
-            add( node.children[distance] , word, other )
+            add(node.children[distance] , word, other )
         }
     }
 

@@ -61,11 +61,6 @@ class SpellCorrector() {
         bkRM.add(roman, keyword)
     }
 
-    fun removeKhmerWord(keyword: String, roman: String) {
-//        bkKH.add(keyword, "")
-//        bkRM.add(roman, keyword)
-    }
-
     private fun specialKhmer(str: String): String {
         return str.replace("េី", "ើ").replace("េា", "ោ")
     }
@@ -151,8 +146,7 @@ class SpellCorrector() {
         val tokenOne = tokenizeWord(prevOne, lang)
         val tokenTwo = tokenizeWord(prevTwo, lang)
         var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-        var query = realm.where(Ngram::class.java);
-//        query = query.equalTo("lang", lang)
+        var query = realm.where(Ngram::class.java)
         query = query.beginGroup()
         query = query.equalTo("keyword", "<s>")
         query = query.or().equalTo("keyword", "<s> <s>")
@@ -185,12 +179,14 @@ class SpellCorrector() {
 
         candidatesList.forEach {
             val word = it.keyword
-            val weight = if (it.distance <= 1) {
+            val weight = if (it.distance < 1) {
                 1.0
+            } else if (it.distance <= 1) {
+                0.95
             } else if (it.distance <= 3) {
-                0.8
+                0.9
             } else {
-                0.7
+                0.8
             }
             if (it.distance == 0) {
                 it.score = 1.0
