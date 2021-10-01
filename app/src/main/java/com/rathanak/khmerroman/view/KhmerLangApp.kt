@@ -58,7 +58,6 @@ class KhmerLangApp : Application() {
     companion object {
         var preferences: KeyboardPreferences? = null
         var dbConfig: RealmConfiguration? = null
-        const val mobiledataFile = "mobile-keyboard-data.bin"
         const val LANG_KH = 0
         const val LANG_EN = 1
         const val ONE_GRAM = 1
