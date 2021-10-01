@@ -11,6 +11,7 @@ import com.rathanak.khmerroman.data.KeyboardPreferences
 import kotlinx.android.synthetic.main.settings_activity.*
 import android.content.DialogInterface
 import android.view.View
+import android.widget.Toast
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.utils.DownloadData
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
@@ -41,8 +42,9 @@ class ProfileSettingsActivity : AppCompatActivity() {
                     DialogInterface.OnClickListener { dialog, id ->
                         btnResetDownload.visibility = View.GONE
                         btnReseting.visibility = View.VISIBLE
-                        R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
-                        val download = DownloadData(applicationContext)
+                        R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
+                        R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
+                        val download = DownloadData()
                         download.downloadKeyboardData(true)
                         listenJobDone()
                     })
@@ -99,6 +101,11 @@ class ProfileSettingsActivity : AppCompatActivity() {
             R2KhmerService.jobLoadData!!.invokeOnCompletion {
                 btnReseting.visibility = View.GONE
                 btnResetDownload.visibility = View.VISIBLE
+                if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
+                    Toast.makeText(applicationContext, R.string.download_fail, Toast.LENGTH_LONG).show()
+                    R2KhmerService.downloadDataStatus = R2KhmerService.downloadDataPrevStatus
+                    KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, R2KhmerService.downloadDataPrevStatus)
+                }
             }
         }
     }
@@ -106,7 +113,7 @@ class ProfileSettingsActivity : AppCompatActivity() {
     private fun updateVisibility() {
         btnResetDownload.visibility = View.GONE
         btnReseting.visibility = View.GONE
-        if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
+        if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
             btnReseting.visibility = View.VISIBLE
         } else {
             btnResetDownload.visibility = View.VISIBLE

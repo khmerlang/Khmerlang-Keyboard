@@ -37,8 +37,9 @@ class RomanMapping : AppCompatActivity() {
         btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
             downloadingData.visibility = View.VISIBLE
-            R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
-            val download = DownloadData(applicationContext)
+            R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
+            R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
+            val download = DownloadData()
             download.downloadKeyboardData()
             listenJobDone()
         }
@@ -85,10 +86,12 @@ class RomanMapping : AppCompatActivity() {
     private fun listenJobDone() {
         if (R2KhmerService.jobLoadData != null) {
             R2KhmerService.jobLoadData!!.invokeOnCompletion {
-                btnDownloadData!!.visibility = View.GONE
-                downloadingData!!.visibility = View.GONE
-                rvRomanList!!.visibility = View.VISIBLE
+                updateVisibility()
                 rvRomanList.adapter?.notifyDataSetChanged()
+                if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
+                    R2KhmerService.downloadDataStatus = R2KhmerService.downloadDataPrevStatus
+                    KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, R2KhmerService.downloadDataPrevStatus)
+                }
             }
         }
     }
@@ -97,13 +100,17 @@ class RomanMapping : AppCompatActivity() {
         btnDownloadData!!.visibility = View.GONE
         downloadingData!!.visibility = View.GONE
         rvRomanList!!.visibility = View.GONE
-        if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_NONE) {
+        if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(applicationContext)
                 .load(R.drawable.banner_download_data)
-                .error(R.drawable.banner_default_animate)
                 .into(btnDownloadData);
             btnDownloadData.visibility = View.VISIBLE
-        } else if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
+        } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
+            Glide.with(applicationContext)
+                .load(R.drawable.banner_download_data_fail)
+                .into(btnDownloadData);
+            btnDownloadData.visibility = View.VISIBLE
+        } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
             downloadingData!!.visibility = View.VISIBLE
         } else {
             rvRomanList!!.visibility = View.VISIBLE

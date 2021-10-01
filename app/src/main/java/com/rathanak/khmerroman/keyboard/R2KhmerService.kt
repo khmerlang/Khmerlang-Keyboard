@@ -770,6 +770,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
         var spellingCorrector: SpellCorrector = SpellCorrector()
         var jobLoadData: Job? = null
-        var dataStatus = KeyboardPreferences.STATUS_NONE
+        var downloadDataStatus = KeyboardPreferences.STATUS_NONE
+        var downloadDataPrevStatus = KeyboardPreferences.STATUS_NONE
     }
 }

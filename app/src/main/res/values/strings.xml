@@ -64,4 +64,5 @@
     <string name="error_must_not_empty">មិនអាចទទេ</string>
     <string name="reset_download">កំណត់ទិន្នន័យឡើងវិញ</string>
     <string name="upload_data">បញ្ជូនទិន្នន័យ</string>
+    <string name="download_fail">មិនអាចទាញយកទិន្នន័យ</string>
 </resources>

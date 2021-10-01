@@ -52,8 +52,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         this.smartbarView!!.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
             this.smartbarView!!.downloadingData.visibility = View.VISIBLE
-            R2KhmerService.dataStatus = KeyboardPreferences.STATUS_DOWNLOADING
-            val download = DownloadData(r_2_khmer.context)
+            R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
+            R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
+            val download = DownloadData()
             download.downloadKeyboardData()
             listenJobDone()
         }
@@ -137,10 +138,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-        if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_NONE) {
+        if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(r_2_khmer.context)
                 .load(R.drawable.banner_download_data)
-                .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.btnDownloadData);
 
             this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
@@ -149,7 +149,18 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.btnDownloadData.visibility = View.VISIBLE
 
             return
-        } else if (R2KhmerService.dataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
+        } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
+            Glide.with(r_2_khmer.context)
+                .load(R.drawable.banner_download_data_fail)
+                .into(this.smartbarView!!.btnDownloadData)
+
+            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
+            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
+            this.smartbarView!!.downloadingData.visibility = View.GONE
+            this.smartbarView!!.btnDownloadData.visibility = View.VISIBLE
+
+            return
+        } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
             this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
             this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
             this.smartbarView!!.downloadingData.visibility = View.VISIBLE
@@ -220,7 +231,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-        if (R2KhmerService.dataStatus > KeyboardPreferences.STATUS_DOWNLOADED) {
+        if (R2KhmerService.downloadDataStatus > KeyboardPreferences.STATUS_DOWNLOADED) {
             return
         }
 
@@ -342,6 +353,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         if (R2KhmerService.jobLoadData != null) {
             R2KhmerService.jobLoadData!!.invokeOnCompletion {
                 toggleBarLayOut(true)
+                if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
+                    R2KhmerService.downloadDataStatus = R2KhmerService.downloadDataPrevStatus
+                    KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, R2KhmerService.downloadDataPrevStatus)
+                }
             }
         }
     }

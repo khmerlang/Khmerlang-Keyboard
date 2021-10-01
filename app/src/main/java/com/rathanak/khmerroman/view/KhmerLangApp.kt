@@ -32,7 +32,7 @@ class KhmerLangApp : Application() {
         preferences = KeyboardPreferences(applicationContext)
         // load status
         if(preferences != null) {
-            R2KhmerService.dataStatus = preferences!!.getInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_NONE)
+            R2KhmerService.downloadDataStatus = preferences!!.getInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_NONE)
         }
 
         loadSpellingData()
