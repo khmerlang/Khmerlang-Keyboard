@@ -764,9 +764,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         const val SYM_IDX = 3
         const val SYM_SHIFT_IDX = 4
         const val NUMBER_IDX = 5
-        const val BANNER_META = "https://banner.khmerlang.com/mobile/meta"
-        const val BANNER_IMAGE = "https://banner.khmerlang.com/mobile/images/"
-        const val BANNER_VISIT = "https://banner.khmerlang.com/mobile/visits/"
+        const val BANNER_META = "https://mobile.khmerlang.com/mobile/meta"
+        const val BANNER_IMAGE = "https://mobile.khmerlang.com/mobile/images/"
+        const val BANNER_VISIT = "https://mobile.khmerlang.com/mobile/visits/"
 
         var spellingCorrector: SpellCorrector = SpellCorrector()
         var jobLoadData: Job? = null
