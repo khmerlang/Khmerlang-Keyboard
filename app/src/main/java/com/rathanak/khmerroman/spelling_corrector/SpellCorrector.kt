@@ -7,6 +7,7 @@ import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.Ngram
 import com.rathanak.khmerroman.spelling_corrector.bktree.Bktree
 import com.rathanak.khmerroman.view.KhmerLangApp
+import io.realm.Case
 import io.realm.Realm
 import io.realm.Sort
 import java.util.*
@@ -65,6 +66,36 @@ class SpellCorrector() {
         return str.replace("េី", "ើ").replace("េា", "ោ")
     }
 
+    fun getNextWords(prevOne: String, prevTwo: String): List<String> {
+        var lang = KhmerLangApp.LANG_EN
+        if (prevTwo[0] in 'ក'..'ឳ') {
+            lang = KhmerLangApp.LANG_KH
+        }
+
+        val tokenOne = tokenizeWord(prevOne, lang)
+        val tokenTwo = tokenizeWord(prevTwo, lang)
+        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+        var result = realm.where(Ngram::class.java)
+            .like("keyword", "$tokenOne $tokenTwo *", Case.INSENSITIVE)
+            .limit(10)
+            .findAll()
+            .sort("count", Sort.DESCENDING)
+            .map { it.keyword.subSequence("$tokenOne $tokenTwo ".length, it.keyword.length).toString() }
+
+        if(result.size < 10) {
+            result += realm.where(Ngram::class.java)
+                .like("keyword", "$tokenTwo *", Case.INSENSITIVE)
+                .limit((10 - result.size).toLong())
+                .findAll()
+                .sort("count", Sort.DESCENDING)
+                .map { it.keyword.subSequence("$tokenTwo ".length, it.keyword.length).toString() }
+            return result
+        }
+
+        realm.close()
+        return result
+    }
+
     fun correct(prevOne: String, prevTwo: String, misspelling: String, isStartSen: Boolean): List<String> {
         if(misspelling.isEmpty()) {
             return emptyList()
@@ -86,7 +117,6 @@ class SpellCorrector() {
             outputKMMap = correctBy(bkKH, specialKhmer(misspelling), false, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
             return outputKMMap
         } else {
-            val MAX_WORDS_SHOW = 4
             val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
             val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
             if(!isENChecked!! && !isRMChecked!!) {
@@ -106,14 +136,14 @@ class SpellCorrector() {
             val total = outputENMap.size + outputRMMap.size
             var suggestWords = Array(total) { "" }
             var index  = 0
-            var rn_ptr = 0
-            var en_ptr = 0
+            var rnPtr = 0
+            var enPtr = 0
 
             while(index < suggestWords.size) {
-                if(rn_ptr < outputRMMap.size) suggestWords[index++] = outputRMMap[rn_ptr++]
-                if(rn_ptr < outputRMMap.size)suggestWords[index++] = outputRMMap[rn_ptr++]
-                if(en_ptr < outputENMap.size) suggestWords[index++] = outputENMap[en_ptr++]
-                if(en_ptr < outputENMap.size) suggestWords[index++] = outputENMap[en_ptr++]
+                if(rnPtr < outputRMMap.size) suggestWords[index++] = outputRMMap[rnPtr++]
+                if(rnPtr < outputRMMap.size)suggestWords[index++] = outputRMMap[rnPtr++]
+                if(enPtr < outputENMap.size) suggestWords[index++] = outputENMap[enPtr++]
+                if(enPtr < outputENMap.size) suggestWords[index++] = outputENMap[enPtr++]
             }
 
             return suggestWords.toList()

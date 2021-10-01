@@ -464,10 +464,18 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
-    fun commitCandidate(candidateText: String) {
+    fun commitCandidate(candidateText: String, isCorrection: Boolean = true) {
         preCandidateKhmer = !(candidateText[0] in 'a'..'z' || candidateText[0] in 'A'..'Z')
         val ic = currentInputConnection
         var text = candidateText
+        setPrevWord(text)
+        if (!isCorrection && text.isNotEmpty()) {
+            text = if(text[0] in 'ក'..'ឳ') {
+                "​$text"
+            } else {
+                " $text"
+            }
+        }
         ic.beginBatchEdit()
         ic.setComposingText(text, 1)
         ic.finishComposingText()
@@ -475,7 +483,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         candidateChoosed = true
         firstCommitCandidate = true
         isStartSen = false
-        smartbarManager.generateCandidatesFromComposing("", "", "", isStartSen,"")
+        smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen,"")
     }
 
     private fun getSpaceBy(isKhmer: Boolean): String {
@@ -549,7 +557,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             } else {
                 resetComposingText()
             }
-            smartbarManager.generateCandidatesFromComposing(inputText, previousOne, previousTwo, isStartSen, composingText)
+            smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen, composingText)
         }
     }
 
@@ -640,7 +648,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
         if(inputText.isEmpty()) {
             resetComposingText()
-            smartbarManager.generateCandidatesFromComposing(inputText, previousOne, previousTwo, isStartSen, composingText)
+            smartbarManager.resetSuggestionResult()
         }
     }
     private fun handleEnter() {

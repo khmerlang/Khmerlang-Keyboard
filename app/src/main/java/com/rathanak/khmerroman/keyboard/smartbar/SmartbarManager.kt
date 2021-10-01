@@ -28,6 +28,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var isComposingEnabled: Boolean = false
     private var isDarkMood: Boolean = false
     var isTyping: Boolean = false
+    var isCorrection: Boolean = true
     private var suggestionJob: Job? = null
     private var result: List<String> = emptyList()
 
@@ -223,7 +224,18 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 
     }
 
-    fun generateCandidatesFromComposing(inputText: String, prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
+    fun resetSuggestionResult() {
+        if (this.smartbarView == null) {
+            return
+        }
+
+        result = emptyList()
+        this.smartbarView!!.candidatesList.removeAllViews()
+        toggleBarLayOut(true)
+    }
+
+    fun generateCandidatesFromComposing(prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
+//        inputText: String,
 //        if(isTyping) {
 //            return
 //        }
@@ -231,58 +243,41 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-        if (R2KhmerService.downloadDataStatus > KeyboardPreferences.STATUS_DOWNLOADED) {
+        if (R2KhmerService.downloadDataStatus < KeyboardPreferences.STATUS_DOWNLOADED) {
             return
         }
 
-        if (inputText.isEmpty()) {
+        isCorrection = true
+        suggestionJob?.cancel()
+        suggestionJob = GlobalScope.launch(Dispatchers.Main) {
+            if (!composingText.isNullOrEmpty()) {
+                getSuggestion(prevOne, prevTwo, composingText, isStartSen)
+                isCorrection = true
+            } else {
+                if(isStartSen) {
+                    result = emptyList()
+                } else {
+                    isCorrection = false
+                    getSuggestionNext(prevOne, prevTwo)
+                }
+            }
+        }
+        suggestionJob!!.invokeOnCompletion {
             this.smartbarView!!.candidatesList.removeAllViews()
-        } else {
-            //result = emptyList()
-            suggestionJob?.cancel()
-            suggestionJob = GlobalScope.launch(Dispatchers.Main) {
-                if (composingText != null) {
-                    getSuggestion(prevOne, prevTwo, composingText, isStartSen)
-                }
+            var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            if (!result.isNullOrEmpty()) for(word in result) {
+                val btnSuggestion = Button(r_2_khmer.context)
+                btnSuggestion.layoutParams =layoutParams
+                btnSuggestion.text = word.toString()
+                btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
+                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
+                this.smartbarView!!.candidatesList.addView(btnSuggestion)
+                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+                btnSuggestion.setPadding(10,1,10,1)
             }
-            suggestionJob!!.invokeOnCompletion {
-                this.smartbarView!!.candidatesList.removeAllViews()
-                var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                if (!composingText.isNullOrEmpty()) {
-                    if (!result.isNullOrEmpty()) for(word in result) {
-                        val btnSuggestion = Button(r_2_khmer.context)
-                        btnSuggestion.layoutParams =layoutParams
-                        btnSuggestion.text = word.toString()
-                        btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
-                        btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
-                        this.smartbarView!!.candidatesList.addView(btnSuggestion)
-                        btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-                        btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
-                        btnSuggestion.setPadding(10,1,10,1)
-                    } else {
-//                    if (composingText != null) {
-//                        val words = r_2_khmer.segmentation.forwardSegment(composingText)
-//                        if(words.size > 1) {
-//                            val endWord = words.last()
-//                            val toEndWord = words.take(words.size - 1).joinToString("")
-//                            result = r_2_khmer.spellingCorrector.correct(words.last())
-//                            if (!result.isNullOrEmpty()) for(word in result) {
-//                                val btnSuggestion = Button(r_2_khmer.context)
-//                                btnSuggestion.layoutParams =layoutParams
-//                                btnSuggestion.text = toEndWord + word.toString()
-//                                btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
-//                                this.smartbarView!!.candidatesList.addView(btnSuggestion)
-//                                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-//                                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
-//                            }
-//                        }
-//                    }
-                    }
-                }
-                this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
-                toggleBarLayOut(true)
-            }
-
+            this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
+            toggleBarLayOut(true)
         }
 
         toggleBarLayOut(true)
@@ -293,6 +288,14 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         coroutineScope {
             async(Dispatchers.IO) {
                 result = R2KhmerService.spellingCorrector.correct(prevOne, prevTwo, composingText, isStartSen)
+            }
+        }
+    }
+
+    private  suspend fun getSuggestionNext(prevOne: String, prevTwo: String) {
+        coroutineScope {
+            async(Dispatchers.IO) {
+                result = R2KhmerService.spellingCorrector.getNextWords(prevOne, prevTwo)
             }
         }
     }
@@ -310,7 +313,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         val text = view.text.toString()
         if (text.isNotEmpty()) {
 //            r_2_khmer.commitCandidate(text + " ")
-            r_2_khmer.commitCandidate(text)
+            r_2_khmer.commitCandidate(text, isCorrection)
         }
     }
 
