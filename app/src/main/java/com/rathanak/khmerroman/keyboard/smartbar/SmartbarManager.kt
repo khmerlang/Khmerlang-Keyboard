@@ -275,8 +275,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
             toggleBarLayOut(true)
         }
-
-//        toggleBarLayOut(true)
     }
 
     //  load spell suggestion data
