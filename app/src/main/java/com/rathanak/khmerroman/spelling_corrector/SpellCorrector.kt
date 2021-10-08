@@ -67,9 +67,11 @@ class SpellCorrector() {
     }
 
     fun getNextWords(prevOne: String, prevTwo: String): List<String> {
-        var lang = KhmerLangApp.LANG_EN
-        if (prevTwo[0] in 'ក'..'ឳ') {
-            lang = KhmerLangApp.LANG_KH
+        var lang = KhmerLangApp.LANG_KH
+        if (prevTwo.isNotEmpty()) {
+            if (prevTwo[0] in 'a'..'z' || prevTwo[0] in 'A'..'Z' || prevTwo[0] in '0'..'9') {
+                lang = KhmerLangApp.LANG_EN
+            }
         }
 
         val tokenOne = tokenizeWord(prevOne, lang)
