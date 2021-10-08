@@ -235,10 +235,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     fun generateCandidatesFromComposing(prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
-//        inputText: String,
-//        if(isTyping) {
-//            return
-//        }
         if (this.smartbarView == null) {
             return
         }
@@ -250,6 +246,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         isCorrection = true
         suggestionJob?.cancel()
         suggestionJob = GlobalScope.launch(Dispatchers.Main) {
+            //wait for few second
+            delay(1000)
             if (!composingText.isNullOrEmpty()) {
                 getSuggestion(prevOne, prevTwo, composingText, isStartSen)
                 isCorrection = true
