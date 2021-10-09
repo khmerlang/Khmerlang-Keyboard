@@ -82,7 +82,14 @@ class SpellCorrector() {
             .limit(10)
             .findAll()
             .sort("count", Sort.DESCENDING)
-            .map { it.keyword.subSequence("$tokenOne $tokenTwo ".length, it.keyword.length).toString() }
+            .map {
+                val word = it.keyword.subSequence("$tokenOne $tokenTwo ".length, it.keyword.length).toString()
+                if (specialCases[word]?.isNotEmpty() == true) {
+                    specialCases[word].toString()
+                } else {
+                    word
+                }
+            }
 
         if(result.size < 10) {
             result += realm.where(Ngram::class.java)
@@ -90,7 +97,14 @@ class SpellCorrector() {
                 .limit((10 - result.size).toLong())
                 .findAll()
                 .sort("count", Sort.DESCENDING)
-                .map { it.keyword.subSequence("$tokenTwo ".length, it.keyword.length).toString() }
+                .map {
+                    val word = it.keyword.subSequence("$tokenTwo ".length, it.keyword.length).toString()
+                    if (specialCases[word]?.isNotEmpty() == true) {
+                        specialCases[word].toString()
+                    } else {
+                        word
+                    }
+                }
             return result
         }
 

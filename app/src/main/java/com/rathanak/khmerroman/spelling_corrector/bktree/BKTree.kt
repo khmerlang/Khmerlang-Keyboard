@@ -1,6 +1,6 @@
 package com.rathanak.khmerroman.spelling_corrector.bktree
 
-import com.rathanak.khmerroman.spelling_corrector.edit_distance.LevenshteinDistance
+import com.rathanak.khmerroman.spelling_corrector.edit_distance.Levenshtein
 
 class Bktree {
     var root : Node? = null
@@ -20,7 +20,7 @@ class Bktree {
             return
 
         val distance =
-            LevenshteinDistance(
+            Levenshtein.distance(
                 node?.word,
                 word
             )
@@ -41,7 +41,7 @@ class Bktree {
     fun getSpellSuggestion( node : Node , word: String , tolerance : Int = 1 ) : ArrayList<Result> {
         val results = arrayListOf<Result>()
         val distance =
-            LevenshteinDistance(
+            Levenshtein.distance(
                 word,
                 node.word
             )
