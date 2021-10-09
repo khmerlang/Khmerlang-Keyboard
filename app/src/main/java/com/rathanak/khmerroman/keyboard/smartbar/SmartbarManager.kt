@@ -19,6 +19,7 @@ import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.utils.DownloadData
 import com.rathanak.khmerroman.view.KhmerLangApp
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
@@ -280,17 +281,42 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     //  load spell suggestion data
     private suspend fun getSuggestion(prevOne: String, prevTwo: String, composingText: String, isStartSen: Boolean) {
         coroutineScope {
-            async(Dispatchers.IO) {
-                result = R2KhmerService.spellingCorrector.correct(prevOne, prevTwo, composingText, isStartSen)
+            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+            try {
+                result = R2KhmerService.spellingCorrector.correct(realm, prevOne, prevTwo, composingText, isStartSen)
+            } finally {
+                realm.close()
             }
+//            async(Dispatchers.IO) {
+//                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+//                try {
+//                    result = R2KhmerService.spellingCorrector.correct(realm, prevOne, prevTwo, composingText, isStartSen)
+//                } finally {
+//                    realm.close()
+//                }
+//
+//            }
         }
     }
 
     private  suspend fun getSuggestionNext(prevOne: String, prevTwo: String) {
+
         coroutineScope {
-            async(Dispatchers.IO) {
-                result = R2KhmerService.spellingCorrector.getNextWords(prevOne, prevTwo)
+            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+            try {
+                result = R2KhmerService.spellingCorrector.getNextWords(realm, prevOne, prevTwo)
+            } finally {
+                realm.close()
             }
+//            async(Dispatchers.IO) {
+//                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+//                try {
+//                    result = R2KhmerService.spellingCorrector.getNextWords(realm, prevOne, prevTwo)
+//                } finally {
+//                    realm.close()
+//                }
+//
+//            }
         }
     }
 

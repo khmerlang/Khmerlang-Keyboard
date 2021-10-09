@@ -26,8 +26,7 @@ class SpellCorrector() {
         bkEN = Bktree()
     }
 
-    fun loadData() {
-        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+    fun loadData(realm: Realm) {
         val khWordList = realm.where(Ngram::class.java)
             .equalTo("gram", KhmerLangApp.ONE_GRAM)
             .equalTo("lang", KhmerLangApp.LANG_KH)
@@ -53,8 +52,6 @@ class SpellCorrector() {
                 specialCases[it.keyword] = it.other
             }
         }
-
-        realm.close()
     }
 
     fun addKhmerWord(keyword: String, roman: String) {
@@ -66,7 +63,7 @@ class SpellCorrector() {
         return str.replace("េី", "ើ").replace("េា", "ោ")
     }
 
-    fun getNextWords(prevOne: String, prevTwo: String): List<String> {
+    fun getNextWords(realm: Realm, prevOne: String, prevTwo: String): List<String> {
         var lang = KhmerLangApp.LANG_KH
         if (prevTwo.isNotEmpty()) {
             if (prevTwo[0] in 'a'..'z' || prevTwo[0] in 'A'..'Z' || prevTwo[0] in '0'..'9') {
@@ -76,7 +73,7 @@ class SpellCorrector() {
 
         val tokenOne = tokenizeWord(prevOne, lang)
         val tokenTwo = tokenizeWord(prevTwo, lang)
-        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+
         var result = realm.where(Ngram::class.java)
             .like("keyword", "$tokenOne $tokenTwo *", Case.INSENSITIVE)
             .limit(10)
@@ -108,11 +105,10 @@ class SpellCorrector() {
             return result
         }
 
-        realm.close()
         return result
     }
 
-    fun correct(prevOne: String, prevTwo: String, misspelling: String, isStartSen: Boolean): List<String> {
+    fun correct(realm: Realm, prevOne: String, prevTwo: String, misspelling: String, isStartSen: Boolean): List<String> {
         if(misspelling.isEmpty()) {
             return emptyList()
         }
@@ -130,7 +126,7 @@ class SpellCorrector() {
 
         if (misspelling[0] in 'ក'..'ឳ') {
             var outputKMMap: List<String> = mutableListOf()
-            outputKMMap = correctBy(bkKH, specialKhmer(misspelling), false, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
+            outputKMMap = correctBy(realm, bkKH, specialKhmer(misspelling), false, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
             return outputKMMap
         } else {
             val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, true)
@@ -142,11 +138,11 @@ class SpellCorrector() {
             var outputENMap = listOf<String>()
             var outputRMMap = listOf<String>()
             if (isENChecked!!) {
-                outputENMap = correctBy(bkEN, misspelling, false, KhmerLangApp.LANG_EN, tolerance, prevOne, prevTwo, isStartSen)
+                outputENMap = correctBy(realm, bkEN, misspelling, false, KhmerLangApp.LANG_EN, tolerance, prevOne, prevTwo, isStartSen)
             }
 
             if (isRMChecked!!) {
-                outputRMMap = correctBy(bkRM, misspelling, true, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
+                outputRMMap = correctBy(realm, bkRM, misspelling, true, KhmerLangApp.LANG_KH, tolerance, prevOne, prevTwo, isStartSen)
             }
 
             val total = outputENMap.size + outputRMMap.size
@@ -184,14 +180,13 @@ class SpellCorrector() {
         return "<oth>"
     }
 
-    private fun correctBy(model: Bktree, misspelling: String, isOther: Boolean, lang: Int, tolerance: Int, prevOne: String = "<s>", prevTwo: String = "<s>", isStartSen: Boolean): List<String> {
+    private fun correctBy(realm: Realm, model: Bktree, misspelling: String, isOther: Boolean, lang: Int, tolerance: Int, prevOne: String = "<s>", prevTwo: String = "<s>", isStartSen: Boolean): List<String> {
         if (model.root == null) {
             return arrayListOf()
         }
 
         val tokenOne = tokenizeWord(prevOne, lang)
         val tokenTwo = tokenizeWord(prevTwo, lang)
-        var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
         var query = realm.where(Ngram::class.java)
         query = query.beginGroup()
         query = query.equalTo("keyword", "<s>")
@@ -252,7 +247,6 @@ class SpellCorrector() {
         }
 
         candidatesList.sortByDescending { it.score }
-        realm.close()
         return candidatesList.map { it.keyword }.distinctBy { it.toLowerCase() }.take(10)
     }
 }

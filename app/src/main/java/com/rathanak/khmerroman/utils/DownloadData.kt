@@ -7,6 +7,7 @@ import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.serializable.NgramRecordSerializable
 import com.rathanak.khmerroman.view.KhmerLangApp
+import io.realm.Realm
 import kotlinx.coroutines.*
 import okhttp3.*
 import java.io.ObjectInputStream
@@ -35,7 +36,9 @@ class DownloadData() {
                     .url(KEYBOARD_DATA_URL)
                     .post(formBody)
                     .build()
+                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
                 try {
+
                     val response = client.newCall(request).execute()
                     if (response.isSuccessful) {
                         val readResult = arrayListOf<NgramRecordSerializable>()
@@ -47,7 +50,7 @@ class DownloadData() {
                         val dataAdapter = DataLoader()
                         dataAdapter.saveDataToDB(readResult, isRemoveCustom)
                         R2KhmerService.spellingCorrector.reset()
-                        R2KhmerService.spellingCorrector.loadData()
+                        R2KhmerService.spellingCorrector.loadData(realm)
                         R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADED
                         KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_DOWNLOADED)
                     } else {
@@ -57,6 +60,8 @@ class DownloadData() {
                 } catch (e: Exception) {
                     R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOAD_FAIL
                     KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_DOWNLOAD_FAIL)
+                } finally {
+                    realm.close()
                 }
             }
         }

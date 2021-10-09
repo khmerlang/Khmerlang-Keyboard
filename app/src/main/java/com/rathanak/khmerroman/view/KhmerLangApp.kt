@@ -50,7 +50,12 @@ class KhmerLangApp : Application() {
     private suspend fun loadSpelling() {
         coroutineScope {
             async(Dispatchers.IO) {
-                R2KhmerService.spellingCorrector.loadData()
+                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+                try {
+                    R2KhmerService.spellingCorrector.loadData(realm)
+                } finally {
+                    realm.close()
+                }
             }
         }
     }

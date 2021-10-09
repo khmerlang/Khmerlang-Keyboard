@@ -123,8 +123,14 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
     private fun updateSpellCorrectModel() {
         spellCorrectJob?.cancel()
         spellCorrectJob = GlobalScope.launch(Dispatchers.Main) {
-            R2KhmerService.spellingCorrector.reset()
-            R2KhmerService.spellingCorrector.loadData()
+            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+            try {
+                R2KhmerService.spellingCorrector.reset()
+                R2KhmerService.spellingCorrector.loadData(realm)
+            } finally {
+                realm.close()
+            }
+
         }
     }
 }
