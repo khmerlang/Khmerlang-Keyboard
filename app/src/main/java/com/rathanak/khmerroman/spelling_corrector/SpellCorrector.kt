@@ -76,6 +76,7 @@ class SpellCorrector() {
 
         var result = realm.where(Ngram::class.java)
             .like("keyword", "$tokenOne $tokenTwo *", Case.INSENSITIVE)
+            .equalTo("gram", KhmerLangApp.THREE_GRAM)
             .limit(10)
             .findAll()
             .sort("count", Sort.DESCENDING)
@@ -90,6 +91,7 @@ class SpellCorrector() {
 
         if(result.size < 10) {
             result += realm.where(Ngram::class.java)
+                .equalTo("gram", KhmerLangApp.TWO_GRAM)
                 .like("keyword", "$tokenTwo *", Case.INSENSITIVE)
                 .limit((10 - result.size).toLong())
                 .findAll()
@@ -102,10 +104,9 @@ class SpellCorrector() {
                         word
                     }
                 }
-            return result
         }
 
-        return result
+        return result.distinctBy { it.toLowerCase() }
     }
 
     fun correct(realm: Realm, prevOne: String, prevTwo: String, misspelling: String, isStartSen: Boolean): List<String> {
@@ -225,9 +226,9 @@ class SpellCorrector() {
             } else if (it.distance <= 1) {
                 0.9
             } else if (it.distance <= 3) {
-                0.8
+                0.6
             } else {
-                0.75
+                0.5
             }
             if (it.distance == 0) {
                 it.score = 1.0

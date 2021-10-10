@@ -67,5 +67,6 @@ class KhmerLangApp : Application() {
         const val LANG_EN = 1
         const val ONE_GRAM = 1
         const val TWO_GRAM = 2
+        const val THREE_GRAM = 3
     }
 }
