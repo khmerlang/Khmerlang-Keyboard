@@ -41,6 +41,7 @@ import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.utils.WordTokenizer
+import com.rathanak.khmerroman.view.KhmerLangApp
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
 import kotlinx.coroutines.*
@@ -81,7 +82,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var isStartSen = true
     private var isKeyDown: Boolean = false
     var currentInputPassword: Boolean = false
-    private lateinit var preferences: KeyboardPreferences
     var bannerIdsData: MutableList<String> = mutableListOf()
     var currentBannerIndex = 0
     var bannerTargetUrl = "http://khmerlang.com/"
@@ -100,7 +100,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     override fun onCreate() {
         super.onCreate()
-        initSharedPreference()
         loadKeyCodes()
         initKeyboards()
         wordTokenize = WordTokenizer(context)
@@ -111,13 +110,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         wordTokenize.destroy()
     }
 
-    private fun initSharedPreference() {
-        preferences = KeyboardPreferences(applicationContext)
-    }
-
     override fun onWindowShown() {
         super.onWindowShown()
-        if (preferences.getBoolean(KEY_NEEDS_RELOAD)) {
+        if (KhmerLangApp.preferences?.getBoolean(KEY_NEEDS_RELOAD) == true) {
             loadSharedPreferences()
             loadStyles()
         }
@@ -160,11 +155,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
-    override fun onInitializeInterface() {
-        initKeyboards()
-        super.onInitializeInterface()
-    }
-
     private fun initKeyboards() {
         resetLoadedData()
         loadLanguages()
@@ -190,11 +180,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun loadSharedPreferences() {
-        currentSelectedLanguageIdx = preferences.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
-        enableVibration = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
-        enableSound = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
-        isDarkMood = preferences.getBoolean(KeyboardPreferences.KEY_ENABLE_DARK_MOOD)
-        preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, false)
+        if (KhmerLangApp.preferences != null) {
+            currentSelectedLanguageIdx = KhmerLangApp.preferences!!.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
+            enableVibration = KhmerLangApp.preferences!!.getBoolean(KeyboardPreferences.KEY_ENABLE_VIBRATION)
+            enableSound = KhmerLangApp.preferences!!.getBoolean(KeyboardPreferences.KEY_ENABLE_SOUND)
+            isDarkMood = KhmerLangApp.preferences!!.getBoolean(KeyboardPreferences.KEY_ENABLE_DARK_MOOD)
+            KhmerLangApp.preferences!!.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, false)
+        }
     }
 
     private fun loadStyles() {
@@ -312,7 +304,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun saveCurrentState() {
-        preferences.putInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, currentSelectedLanguageIdx)
+        if(KhmerLangApp.preferences != null) {
+            KhmerLangApp.preferences!!.putInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, currentSelectedLanguageIdx)
+        }
     }
 
     private fun changeLanguage(direction: Int) {
