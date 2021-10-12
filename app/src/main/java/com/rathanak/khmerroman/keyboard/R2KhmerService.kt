@@ -108,6 +108,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     override fun onDestroy() {
         super.onDestroy()
         wordTokenize.destroy()
+        smartbarManager.destroy()
     }
 
     override fun onWindowShown() {
@@ -120,11 +121,19 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // check if banner recent or long load
         val currentDate = Date()
         if(lastFetchBannerAt == null || (currentDate.time - lastFetchBannerAt!!.time >= 30*60*1000)) {
-            val job= GlobalScope.launch(Dispatchers.Main) {
+            val job = GlobalScope.launch(Dispatchers.Main) {
                 loadBannerData()
+            }
+
+            job.invokeOnCompletion {
+                updateSmartBarBanner()
             }
         }
 
+        updateSmartBarBanner()
+    }
+
+    private fun updateSmartBarBanner() {
         if(bannerIdsData.isNotEmpty()) {
             currentBannerIndex = (currentBannerIndex + 1) % bannerIdsData.size
             smartbarManager.setBannerImage(BANNER_IMAGE + bannerIdsData[currentBannerIndex])

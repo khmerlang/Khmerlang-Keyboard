@@ -349,7 +349,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun handleNumberClick() {
         for (numberButton in this.smartbarView!!.numbersList.children) {
             if (numberButton is Button) {
-//                prevComposingText = ""
                 numberButton.setOnClickListener(numberButtonOnClickListener)
             }
         }
@@ -382,5 +381,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 }
             }
         }
+    }
+
+    fun destroy() {
     }
 }
