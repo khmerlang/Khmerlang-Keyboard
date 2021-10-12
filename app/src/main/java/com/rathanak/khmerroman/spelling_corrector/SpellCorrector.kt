@@ -117,7 +117,7 @@ class SpellCorrector() {
         var tolerance = 1
         if (misspelling.length <= 2) {
             tolerance = 1
-        } else if (misspelling.length <= 5) {
+        } else if (misspelling.length <= 4) {
             tolerance = 2
         } else if (misspelling.length <= 8) {
             tolerance = 3
@@ -224,6 +224,8 @@ class SpellCorrector() {
             val weight = if (it.distance < 1) {
                 1.0
             } else if (it.distance <= 1) {
+                0.95
+            } else if (it.distance <= 2) {
                 0.9
             } else if (it.distance <= 3) {
                 0.6
