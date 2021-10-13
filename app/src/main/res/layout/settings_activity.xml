@@ -15,7 +15,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center">
         <ProgressBar
-            android:id="@+id/btnReseting"
+            android:id="@+id/btnReDownloading"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="15dp"
@@ -25,7 +25,25 @@
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:id="@+id/btnResetDownload"
+            android:id="@+id/btnReDownload"
+            android:theme="@style/ButtonDefault"
+            android:background="@drawable/button_default"
+            android:visibility="visible"
+            android:text="@string/re_download_data"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/btnReset"
             android:theme="@style/ButtonDanger"
             android:background="@drawable/button_danger"
             android:visibility="visible"

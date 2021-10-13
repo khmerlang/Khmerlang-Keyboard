@@ -11,7 +11,7 @@ import io.realm.RealmResults
 class DataLoader() {
 //    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
 
-    private fun clearDBData(removeCustom: Boolean = false) {
+    fun clearDBData(removeCustom: Boolean = false) {
         var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
         realm.beginTransaction()
         if (removeCustom) {

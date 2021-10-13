@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.settings_activity.*
 import android.content.DialogInterface
 import android.view.View
 import android.widget.Toast
+import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.utils.DownloadData
 import kotlinx.android.synthetic.main.activity_roman_mapping.*
@@ -33,30 +34,56 @@ class ProfileSettingsActivity : AppCompatActivity() {
             .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        btnResetDownload.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            builder.setCancelable(true)
-            builder.setTitle(R.string.dialogConfirmTitle)
-            builder.setMessage(R.string.dialogConfirmMessage)
-                .setPositiveButton(R.string.ok,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        btnResetDownload.visibility = View.GONE
-                        btnReseting.visibility = View.VISIBLE
-                        R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
-                        R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
-                        val download = DownloadData()
-                        download.downloadKeyboardData(true)
-                        listenJobDone()
-                    })
-                .setNegativeButton(R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
-            builder.show()
+        btnReset.setOnClickListener {
+            buildResetDialog()
+        }
+
+        btnReDownload.setOnClickListener {
+            buildReDownloadDialog()
         }
 
         updateVisibility()
         listenJobDone()
+    }
+
+    private fun buildReDownloadDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(true)
+        builder.setTitle(R.string.dialogConfirmDownloadTitle)
+        builder.setMessage(R.string.dialogConfirmDownloadMessage)
+            .setPositiveButton(R.string.ok,
+                DialogInterface.OnClickListener { dialog, id ->
+                    btnReDownload.visibility = View.GONE
+                    btnReDownloading.visibility = View.VISIBLE
+                    R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
+                    R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
+                    val download = DownloadData()
+                    download.downloadKeyboardData()
+                    listenJobDone()
+                })
+            .setNegativeButton(R.string.cancel,
+                DialogInterface.OnClickListener { dialog, id ->
+                    // User cancelled the dialog
+                })
+        builder.show()
+    }
+    private fun buildResetDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(true)
+        builder.setTitle(R.string.dialogConfirmTitle)
+        builder.setMessage(R.string.dialogConfirmMessage)
+            .setPositiveButton(R.string.ok,
+                DialogInterface.OnClickListener { _, _ ->
+                    val dataAdapter = DataLoader()
+                    dataAdapter.clearDBData(true)
+                    R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_NONE
+                    KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, KeyboardPreferences.STATUS_NONE)
+                })
+            .setNegativeButton(R.string.cancel,
+                DialogInterface.OnClickListener { _, _ ->
+                    // User cancelled the dialog
+                })
+        builder.show()
     }
 
     class SettingsFragment(private val preferences: KeyboardPreferences) : PreferenceFragmentCompat() {
@@ -99,8 +126,8 @@ class ProfileSettingsActivity : AppCompatActivity() {
     private fun listenJobDone() {
         if (R2KhmerService.jobLoadData != null) {
             R2KhmerService.jobLoadData!!.invokeOnCompletion {
-                btnReseting.visibility = View.GONE
-                btnResetDownload.visibility = View.VISIBLE
+                btnReDownloading.visibility = View.GONE
+                btnReDownload.visibility = View.VISIBLE
                 if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
                     Toast.makeText(applicationContext, R.string.download_fail, Toast.LENGTH_LONG).show()
                     R2KhmerService.downloadDataStatus = R2KhmerService.downloadDataPrevStatus
@@ -111,12 +138,12 @@ class ProfileSettingsActivity : AppCompatActivity() {
     }
 
     private fun updateVisibility() {
-        btnResetDownload.visibility = View.GONE
-        btnReseting.visibility = View.GONE
+        btnReDownload.visibility = View.GONE
+        btnReDownloading.visibility = View.GONE
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
-            btnReseting.visibility = View.VISIBLE
+            btnReDownloading.visibility = View.VISIBLE
         } else {
-            btnResetDownload.visibility = View.VISIBLE
+            btnReDownload.visibility = View.VISIBLE
         }
     }
 }

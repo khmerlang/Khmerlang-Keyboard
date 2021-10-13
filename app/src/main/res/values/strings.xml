@@ -65,4 +65,7 @@
     <string name="reset_download">កំណត់ទិន្នន័យឡើងវិញ</string>
     <string name="upload_data">បញ្ជូនទិន្នន័យ</string>
     <string name="download_fail">មិនអាចទាញយកទិន្នន័យ</string>
+    <string name="re_download_data">ទាញយកទិន្នន័យម្តងទៀត</string>
+    <string name="dialogConfirmDownloadTitle">ទាញយកទិន្នន័យក្តារចុចឡើងវិញ</string>
+    <string name="dialogConfirmDownloadMessage">តើអ្នកប្រាកដថាទាញយកទិន្នន័យក្តារចុចឡើងវិញទេ? ទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នកនឹងមិនលុបទេ</string>
 </resources>
