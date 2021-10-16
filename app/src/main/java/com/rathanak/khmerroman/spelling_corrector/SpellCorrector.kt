@@ -226,7 +226,7 @@ class SpellCorrector() {
             } else if (it.distance <= 1) {
                 0.95
             } else if (it.distance <= 2) {
-                0.9
+                0.95
             } else if (it.distance <= 3) {
                 0.6
             } else {

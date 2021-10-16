@@ -12,7 +12,6 @@ class Levenshtein {
             }
 
             return 2
-
         }
 
         fun distance(lhs : CharSequence, rhs : CharSequence) : Int {
