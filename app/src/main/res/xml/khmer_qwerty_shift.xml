@@ -7,7 +7,6 @@
         <Key
             android:codes="33"
             android:keyEdgeFlags="left"
-            android:keyLabel="!"
             android:keyWidth="10%p"/>
         <Key
             android:codes="6103"
@@ -62,52 +61,42 @@
             android:codes="06024"
             android:keyEdgeFlags="left"
             android:keyLabel="ឈ"
-            app:subLabel="Q"
             android:keyWidth="10%p"/>
         <Key
             android:codes="06074"
             android:keyLabel="ឺ"
-            app:subLabel="W"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06082"
             android:keyLabel="ែ"
-            app:subLabel="E"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06060"
             android:keyLabel="ឬ"
-            app:subLabel="R"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06033"
             android:keyLabel="ទ"
-            app:subLabel="T"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06077"
             android:keyLabel="ួ"
-            app:subLabel="Y"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06076"
             android:keyLabel="ូ"
-            app:subLabel="U"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06072"
             android:keyLabel="ី"
-            app:subLabel="I"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06085"
             android:keyLabel="ៅ"
-            app:subLabel="O"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06039"
             android:keyLabel="ភ"
-            app:subLabel="P"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06079"
@@ -125,52 +114,42 @@
             android:codes="@integer/keycode_am"
             android:keyEdgeFlags="left"
             android:keyLabel="ាំ"
-            app:subLabel="A"
             android:keyWidth="10%p"/>
         <Key
             android:codes="06083"
             android:keyLabel="ៃ"
-            app:subLabel="S"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06028"
             android:keyLabel="ឌ"
-            app:subLabel="D"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06034"
             android:keyLabel="ធ"
-            app:subLabel="F"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06050"
             android:keyLabel="អ"
-            app:subLabel="G"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06087"
             android:keyLabel="ះ"
-            app:subLabel="H"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06025"
             android:keyLabel="ញ"
-            app:subLabel="J"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06018"
             android:keyLabel="គ"
-            app:subLabel="K"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06049"
             android:keyLabel="ឡ"
-            app:subLabel="L"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06089"
             android:keyLabel="៉"
-            app:subLabel=":"
             android:keyWidth="8%p"/>
         <Key
             android:codes="6063"
@@ -194,37 +173,30 @@
         <Key
             android:codes="06029"
             android:keyLabel="ឍ"
-            app:subLabel="Z"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06019"
             android:keyLabel="ឃ"
-            app:subLabel="X"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06023"
             android:keyLabel="ជ"
-            app:subLabel="C"
             android:keyWidth="8%p"/>
         <Key
             android:codes="@integer/keycode_as"
             android:keyLabel="េះ"
-            app:subLabel="V"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06038"
             android:keyLabel="ព"
-            app:subLabel="B"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06030"
             android:keyLabel="ណ"
-            app:subLabel="N"
             android:keyWidth="8%p"/>
         <Key
             android:codes="06086"
             android:keyLabel="ំ"
-            app:subLabel="M"
             android:keyWidth="8%p"/>
         <Key
             android:codes="@integer/keycode_ors"

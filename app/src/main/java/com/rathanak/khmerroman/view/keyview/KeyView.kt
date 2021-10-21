@@ -153,7 +153,7 @@ class KeyView @JvmOverloads constructor(
         }
 
         // Draw the sub label on the key
-        val isShowLabel =KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, false)
+        val isShowLabel = true //KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_SHOW_KEY_LABEL_VIEW, false)
         if (key.subLabel != null && isShowLabel!!) {
             var multiplicativeWidthRatio = 1.5F
             var multiplicativeHeightRatio = 1.5F

@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.36822916666666666" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/activity_custom_mapping.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/activity_roman_mapping.xml" value="0.36041666666666666" />
         <entry key="app/src/main/res/layout/enable_keyboard_dialog.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/layout/keybaord.xml" value="0.2803442028985507" />
+        <entry key="app/src/main/res/layout/keyboard_popup_layout.xml" value="0.2803442028985507" />
+        <entry key="app/src/main/res/layout/preview.xml" value="0.2803442028985507" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/xml/popup.xml" value="0.2803442028985507" />
       </map>
     </option>
   </component>
