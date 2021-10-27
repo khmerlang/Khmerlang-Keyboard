@@ -89,6 +89,8 @@ class CustomInputMethodView @JvmOverloads constructor(
     // Current screen orientation
     private var isLandscape = false
 
+    private var isLongPress = false
+
     init {
         setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
 
@@ -187,6 +189,9 @@ class CustomInputMethodView @JvmOverloads constructor(
                     val msg = keyboardHandler.obtainMessage(MSG_REPEAT)
                     msg.obj = pointerId
                     keyboardHandler.sendMessage(msg)
+                }
+                MSG_LONG_CLICK_SHIFT -> {
+                    isLongPress = true
                 }
             }
             false
@@ -378,6 +383,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                 MotionEvent.ACTION_POINTER_UP -> {
                     keyboardViewListener?.onKeyTouchUp()
                     sendKey(pressedKeys.get(pointerId))
+                    isLongPress = false
                     pressedKeys.remove(pointerId)
                     removeMessages()
                 }
@@ -396,13 +402,19 @@ class CustomInputMethodView @JvmOverloads constructor(
             }
 
             addPressedKey(pointerId, pressedKey)
-            if (pressedKey.repeatable == true && !isMove) {
-                /*
-                * Determine if the click is a long press on the repeatable keys.
-                * */
-                val msg = longClickHandler.obtainMessage(MSG_LONG_CLICK)
-                msg.obj = pointerId
-                longClickHandler.sendMessageDelayed(msg, LONG_PRESS_DELAY.toLong())
+            if (!isMove) {
+                if (pressedKey.repeatable == true) {
+                    /*
+                    * Determine if the click is a long press on the repeatable keys.
+                    * */
+                    val msg = longClickHandler.obtainMessage(MSG_LONG_CLICK)
+                    msg.obj = pointerId
+                    longClickHandler.sendMessageDelayed(msg, LONG_PRESS_DELAY.toLong())
+                }  else {
+                    val msg = longClickHandler.obtainMessage(MSG_LONG_CLICK_SHIFT)
+                    msg.obj = pointerId
+                    longClickHandler.sendMessageDelayed(msg, LONG_PRESS_SHIFT_DELAY.toLong())
+                }
             }
         }
     }
@@ -414,6 +426,7 @@ class CustomInputMethodView @JvmOverloads constructor(
 
     private fun removeMessages() {
         longClickHandler.removeMessages(MSG_LONG_CLICK)
+        longClickHandler.removeMessages(MSG_LONG_CLICK_SHIFT)
         keyboardHandler.removeMessages(MSG_REPEAT)
     }
 
@@ -447,6 +460,19 @@ class CustomInputMethodView @JvmOverloads constructor(
         key?.codes?.let { codes ->
             if (codes.isEmpty()) return false
             codes.first().let { primaryCode ->
+                // if long press key and key have long press value
+                if (isLongPress) {
+                    if (BuildConfig.DEBUG) {
+                        Log.d(LOG_TAG, "pressed : ${key.subLabel}")
+                    }
+                    key?.longPressCode?.let { longPressCode ->
+                        if (longPressCode > 0) {
+                            keyboardViewListener?.onKey(longPressCode, codes)
+                            return true
+                        }
+                    }
+                }
+
                 if (BuildConfig.DEBUG) {
                     Log.d(LOG_TAG, "pressed : ${key.label}")
                 }
@@ -523,11 +549,13 @@ class CustomInputMethodView @JvmOverloads constructor(
         // Messages for handler
         const val MSG_REPEAT = 0
         const val MSG_LONG_CLICK = 1
+        const val MSG_LONG_CLICK_SHIFT = 2
         // Time intervals
+        const val LONG_PRESS_SHIFT_DELAY = 500
         const val LONG_PRESS_DELAY = 500
         const val REPEAT_INTERVAL = 50 // ~20 keys per second
 
-        const val LOG_TAG = "**AMOS**"
+        const val LOG_TAG = "**KHMERLANG**"
 
         const val SWIPE_VELOCITY_THRESHOLD = 50
     }

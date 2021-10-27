@@ -8,7 +8,9 @@
             android:codes="06113"
             android:keyEdgeFlags="left"
             android:keyLabel="១"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="Q"
+            app:longPressCode="81"/>
         <Key
             android:codes="06114"
             android:keyLabel="២"

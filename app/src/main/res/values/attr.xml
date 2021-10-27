@@ -26,6 +26,7 @@
 
     <declare-styleable name="CustomKey">
         <attr name="subLabel" />
+        <attr name="longPressCode" format="integer"/>
         <attr name="isChangeLanguageKey" format="boolean" />
         <attr name="keyTextSize" />
     </declare-styleable>

@@ -7,9 +7,7 @@
         <Key
             android:codes="113"
             android:keyEdgeFlags="left"
-            android:keyLabel="q"
-            android:popupCharacters=".,?!#@"
-            android:popupKeyboard="@xml/keyboard_popup_template"/>
+            android:keyLabel="q" />
         <Key
             android:codes="119"
             android:keyLabel="w"/>

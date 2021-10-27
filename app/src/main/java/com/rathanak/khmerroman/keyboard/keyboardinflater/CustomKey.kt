@@ -9,12 +9,14 @@ import com.rathanak.khmerroman.R
 class CustomKey(val res: Resources?, parent: Keyboard.Row?, x: Int, y: Int, parser: XmlResourceParser?) : Keyboard.Key(res, parent, x, y, parser) {
 
     var subLabel: CharSequence?
+    var longPressCode: Int?
     var isChangeLanguageKey: Boolean = false
     var textSize: Float?
 
     init {
         val a = res?.obtainAttributes(Xml.asAttributeSet(parser), R.styleable.CustomKey)
         subLabel = a?.getText(R.styleable.CustomKey_subLabel)
+        longPressCode = a?.getInt(R.styleable.CustomKey_longPressCode, 0)
         a?.getBoolean(R.styleable.CustomKey_isChangeLanguageKey, false)?.let {
             isChangeLanguageKey = it
         }
@@ -34,3 +36,4 @@ class CustomKey(val res: Resources?, parent: Keyboard.Row?, x: Int, y: Int, pars
         return isRightEdge() || isLeftEdge()
     }
 }
+

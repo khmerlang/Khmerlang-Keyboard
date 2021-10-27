@@ -18,7 +18,9 @@ class CustomKeyView @JvmOverloads constructor(
     val repeatable: Boolean? = key?.repeatable
     val codes: IntArray? = key?.codes
     val label: String? = key?.label?.toString()
+    val subLabel: String? = key?.subLabel?.toString()
     val isChangeLanguage: Boolean? = key?.isChangeLanguageKey
+    val longPressCode: Int? = key?.longPressCode
 
     private lateinit var keyTextView: KeyView
 
