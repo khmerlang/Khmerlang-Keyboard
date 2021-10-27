@@ -3,220 +3,160 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:keyHeight="@dimen/key_height"
     android:verticalGap="0px">
-    <Row android:keyHeight="@dimen/top_keys_height">
-        <Key
-            android:codes="06113"
-            android:keyEdgeFlags="left"
-            android:keyLabel="១"
-            android:keyWidth="10%p"
-            app:subLabel="Q"
-            app:longPressCode="81"/>
-        <Key
-            android:codes="06114"
-            android:keyLabel="២"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06115"
-            android:keyLabel="៣"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06116"
-            android:keyLabel="៤"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06117"
-            android:keyLabel="៥"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06118"
-            android:keyLabel="៦"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06119"
-            android:keyLabel="៧"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06120"
-            android:keyLabel ="៨"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06121"
-            android:keyLabel="៩"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06112"
-            android:keyLabel="០"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06053"
-            android:keyLabel="ឥ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06066"
-            android:keyEdgeFlags="right"
-            android:keyLabel="ឲ"
-            android:keyWidth="10%p"/>
-    </Row>
-    <Row android:keyHeight="@dimen/key_kh_height">
+    <Row>
         <Key
             android:codes="06022"
             android:keyEdgeFlags="left"
             android:keyLabel="ឆ"
-            android:keyWidth="10%p"/>
+            app:subLabel="ឥ"
+            app:longPressCode="6053"/>
         <Key
             android:codes="06073"
             android:keyLabel="ឹ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ៗ"
+            app:longPressCode="6103"/>
         <Key
             android:codes="06081"
             android:keyLabel="េ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឯ"
+            app:longPressCode="6063"/>
         <Key
             android:codes="06042"
             android:keyLabel="រ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឫ"
+            app:longPressCode="6059"/>
         <Key
             android:codes="06031"
             android:keyLabel="ត"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឪ"
+            app:longPressCode="6058"/>
         <Key
             android:codes="06041"
             android:keyLabel="យ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឭ"
+            app:longPressCode="6061"/>
         <Key
             android:codes="06075"
             android:keyLabel="ុ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឧ"
+            app:longPressCode="6055"/>
         <Key
             android:codes="06071"
             android:keyLabel ="ិ"
-            android:keyWidth="8%p"/>
+            app:subLabel="៊"
+            app:longPressCode="6090"/>
         <Key
             android:codes="06084"
             android:keyLabel="ោ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ោះ"
+            app:longPressCode="-12"/>
         <Key
             android:codes="06037"
-            android:keyLabel="ផ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06080"
-            android:keyLabel="ៀ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06058"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឪ"
-            android:keyWidth="10%p"/>
+            android:keyLabel="ផ"
+            app:subLabel="ឲ"
+            app:longPressCode="6066"/>
     </Row>
 
-    <Row android:keyHeight="@dimen/key_kh_height">
+    <Row>
         <Key
             android:codes="06070"
             android:keyEdgeFlags="left"
             android:keyLabel="ា"
-            android:keyWidth="10%p"/>
+            app:subLabel="ៀ"
+            app:longPressCode="6080"/>
         <Key
             android:codes="06047"
             android:keyLabel="ស"
-            android:keyWidth="8%p"/>
+            app:subLabel="័"
+            app:longPressCode="6096"/>
         <Key
             android:codes="06026"
             android:keyLabel="ដ"
-            android:keyWidth="8%p"/>
+            app:subLabel="៍"
+            app:longPressCode="6093"/>
         <Key
             android:codes="06032"
             android:keyLabel="ថ"
-            android:keyWidth="8%p"/>
+            app:subLabel="៏"
+            app:longPressCode="6095"/>
         <Key
             android:codes="06020"
             android:keyLabel="ង"
-            android:keyWidth="8%p"/>
+            app:subLabel="៌"
+            app:longPressCode="6092"/>
         <Key
             android:codes="06048"
             android:keyLabel="ហ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ៈ"
+            app:longPressCode="6088"/>
         <Key
             android:codes="06098"
             android:keyLabel="្"
-            android:keyWidth="8%p"/>
+            app:subLabel="៖"
+            app:longPressCode="6102"/>
         <Key
             android:codes="06016"
             android:keyLabel="ក"
-            android:keyWidth="8%p"/>
+            app:subLabel="់"
+            app:longPressCode="6091"/>
         <Key
             android:codes="06043"
             android:keyLabel="ល"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06078"
-            android:keyLabel="ើ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06091"
-            android:keyLabel="់"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06061"
             android:keyEdgeFlags="right"
-            android:keyLabel="ឭ"
-            android:keyWidth="10%p"/>
+            app:subLabel="ើ"
+            app:longPressCode="6078"/>
     </Row>
 
-    <Row android:keyHeight="@dimen/key_kh_height">
+    <Row>
         <Key
             android:codes="@integer/keycode_shift"
             android:isModifier="true"
             android:isSticky="true"
             android:keyEdgeFlags="left"
             android:keyIcon="@drawable/ic_keyboard_arrow_up"
-            android:keyWidth="10%p" />
+            android:keyWidth="15%p"/>
         <Key
             android:codes="06027"
             android:keyLabel="ឋ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឿ"
+            app:longPressCode="6079"/>
         <Key
             android:codes="06017"
             android:keyLabel="ខ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឦ"
+            app:longPressCode="6054"/>
         <Key
             android:codes="06021"
             android:keyLabel="ច"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឭ"
+            app:longPressCode="6061"/>
         <Key
             android:codes="06044"
             android:keyLabel="វ"
-            android:keyWidth="8%p"/>
+            app:subLabel="ឰ"
+            app:longPressCode="6064"/>
         <Key
             android:codes="06036"
             android:keyLabel="ប"
-            android:keyWidth="8%p"/>
+            app:subLabel="៉"
+            app:longPressCode="6089"/>
         <Key
             android:codes="06035"
             android:keyLabel="ន"
-            android:keyWidth="8%p"/>
+            app:subLabel="ុះ"
+            app:longPressCode="@integer/keycode_ors"/>
         <Key
             android:codes="06040"
             android:keyLabel="ម"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="@integer/keycode_om"
-            android:keyLabel="ុំ"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06100"
-            android:keyLabel="។"
-            android:keyWidth="8%p"/>
-        <Key
-            android:codes="06090"
-            android:keyLabel="៊"
-            android:keyWidth="8%p"/>
+            app:subLabel="ុំ"
+            app:longPressCode="@integer/keycode_om"/>
         <Key
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"
             android:keyEdgeFlags="right"
             android:keyIcon="@drawable/ic_backspace_fill"
-            android:keyWidth="10%p" />
+            android:keyWidth="15%p" />
     </Row>
 
     <Row
@@ -225,7 +165,7 @@
         <Key
             android:codes="@integer/keycode_sym"
             android:keyEdgeFlags="left"
-            android:keyLabel="123"
+            android:keyLabel="\?123"
             android:keyWidth="15%p"
             app:keyTextSize="6dp" />
         <Key
@@ -244,9 +184,11 @@
             android:keyLabel="@string/app_name_kh"
             app:isChangeLanguageKey="true"/>
         <Key
-            android:codes="46"
-            android:keyLabel="."
-            android:keyWidth="10%p" />
+            android:codes="06100"
+            android:keyLabel="។"
+            android:keyWidth="10%p"
+            app:subLabel="៕"
+            app:longPressCode="6101"/>
         <Key
             android:codes="@integer/keycode_done"
             android:keyEdgeFlags="right"

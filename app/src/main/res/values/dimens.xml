@@ -5,8 +5,8 @@
     <dimen name="candidate_vertical_padding">16sp</dimen>
 
     <dimen name="bottom_keys_height">60dp</dimen>
-    <dimen name="top_keys_height">40dp</dimen>
-    <dimen name="key_kh_height">48dp</dimen>
+    <dimen name="top_keys_height">58dp</dimen>
+    <dimen name="key_kh_height">58dp</dimen>
 
     <!--Default values-->
     <dimen name="default_key_text_size">20dp</dimen>

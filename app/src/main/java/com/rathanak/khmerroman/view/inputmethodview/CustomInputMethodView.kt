@@ -466,7 +466,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                         Log.d(LOG_TAG, "pressed : ${key.subLabel}")
                     }
                     key?.longPressCode?.let { longPressCode ->
-                        if (longPressCode > 0) {
+                        if (longPressCode != 0) {
                             keyboardViewListener?.onKey(longPressCode, codes)
                             return true
                         }

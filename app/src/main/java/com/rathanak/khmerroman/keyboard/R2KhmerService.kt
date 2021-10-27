@@ -98,6 +98,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
     }
 
+    override fun onInitializeInterface() {
+        initKeyboards()
+        super.onInitializeInterface()
+    }
+
     override fun onCreate() {
         super.onCreate()
         loadKeyCodes()

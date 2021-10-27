@@ -7,134 +7,128 @@
             android:codes="06113"
             android:keyEdgeFlags="left"
             android:keyLabel="១"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៱"
+            app:longPressCode="6129"/>
         <Key
             android:codes="06114"
             android:keyLabel="២"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៲"
+            app:longPressCode="6130"/>
         <Key
             android:codes="06115"
             android:keyLabel="៣"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៳"
+            app:longPressCode="6131"/>
         <Key
             android:codes="06116"
             android:keyLabel="៤"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៴"
+            app:longPressCode="6132"/>
         <Key
             android:codes="06117"
             android:keyLabel="៥"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៵"
+            app:longPressCode="6133"/>
         <Key
             android:codes="06118"
             android:keyLabel="៦"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៶"
+            app:longPressCode="6134"/>
         <Key
             android:codes="06119"
             android:keyLabel="៧"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៷"
+            app:longPressCode="6135"/>
         <Key
             android:codes="06120"
             android:keyLabel ="៨"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៸"
+            app:longPressCode="6136"/>
         <Key
             android:codes="06121"
             android:keyLabel="៩"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៹"
+            app:longPressCode="6137"/>
         <Key
             android:codes="06112"
             android:keyEdgeFlags="right"
             android:keyLabel="០"
-            android:keyWidth="10%p"/>
-    </Row>
-    <Row android:keyHeight="@dimen/key_kh_height">
-        <Key
-            android:codes="49"
-            android:keyEdgeFlags="left"
-            android:keyLabel="1"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="50"
-            android:keyLabel="2"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="51"
-            android:keyLabel="3"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="52"
-            android:keyLabel="4"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="53"
-            android:keyLabel="5"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="54"
-            android:keyLabel="6"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="55"
-            android:keyLabel="7"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="56"
-            android:keyLabel ="8"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="57"
-            android:keyLabel="9"
-            android:keyWidth="10%p"/>
-        <Key
-            android:codes="48"
-            android:keyEdgeFlags="right"
-            android:keyLabel="0"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="៰"
+            app:longPressCode="6128"/>
     </Row>
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
             android:codes="43"
             android:keyEdgeFlags="left"
             android:keyLabel="+"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="~"
+            app:longPressCode="126"/>
         <Key
             android:codes="215"
             android:keyLabel="×"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="*"
+            app:longPressCode="42"/>
         <Key
             android:codes="247"
             android:keyLabel="÷"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel="^"
+            app:longPressCode="94"/>
         <Key
             android:codes="61"
             android:keyLabel="="
-            android:keyWidth="10%p"/>
-
+            android:keyWidth="10%p"
+            app:subLabel="("
+            app:longPressCode="40"/>
         <Key
             android:codes="6107"
             android:keyLabel="៛"
-            android:keyWidth="10%p"/>
+            android:keyWidth="10%p"
+            app:subLabel=")"
+            app:longPressCode="41"/>
         <Key
-            android:codes="36"
-            android:keyLabel="$"
-            android:keyWidth="10%p"/>
-
+            android:codes="6058"
+            android:keyLabel="ឪ"
+            android:keyWidth="10%p"
+            app:subLabel="$"
+            app:longPressCode="36"/>
         <Key
-            android:codes="8364"
-            android:keyLabel ="€"
-            android:keyWidth="10%p"/>
+            android:codes="6065"
+            android:keyLabel="ឱ"
+            android:keyWidth="10%p"
+            app:subLabel="€"
+            app:longPressCode="8364"/>
         <Key
-            android:codes="163"
-            android:keyLabel="£"
-            android:keyWidth="10%p"/>
+            android:codes="6055"
+            android:keyLabel="ឧ"
+            android:keyWidth="10%p"
+            app:subLabel="£"
+            app:longPressCode="163"/>
         <Key
-            android:codes="165"
-
-            android:keyLabel="¥"
-            android:keyWidth="10%p"/>
+            android:codes="6057"
+            android:keyLabel="ឩ"
+            android:keyWidth="10%p"
+            app:subLabel="¥"
+            app:longPressCode="165"/>
         <Key
+            android:codes="6056"
+            android:keyLabel="ឨ"
+            android:keyWidth="10%p"
             android:keyEdgeFlags="right"
-            android:codes="6105"
-            android:keyLabel="៙" />
+            app:subLabel="៙"
+            app:longPressCode="6105"/>
     </Row>
 
     <Row android:keyHeight="@dimen/key_kh_height">
