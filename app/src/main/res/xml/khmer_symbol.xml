@@ -8,63 +8,63 @@
             android:keyEdgeFlags="left"
             android:keyLabel="១"
             android:keyWidth="10%p"
-            app:subLabel="៱"
-            app:longPressCode="6129"/>
+            app:subLabel="1"
+            app:longPressCode="49"/>
         <Key
             android:codes="06114"
             android:keyLabel="២"
             android:keyWidth="10%p"
-            app:subLabel="៲"
-            app:longPressCode="6130"/>
+            app:subLabel="2"
+            app:longPressCode="50"/>
         <Key
             android:codes="06115"
             android:keyLabel="៣"
             android:keyWidth="10%p"
-            app:subLabel="៳"
-            app:longPressCode="6131"/>
+            app:subLabel="3"
+            app:longPressCode="51"/>
         <Key
             android:codes="06116"
             android:keyLabel="៤"
             android:keyWidth="10%p"
-            app:subLabel="៴"
-            app:longPressCode="6132"/>
+            app:subLabel="4"
+            app:longPressCode="52"/>
         <Key
             android:codes="06117"
             android:keyLabel="៥"
             android:keyWidth="10%p"
-            app:subLabel="៵"
-            app:longPressCode="6133"/>
+            app:subLabel="5"
+            app:longPressCode="53"/>
         <Key
             android:codes="06118"
             android:keyLabel="៦"
             android:keyWidth="10%p"
-            app:subLabel="៶"
-            app:longPressCode="6134"/>
+            app:subLabel="6"
+            app:longPressCode="54"/>
         <Key
             android:codes="06119"
             android:keyLabel="៧"
             android:keyWidth="10%p"
-            app:subLabel="៷"
-            app:longPressCode="6135"/>
+            app:subLabel="7"
+            app:longPressCode="55"/>
         <Key
             android:codes="06120"
             android:keyLabel ="៨"
             android:keyWidth="10%p"
-            app:subLabel="៸"
-            app:longPressCode="6136"/>
+            app:subLabel="8"
+            app:longPressCode="56"/>
         <Key
             android:codes="06121"
             android:keyLabel="៩"
             android:keyWidth="10%p"
-            app:subLabel="៹"
-            app:longPressCode="6137"/>
+            app:subLabel="9"
+            app:longPressCode="57"/>
         <Key
             android:codes="06112"
             android:keyEdgeFlags="right"
             android:keyLabel="០"
             android:keyWidth="10%p"
-            app:subLabel="៰"
-            app:longPressCode="6128"/>
+            app:subLabel="0"
+            app:longPressCode="48"/>
     </Row>
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
