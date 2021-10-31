@@ -2,6 +2,7 @@ package com.rathanak.khmerroman.view.keyview
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -57,6 +58,10 @@ class CustomKeyView @JvmOverloads constructor(
 
     fun updateColor() {
 
+    }
+
+    fun previewKey(isPreview: Boolean, newLabel: String) {
+        keyTextView.previewKey(isPreview, newLabel)
     }
 
 }

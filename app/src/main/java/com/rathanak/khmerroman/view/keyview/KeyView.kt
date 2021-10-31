@@ -13,6 +13,7 @@ import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKey
 import com.rathanak.khmerroman.view.KhmerLangApp
 import kotlin.math.min
 import android.graphics.PorterDuff
+import android.util.Log
 
 class KeyView @JvmOverloads constructor(
     context: Context,
@@ -26,6 +27,7 @@ class KeyView @JvmOverloads constructor(
     defStyleAttr
 ) {
     private var isKeyPressed: Boolean = false
+    private var isKeyPreview: Boolean = false
 
     // Settings for the key
     private val cornerRadius = 15F
@@ -74,6 +76,11 @@ class KeyView @JvmOverloads constructor(
         return true
     }
 
+    fun previewKey(isPreview: Boolean, newLabel: String) {
+        label = newLabel
+        isKeyPreview = isPreview
+        invalidate()
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -85,10 +92,12 @@ class KeyView @JvmOverloads constructor(
             drawLabel(canvas)
         }
 
-        // Draw arrows for a change language key
-        if (key.isChangeLanguageKey) {
-            drawArrowsForLanguage(canvas)
-        }
+
+//        TODO skip for now
+//        // Draw arrows for a change language key
+//        if (key.isChangeLanguageKey && !isKeyPreview) {
+//            drawArrowsForLanguage(canvas)
+//        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -229,6 +238,7 @@ class KeyView @JvmOverloads constructor(
     private fun drawCenter(canvas: Canvas, paint: Paint, text: String) {
         val xPos = canvas.width / 2.0F
         val yPos = (canvas.height / 2.0F - (paint.descent() + paint.ascent()) / 2)
+        Log.d("khmerlang", "I am calling 2 $text")
         canvas.drawText(text, xPos, yPos, paint)
     }
 }

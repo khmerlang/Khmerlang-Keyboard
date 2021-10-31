@@ -68,4 +68,8 @@
     <string name="re_download_data">ទាញយកទិន្នន័យម្តងទៀត</string>
     <string name="dialogConfirmDownloadTitle">ទាញយកទិន្នន័យក្តារចុចឡើងវិញ</string>
     <string name="dialogConfirmDownloadMessage">តើអ្នកប្រាកដថាទាញយកទិន្នន័យក្តារចុចឡើងវិញទេ? ទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នកនឹងមិនលុបទេ</string>
+    <string name="app_name_on_key"></string>
+    <!--    //R2ខ្មែរ-->
+    <string name="app_name_on_key_kh"></string>
+    <!--    ខ្មែរ-->
 </resources>

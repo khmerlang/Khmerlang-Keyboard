@@ -130,7 +130,7 @@
             android:keyWidth="40%p"
             app:keyTextSize="6dp"
             app:isChangeLanguageKey="true"
-            android:keyLabel="@string/app_name"/>
+            android:keyLabel="@string/app_name_on_key"/>
         <Key
             android:codes="46"
             android:keyLabel="."

@@ -91,6 +91,8 @@ class CustomInputMethodView @JvmOverloads constructor(
 
     private var isLongPress = false
 
+    private var oldLabel = ""
+
     init {
         setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
 
@@ -191,6 +193,8 @@ class CustomInputMethodView @JvmOverloads constructor(
                     keyboardHandler.sendMessage(msg)
                 }
                 MSG_LONG_CLICK_SHIFT -> {
+                    val pointerId = lngClkMsg.obj
+                    renderKeyPreview(pressedKeys[pointerId as Int])
                     isLongPress = true
                 }
             }
@@ -386,6 +390,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                     isLongPress = false
                     pressedKeys.remove(pointerId)
                     removeMessages()
+                    reStoreKeyPreview()
                 }
             }
         }
@@ -421,7 +426,7 @@ class CustomInputMethodView @JvmOverloads constructor(
 
     private fun addPressedKey(id: Int, keyView: CustomKeyView) {
         pressedKeys.append(id, keyView)
-//        renderKeyPreview(keyView)
+        renderKeyPreview(keyView)
     }
 
     private fun removeMessages() {
@@ -493,29 +498,23 @@ class CustomInputMethodView @JvmOverloads constructor(
             }
 
             if (!isModKey) {
-                val keyPreviewWidth = key.width
-                val windowManager: WindowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-                val params = WindowManager.LayoutParams(
-                    keyPreviewWidth.toInt(), pressedKey.height * 2,
-                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                    PixelFormat.TRANSPARENT
-                )
-                params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                params.gravity = Gravity.START or Gravity.TOP
-                params.verticalMargin
-                // Get the location of the keys on screen
-                val location = IntArray(2)
-                pressedKey.getLocationOnScreen(location)
-                val x = location[0]
-                val y = location[1]
-                params.x = x
-                params.y = y
-                val keyPreview = CustomKeyPreview(context)
-                // Add the preview key view to the window manager
-                windowManager.addView(keyPreview, params)
-//        renderedPreviewKeys.add(pressedKey)
+                val label = if (isLongPress && !key.subLabel.isNullOrEmpty()) {
+                    key.subLabel.toString()
+                } else {
+                    key.label.toString()
+                }
+//                currentKeyboard.pages[currentKeyboardPage]
+                currentKeyboard.changeLanguageKeys.forEach {
+                    oldLabel = it.label.toString()
+                    it.previewKey(true, label)
+                }
             }
+        }
+    }
+    private fun reStoreKeyPreview() {
+        currentKeyboard.changeLanguageKeys.forEach {
+//            it.previewKey(false, oldLabel)
+            it.previewKey(false, "")
         }
     }
 

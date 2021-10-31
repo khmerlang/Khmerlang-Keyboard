@@ -11,6 +11,7 @@ class InputMethodKeyboard {
      * ie : {{Q},{W},{E},{R}...},{{A},{s},{D},{F}...}
      */
     var pages = SparseArray<MutableList<MutableList<CustomKeyView>>>()
+    var changeLanguageKeys = mutableListOf<CustomKeyView>()
 
     /**
      * Generate key views for each row of keys
@@ -37,6 +38,7 @@ class InputMethodKeyboard {
                 // Update the language for the key that is assigned with isChange
                 if (key.isChangeLanguageKey) {
                     keyView.updateLabel(keyboardLanguage)
+                    changeLanguageKeys.add(keyView)
                 }
                 rowKeyViews.add(keyView)
             }

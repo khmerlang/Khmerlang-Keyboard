@@ -6,7 +6,8 @@
     </array>
 
     <array name="english">
-        <item>R2ខ្មែរ</item>
+        <item></item>
+<!--        R2ខ្មែរ-->
         <item>@xml/qwerty</item>
         <item>@xml/qwerty_shift</item>
         <item>@xml/qwerty_symbol</item>
@@ -14,7 +15,8 @@
         <item>@xml/number</item>
     </array>
     <array name="khmer">
-        <item>ខ្មែរ</item>
+        <item></item>
+<!--        ខ្មែរ-->
         <item>@xml/khmer_qwerty</item>
         <item>@xml/khmer_qwerty_shift</item>
         <item>@xml/khmer_symbol</item>
