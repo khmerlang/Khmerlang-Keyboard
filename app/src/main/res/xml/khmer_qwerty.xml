@@ -13,13 +13,14 @@
         <Key
             android:codes="06073"
             android:keyLabel="ឹ"
-            app:subLabel="ៗ"
-            app:longPressCode="6103"/>
+            app:longPressCode="6078"
+            app:subLabel="ើ"
+            />
         <Key
             android:codes="06081"
             android:keyLabel="េ"
-            app:subLabel="ឯ"
-            app:longPressCode="6063"/>
+            app:subLabel="ុះ"
+            app:longPressCode="@integer/keycode_ors"/>
         <Key
             android:codes="06042"
             android:keyLabel="រ"
@@ -38,8 +39,9 @@
         <Key
             android:codes="06075"
             android:keyLabel="ុ"
-            app:subLabel="ឧ"
-            app:longPressCode="6055"/>
+            app:subLabel="៉"
+            app:longPressCode="6089"
+            />
         <Key
             android:codes="06071"
             android:keyLabel ="ិ"
@@ -104,8 +106,8 @@
             android:codes="06043"
             android:keyLabel="ល"
             android:keyEdgeFlags="right"
-            app:subLabel="ើ"
-            app:longPressCode="6078"/>
+            app:subLabel="ៗ"
+            app:longPressCode="6103"/>
     </Row>
 
     <Row>
@@ -139,13 +141,14 @@
         <Key
             android:codes="06036"
             android:keyLabel="ប"
-            app:subLabel="៉"
-            app:longPressCode="6089"/>
+            app:subLabel="ឧ"
+            app:longPressCode="6055"/>
         <Key
             android:codes="06035"
             android:keyLabel="ន"
-            app:subLabel="ុះ"
-            app:longPressCode="@integer/keycode_ors"/>
+            app:subLabel="ឯ"
+            app:longPressCode="6063"
+            />
         <Key
             android:codes="06040"
             android:keyLabel="ម"
