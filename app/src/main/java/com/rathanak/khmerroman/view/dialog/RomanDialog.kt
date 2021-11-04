@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
@@ -69,7 +70,9 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
             rkDialogView.btnCancel.setOnClickListener {
                 dismiss()
             }
-            builder.create()
+            var dialog = builder.create()
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            dialog
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 

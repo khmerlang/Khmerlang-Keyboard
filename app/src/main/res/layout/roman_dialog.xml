@@ -9,7 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_khmer"
-        android:hint="@string/edit_khmer"/>
+        android:hint="@string/edit_khmer"
+        android:focusable="auto">
+        <requestFocus/>
+    </EditText>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
