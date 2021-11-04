@@ -18,14 +18,10 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.roman_item.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
     private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-    private var spellCorrectJob: Job? = null
     var romanItemsList: RealmResults<Ngram>
     init {
         romanItemsList = buildQuery()
@@ -51,15 +47,18 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
         holder.view.txtKhmer.text = item?.keyword
         holder.view.btnDelete.setOnClickListener {
             Toast.makeText(appContext,item?.keyword + ":" + item?.other + " deleted", Toast.LENGTH_LONG).show()
-            realm.beginTransaction()
+
                 var result = realm.where(Ngram::class.java)
                     .equalTo("id", item?.id)
                     .equalTo("custom", true)
-                    .findAll()
-                result.deleteAllFromRealm()
-            realm.commitTransaction()
-            notifyDataSetChanged()
-            updateSpellCorrectModel()
+                    .findFirst()
+            if (result != null) {
+                realm.beginTransaction()
+                    result.deleteFromRealm()
+                realm.commitTransaction()
+                notifyItemRemoved(position)
+                updateSpellCorrectModel()
+            }
         }
 
     }
@@ -121,16 +120,22 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
     }
 
     private fun updateSpellCorrectModel() {
-        spellCorrectJob?.cancel()
-        spellCorrectJob = GlobalScope.launch(Dispatchers.Main) {
-            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-            try {
-                R2KhmerService.spellingCorrector.reset()
-                R2KhmerService.spellingCorrector.loadData(realm)
-            } finally {
-                realm.close()
-            }
+        GlobalScope.launch(Dispatchers.Main) {
+            reloadLoadSpelling()
+        }
+    }
 
+    private suspend fun reloadLoadSpelling() {
+        coroutineScope {
+            async(Dispatchers.IO) {
+                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+                try {
+                    R2KhmerService.spellingCorrector.reset()
+                    R2KhmerService.spellingCorrector.loadData(realm)
+                } finally {
+                    realm.close()
+                }
+            }
         }
     }
 }
