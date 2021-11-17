@@ -71,11 +71,6 @@
             android:codes="06047"
             android:keyLabel="ស"
             app:subLabel="័"
-            app:longPressCode="6096"/>s
-        <Key
-            android:codes="06047"
-            android:keyLabel="ស"
-            app:subLabel="័"
             app:longPressCode="6096"/>
         <Key
             android:codes="06026"

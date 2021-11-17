@@ -47,9 +47,6 @@
             android:codes="06083"
             android:keyLabel="ៃ"/>
         <Key
-            android:codes="06083"
-            android:keyLabel="ៃ"/>
-        <Key
             android:codes="06028"
             android:keyLabel="ឌ"/>
         <Key

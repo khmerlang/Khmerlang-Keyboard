@@ -14,6 +14,8 @@
         <entry key="app/src/main/res/layout/roman_2_khmer.xml" value="0.26268115942028986" />
         <entry key="app/src/main/res/layout/roman_dialog.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.36041666666666666" />
+        <entry key="app/src/main/res/xml/old_khmer_qwerty.xml" value="0.16540020263424518" />
+        <entry key="app/src/main/res/xml/old_khmer_qwerty_shift.xml" value="0.16540020263424518" />
         <entry key="app/src/main/res/xml/popup.xml" value="0.2803442028985507" />
       </map>
     </option>
