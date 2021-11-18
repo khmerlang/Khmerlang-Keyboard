@@ -453,6 +453,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                     "េះ"
                 } else if (primaryCode == KEYCODE_OS) {
                     "ោះ"
+                } else if (primaryCode == KEYCODE_IES) {
+                    "ិះ"
                 } else if (primaryCode == KEYCODE_ORS) {
                     "ុះ"
                 } else {
@@ -751,6 +753,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         KEYCODE_OS = resources.getInteger(R.integer.keycode_os)
         KEYCODE_AS = resources.getInteger(R.integer.keycode_as)
         KEYCODE_ORS = resources.getInteger(R.integer.keycode_ors)
+        KEYCODE_IES = -15
     }
 
     companion object {
@@ -774,6 +777,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         var KEYCODE_OS = KEYCODE_NONE
         var KEYCODE_AS = KEYCODE_NONE
         var KEYCODE_ORS = KEYCODE_NONE
+        var KEYCODE_IES = KEYCODE_NONE
 
         const val RES_IDX = 1
         const val SHIFT_IDX = 2

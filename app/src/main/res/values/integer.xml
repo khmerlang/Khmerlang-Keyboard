@@ -36,4 +36,5 @@
     <integer name="keycode_as">-13</integer>
     <!-- ុះ   -->
     <integer name="keycode_ors">-14</integer>
+    <integer name="keycode_ies">-15</integer>
 </resources>
