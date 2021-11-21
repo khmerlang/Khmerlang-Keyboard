@@ -5,8 +5,12 @@
     android:verticalGap="0px">
     <Row android:keyHeight="@dimen/key_kh_height">
         <Key
-            android:codes="06076"
-            android:keyLabel="ូ"/>
+            android:keyEdgeFlags="left"
+            android:codes="06024"
+            android:keyLabel="ឈ"/>
+        <Key
+            android:codes="06022"
+            android:keyLabel="ឆ"/>
         <Key
             android:codes="06073"
             android:keyLabel="ឹ"/>
@@ -14,20 +18,17 @@
             android:codes="06074"
             android:keyLabel="ឺ"/>
         <Key
-            android:codes="6066"
-            android:keyLabel="ឲ"/>
+            android:codes="06077"
+            android:keyLabel="ួ"/>
         <Key
-            android:codes="06022"
-            android:keyLabel="ឆ"/>
+            android:codes="06076"
+            android:keyLabel="ូ"/>
         <Key
-            android:codes="06019"
-            android:keyLabel="ឃ"/>
+            android:codes="06084"
+            android:keyLabel="ោ"/>
         <Key
-            android:codes="06044"
-            android:keyLabel="វ"/>
-        <Key
-            android:codes="06028"
-            android:keyLabel="ឌ"/>
+            android:codes="06085"
+            android:keyLabel="ៅ"/>
         <Key
             android:codes="06039"
             android:keyLabel="ភ"/>
@@ -40,26 +41,26 @@
     <Row>
         <Key
             android:keyEdgeFlags="left"
-            android:codes="06077"
-            android:keyLabel="ួ"/>
-        <Key
             android:codes="6080"
             android:keyLabel="ៀ"/>
         <Key
-            android:codes="06084"
-            android:keyLabel="ោ"/>
+            android:codes="6079"
+            android:keyLabel="ឿ"/>
         <Key
-            android:codes="06050"
-            android:keyLabel="អ"/>
-        <Key
-            android:codes="06027"
-            android:keyLabel="ឋ"/>
+            android:codes="06028"
+            android:keyLabel="ឌ"/>
         <Key
             android:codes="06034"
             android:keyLabel="ធ"/>
         <Key
             android:codes="06032"
             android:keyLabel="ថ"/>
+        <Key
+            android:codes="06050"
+            android:keyLabel="អ"/>
+        <Key
+            android:codes="06087"
+            android:keyLabel="ះ"/>
         <Key
             android:codes="06048"
             android:keyLabel="ហ"/>
@@ -81,14 +82,8 @@
             android:keyIcon="@drawable/ic_keyboard_capslock"
             android:keyWidth="15%p" />
         <Key
-            android:codes="6079"
-            android:keyLabel="ឿ"/>
-        <Key
-            android:codes="06085"
-            android:keyLabel="ៅ"/>
-        <Key
-            android:codes="06087"
-            android:keyLabel="ះ"/>
+            android:codes="06027"
+            android:keyLabel="ឋ"/>
         <Key
             android:codes="06029"
             android:keyLabel="ឍ"/>
@@ -96,11 +91,17 @@
             android:codes="06017"
             android:keyLabel="ខ"/>
         <Key
+            android:codes="06019"
+            android:keyLabel="ឃ"/>
+        <Key
+            android:codes="06044"
+            android:keyLabel="វ"/>
+        <Key
             android:codes="06030"
             android:keyLabel="ណ"/>
         <Key
-            android:codes="06024"
-            android:keyLabel="ឈ"/>
+            android:codes="6066"
+            android:keyLabel="ឲ"/>
         <Key
             android:codes="@integer/keycode_delete"
             android:isRepeatable="true"

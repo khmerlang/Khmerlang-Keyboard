@@ -178,9 +178,7 @@ class Levenshtein {
 //            'ញ' to arrayOf('ូ', 'ី', 'គ', 'ំ', 'ណ', 'ះ'),
 //            'គ' to arrayOf('ី', 'ៅ', 'ឡ', 'ំ', 'ញ'),
 //            'ឡ' to arrayOf('ៅ', 'ភ', 'គ'),
-//
 //            'ឯ' to arrayOf('ឿ' , '៉'),
-//
 //            'ឍ' to arrayOf('ៃ', 'ឃ'),
 //            'ឃ' to arrayOf('ៃ', 'ឌ', 'ជ', 'ឍ'),
 //            'ជ' to arrayOf('ឌ', 'ធ', '៽', 'ឃ'),
