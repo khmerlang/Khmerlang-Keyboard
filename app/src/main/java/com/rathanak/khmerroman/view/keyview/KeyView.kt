@@ -238,7 +238,6 @@ class KeyView @JvmOverloads constructor(
     private fun drawCenter(canvas: Canvas, paint: Paint, text: String) {
         val xPos = canvas.width / 2.0F
         val yPos = (canvas.height / 2.0F - (paint.descent() + paint.ascent()) / 2)
-        Log.d("khmerlang", "I am calling 2 $text")
         canvas.drawText(text, xPos, yPos, paint)
     }
 }
