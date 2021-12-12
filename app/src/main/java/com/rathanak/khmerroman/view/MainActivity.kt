@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btnClose.setOnClickListener {
-            moveTaskToBack(true);
+            moveTaskToBack(true)
             finish()
         }
         txtKhmerlang.setOnClickListener {

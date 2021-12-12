@@ -21,7 +21,7 @@ class Bktree {
 
         val distance =
             Levenshtein.distance(
-                node?.word,
+                node.word,
                 word
             )
         //it means that two string is the same

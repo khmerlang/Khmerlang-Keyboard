@@ -14,7 +14,7 @@ class EnableKeyboardDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val inflater = requireActivity().layoutInflater
             val rkDialogView = inflater.inflate(R.layout.enable_keyboard_dialog, null)
             rkDialogView.btn_ok.setOnClickListener {
                 dismiss()

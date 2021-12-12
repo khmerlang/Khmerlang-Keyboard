@@ -64,7 +64,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         this.smartbarView!!.bannerImage.setOnClickListener {
             if(r_2_khmer.bannerTargetUrl != "") {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(r_2_khmer.bannerTargetUrl))
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 r_2_khmer.context.startActivity(intent)
             }
         }
@@ -143,7 +143,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(r_2_khmer.context)
                 .load(R.drawable.banner_download_data)
-                .into(this.smartbarView!!.btnDownloadData);
+                .into(this.smartbarView!!.btnDownloadData)
 
             this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
             this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
@@ -206,12 +206,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             Glide.with(r_2_khmer.context)
                 .load(bannerID)
                 .error(R.drawable.banner_default_animate)
-                .into(this.smartbarView!!.bannerImage);
+                .into(this.smartbarView!!.bannerImage)
         } else {
             Glide.with(r_2_khmer.context)
                 .load(R.drawable.banner_default_animate)
                 .error(R.drawable.banner_default_animate)
-                .into(this.smartbarView!!.bannerImage);
+                .into(this.smartbarView!!.bannerImage)
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.*
 
 
 data class Candidate(var keyword: String, var score: Double, var distance: Int)
-class SpellCorrector() {
+class SpellCorrector {
     private var bkKH: Bktree = Bktree()
     private var bkEN: Bktree = Bktree()
     private var bkRM: Bktree = Bktree()
@@ -138,7 +138,7 @@ class SpellCorrector() {
 
             var outputENMap = listOf<String>()
             var outputRMMap = listOf<String>()
-            if (isENChecked!!) {
+            if (isENChecked) {
                 outputENMap = correctBy(realm, bkEN, misspelling, false, KhmerLangApp.LANG_EN, tolerance, prevOne, prevTwo, isStartSen)
             }
 

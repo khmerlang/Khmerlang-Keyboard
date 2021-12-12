@@ -8,7 +8,7 @@ import io.realm.Realm
 import io.realm.RealmResults
 
 
-class DataLoader() {
+class DataLoader {
 //    private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
 
     fun clearDBData(removeCustom: Boolean = false) {

@@ -188,7 +188,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     private fun renderCurrentLanguage() {
-        if (keyboardsOfLanguages.contains(currentSelectedLanguageIdx)) {
+        if (keyboardsOfLanguages.get(currentSelectedLanguageIdx) != null) {
             customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
     }
@@ -237,7 +237,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             resources.getColor(res, null)
         } else {
-            context.resources.getColor(res);
+            context.resources.getColor(res)
         }
     }
 
@@ -265,7 +265,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 throw IllegalStateException("Invalid language array resource")
             }
             eachLanguageTypedArray = resources.obtainTypedArray(id)
-            eachLanguageTypedArray?.let {
+            eachLanguageTypedArray.let {
                 val nameIdx = 0
 
                 val languageName = it.getString(nameIdx)
@@ -364,7 +364,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
         smartbarManager.onStartInputView(isComposingEnabled)
-        smartbarManager!!.toggleBarLayOut(true)
+        smartbarManager.toggleBarLayOut(true)
         // update label on Enter key here
     }
 
@@ -458,7 +458,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
                 } else if (primaryCode == KEYCODE_ORS) {
                     "ុះ"
                 } else {
-                    primaryCode.toChar().toString();
+                    primaryCode.toChar().toString()
                 }
                 inputConnection.beginBatchEdit()
                 resetComposingText()

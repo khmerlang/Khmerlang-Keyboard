@@ -46,7 +46,7 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val inflater = requireActivity().layoutInflater
             rkDialogView = inflater.inflate(R.layout.roman_dialog, null)
             rkDialogView.edit_khmer.setText(txtKhmer)
             rkDialogView.edit_roman.setText(txtRoman)

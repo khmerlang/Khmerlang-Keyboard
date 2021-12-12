@@ -2,7 +2,6 @@ package com.rathanak.khmerroman.view.inputmethodview
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.PixelFormat
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Message
@@ -17,7 +16,6 @@ import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.NORMAL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.PAGE_TYPES
 import com.rathanak.khmerroman.keyboard.common.Styles
-import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.extensions.forEach
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.view.keyview.CustomKeyPreview
@@ -147,7 +145,7 @@ class CustomInputMethodView @JvmOverloads constructor(
      * Generate keyboard views and add them to the preloaded keyboard views.
      */
     private fun generateKeyboardViews(keyboard: SparseArray<CustomKeyboard>, languageIdx: Int) {
-        if (!preloadedKeyboardViews.contains(languageIdx)) {
+        if (preloadedKeyboardViews.get(languageIdx) == null) {
             val inputMethodKeyboard = InputMethodKeyboard()
             PAGE_TYPES.forEach { type ->
                 keyboard.get(type).let { page ->
@@ -470,7 +468,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                     if (BuildConfig.DEBUG) {
                         Log.d(LOG_TAG, "pressed : ${key.subLabel}")
                     }
-                    key?.longPressCode?.let { longPressCode ->
+                    key.longPressCode?.let { longPressCode ->
                         if (longPressCode != 0) {
                             keyboardViewListener?.onKey(longPressCode, codes)
                             return true

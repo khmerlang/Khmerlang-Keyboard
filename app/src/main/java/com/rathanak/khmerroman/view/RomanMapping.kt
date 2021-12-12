@@ -64,17 +64,17 @@ class RomanMapping : AppCompatActivity() {
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.setQueryHint(getString(R.string.search))
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
+        searchView.queryHint = getString(R.string.search)
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.setOnQueryTextListener(
             DebouncingQueryTextListener(
                 this@RomanMapping.lifecycle
             ) { newText ->
                 newText?.let {
                     if (it.isEmpty()) {
-                        rAdapter?.getFilter()?.filter("")
+                        rAdapter?.filter?.filter("")
                     } else {
-                        rAdapter?.getFilter()?.filter(it)
+                        rAdapter?.filter?.filter(it)
                     }
                 }
             }
@@ -103,12 +103,12 @@ class RomanMapping : AppCompatActivity() {
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(applicationContext)
                 .load(R.drawable.banner_download_data)
-                .into(btnDownloadData);
+                .into(btnDownloadData)
             btnDownloadData.visibility = View.VISIBLE
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
             Glide.with(applicationContext)
                 .load(R.drawable.banner_download_data_fail)
-                .into(btnDownloadData);
+                .into(btnDownloadData)
             btnDownloadData.visibility = View.VISIBLE
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
             downloadingData!!.visibility = View.VISIBLE
