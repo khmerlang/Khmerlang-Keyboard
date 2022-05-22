@@ -1,3 +1,6 @@
+<img align="left" width="80" height="80"
+src="images/icon.png" alt="App icon">
+
 # Khmerlang Keyboard
 
 <img src="images/phone_8.jpg"
@@ -40,6 +43,10 @@ Feature it doesn't have and probably will never have:
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
       alt="Get it on Google Play"
       height="80">](https://play.google.com/store/apps/details?id=com.rathanak.khmerroman)
+
+## Resources
+
+- [Task management](https://trello.com/b/emfEoZt2)
 
 ## Licensed
 
