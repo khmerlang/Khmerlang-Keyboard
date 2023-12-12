@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         mlModelBinding true
+        viewBinding true
     }
 
     aaptOptions {
@@ -51,7 +52,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.preference:preference:1.1.0-rc01'
-    implementation "io.realm:realm-gradle-plugin:6.0.2"
+    implementation "io.realm:realm-gradle-plugin:10.17.0"
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.koin:koin-android:1.0.2'
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'

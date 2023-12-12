@@ -443,13 +443,21 @@ class CustomInputMethodView @JvmOverloads constructor(
             // the pointer falls into.
             val rowLinearLayout = row.first().parent as LinearLayout?
             rowLinearLayout?.let {
-                if (x in rowLinearLayout.left..rowLinearLayout.right &&
-                    y in rowLinearLayout.top..rowLinearLayout.bottom) {
+                val layoutLeft = rowLinearLayout.left.toFloat()
+                val layoutRight = rowLinearLayout.right.toFloat()
+                val layoutTop = rowLinearLayout.top.toFloat()
+                val layoutBottom = rowLinearLayout.bottom.toFloat()
+                if (x in layoutLeft..layoutRight &&
+                    y in layoutTop..layoutBottom) {
                     // Normalize the tap location because the position of the children view are
                     // relative to the parent's.
                     row.forEach { key ->
-                        if (x - rowLinearLayout.left in key.left..key.right &&
-                            y - rowLinearLayout.top in key.top..key.bottom) {
+                        val keyLeft = key.left.toFloat()
+                        val keyRight = key.right.toFloat()
+                        val keyTop = key.top.toFloat()
+                        val keyBottom = key.bottom.toFloat()
+                        if (x - left in keyLeft..keyRight &&
+                            y - top in keyTop..keyBottom) {
                             return key
                         }
                     }
