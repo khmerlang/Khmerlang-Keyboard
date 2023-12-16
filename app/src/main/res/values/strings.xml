@@ -44,10 +44,10 @@
     <string name="cancel">បោះបង់</string>
     <string name="ok">យល់ព្រម</string>
     <string name="enable_keyboard_title">បើកដំណើរការក្តារចុច</string>
-    <string name="enable_keyboard_description">សូមបើកក្តារចុច ភាសាខ្មែរ(Khmerlnag Keyboard) នៅក្នុងការកំណត់ប្រព័ន្ធ។</string>
+    <string name="enable_keyboard_description">សូមបើកក្តារចុច ភាសាខ្មែរ(Khmerlang Keyboard) នៅក្នុងការកំណត់ប្រព័ន្ធ។</string>
     <string name="app_name_kh">ខម្ែរ</string>
     <string name="app_welcome">ស្វាគមន៍​មកកាន់</string>
-    <string name="to_khmerlang"> ភាសាខ្មែរ(KhmerLang)!</string>
+    <string name="to_khmerlang"> ភាសាខ្មែរ(Khmerlang)!</string>
     <string name="khmerlang_url">www.khmerlang.com</string>
     <string name="app_about">អំពី</string>
     <string name="app_about_find_us">អ្នកអាចរកឃើញយើងនៅ៖</string>
