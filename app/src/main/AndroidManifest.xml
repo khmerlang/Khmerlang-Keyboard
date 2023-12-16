@@ -13,20 +13,25 @@
         <activity
             android:name=".view.ProfileSettingsActivity"
             android:screenOrientation="fullSensor"
-            android:label="@string/title_activity_profile_settings"></activity>
+            android:label="@string/title_activity_profile_settings"
+            android:exported="true"></activity>
         <activity android:name=".view.CustomMapping"
             android:screenOrientation="fullSensor"
-            android:label="@string/title_activity_custom_mapping"/>
+            android:label="@string/title_activity_custom_mapping"
+            android:exported="true"/>
         <activity android:name=".view.RomanMapping"
             android:screenOrientation="fullSensor"
-            android:label="@string/title_activity_roman_mapping"/>
+            android:label="@string/title_activity_roman_mapping"
+            android:exported="true"/>
         <activity
+            android:exported="true"
             android:name=".view.About"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".view.MainActivity"
             android:screenOrientation="fullSensor"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

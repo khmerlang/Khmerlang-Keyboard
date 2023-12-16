@@ -205,7 +205,7 @@ class CustomInputMethodView @JvmOverloads constructor(
             context,
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onFling(
-                    e1: MotionEvent,
+                    e1: MotionEvent?,
                     e2: MotionEvent,
                     velocityX: Float,
                     velocityY: Float
@@ -213,8 +213,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                     var isChangeLanguageSwipe = 0x000
                     var direction = 0
                     var swipeThreshold = width / 2
-
-                    val e1PointerId = e1.getPointerId(e1.actionIndex)
+                    val e1PointerId = e1?.getPointerId(e1.actionIndex)
                     val e2PointerId = e2.getPointerId(e2.actionIndex)
                     if (e1PointerId != e2PointerId) return false
                     // Check if the swipe is within the area of the language switch key.
@@ -226,6 +225,7 @@ class CustomInputMethodView @JvmOverloads constructor(
                         isChangeLanguageSwipe = 0x001 // 0x001 for being inside the key view.
                         swipeThreshold = e1Key.width / 4
                     }
+
                     var result = false
                     val distanceY = e2.y - e1.y
                     val distanceX = e2.x - e1.x
@@ -456,8 +456,8 @@ class CustomInputMethodView @JvmOverloads constructor(
                         val keyRight = key.right.toFloat()
                         val keyTop = key.top.toFloat()
                         val keyBottom = key.bottom.toFloat()
-                        if (x - left in keyLeft..keyRight &&
-                            y - top in keyTop..keyBottom) {
+                        if (x - layoutLeft in keyLeft..keyRight &&
+                            y - layoutTop in keyTop..keyBottom) {
                             return key
                         }
                     }
