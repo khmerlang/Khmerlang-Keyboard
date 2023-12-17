@@ -71,7 +71,7 @@
             android:id="@+id/settingsList"
             android:gravity="right"
             android:paddingLeft="5dp"
-            android:visibility="gone">
+            android:visibility="visible">
             <!--        <ToggleButton-->
             <!--            android:id="@+id/btnToggleShowLabel"-->
             <!--            android:layout_width="40dp"-->
@@ -90,6 +90,15 @@
             <!--            android:textOff=""-->
             <!--            android:textOn=""-->
             <!--            android:layout_marginRight="5dp"/>-->
+            <ToggleButton
+                android:id="@+id/btnToggleAutoCorrection"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:checked="true"
+                android:background="@drawable/btn_hdr_auto_24"
+                android:textOff=""
+                android:textOn=""
+                android:layout_marginRight="5dp"/>
             <ToggleButton
                 android:id="@+id/btnToggleRMCorrection"
                 android:layout_width="40dp"
