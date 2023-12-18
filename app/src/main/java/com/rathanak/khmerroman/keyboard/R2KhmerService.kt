@@ -39,6 +39,7 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
+import com.rathanak.khmerroman.keyboard.smartbar.SpellSuggestionManager
 import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.KhmerLangApp
@@ -52,7 +53,7 @@ import java.util.*
 import kotlin.properties.Delegates
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
-    private var customInputMethodView: CustomInputMethodView? = null
+    var customInputMethodView: CustomInputMethodView? = null
     private lateinit var keyboardNormal: CustomKeyboard
     private lateinit var keyboardShift: CustomKeyboard
     private lateinit var keyboardSymbol: CustomKeyboard
@@ -87,7 +88,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     var bannerTargetUrl = "http://khmerlang.com/"
     var lastFetchBannerAt: Date? = null
 
-    private val smartbarManager: SmartbarManager = SmartbarManager(this)
+    private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this)
+    private val smartbarManager: SmartbarManager = SmartbarManager(this, spellSuggestionManager)
     var rootView: LinearLayout? = null
     val context: Context
         get() = rootView?.context ?: this
@@ -114,6 +116,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         super.onDestroy()
         wordTokenize.destroy()
         smartbarManager.destroy()
+        spellSuggestionManager.destroy()
     }
 
     override fun onWindowShown() {
@@ -230,6 +233,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         Styles.keyStyle.labelPaint.textSize = resources.getDimension(R.dimen.default_key_text_size)
         customInputMethodView?.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
         smartbarManager.setDarkMood(isDarkMood)
+        spellSuggestionManager.setDarkMood(isDarkMood)
     }
 
     @ColorInt
@@ -252,6 +256,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             customInputMethodView?.updateKeyboardLanguage(currentSelectedLanguageIdx)
         }
         rootView!!.addView(customInputMethodView)
+
+        rootView!!.addView(spellSuggestionManager.createSpellSuggestionView())
+
         return rootView
     }
 
