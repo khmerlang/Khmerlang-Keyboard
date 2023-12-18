@@ -46,7 +46,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
                 this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
                 checkButtonOptionsVisibility()
-                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang_off)
+                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
@@ -98,8 +98,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private fun checkButtonOptionsVisibility() {
         val selectedLangIdx = KhmerLangApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         if(selectedLangIdx == 1) {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.INVISIBLE//View.GONE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.INVISIBLE//View.GONE
+            this.smartbarView!!.btnToggleRMCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
+            this.smartbarView!!.btnToggleENCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
         } else {
             this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
             this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
@@ -133,6 +133,17 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
         val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
         this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
+
+        this.smartbarView!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.btn_auto)
+                // TODO: checkInput sentence spell check
+            } else {
+                buttonView.setBackgroundResource(R.drawable.btn_auto_off)
+                // TODO: change to keyboard layout
+            }
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
+        }
     }
 
     fun toggleBarLayOut(show: Boolean) {

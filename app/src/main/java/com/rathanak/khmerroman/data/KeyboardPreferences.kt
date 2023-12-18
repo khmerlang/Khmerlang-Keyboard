@@ -48,5 +48,6 @@ class KeyboardPreferences(context: Context) {
         const val KEY_NEEDS_RELOAD = "key_needs_reload"
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
         const val KEY_DATA_STATUS = "key_data_status"
+        const val KEY_AUTO_TYPING_CORRECTION_MODE = "key_auto_typing_suggestion"
     }
 }
