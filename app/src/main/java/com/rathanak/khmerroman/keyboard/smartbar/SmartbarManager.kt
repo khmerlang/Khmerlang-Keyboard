@@ -45,16 +45,21 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
                 toggleBarLayOut(true)
                 this.smartbarView!!.settingsList.visibility = View.GONE
 
-                r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
-                spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
+                if (isComposingEnabled) {
+                    r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
+                    spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
+                }
             } else {
                 checkButtonOptionsVisibility()
                 buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
 
-                r_2_khmer.customInputMethodView?.visibility = View.GONE;
-                spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
+                if (isComposingEnabled) {
+                    r_2_khmer.customInputMethodView?.visibility = View.GONE;
+                    spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
+                }
+
             }
         }
         this.smartbarView!!.btnDownloadData.setOnClickListener {

@@ -12,6 +12,7 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import kotlinx.android.synthetic.main.smartbar.view.btnOpenApp
 import kotlinx.android.synthetic.main.smartbar.view.numbersList
 import kotlinx.android.synthetic.main.smartbar.view.smartbar
+import kotlinx.android.synthetic.main.spell_suggestion.view.spellSuggestionList
 
 class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
     var spellSuggestionView: LinearLayout? = null
@@ -19,6 +20,19 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
     fun createSpellSuggestionView(): LinearLayout {
         var spellSuggestionView = View.inflate(r_2_khmer.context, R.layout.spell_suggestion, null) as LinearLayout
         this.spellSuggestionView = spellSuggestionView
+
+        val listView = spellSuggestionView.spellSuggestionList
+
+        var arrayList: ArrayList<SpellSuggestionItem> = ArrayList()
+        arrayList.add(SpellSuggestionItem(" Mashu", "987576443"))
+        arrayList.add(SpellSuggestionItem(" Azhar", "8787576768"))
+        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
+        var adapter = SpellSuggestionAdapter(r_2_khmer.context, arrayList)
+        listView.adapter = adapter
+
         return spellSuggestionView
     }
 
