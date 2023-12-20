@@ -10,13 +10,13 @@ import android.widget.TextView
 import com.google.android.flexbox.FlexboxLayout
 import com.rathanak.khmerroman.R
 
-class SpellSuggestionAdapter(private val context: Context, private val arrayList: java.util.ArrayList<SpellSuggestionItem>) : BaseAdapter() {
+class SpellSuggestionAdapter(private val context: Context, private val suggestionsList: java.util.ArrayList<SpellSuggestionItem>) : BaseAdapter() {
     override fun getCount(): Int {
-        return arrayList.size
+        return suggestionsList.size
     }
 
     override fun getItem(position: Int): Any {
-        return arrayList[position]
+        return suggestionsList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -27,15 +27,16 @@ class SpellSuggestionAdapter(private val context: Context, private val arrayList
         var convertView = convertView
         convertView = LayoutInflater.from(context).inflate(R.layout.spell_suggestion_item, parent, false)
         val serialNum = convertView.findViewById(R.id.typoText) as TextView
-        serialNum.text = arrayList[position].itemName
+        serialNum.text = suggestionsList[position].typoWord
 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
         btnSpellItemClose.setOnClickListener {
-            arrayList.removeAt(position); // remove the item from the data list
+            suggestionsList.removeAt(position); // remove the item from the data list
             notifyDataSetChanged();
         }
 
         val wordsSuggestionList = convertView.findViewById(R.id.wordsSuggestionList) as FlexboxLayout
+//        suggestionsList[position].wordsSuggestion
 //        wordsSuggestionList.addView();
         return convertView
     }

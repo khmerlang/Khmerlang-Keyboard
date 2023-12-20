@@ -23,13 +23,22 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
 
         val listView = spellSuggestionView.spellSuggestionList
 
+        var wordsList: ArrayList<WordSuggestion> = ArrayList()
+        wordsList.add(WordSuggestion("word1"))
+        wordsList.add(WordSuggestion("word2"))
+        wordsList.add(WordSuggestion("word3"))
+        wordsList.add(WordSuggestion("word4"))
+        wordsList.add(WordSuggestion("word5"))
+        wordsList.add(WordSuggestion("word6"))
+        wordsList.add(WordSuggestion("word7"))
+
         var arrayList: ArrayList<SpellSuggestionItem> = ArrayList()
-        arrayList.add(SpellSuggestionItem(" Mashu", "987576443"))
-        arrayList.add(SpellSuggestionItem(" Azhar", "8787576768"))
-        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz2", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz3", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz4", "65757657657"))
+        arrayList.add(SpellSuggestionItem(" Mashu", wordsList))
+        arrayList.add(SpellSuggestionItem(" Azhar", wordsList))
+        arrayList.add(SpellSuggestionItem( " Niyaz", wordsList))
+        arrayList.add(SpellSuggestionItem( " Niyaz2", wordsList))
+        arrayList.add(SpellSuggestionItem( " Niyaz3", wordsList))
+        arrayList.add(SpellSuggestionItem( " Niyaz4", wordsList))
         var adapter = SpellSuggestionAdapter(r_2_khmer.context, arrayList)
         listView.adapter = adapter
 

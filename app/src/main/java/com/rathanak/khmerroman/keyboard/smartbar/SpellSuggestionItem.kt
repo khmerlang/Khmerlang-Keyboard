@@ -1,4 +1,4 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
-class SpellSuggestionItem(val itemName: String, val itemDescription: String) {
-}
+class WordSuggestion(val word: String) {}
+class SpellSuggestionItem(val typoWord: String, val wordsSuggestion: List<WordSuggestion>) {}
