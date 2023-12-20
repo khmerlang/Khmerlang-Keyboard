@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.rathanak.khmerroman.R
 
@@ -36,8 +38,8 @@ class SpellSuggestionAdapter(private val context: Context, private val suggestio
         }
 
         val wordsSuggestionList = convertView.findViewById(R.id.wordsSuggestionList) as FlexboxLayout
-//        suggestionsList[position].wordsSuggestion
-//        wordsSuggestionList.addView();
+//        wordsSuggestionList.addView()
+
         return convertView
     }
 }
