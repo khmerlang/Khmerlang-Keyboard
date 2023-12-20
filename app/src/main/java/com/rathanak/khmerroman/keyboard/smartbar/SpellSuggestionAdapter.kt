@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
@@ -38,7 +39,18 @@ class SpellSuggestionAdapter(private val context: Context, private val suggestio
         }
 
         val wordsSuggestionList = convertView.findViewById(R.id.wordsSuggestionList) as FlexboxLayout
-//        wordsSuggestionList.addView()
+        suggestionsList[position].wordsSuggestion.forEach {
+            val btnWord = Button(context)
+            btnWord.text = it.word
+            //TODO: set style
+
+            btnWord.setOnClickListener {
+                suggestionsList.removeAt(position); // remove the item from the data list
+                notifyDataSetChanged();
+            }
+
+            wordsSuggestionList.addView(btnWord)
+        }
 
         return convertView
     }
