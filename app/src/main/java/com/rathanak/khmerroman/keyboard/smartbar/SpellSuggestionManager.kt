@@ -27,9 +27,9 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
         arrayList.add(SpellSuggestionItem(" Mashu", "987576443"))
         arrayList.add(SpellSuggestionItem(" Azhar", "8787576768"))
         arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
-        arrayList.add(SpellSuggestionItem( " Niyaz", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz2", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz3", "65757657657"))
+        arrayList.add(SpellSuggestionItem( " Niyaz4", "65757657657"))
         var adapter = SpellSuggestionAdapter(r_2_khmer.context, arrayList)
         listView.adapter = adapter
 
