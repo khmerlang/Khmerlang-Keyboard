@@ -34,12 +34,12 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
         wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
 
         var arrayList: ArrayList<SpellSuggestionItem> = ArrayList()
-        arrayList.add(SpellSuggestionItem(" Mashu", wordsList))
-        arrayList.add(SpellSuggestionItem(" Azhar", wordsList))
-        arrayList.add(SpellSuggestionItem( " Niyaz", wordsList))
-        arrayList.add(SpellSuggestionItem( " Niyaz2", wordsList))
-        arrayList.add(SpellSuggestionItem( " Niyaz3", wordsList))
-        arrayList.add(SpellSuggestionItem( " Niyaz4", wordsList))
+        arrayList.add(SpellSuggestionItem("កាពិនិត្យ", wordsList))
+        arrayList.add(SpellSuggestionItem("កាពិនិត្យ", wordsList))
+        arrayList.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
+        arrayList.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
+        arrayList.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
+        arrayList.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
         var adapter = SpellSuggestionAdapter(r_2_khmer, r_2_khmer.context, arrayList)
         listView.adapter = adapter
 
