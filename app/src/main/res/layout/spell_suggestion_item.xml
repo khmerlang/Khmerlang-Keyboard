@@ -57,7 +57,8 @@
                 app:alignItems="stretch"
                 app:alignContent="stretch"
                 android:id="@+id/wordsSuggestionList">
-                <Button android:text=""
+                <Button android:text="sample"
+                    android:visibility="gone"
                     android:id="@+id/btnWordSuggestion"
                     style="@style/ButtonSpellSuggestion"
                     android:layout_width="wrap_content"
