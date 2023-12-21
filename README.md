@@ -47,8 +47,3 @@ Feature it doesn't have and probably will never have:
 ## Resources
 
 - [Task management](https://trello.com/b/emfEoZt2)
-
-## Licensed
-
-Licensed under MIT
-
