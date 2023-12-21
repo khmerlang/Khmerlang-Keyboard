@@ -16,8 +16,9 @@ import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.keyboard.R2KhmerService
 
-class SpellSuggestionAdapter(private val context: Context, private val suggestionsList: java.util.ArrayList<SpellSuggestionItem>) : BaseAdapter() {
+class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val context: Context, private val suggestionsList: java.util.ArrayList<SpellSuggestionItem>) : BaseAdapter() {
     override fun getCount(): Int {
         return suggestionsList.size
     }
@@ -34,7 +35,8 @@ class SpellSuggestionAdapter(private val context: Context, private val suggestio
         var convertView = convertView
         convertView = LayoutInflater.from(context).inflate(R.layout.spell_suggestion_item, parent, false)
         val serialNum = convertView.findViewById(R.id.typoText) as TextView
-        serialNum.text = suggestionsList[position].typoWord
+        val typoWord = suggestionsList[position].typoWord
+        serialNum.text = typoWord
 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
         btnSpellItemClose.setOnClickListener {
@@ -52,9 +54,11 @@ class SpellSuggestionAdapter(private val context: Context, private val suggestio
             val btnWord = Button(ContextThemeWrapper(context, R.style.ButtonSpellSuggestion), null, R.style.ButtonSpellSuggestion)
             btnWord.minHeight = 0
             btnWord.minWidth = 0
-            btnWord.text = it.word
+            val suggestion = it
+            btnWord.text = suggestion.word
             btnWord.setOnClickListener {
-                suggestionsList.removeAt(position); // remove the item from the data list
+                r_2_khmer.setCurrentText(typoWord, suggestion.word, suggestion.startPos, suggestion.endPos + 1)
+                suggestionsList.removeAt(position);
                 notifyDataSetChanged();
             }
 

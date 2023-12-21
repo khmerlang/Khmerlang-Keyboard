@@ -2,6 +2,7 @@ package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.ExtractedTextRequest
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.graphics.drawable.DrawableCompat
@@ -24,13 +25,13 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
         val listView = spellSuggestionView.spellSuggestionList
 
         var wordsList: ArrayList<WordSuggestion> = ArrayList()
-        wordsList.add(WordSuggestion("word1"))
-        wordsList.add(WordSuggestion("word2"))
-        wordsList.add(WordSuggestion("word3"))
-        wordsList.add(WordSuggestion("word4"))
-        wordsList.add(WordSuggestion("word5"))
-        wordsList.add(WordSuggestion("word6"))
-        wordsList.add(WordSuggestion("word7"))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
+        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
 
         var arrayList: ArrayList<SpellSuggestionItem> = ArrayList()
         arrayList.add(SpellSuggestionItem(" Mashu", wordsList))
@@ -39,7 +40,7 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
         arrayList.add(SpellSuggestionItem( " Niyaz2", wordsList))
         arrayList.add(SpellSuggestionItem( " Niyaz3", wordsList))
         arrayList.add(SpellSuggestionItem( " Niyaz4", wordsList))
-        var adapter = SpellSuggestionAdapter(r_2_khmer.context, arrayList)
+        var adapter = SpellSuggestionAdapter(r_2_khmer, r_2_khmer.context, arrayList)
         listView.adapter = adapter
 
         return spellSuggestionView

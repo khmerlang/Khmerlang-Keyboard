@@ -503,6 +503,30 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen,"")
     }
 
+    fun getCurrentText(): String {
+        return (currentInputConnection.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
+    }
+
+    fun setCurrentText(typoWord: String, selectText: String, startPos: Int, endPos: Int) {
+        //TODO: send to typoWord -> selectText
+        mockInput()
+        currentInputConnection.beginBatchEdit()
+        currentInputConnection.setComposingRegion(startPos, endPos);
+        currentInputConnection.setComposingText(selectText, selectText.length)
+        currentInputConnection.finishComposingText()
+        currentInputConnection.endBatchEdit()
+    }
+
+    fun mockInput () {
+//        val newText  = "អត្ថបទសម្រាប់កាពិនិត្យអក្ខរាវិរុទ្ធ"
+        val newText  = "អត្ថបទ\nសម្រាប់កាពិនិត្យអក្ខរាវិរុទ្ធ"
+        currentInputConnection.beginBatchEdit()
+        currentInputConnection.setComposingRegion(0,getCurrentText().length);
+        currentInputConnection.commitText(newText, newText.length)
+        currentInputConnection.finishComposingText()
+        currentInputConnection.endBatchEdit()
+    }
+
     private fun getSpaceBy(isKhmer: Boolean): String {
       return if(isKhmer) {
             "​"
