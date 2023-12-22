@@ -12,4 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/spell_suggestion_height">
     </ListView>
+    <TextView
+        android:text="@string/spell_suggestion_no_result"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/noDataText"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="@dimen/spell_suggestion_height">
+    </TextView>
+    <TextView
+        android:text="@string/spell_suggestion_no_internet"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/noInternetConnection"
+        android:textColor="@color/danger"
+        android:layout_height="@dimen/spell_suggestion_height">
+    </TextView>
 </LinearLayout>

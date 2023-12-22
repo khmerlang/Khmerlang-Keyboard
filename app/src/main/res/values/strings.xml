@@ -71,5 +71,7 @@
     <string name="app_name_on_key"></string>
     <!--    //R2ខ្មែរ-->
     <string name="app_name_on_key_kh"></string>
+    <string name="spell_suggestion_no_result">រកមិនឃើញកំហុសទេ !!</string>
+    <string name="spell_suggestion_no_internet">មិនអាចភ្ជាប់ទៅម៉ាស៊ីនមេ!</string>
     <!--    ខ្មែរ-->
 </resources>
