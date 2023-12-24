@@ -15,10 +15,6 @@ import java.io.IOException
 import java.lang.Thread.sleep
 import okhttp3.Response
 
-
-
-
-
 class DownloadData {
     fun downloadKeyboardData(isRemoveCustom: Boolean = false) {
         R2KhmerService.jobLoadData = GlobalScope.launch(Dispatchers.Main) {

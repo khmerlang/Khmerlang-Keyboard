@@ -73,5 +73,7 @@
     <string name="app_name_on_key_kh"></string>
     <string name="spell_suggestion_no_result">រកមិនឃើញកំហុសទេ !!</string>
     <string name="spell_suggestion_no_internet">មិនអាចភ្ជាប់ទៅម៉ាស៊ីនមេ!</string>
+    <string name="spell_suggestion_text_too_short"><![CDATA[<b>អត្ថបទខ្លីពេក!</b>\nសូមបញ្ចូលយ៉ាងហោចណាស់ ៥ តួអក្សរដើម្បីពិនិត្យមើលបញ្ហា។]]></string>
+    <string name="spell_suggestion_react_limit">សំណើច្រើនដល់ដែនកំណត់!!!</string>
     <!--    ខ្មែរ-->
 </resources>

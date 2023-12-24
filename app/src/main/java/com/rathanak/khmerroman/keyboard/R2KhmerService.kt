@@ -2,7 +2,6 @@ package com.rathanak.khmerroman.keyboard
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.inputmethodservice.InputMethodService
@@ -12,18 +11,13 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
-import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
-import android.view.Window
 import android.view.inputmethod.*
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import androidx.annotation.RequiresApi
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
 import com.rathanak.khmerroman.data.KeyboardPreferences.Companion.KEY_NEEDS_RELOAD
@@ -36,7 +30,6 @@ import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SHIFT
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL
 import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL_SHIFT
 import com.rathanak.khmerroman.keyboard.common.Styles
-import com.rathanak.khmerroman.keyboard.extensions.contains
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
 import com.rathanak.khmerroman.keyboard.smartbar.SpellSuggestionManager
@@ -336,7 +329,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         renderCurrentLanguage()
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         currentInputConnection.requestCursorUpdates(InputConnection.CURSOR_UPDATE_MONITOR)
         super.onStartInput(attribute, restarting)
@@ -375,7 +367,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         // update label on Enter key here
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onFinishInput() {
 //        currentInputConnection.requestCursorUpdates(0)
         super.onFinishInput()
@@ -387,13 +378,13 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     override fun onKeyTouchDown() {
         isKeyDown = true
-        smartbarManager.setTypeing(true)
+        smartbarManager.setTyping(true)
         if (enableVibration) vibrate()
     }
 
     override fun onKeyTouchUp() {
         isKeyDown = false
-        smartbarManager.setTypeing(false)
+        smartbarManager.setTyping(false)
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
@@ -760,7 +751,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     private fun setPrevWord(word: String) {
         previousOne = previousTwo
-        previousTwo = word.toLowerCase()
+        previousTwo = word.lowercase()
     }
 
 

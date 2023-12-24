@@ -20,18 +20,21 @@ import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.utils.DownloadData
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_roman_mapping.*
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
+
+enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, NETWORK_ERROR, REACH_LIMIT_ERROR, INVALID_ERROR, OPEN_TOGGLE }
 
 class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSuggestionManager: SpellSuggestionManager) {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isDarkMood: Boolean = false
-    var isTyping: Boolean = false
+    private var isTyping: Boolean = false
     var isCorrection: Boolean = true
     private var suggestionJob: Job? = null
     private var result: List<String> = emptyList()
+    private var viewState: SPELLCHECKER = SPELLCHECKER.NORMAL
+    private var isAppLogoOn: Boolean = true
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -39,28 +42,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
         this.smartbarView!!.btnOpenApp.setOnClickListener {
             launchApp()
         }
-        this.smartbarView!!.toggleOption!!.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang)
-                toggleBarLayOut(true)
-                this.smartbarView!!.settingsList.visibility = View.GONE
-
-                if (isComposingEnabled) {
-                    r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
-                    spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
-                }
-            } else {
-                checkButtonOptionsVisibility()
-                buttonView.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
-                toggleBarLayOut(false)
-                this.smartbarView!!.settingsList.visibility = View.VISIBLE
-
-                if (isComposingEnabled) {
-                    r_2_khmer.customInputMethodView?.visibility = View.GONE;
-                    spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
-                }
-
-            }
+        this.smartbarView!!.btnAppLogo.setOnClickListener {
+            isAppLogoOn = !isAppLogoOn
+            handleBtnAppLogoClick()
         }
         this.smartbarView!!.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
@@ -196,7 +180,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
             this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
         }
 
-        this.smartbarView!!.toggleOption!!.isChecked = show
+        isAppLogoOn = show
         if(isTyping) {
             return
         }
@@ -300,6 +284,77 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
         }
     }
 
+    fun setTyping(typing: Boolean) {
+        isTyping = typing
+        viewState = if(isTyping) {
+            SPELLCHECKER.TYPING
+        } else {
+            SPELLCHECKER.NORMAL
+        }
+        updateLogoBtnImage()
+    }
+
+    fun destroy() {
+    }
+
+    private fun handleBtnAppLogoClick() {
+        // display gif image, typing, request_checking, error_found, no_error
+        if (isAppLogoOn) {
+            toggleBarLayOut(true)
+            this.smartbarView!!.settingsList.visibility = View.GONE
+            if (isComposingEnabled) {
+                r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
+                spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
+            }
+
+            viewState = SPELLCHECKER.NORMAL
+        } else {
+            checkButtonOptionsVisibility()
+            toggleBarLayOut(false)
+            this.smartbarView!!.settingsList.visibility = View.VISIBLE
+
+            if (isComposingEnabled) {
+                r_2_khmer.customInputMethodView?.visibility = View.GONE;
+                spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
+            }
+
+            viewState = SPELLCHECKER.OPEN_TOGGLE
+        }
+
+        updateLogoBtnImage()
+    }
+    private fun updateLogoBtnImage() {
+        var currentIcon = R.drawable.ic_btn_khmerlang
+        when(viewState) {
+            SPELLCHECKER.TYPING -> {
+                currentIcon = R.drawable.btn_base_typing
+            }
+            SPELLCHECKER.VALIDATION -> {
+                currentIcon = R.drawable.btn_base_validation
+            }
+            SPELLCHECKER.NETWORK_ERROR -> {
+                currentIcon = R.drawable.btn_base_network_error
+            }
+            SPELLCHECKER.REACH_LIMIT_ERROR -> {
+                currentIcon = R.drawable.btn_base_react_limit
+            }
+            SPELLCHECKER.INVALID_ERROR -> {
+                currentIcon = R.drawable.btn_base_invalid_token
+            }
+            SPELLCHECKER.OPEN_TOGGLE -> {
+                currentIcon = R.drawable.ic_btn_khmerlang_off_v2
+            }
+            else -> {
+                currentIcon = R.drawable.ic_btn_khmerlang
+            }
+        }
+
+        Glide.with(r_2_khmer.context)
+            .load(currentIcon)
+            .error(R.drawable.ic_btn_khmerlang)
+            .into(this.smartbarView!!.btnAppLogo)
+    }
+
     //  load spell suggestion data
     private suspend fun getSuggestion(prevOne: String, prevTwo: String, composingText: String, isStartSen: Boolean) {
         coroutineScope {
@@ -322,7 +377,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
     }
 
     private  suspend fun getSuggestionNext(prevOne: String, prevTwo: String) {
-
         coroutineScope {
             var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
             try {
@@ -340,10 +394,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
 //
 //            }
         }
-    }
-
-    fun setTypeing(typing: Boolean) {
-        isTyping = typing
     }
 
     private val candidateViewOnLongClickListener = View.OnLongClickListener { v ->
@@ -403,8 +453,5 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
                 }
             }
         }
-    }
-
-    fun destroy() {
     }
 }

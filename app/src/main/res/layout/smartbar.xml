@@ -54,14 +54,23 @@
         android:padding="5dp"
         tools:ignore="NestedWeights"
         android:id="@+id/hasDataContainer">
-        <ToggleButton
-            android:id="@+id/toggleOption"
+<!--        <ToggleButton-->
+<!--            android:id="@+id/toggleOption"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/ic_btn_khmerlang"-->
+<!--            android:checked="true"-->
+<!--            android:textOff=""-->
+<!--            android:textOn="" />-->
+        <ImageButton
+            android:id="@+id/btnAppLogo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_btn_khmerlang"
-            android:checked="true"
-            android:textOff=""
-            android:textOn="" />
+            android:gravity="center"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_btn_khmerlang"
+            android:contentDescription="@string/app_logo_alt" />
 
         <!--  Setting options here  -->
         <LinearLayout
