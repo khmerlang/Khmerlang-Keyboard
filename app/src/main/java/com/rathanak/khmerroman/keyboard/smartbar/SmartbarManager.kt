@@ -355,6 +355,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
             .into(this.smartbarView!!.btnAppLogo)
     }
 
+    fun performSpellChecking() {
+        spellSuggestionManager.performSpellChecking(r_2_khmer.getCurrentText())
+    }
+
     //  load spell suggestion data
     private suspend fun getSuggestion(prevOne: String, prevTwo: String, composingText: String, isStartSen: Boolean) {
         coroutineScope {

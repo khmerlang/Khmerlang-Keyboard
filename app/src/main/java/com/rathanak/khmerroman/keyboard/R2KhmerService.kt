@@ -554,6 +554,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             newSelStart, newSelEnd,
             candidatesStart, candidatesEnd
         )
+
+        smartbarManager.performSpellChecking()
+
         if (candidateChoosed && firstCommitCandidate) {
             firstCommitCandidate = false
             return
