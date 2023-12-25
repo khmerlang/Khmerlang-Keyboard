@@ -1,5 +1,6 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.graphics.drawable.DrawableCompat
@@ -82,7 +83,9 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
-//        currentSentence = sentence
+        currentSentence = sentence
+
+        Log.i("koko", "CALL api")
 //        val call = ApiClient.apiService.spellCheckIng(1)
 //        call.enqueue(object : Callback<SpellCheckResultDTO> {
 //            override fun onResponse(call: Call<SpellCheckResultDTO>, response: Response<SpellCheckResultDTO>) {
