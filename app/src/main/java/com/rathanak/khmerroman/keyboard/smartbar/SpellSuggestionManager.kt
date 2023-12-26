@@ -100,7 +100,7 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
     }
 
     private fun spellChecking(searchText: String) {
-        val requestBody = SpellCheckRequestDTO("អត្ថបទសម្រាប់ការពិនិត្យអក្ខរាវិរុទ្")
+        val requestBody = SpellCheckRequestDTO(searchText)
         val call = ApiClient.apiService.spellCheckIng(requestBody)
         call.enqueue(object : Callback<SpellCheckRespondDTO> {
             override fun onResponse(call: Call<SpellCheckRespondDTO>, response: Response<SpellCheckRespondDTO>) {
