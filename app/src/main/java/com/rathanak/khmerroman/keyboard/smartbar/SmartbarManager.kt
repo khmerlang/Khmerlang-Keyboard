@@ -23,9 +23,9 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 
-enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, NETWORK_ERROR, REACH_LIMIT_ERROR, INVALID_ERROR, OPEN_TOGGLE }
+enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, INVALID_ERROR, OPEN_TOGGLE }
 
-class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSuggestionManager: SpellSuggestionManager) {
+class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isDarkMood: Boolean = false
@@ -34,7 +34,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
     private var suggestionJob: Job? = null
     private var result: List<String> = emptyList()
     private var viewState: SPELLCHECKER = SPELLCHECKER.NORMAL
-    private var isAppLogoOn: Boolean = true
+    private var isAppToggleChecked: Boolean = false
+    private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this, r_2_khmer)
 
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
@@ -42,9 +43,27 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
         this.smartbarView!!.btnOpenApp.setOnClickListener {
             launchApp()
         }
-        this.smartbarView!!.btnAppLogo.setOnClickListener {
-            isAppLogoOn = !isAppLogoOn
-            handleBtnAppLogoClick()
+
+        this.smartbarView!!.btnAppLogo.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                toggleBarLayOut(true)
+                this.smartbarView!!.settingsList.visibility = View.GONE
+                if (isComposingEnabled) {
+                    r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
+                    spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
+                }
+            } else {
+                checkButtonOptionsVisibility()
+                toggleBarLayOut(false)
+                this.smartbarView!!.settingsList.visibility = View.VISIBLE
+
+                if (isComposingEnabled) {
+                    r_2_khmer.customInputMethodView?.visibility = View.GONE;
+                    spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
+                }
+            }
+            isAppToggleChecked = isChecked
+            updateLogoBtnImage()
         }
         this.smartbarView!!.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
@@ -72,72 +91,15 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
         return smartbarView
     }
 
+    fun createSpellSuggestionView(): LinearLayout {
+        return spellSuggestionManager.createSpellSuggestionView()
+    }
+
     fun setDarkMood(darkMood: Boolean) {
         isDarkMood = darkMood
+        spellSuggestionManager.setDarkMood(isDarkMood)
         if (this.smartbarView != null) {
             updateByMood()
-        }
-    }
-
-    private fun updateByMood() {
-        this.smartbarView!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
-        DrawableCompat.setTint(this.smartbarView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
-        for (numberButton in this.smartbarView!!.numbersList.children) {
-            if (numberButton is Button) {
-                DrawableCompat.setTint(numberButton.background, Styles.keyStyle.normalBackgroundColor)
-                numberButton.setTextColor(Styles.keyStyle.labelColor)
-            }
-        }
-    }
-
-    private fun checkButtonOptionsVisibility() {
-        val selectedLangIdx = KhmerLangApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
-        if(selectedLangIdx == 1) {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
-        } else {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
-        }
-
-        if (r_2_khmer.currentInputPassword) {
-            this.smartbarView!!.btnOpenApp.visibility = View.GONE
-        } else {
-            this.smartbarView!!.btnOpenApp.visibility = View.VISIBLE
-        }
-    }
-    private fun initToggleButton() {
-        this.smartbarView!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.ic_btn_roman)
-            } else {
-                buttonView.setBackgroundResource(R.drawable.ic_btn_roman_off)
-            }
-            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
-        }
-        val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
-        this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
-
-        this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.ic_btn_english)
-            } else {
-                buttonView.setBackgroundResource(R.drawable.ic_btn_english_off)
-            }
-            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
-        }
-        val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
-        this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
-
-        this.smartbarView!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                buttonView.setBackgroundResource(R.drawable.btn_auto)
-                // TODO: checkInput sentence spell check
-            } else {
-                buttonView.setBackgroundResource(R.drawable.btn_auto_off)
-                // TODO: change to keyboard layout
-            }
-            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
         }
     }
 
@@ -180,7 +142,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
             this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
         }
 
-        isAppLogoOn = show
+        this.smartbarView!!.btnAppLogo.isChecked = show
         if(isTyping) {
             return
         }
@@ -267,8 +229,8 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
         }
         suggestionJob!!.invokeOnCompletion {
             this.smartbarView!!.candidatesList.removeAllViews()
-            var layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            if (!result.isNullOrEmpty()) for(word in result) {
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            if (result.isNotEmpty()) for(word in result) {
                 val btnSuggestion = Button(r_2_khmer.context)
                 btnSuggestion.layoutParams =layoutParams
                 btnSuggestion.text = word.toString()
@@ -295,35 +257,87 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
     }
 
     fun destroy() {
+        spellSuggestionManager.destroy()
     }
 
-    private fun handleBtnAppLogoClick() {
-        // display gif image, typing, request_checking, error_found, no_error
-        if (isAppLogoOn) {
-            toggleBarLayOut(true)
-            this.smartbarView!!.settingsList.visibility = View.GONE
-            if (isComposingEnabled) {
-                r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
-                spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
-            }
+    fun performSpellChecking() {
+        spellSuggestionManager.performSpellChecking(r_2_khmer.getCurrentText())
+    }
 
-            viewState = SPELLCHECKER.NORMAL
-        } else {
-            checkButtonOptionsVisibility()
-            toggleBarLayOut(false)
-            this.smartbarView!!.settingsList.visibility = View.VISIBLE
-
-            if (isComposingEnabled) {
-                r_2_khmer.customInputMethodView?.visibility = View.GONE;
-                spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
-            }
-
-            viewState = SPELLCHECKER.OPEN_TOGGLE
-        }
-
+    fun setCurrentViewState(state: SPELLCHECKER) {
+        viewState = state
         updateLogoBtnImage()
     }
+
+
+    private fun updateByMood() {
+        this.smartbarView!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
+        DrawableCompat.setTint(this.smartbarView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
+        for (numberButton in this.smartbarView!!.numbersList.children) {
+            if (numberButton is Button) {
+                DrawableCompat.setTint(numberButton.background, Styles.keyStyle.normalBackgroundColor)
+                numberButton.setTextColor(Styles.keyStyle.labelColor)
+            }
+        }
+    }
+
+    private fun checkButtonOptionsVisibility() {
+        val selectedLangIdx = KhmerLangApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
+        if(selectedLangIdx == 1) {
+            this.smartbarView!!.btnToggleRMCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
+            this.smartbarView!!.btnToggleENCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
+        } else {
+            this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
+            this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
+        }
+
+        if (r_2_khmer.currentInputPassword) {
+            this.smartbarView!!.btnOpenApp.visibility = View.GONE
+        } else {
+            this.smartbarView!!.btnOpenApp.visibility = View.VISIBLE
+        }
+    }
+    private fun initToggleButton() {
+        this.smartbarView!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.ic_btn_roman)
+            } else {
+                buttonView.setBackgroundResource(R.drawable.ic_btn_roman_off)
+            }
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
+        }
+        val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
+        this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
+
+        this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.ic_btn_english)
+            } else {
+                buttonView.setBackgroundResource(R.drawable.ic_btn_english_off)
+            }
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
+        }
+        val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
+        this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
+
+        this.smartbarView!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                buttonView.setBackgroundResource(R.drawable.btn_auto)
+                // TODO: checkInput sentence spell check
+            } else {
+                buttonView.setBackgroundResource(R.drawable.btn_auto_off)
+                // TODO: change to keyboard layout
+            }
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
+        }
+    }
+
     private fun updateLogoBtnImage() {
+        if (isAppToggleChecked) {
+            this.smartbarView!!.btnAppLogo.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
+            return
+        }
+
         var currentIcon = R.drawable.ic_btn_khmerlang
         when(viewState) {
             SPELLCHECKER.TYPING -> {
@@ -341,6 +355,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
             SPELLCHECKER.INVALID_ERROR -> {
                 currentIcon = R.drawable.btn_base_invalid_token
             }
+            SPELLCHECKER.SPELLING_ERROR -> {
+                currentIcon = R.drawable.btn_khmerlang_mobile_danger
+            }
             SPELLCHECKER.OPEN_TOGGLE -> {
                 currentIcon = R.drawable.ic_btn_khmerlang_off_v2
             }
@@ -349,14 +366,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService, private val spellSu
             }
         }
 
-        Glide.with(r_2_khmer.context)
-            .load(currentIcon)
-            .error(R.drawable.ic_btn_khmerlang)
-            .into(this.smartbarView!!.btnAppLogo)
-    }
-
-    fun performSpellChecking() {
-        spellSuggestionManager.performSpellChecking(r_2_khmer.getCurrentText())
+        this.smartbarView!!.btnAppLogo.setBackgroundResource(currentIcon)
     }
 
     //  load spell suggestion data

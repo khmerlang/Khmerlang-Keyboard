@@ -25,7 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
+class SpellSuggestionManager(private val smartBar: SmartbarManager, private val r_2_khmer: R2KhmerService) {
     private var spellCheckJob: Job? = null
     var currentSentence: String = ""
     var spellSuggestionView: LinearLayout? = null
@@ -35,24 +35,7 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
     fun createSpellSuggestionView(): LinearLayout {
         var spellSuggestionView = View.inflate(r_2_khmer.context, R.layout.spell_suggestion, null) as LinearLayout
         this.spellSuggestionView = spellSuggestionView
-
         val listView = spellSuggestionView.spellSuggestionList
-
-//        var wordsList: ArrayList<WordSuggestion> = ArrayList()
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        wordsList.add(WordSuggestion("ការពិនិត្យ", 14, 22))
-//        spellSuggestionItems.add(SpellSuggestionItem("កាពិនិត្យ", wordsList))
-//        spellSuggestionItems.add(SpellSuggestionItem("កាពិនិត្យ", wordsList))
-//        spellSuggestionItems.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
-//        spellSuggestionItems.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
-//        spellSuggestionItems.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
-//        spellSuggestionItems.add(SpellSuggestionItem( "កាពិនិត្យ", wordsList))
-
         spellSuggestionAdapter = SpellSuggestionAdapter(r_2_khmer, r_2_khmer.context, spellSuggestionItems)
         listView.adapter = spellSuggestionAdapter
         val emptyView = spellSuggestionView.noDataText
@@ -91,6 +74,7 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
             return
         }
 
+        smartBar.setCurrentViewState(SPELLCHECKER.VALIDATION)
         currentSentence = sentence
         spellCheckJob?.cancel()
         spellCheckJob = GlobalScope.launch(Dispatchers.Main) {
@@ -108,19 +92,25 @@ class SpellSuggestionManager(private val r_2_khmer: R2KhmerService) {
                     // Handle the retrieved spell check data
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        //  TODO: update icon status
                         spellSuggestionAdapter?.suggestionsList = responseBody.results
                         spellSuggestionAdapter?.notifyDataSetChanged()
+                        if (responseBody.results.size > 0) {
+                            smartBar.setCurrentViewState(SPELLCHECKER.SPELLING_ERROR)
+                        } else {
+                            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+                        }
                     }
                 } else {
                     // Handle error
-                    //  TODO: update icon status
+                    smartBar.setCurrentViewState(SPELLCHECKER.REACH_LIMIT_ERROR)
                 }
             }
 
             override fun onFailure(call: Call<SpellCheckRespondDTO>, t: Throwable) {
                 // Handle failure
-                //  TODO: update icon status
+                smartBar.setCurrentViewState(SPELLCHECKER.NETWORK_ERROR)
+//                smartBar.setCurrentViewState(SPELLCHECKER.INVALID_ERROR)
+//                smartBar.setCurrentViewState(SPELLCHECKER.REACH_LIMIT_ERROR)
             }
         })
     }

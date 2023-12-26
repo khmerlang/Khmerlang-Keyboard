@@ -62,14 +62,16 @@
 <!--            android:checked="true"-->
 <!--            android:textOff=""-->
 <!--            android:textOn="" />-->
-        <ImageButton
+        <ToggleButton
             android:id="@+id/btnAppLogo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:gravity="center"
             android:padding="0dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_btn_khmerlang"
+            android:background="@drawable/ic_btn_khmerlang"
+            android:textOff=""
+            android:textOn=""
             android:contentDescription="@string/app_logo_alt" />
 
         <!--  Setting options here  -->
@@ -182,55 +184,55 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum5"
                 android:background="@drawable/button_round"
-                android:text="5"/>
+                android:text="@string/_5"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum6"
                 android:background="@drawable/button_round"
-                android:text="6"/>
+                android:text="@string/_6"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum7"
                 android:background="@drawable/button_round"
-                android:text="7"/>
+                android:text="@string/_7"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum8"
                 android:background="@drawable/button_round"
-                android:text="8"/>
+                android:text="@string/_8"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum9"
                 android:background="@drawable/button_round"
-                android:text="9"/>
+                android:text="@string/_9"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 android:id="@+id/btnNum0"
                 android:background="@drawable/button_round"
-                android:text="0"/>
+                android:text="@string/_0"/>
         </LinearLayout>
 
         <!--  Roman suggestion here  -->

@@ -81,8 +81,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     var bannerTargetUrl = "http://khmerlang.com/"
     var lastFetchBannerAt: Date? = null
 
-    private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this)
-    private val smartbarManager: SmartbarManager = SmartbarManager(this, spellSuggestionManager)
+    private val smartbarManager: SmartbarManager = SmartbarManager(this)
     var rootView: LinearLayout? = null
     val context: Context
         get() = rootView?.context ?: this
@@ -109,7 +108,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         super.onDestroy()
         wordTokenize.destroy()
         smartbarManager.destroy()
-        spellSuggestionManager.destroy()
     }
 
     override fun onWindowShown() {
@@ -226,7 +224,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         Styles.keyStyle.labelPaint.textSize = resources.getDimension(R.dimen.default_key_text_size)
         customInputMethodView?.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
         smartbarManager.setDarkMood(isDarkMood)
-        spellSuggestionManager.setDarkMood(isDarkMood)
     }
 
     @ColorInt
@@ -250,7 +247,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         }
         rootView!!.addView(customInputMethodView)
 
-        rootView!!.addView(spellSuggestionManager.createSpellSuggestionView())
+        rootView!!.addView(smartbarManager.createSpellSuggestionView())
 
         return rootView
     }
