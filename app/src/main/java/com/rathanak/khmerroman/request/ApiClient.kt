@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://api.khmerlang.com/v1"
+    private const val BASE_URL = "https://api.khmerlang.com/"
 
     val retrofit: Retrofit by lazy {
         Retrofit.Builder()

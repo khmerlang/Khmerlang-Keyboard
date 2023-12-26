@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.R2KhmerService
+import com.rathanak.khmerroman.request.SpellCheckResultDTO
 
-class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val context: Context, private val suggestionsList: java.util.ArrayList<SpellSuggestionItem>) : BaseAdapter() {
+class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val context: Context, var suggestionsList: java.util.ArrayList<SpellCheckResultDTO>) : BaseAdapter() {
     override fun getCount(): Int {
         return suggestionsList.size
     }
@@ -35,7 +36,7 @@ class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val 
         var convertView = convertView
         convertView = LayoutInflater.from(context).inflate(R.layout.spell_suggestion_item, parent, false)
         val serialNum = convertView.findViewById(R.id.typoText) as TextView
-        val typoWord = suggestionsList[position].typoWord
+        val typoWord = suggestionsList[position].word
         serialNum.text = typoWord
 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
@@ -50,14 +51,16 @@ class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val 
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         params.setMargins(4,4,4,4)
-        suggestionsList[position].wordsSuggestion.forEach {
+        val startIndex = suggestionsList[position].startIndex
+        val endIndex = suggestionsList[position].endIndex
+        suggestionsList[position].suggestions.forEach {
             val btnWord = Button(ContextThemeWrapper(context, R.style.ButtonSpellSuggestion), null, R.style.ButtonSpellSuggestion)
             btnWord.minHeight = 0
             btnWord.minWidth = 0
-            val suggestion = it
-            btnWord.text = suggestion.word
+            val word = it
+            btnWord.text = word
             btnWord.setOnClickListener {
-                r_2_khmer.setCurrentText(typoWord, suggestion.word, suggestion.startPos, suggestion.endPos + 1)
+                r_2_khmer.setCurrentText(typoWord, word, startIndex, endIndex + 1)
                 suggestionsList.removeAt(position);
                 notifyDataSetChanged();
             }
