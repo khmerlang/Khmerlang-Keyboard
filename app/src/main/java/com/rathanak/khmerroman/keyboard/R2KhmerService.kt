@@ -503,7 +503,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentInputConnection.setComposingRegion(startPos, endPos);
         currentInputConnection.setComposingText(selectText, startPos)
         currentInputConnection.finishComposingText()
-        currentInputConnection.setSelection(startPos, startPos + selectText.length)
+        currentInputConnection.setSelection(startPos + selectText.length, startPos + selectText.length)
         currentInputConnection.endBatchEdit()
     }
 
