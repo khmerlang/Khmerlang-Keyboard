@@ -1,10 +1,17 @@
 package com.rathanak.khmerroman.request
 
+import com.google.gson.annotations.SerializedName
+
 data class SpellCheckResultDTO(
-    val startIndex: Int,
-    val endIndex: Int,
+    @SerializedName("start_index")
+    var startIndex: Int,
+    @SerializedName("end_index")
+    var endIndex: Int,
+    @SerializedName("word")
     val word: String,
+    @SerializedName("suggestions")
     val suggestions: Array<String>,
+    @SerializedName("scores")
     val scores: Array<Float>
 ) {
     override fun equals(other: Any?): Boolean {

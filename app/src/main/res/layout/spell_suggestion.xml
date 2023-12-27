@@ -13,7 +13,7 @@
         android:layout_height="@dimen/spell_suggestion_height">
     </ListView>
     <TextView
-        android:text="@string/spell_suggestion_no_result"
+        android:text="@string/spell_suggestion_no_typo"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
@@ -21,28 +21,4 @@
         android:textColor="@color/colorPrimary"
         android:layout_height="@dimen/spell_suggestion_height">
     </TextView>
-    <TextView
-        android:text="@string/spell_suggestion_text_too_short"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/noTextTooShort"
-        android:textColor="@color/colorPrimary"
-        android:layout_height="@dimen/spell_suggestion_height" />
-    <TextView
-        android:text="@string/spell_suggestion_react_limit"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/noSpellCheckReactLimit"
-        android:textColor="@color/danger"
-        android:layout_height="@dimen/spell_suggestion_height"/>
-    <TextView
-        android:text="@string/spell_suggestion_no_internet"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/noInternetConnection"
-        android:textColor="@color/danger"
-        android:layout_height="@dimen/spell_suggestion_height"/>
 </LinearLayout>

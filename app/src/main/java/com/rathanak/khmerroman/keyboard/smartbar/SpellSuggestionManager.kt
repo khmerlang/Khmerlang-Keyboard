@@ -1,6 +1,5 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.graphics.drawable.DrawableCompat
@@ -15,7 +14,6 @@ import kotlinx.android.synthetic.main.smartbar.view.btnOpenApp
 import kotlinx.android.synthetic.main.smartbar.view.smartbar
 import kotlinx.android.synthetic.main.spell_suggestion.view.spellSuggestionList
 import kotlinx.android.synthetic.main.spell_suggestion.view.noDataText
-import kotlinx.android.synthetic.main.spell_suggestion.view.noInternetConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -25,26 +23,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SpellSuggestionManager(private val smartBar: SmartbarManager, private val r_2_khmer: R2KhmerService) {
+class SpellSuggestionManager(private val smartBar: SmartbarManager, private val r2Khmer: R2KhmerService) {
     private var spellCheckJob: Job? = null
-    var currentSentence: String = ""
+    private var currentSentence: String = ""
     var spellSuggestionView: LinearLayout? = null
     private var isDarkMood: Boolean = false
     var spellSuggestionAdapter: SpellSuggestionAdapter? = null
-    var spellSuggestionItems: ArrayList<SpellCheckResultDTO> = ArrayList()
+    private var spellSuggestionItems: ArrayList<SpellCheckResultDTO> = ArrayList<SpellCheckResultDTO>()
     fun createSpellSuggestionView(): LinearLayout {
-        var spellSuggestionView = View.inflate(r_2_khmer.context, R.layout.spell_suggestion, null) as LinearLayout
+        var spellSuggestionView = View.inflate(r2Khmer.context, R.layout.spell_suggestion, null) as LinearLayout
         this.spellSuggestionView = spellSuggestionView
-        val listView = spellSuggestionView.spellSuggestionList
-        spellSuggestionAdapter = SpellSuggestionAdapter(r_2_khmer, r_2_khmer.context, spellSuggestionItems)
-        listView.adapter = spellSuggestionAdapter
-        val emptyView = spellSuggestionView.noDataText
-        var noInternet = spellSuggestionView.noInternetConnection
-        if(true) {
-            listView.emptyView = emptyView
-        } else {
-            listView.emptyView = noInternet
-        }
+        val listSuggestionView = spellSuggestionView.spellSuggestionList
+        spellSuggestionAdapter = SpellSuggestionAdapter(this, r2Khmer.context, spellSuggestionItems)
+        listSuggestionView.adapter = spellSuggestionAdapter
+        listSuggestionView.emptyView = spellSuggestionView.noDataText
+
 
         return spellSuggestionView
     }
@@ -70,18 +63,53 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     }
 
     fun performSpellChecking(sentence: String) {
-        if(currentSentence.equals(sentence)) {
+        if(currentSentence == sentence) {
             return
         }
 
-        smartBar.setCurrentViewState(SPELLCHECKER.VALIDATION)
-        currentSentence = sentence
         spellCheckJob?.cancel()
+
+        spellSuggestionAdapter?.suggestionsList?.clear()
+        spellSuggestionAdapter?.notifyDataSetChanged()
+
+        if (sentence.isEmpty()) {
+            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+            spellSuggestionAdapter?.suggestionsList?.clear()
+            spellSuggestionAdapter?.notifyDataSetChanged()
+            manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
+            return
+        } else if (sentence.length <= 2) {
+            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+            spellSuggestionAdapter?.suggestionsList?.clear()
+            spellSuggestionAdapter?.notifyDataSetChanged()
+            manageEmptyList(R.string.spell_suggestion_text_too_short, R.color.colorPrimary)
+            return
+        }
+
+        currentSentence = sentence
+        manageEmptyList(R.string.spell_suggestion_loading, R.color.colorPrimary)
+        smartBar.setCurrentViewState(SPELLCHECKER.VALIDATION)
         spellCheckJob = GlobalScope.launch(Dispatchers.Main) {
             delay(500)
             spellChecking(currentSentence)
         }
     }
+
+    fun setCurrentText(typoWord: String, selectText: String, startPos: Int, endPos: Int) {
+        r2Khmer.setCurrentText(typoWord, selectText, startPos, endPos)
+        currentSentence = r2Khmer.getCurrentText()
+    }
+
+    fun onCallEmptyResult() {
+        manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
+        smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+    }
+
+    private fun manageEmptyList(emptyMessageID: Int, colorId: Int) {
+        spellSuggestionView?.noDataText?.setText(emptyMessageID)
+        spellSuggestionView?.noDataText?.setTextColor(r2Khmer.getColorInt(colorId))
+    }
+
 
     private fun spellChecking(searchText: String) {
         val requestBody = SpellCheckRequestDTO(searchText)
@@ -92,25 +120,39 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
                     // Handle the retrieved spell check data
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        spellSuggestionAdapter?.suggestionsList = responseBody.results
-                        spellSuggestionAdapter?.notifyDataSetChanged()
-                        if (responseBody.results.size > 0) {
+                        if (!responseBody.results.isNullOrEmpty()) {
                             smartBar.setCurrentViewState(SPELLCHECKER.SPELLING_ERROR)
+                            spellSuggestionAdapter?.suggestionsList = responseBody.results
+                            spellSuggestionAdapter?.notifyDataSetChanged()
                         } else {
                             smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
                         }
+
+                        manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
                     }
                 } else {
                     // Handle error
-                    smartBar.setCurrentViewState(SPELLCHECKER.REACH_LIMIT_ERROR)
+                    val errorCode = response.code()
+                    if(errorCode == 400) {
+                        smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+                        manageEmptyList(R.string.spell_suggestion_no_internet, R.color.danger)
+                    }else if(errorCode == 429) {
+                        smartBar.setCurrentViewState(SPELLCHECKER.REACH_LIMIT_ERROR)
+                        manageEmptyList(R.string.spell_suggestion_react_limit, R.color.danger)
+                    }else if(errorCode == 401) {
+                        smartBar.setCurrentViewState(SPELLCHECKER.TOKEN_INVALID_ERROR)
+                        manageEmptyList(R.string.spell_suggestion_token_invalid, R.color.danger)
+                    }else {
+                        smartBar.setCurrentViewState(SPELLCHECKER.NETWORK_ERROR)
+                        manageEmptyList(R.string.spell_suggestion_no_internet, R.color.danger)
+                    }
                 }
             }
 
             override fun onFailure(call: Call<SpellCheckRespondDTO>, t: Throwable) {
                 // Handle failure
                 smartBar.setCurrentViewState(SPELLCHECKER.NETWORK_ERROR)
-//                smartBar.setCurrentViewState(SPELLCHECKER.INVALID_ERROR)
-//                smartBar.setCurrentViewState(SPELLCHECKER.REACH_LIMIT_ERROR)
+                manageEmptyList(R.string.spell_suggestion_no_internet, R.color.danger)
             }
         })
     }

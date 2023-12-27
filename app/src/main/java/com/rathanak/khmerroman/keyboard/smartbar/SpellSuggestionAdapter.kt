@@ -19,7 +19,7 @@ import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.request.SpellCheckResultDTO
 
-class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val context: Context, var suggestionsList: java.util.ArrayList<SpellCheckResultDTO>) : BaseAdapter() {
+class SpellSuggestionAdapter(private val smartSpell: SpellSuggestionManager, private val context: Context, var suggestionsList: java.util.ArrayList<SpellCheckResultDTO>) : BaseAdapter() {
     override fun getCount(): Int {
         return suggestionsList.size
     }
@@ -42,6 +42,7 @@ class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
         btnSpellItemClose.setOnClickListener {
             suggestionsList.removeAt(position); // remove the item from the data list
+            handleAfterRemoveItem()
             notifyDataSetChanged();
         }
 
@@ -60,8 +61,13 @@ class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val 
             val word = it
             btnWord.text = word
             btnWord.setOnClickListener {
-                r_2_khmer.setCurrentText(typoWord, word, startIndex, endIndex + 1)
-                suggestionsList.removeAt(position);
+                smartSpell.setCurrentText(typoWord, word, startIndex, endIndex + 1)
+                suggestionsList.removeAt(position)
+                if(typoWord.length != word.length) {
+                    updateNextListStartEndPos(position, word.length - typoWord.length)
+                }
+
+                handleAfterRemoveItem()
                 notifyDataSetChanged();
             }
 
@@ -69,5 +75,18 @@ class SpellSuggestionAdapter(private val r_2_khmer: R2KhmerService, private val 
         }
 
         return convertView
+    }
+
+    private fun handleAfterRemoveItem() {
+        if(suggestionsList.isNullOrEmpty()) {
+            smartSpell.onCallEmptyResult()
+        }
+    }
+
+    private fun updateNextListStartEndPos(position: Int, updateLength: Int) {
+        for (index in position until suggestionsList.size) {
+            suggestionsList[index].startIndex += updateLength
+            suggestionsList[index].endIndex += updateLength
+        }
     }
 }

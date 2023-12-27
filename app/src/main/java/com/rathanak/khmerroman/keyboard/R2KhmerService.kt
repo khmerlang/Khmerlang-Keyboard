@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
+import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
@@ -75,6 +76,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var previousTwo = "<s>"
     private var isStartSen = true
     private var isKeyDown: Boolean = false
+    private var isSpellCheckSelected: Boolean = false
     var currentInputPassword: Boolean = false
     var bannerIdsData: MutableList<String> = mutableListOf()
     var currentBannerIndex = 0
@@ -497,20 +499,10 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     fun setCurrentText(typoWord: String, selectText: String, startPos: Int, endPos: Int) {
         //TODO: send to typoWord -> selectText
-        mockInput()
+        isSpellCheckSelected = true
         currentInputConnection.beginBatchEdit()
         currentInputConnection.setComposingRegion(startPos, endPos);
-        currentInputConnection.setComposingText(selectText, selectText.length)
-        currentInputConnection.finishComposingText()
-        currentInputConnection.endBatchEdit()
-    }
-
-    fun mockInput () {
-//        val newText  = "អត្ថបទសម្រាប់កាពិនិត្យអក្ខរាវិរុទ្ធ"
-        val newText  = "អត្ថបទ\nសម្រាប់កាពិនិត្យអក្ខរាវិរុទ្ធ"
-        currentInputConnection.beginBatchEdit()
-        currentInputConnection.setComposingRegion(0,getCurrentText().length);
-        currentInputConnection.commitText(newText, newText.length)
+        currentInputConnection.setComposingText(selectText, startPos)
         currentInputConnection.finishComposingText()
         currentInputConnection.endBatchEdit()
     }
@@ -551,6 +543,11 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             newSelStart, newSelEnd,
             candidatesStart, candidatesEnd
         )
+
+        if(isSpellCheckSelected) {
+            isSpellCheckSelected = false
+            return
+        }
 
         smartbarManager.performSpellChecking()
 

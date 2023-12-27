@@ -3,7 +3,6 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -23,9 +22,9 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 
-enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, INVALID_ERROR, OPEN_TOGGLE }
+enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, TOKEN_INVALID_ERROR }
 
-class SmartbarManager(private val r_2_khmer: R2KhmerService) {
+class SmartbarManager(private val r2Khmer: R2KhmerService) {
     private var smartbarView: LinearLayout? = null
     private var isComposingEnabled: Boolean = false
     private var isDarkMood: Boolean = false
@@ -35,10 +34,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     private var result: List<String> = emptyList()
     private var viewState: SPELLCHECKER = SPELLCHECKER.NORMAL
     private var isAppToggleChecked: Boolean = false
-    private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this, r_2_khmer)
+    private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this, r2Khmer)
 
     fun createSmartbarView(): LinearLayout {
-        val smartbarView = View.inflate(r_2_khmer.context, R.layout.smartbar, null) as LinearLayout
+        val smartbarView = View.inflate(r2Khmer.context, R.layout.smartbar, null) as LinearLayout
         this.smartbarView = smartbarView
         this.smartbarView!!.btnOpenApp.setOnClickListener {
             launchApp()
@@ -48,22 +47,14 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             if (isChecked) {
                 toggleBarLayOut(true)
                 this.smartbarView!!.settingsList.visibility = View.GONE
-                if (isComposingEnabled) {
-                    r_2_khmer.customInputMethodView?.visibility = View.VISIBLE;
-                    spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
-                }
             } else {
                 checkButtonOptionsVisibility()
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
-
-                if (isComposingEnabled) {
-                    r_2_khmer.customInputMethodView?.visibility = View.GONE;
-                    spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
-                }
             }
             isAppToggleChecked = isChecked
             updateLogoBtnImage()
+            updateSpellSuggestionView()
         }
         this.smartbarView!!.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
@@ -76,10 +67,10 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         this.smartbarView!!.bannerImage.setOnClickListener {
-            if(r_2_khmer.bannerTargetUrl != "") {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(r_2_khmer.bannerTargetUrl))
+            if(r2Khmer.bannerTargetUrl != "") {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(r2Khmer.bannerTargetUrl))
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                r_2_khmer.context.startActivity(intent)
+                r2Khmer.context.startActivity(intent)
             }
         }
 
@@ -109,7 +100,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
-            Glide.with(r_2_khmer.context)
+            Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_download_data)
                 .into(this.smartbarView!!.btnDownloadData)
 
@@ -120,7 +111,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 
             return
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
-            Glide.with(r_2_khmer.context)
+            Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_download_data_fail)
                 .into(this.smartbarView!!.btnDownloadData)
 
@@ -154,7 +145,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         this.smartbarView!!.candidatesContainer.visibility = View.GONE
         this.smartbarView!!.numbersList!!.visibility = View.GONE
         if (show) {
-            if (r_2_khmer.currentInputPassword) {
+            if (r2Khmer.currentInputPassword) {
                 this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
             } else if (suggestionCount > 0) {
                 this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
@@ -171,12 +162,12 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         }
 
         if(bannerID != "") {
-            Glide.with(r_2_khmer.context)
+            Glide.with(r2Khmer.context)
                 .load(bannerID)
                 .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.bannerImage)
         } else {
-            Glide.with(r_2_khmer.context)
+            Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_default_animate)
                 .error(R.drawable.banner_default_animate)
                 .into(this.smartbarView!!.bannerImage)
@@ -231,7 +222,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.candidatesList.removeAllViews()
             val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             if (result.isNotEmpty()) for(word in result) {
-                val btnSuggestion = Button(r_2_khmer.context)
+                val btnSuggestion = Button(r2Khmer.context)
                 btnSuggestion.layoutParams =layoutParams
                 btnSuggestion.text = word.toString()
                 btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
@@ -248,12 +239,6 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
 
     fun setTyping(typing: Boolean) {
         isTyping = typing
-        viewState = if(isTyping) {
-            SPELLCHECKER.TYPING
-        } else {
-            SPELLCHECKER.NORMAL
-        }
-        updateLogoBtnImage()
     }
 
     fun destroy() {
@@ -261,7 +246,9 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
     }
 
     fun performSpellChecking() {
-        spellSuggestionManager.performSpellChecking(r_2_khmer.getCurrentText())
+        if(isSpellSuggestionEnable()) {
+            spellSuggestionManager.performSpellChecking(r2Khmer.getCurrentText())
+        }
     }
 
     fun setCurrentViewState(state: SPELLCHECKER) {
@@ -291,7 +278,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
         }
 
-        if (r_2_khmer.currentInputPassword) {
+        if (r2Khmer.currentInputPassword) {
             this.smartbarView!!.btnOpenApp.visibility = View.GONE
         } else {
             this.smartbarView!!.btnOpenApp.visibility = View.VISIBLE
@@ -321,52 +308,80 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
 
         this.smartbarView!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.btn_auto)
-                // TODO: checkInput sentence spell check
+                performSpellChecking()
             } else {
                 buttonView.setBackgroundResource(R.drawable.btn_auto_off)
-                // TODO: change to keyboard layout
             }
-            KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
+            updateSpellSuggestionView()
         }
+        val autoTypeSpellCheck = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, false)
+        this.smartbarView!!.btnToggleAutoCorrection.isChecked = autoTypeSpellCheck!!
     }
 
     private fun updateLogoBtnImage() {
-        if (isAppToggleChecked) {
+        if(this.smartbarView == null) {
+            return
+        }
+
+        if(this.smartbarView!!.btnAppLogo == null) {
+            return
+        }
+
+        if (!isAppToggleChecked) {
             this.smartbarView!!.btnAppLogo.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
             return
         }
 
-        var currentIcon = R.drawable.ic_btn_khmerlang
-        when(viewState) {
+        if (!isSpellSuggestionEnable()) {
+            this.smartbarView!!.btnAppLogo.setBackgroundResource(R.drawable.ic_btn_khmerlang)
+            return
+        }
+
+        var currentIcon = when(viewState) {
             SPELLCHECKER.TYPING -> {
-                currentIcon = R.drawable.btn_base_typing
+                R.drawable.btn_base_validation
             }
             SPELLCHECKER.VALIDATION -> {
-                currentIcon = R.drawable.btn_base_validation
+                R.drawable.btn_base_validation
             }
             SPELLCHECKER.NETWORK_ERROR -> {
-                currentIcon = R.drawable.btn_base_network_error
+                R.drawable.btn_base_network_error
             }
             SPELLCHECKER.REACH_LIMIT_ERROR -> {
-                currentIcon = R.drawable.btn_base_react_limit
+                R.drawable.btn_base_react_limit
             }
-            SPELLCHECKER.INVALID_ERROR -> {
-                currentIcon = R.drawable.btn_base_invalid_token
+            SPELLCHECKER.TOKEN_INVALID_ERROR -> {
+                R.drawable.btn_base_invalid_token
             }
             SPELLCHECKER.SPELLING_ERROR -> {
-                currentIcon = R.drawable.btn_khmerlang_mobile_danger
-            }
-            SPELLCHECKER.OPEN_TOGGLE -> {
-                currentIcon = R.drawable.ic_btn_khmerlang_off_v2
+                R.drawable.btn_khmerlang_mobile_danger
             }
             else -> {
-                currentIcon = R.drawable.ic_btn_khmerlang
+                R.drawable.ic_btn_khmerlang
             }
         }
 
         this.smartbarView!!.btnAppLogo.setBackgroundResource(currentIcon)
+    }
+
+    private fun updateSpellSuggestionView() {
+        r2Khmer.customInputMethodView?.visibility = View.VISIBLE;
+        spellSuggestionManager.spellSuggestionView?.visibility = View.GONE
+
+        if (!isAppToggleChecked && isSpellSuggestionEnable()) {
+            if (isComposingEnabled) {
+                r2Khmer.customInputMethodView?.visibility = View.GONE;
+                spellSuggestionManager.spellSuggestionView?.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun isSpellSuggestionEnable(): Boolean {
+        val autoTypeSpellCheck = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, false)
+        return autoTypeSpellCheck == true && isComposingEnabled
     }
 
     //  load spell suggestion data
@@ -419,16 +434,16 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
         val text = view.text.toString()
         if (text.isNotEmpty()) {
 //            r_2_khmer.commitCandidate(text + " ")
-            r_2_khmer.commitCandidate(text, isCorrection)
+            r2Khmer.commitCandidate(text, isCorrection)
         }
     }
 
     private fun launchApp() {
-        val pm = r_2_khmer.context.packageManager
-        val intent:Intent? = pm.getLaunchIntentForPackage(r_2_khmer.context.packageName)
+        val pm = r2Khmer.context.packageManager
+        val intent:Intent? = pm.getLaunchIntentForPackage(r2Khmer.context.packageName)
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
         if(intent!=null){
-            r_2_khmer.context.startActivity(intent)
+            r2Khmer.context.startActivity(intent)
         }
     }
 
@@ -454,7 +469,7 @@ class SmartbarManager(private val r_2_khmer: R2KhmerService) {
             R.id.btnNum9 -> KeyData(57, "9")
             else -> KeyData(0)
         }
-        r_2_khmer.sendKeyPress(keyData)
+        r2Khmer.sendKeyPress(keyData)
     }
 
     private fun listenJobDone() {
