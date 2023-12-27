@@ -498,7 +498,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     fun setCurrentText(typoWord: String, selectText: String, startPos: Int, endPos: Int) {
-        //TODO: send to typoWord -> selectText
         isSpellCheckSelected = true
         currentInputConnection.beginBatchEdit()
         currentInputConnection.setComposingRegion(startPos, endPos);

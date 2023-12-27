@@ -43,7 +43,7 @@
                 <ImageButton
                     android:id="@+id/btnSpellItemClose"
                     android:src="@drawable/btn_outline_close_24"
-                    android:background="@color/white"
+                    android:background="@null"
                     android:padding="0dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp" />

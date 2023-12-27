@@ -40,3 +40,6 @@ data class SpellCheckResultDTO(
 data class SpellCheckRespondDTO(val results: ArrayList<SpellCheckResultDTO>)
 
 data class SpellCheckRequestDTO (val text: String)
+
+data class SpellSelectRequestDTO(val word: String, val selected: String)
+data class SpellSelectRespondDTO(val status: String)

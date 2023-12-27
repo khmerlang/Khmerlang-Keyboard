@@ -6,6 +6,7 @@
     android:background="#FFFFFF"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:id="@+id/smartSpellSuggestion"
     android:visibility="gone">
     <ListView
         android:id="@+id/spellSuggestionList"
