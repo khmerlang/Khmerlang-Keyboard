@@ -33,7 +33,6 @@ import com.rathanak.khmerroman.keyboard.common.PageType.Companion.SYMBOL_SHIFT
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.keyboard.keyboardinflater.CustomKeyboard
 import com.rathanak.khmerroman.keyboard.smartbar.SmartbarManager
-import com.rathanak.khmerroman.keyboard.smartbar.SpellSuggestionManager
 import com.rathanak.khmerroman.spelling_corrector.SpellCorrector
 import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.KhmerLangApp
@@ -362,7 +361,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
         smartbarManager.onStartInputView(isComposingEnabled)
-        smartbarManager.toggleBarLayOut(true)
+        smartbarManager.updateSmartBarView(false)
         // update label on Enter key here
     }
 
