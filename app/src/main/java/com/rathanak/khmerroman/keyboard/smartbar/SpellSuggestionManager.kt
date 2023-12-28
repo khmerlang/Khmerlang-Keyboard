@@ -97,6 +97,10 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
         smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
     }
 
+    fun setNoConnection() {
+        manageEmptyList(R.string.spell_suggestion_no_internet, R.color.danger)
+    }
+
     private fun performSpellSelect(typo: String, selected: String) {
         val requestBody = SpellSelectRequestDTO(typo, selected)
         val call = ApiClient.apiService.spellWordSelection(requestBody)

@@ -7,15 +7,18 @@ import android.graphics.PorterDuffColorFilter
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.media.AudioManager
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
-import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.ExtractedTextRequest
+import android.view.inputmethod.InputConnection
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -38,12 +41,18 @@ import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.KhmerLangApp
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
-import java.util.*
+import java.util.Date
 import kotlin.properties.Delegates
+
 
 class R2KhmerService : InputMethodService(), KeyboardActionListener {
     var customInputMethodView: CustomInputMethodView? = null
@@ -504,6 +513,15 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         currentInputConnection.finishComposingText()
         currentInputConnection.setSelection(startPos + selectText.length, startPos + selectText.length)
         currentInputConnection.endBatchEdit()
+    }
+
+    fun isConnected(): Boolean {
+        try {
+            val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            return cm.activeNetworkInfo != null && cm.activeNetworkInfo!!.isConnected
+        } catch (e: Exception) {
+          return true
+        }
     }
 
     private fun getSpaceBy(isKhmer: Boolean): String {

@@ -94,11 +94,9 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             return
         }
 
-        if (isSmartSettingOpen != isSettingOpen) {
-            isSmartSettingOpen = isSettingOpen
-            updateLogoBtnImage()
-            updateSpellSuggestionView()
-        }
+        isSmartSettingOpen = isSettingOpen
+        updateLogoBtnImage()
+        updateSpellSuggestionView()
 
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(r2Khmer.context)
@@ -277,7 +275,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     private fun isConnected(): Boolean {
-        return true
+        return r2Khmer.isConnected()
     }
 
     private fun checkButtonOptionsVisibility() {
@@ -361,6 +359,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         }
 
         if(!isConnected()) {
+            spellSuggestionManager.setNoConnection()
             Glide.with(r2Khmer.context)
                 .load(R.drawable.btn_base_error_v1)
                 .into(this.smartbarView!!.btnAppLogo)
