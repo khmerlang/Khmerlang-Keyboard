@@ -94,9 +94,11 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             return
         }
 
-        isSmartSettingOpen = isSettingOpen
-        updateLogoBtnImage()
-        updateSpellSuggestionView()
+        if (isSmartSettingOpen != isSettingOpen) {
+            isSmartSettingOpen = isSettingOpen
+            updateLogoBtnImage()
+            updateSpellSuggestionView()
+        }
 
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(r2Khmer.context)
@@ -208,6 +210,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         suggestionJob?.cancel()
         suggestionJob = GlobalScope.launch(Dispatchers.Main) {
             if (!composingText.isNullOrEmpty()) {
+                delay(250)
                 getSuggestion(prevOne, prevTwo, composingText, isStartSen)
                 isCorrection = true
             } else {
