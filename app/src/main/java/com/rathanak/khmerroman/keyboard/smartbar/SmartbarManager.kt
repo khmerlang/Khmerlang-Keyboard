@@ -1,7 +1,9 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -36,7 +38,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     private var viewState: SPELLCHECKER = SPELLCHECKER.NORMAL
     private var isAppToggleChecked: Boolean = false
     private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this, r2Khmer)
-
+    private val connectivityManager: ConnectivityManager = r2Khmer.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     fun createSmartbarView(): LinearLayout {
         val smartbarView = View.inflate(r2Khmer.context, R.layout.smartbar, null) as LinearLayout
         this.smartbarView = smartbarView
@@ -248,7 +250,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     fun performSpellChecking() {
-        if(isSpellSuggestionEnable()) {
+        if(isSpellSuggestionEnable() && isConnected()) {
             spellSuggestionManager.performSpellChecking(r2Khmer.getCurrentText())
         }
     }
@@ -272,6 +274,11 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
                 numberButton.setTextColor(Styles.keyStyle.labelColor)
             }
         }
+    }
+
+    private fun isConnected(): Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo?.isConnected ?: false
     }
 
     private fun checkButtonOptionsVisibility() {
@@ -350,6 +357,13 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             return
         }
 
+        if(!isConnected()) {
+            Glide.with(r2Khmer.context)
+                .load(R.drawable.btn_base_network_error)
+                .into(this.smartbarView!!.btnAppLogo)
+            return
+        }
+
         var currentIcon = when(viewState) {
             SPELLCHECKER.VALIDATION -> {
                 R.drawable.khmerlang_loading
@@ -358,20 +372,18 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
                 R.drawable.btn_base_network_error
             }
             SPELLCHECKER.REACH_LIMIT_ERROR -> {
-                R.drawable.btn_base_react_limit
+                R.drawable.btn_base_network_error
             }
             SPELLCHECKER.TOKEN_INVALID_ERROR -> {
-                R.drawable.btn_base_invalid_token
+                R.drawable.btn_base_network_error
             }
             SPELLCHECKER.SPELLING_ERROR -> {
-                R.drawable.btn_khmerlang_mobile_danger
+                R.drawable.btn_base_network_error
             }
             else -> {
                 R.drawable.ic_btn_khmerlang
             }
         }
-
-        Log.i("koko", "I am called")
 
         Glide.with(r2Khmer.context)
             .load(currentIcon)
