@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -22,7 +23,7 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 
-enum class SPELLCHECKER { NORMAL, TYPING, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, TOKEN_INVALID_ERROR }
+enum class SPELLCHECKER { NORMAL, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, TOKEN_INVALID_ERROR }
 
 class SmartbarManager(private val r2Khmer: R2KhmerService) {
     private var smartbarView: LinearLayout? = null
@@ -43,8 +44,9 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             launchApp()
         }
 
-        this.smartbarView!!.btnAppLogo.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
+        this.smartbarView!!.btnAppLogo.setOnClickListener {
+            isAppToggleChecked = !isAppToggleChecked
+            if (isAppToggleChecked) {
                 toggleBarLayOut(true)
                 this.smartbarView!!.settingsList.visibility = View.GONE
             } else {
@@ -52,7 +54,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
                 toggleBarLayOut(false)
                 this.smartbarView!!.settingsList.visibility = View.VISIBLE
             }
-            isAppToggleChecked = isChecked
+
             updateLogoBtnImage()
             updateSpellSuggestionView()
         }
@@ -133,7 +135,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
         }
 
-        this.smartbarView!!.btnAppLogo.isChecked = show
+        isAppToggleChecked = show
         if(isTyping) {
             return
         }
@@ -252,6 +254,10 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     fun setCurrentViewState(state: SPELLCHECKER) {
+        if(viewState == state) {
+            return
+        }
+
         viewState = state
         updateLogoBtnImage()
     }
@@ -331,21 +337,22 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         }
 
         if (!isAppToggleChecked) {
-            this.smartbarView!!.btnAppLogo.setBackgroundResource(R.drawable.ic_btn_khmerlang_off_v2)
+            Glide.with(r2Khmer.context)
+                .load(R.drawable.ic_btn_khmerlang_off_v2)
+                .into(this.smartbarView!!.btnAppLogo)
             return
         }
 
         if (!isSpellSuggestionEnable()) {
-            this.smartbarView!!.btnAppLogo.setBackgroundResource(R.drawable.ic_btn_khmerlang)
+            Glide.with(r2Khmer.context)
+                .load(R.drawable.ic_btn_khmerlang)
+                .into(this.smartbarView!!.btnAppLogo)
             return
         }
 
         var currentIcon = when(viewState) {
-            SPELLCHECKER.TYPING -> {
-                R.drawable.btn_base_validation
-            }
             SPELLCHECKER.VALIDATION -> {
-                R.drawable.btn_base_validation
+                R.drawable.khmerlang_loading
             }
             SPELLCHECKER.NETWORK_ERROR -> {
                 R.drawable.btn_base_network_error
@@ -364,7 +371,12 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             }
         }
 
-        this.smartbarView!!.btnAppLogo.setBackgroundResource(currentIcon)
+        Log.i("koko", "I am called")
+
+        Glide.with(r2Khmer.context)
+            .load(currentIcon)
+            .error(R.drawable.ic_btn_khmerlang)
+            .into(this.smartbarView!!.btnAppLogo)
     }
 
     private fun updateSpellSuggestionView() {

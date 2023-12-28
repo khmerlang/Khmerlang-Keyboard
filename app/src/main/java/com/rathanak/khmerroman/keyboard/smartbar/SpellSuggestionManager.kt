@@ -74,25 +74,10 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
         }
 
         spellCheckJob?.cancel()
-
         spellSuggestionAdapter?.suggestionsList?.clear()
         spellSuggestionAdapter?.notifyDataSetChanged()
-
-        if (sentence.isEmpty()) {
-            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
-            spellSuggestionAdapter?.suggestionsList?.clear()
-            spellSuggestionAdapter?.notifyDataSetChanged()
-            manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
-            return
-        } else if (sentence.length <= 2) {
-            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
-            spellSuggestionAdapter?.suggestionsList?.clear()
-            spellSuggestionAdapter?.notifyDataSetChanged()
-            manageEmptyList(R.string.spell_suggestion_text_too_short, R.color.colorPrimary)
-            return
-        }
-
         currentSentence = sentence
+
         manageEmptyList(R.string.spell_suggestion_loading, R.color.colorPrimary)
         smartBar.setCurrentViewState(SPELLCHECKER.VALIDATION)
         spellCheckJob = GlobalScope.launch(Dispatchers.Main) {
@@ -135,6 +120,20 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     }
 
     private fun spellChecking(searchText: String) {
+        if (searchText.isEmpty()) {
+            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+            spellSuggestionAdapter?.suggestionsList?.clear()
+            spellSuggestionAdapter?.notifyDataSetChanged()
+            manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
+            return
+        } else if (searchText.length <= 2) {
+            smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+            spellSuggestionAdapter?.suggestionsList?.clear()
+            spellSuggestionAdapter?.notifyDataSetChanged()
+            manageEmptyList(R.string.spell_suggestion_text_too_short, R.color.colorPrimary)
+            return
+        }
+
         val requestBody = SpellCheckRequestDTO(searchText)
         val call = ApiClient.apiService.spellCheckIng(requestBody)
         call.enqueue(object : Callback<SpellCheckRespondDTO> {
