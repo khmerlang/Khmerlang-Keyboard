@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.InputType
+import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
 import android.view.View
@@ -394,6 +395,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
         smartbarManager.setTyping(false)
     }
 
+
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
         val inputConnection = currentInputConnection
 //        if (enableVibration) vibrate()
@@ -730,9 +732,6 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
         ic.endBatchEdit()
-
-        // check after enter
-        smartbarManager.performSpellChecking()
     }
     private fun resetComposingText(notifyInputConnection: Boolean = true) {
         if (notifyInputConnection) {
