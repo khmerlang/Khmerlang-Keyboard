@@ -101,6 +101,14 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
         manageEmptyList(R.string.spell_suggestion_no_internet, R.color.danger)
     }
 
+    fun setShortInputText() {
+        spellCheckJob?.cancel()
+        smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
+        spellSuggestionAdapter?.suggestionsList?.clear()
+        spellSuggestionAdapter?.notifyDataSetChanged()
+        manageEmptyList(R.string.spell_suggestion_text_too_short, R.color.colorPrimary)
+    }
+
     private fun performSpellSelect(typo: String, selected: String) {
         val requestBody = SpellSelectRequestDTO(typo, selected)
         val call = ApiClient.apiService.spellWordSelection(requestBody)

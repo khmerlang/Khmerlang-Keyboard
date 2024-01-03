@@ -248,8 +248,11 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     fun performSpellChecking() {
-        if(isSpellSuggestionEnable() && isConnected()) {
-            spellSuggestionManager.performSpellChecking(r2Khmer.getCurrentText())
+        val inputText = r2Khmer.getCurrentText()
+        if(inputText.length > 2 && isSpellSuggestionEnable() && isConnected()) {
+            spellSuggestionManager.performSpellChecking(inputText)
+        } else {
+            spellSuggestionManager.setShortInputText()
         }
     }
 
