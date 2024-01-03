@@ -29,6 +29,7 @@ import retrofit2.Response
 
 class SpellSuggestionManager(private val smartBar: SmartbarManager, private val r2Khmer: R2KhmerService) {
     private var spellCheckJob: Job? = null
+    private var requestCall: Call<SpellCheckRespondDTO>? = null
     private var currentSentence: String = ""
     var spellSuggestionView: LinearLayout? = null
     private var isDarkMood: Boolean = false
@@ -73,6 +74,7 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
             return
         }
 
+        requestCall?.cancel()
         spellCheckJob?.cancel()
         spellSuggestionAdapter?.suggestionsList?.clear()
         spellSuggestionAdapter?.notifyDataSetChanged()
@@ -81,7 +83,7 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
         manageEmptyList(R.string.spell_suggestion_loading, R.color.colorPrimary)
         smartBar.setCurrentViewState(SPELLCHECKER.VALIDATION)
         spellCheckJob = GlobalScope.launch(Dispatchers.Main) {
-            delay(500)
+            delay(550)
             spellChecking(currentSentence)
         }
     }
@@ -102,6 +104,7 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     }
 
     fun setShortInputText() {
+        requestCall?.cancel()
         spellCheckJob?.cancel()
         smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
         spellSuggestionAdapter?.suggestionsList?.clear()
@@ -132,23 +135,21 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     }
 
     private fun spellChecking(searchText: String) {
+        spellSuggestionAdapter?.suggestionsList?.clear()
+        spellSuggestionAdapter?.notifyDataSetChanged()
         if (searchText.isEmpty()) {
             smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
-            spellSuggestionAdapter?.suggestionsList?.clear()
-            spellSuggestionAdapter?.notifyDataSetChanged()
             manageEmptyList(R.string.spell_suggestion_no_typo, R.color.colorPrimary)
             return
         } else if (searchText.length <= 2) {
             smartBar.setCurrentViewState(SPELLCHECKER.NORMAL)
-            spellSuggestionAdapter?.suggestionsList?.clear()
-            spellSuggestionAdapter?.notifyDataSetChanged()
             manageEmptyList(R.string.spell_suggestion_text_too_short, R.color.colorPrimary)
             return
         }
 
         val requestBody = SpellCheckRequestDTO(searchText)
-        val call = ApiClient.apiService.spellCheckIng(requestBody)
-        call.enqueue(object : Callback<SpellCheckRespondDTO> {
+        requestCall = ApiClient.apiService.spellCheckIng(requestBody)
+        requestCall!!.enqueue(object : Callback<SpellCheckRespondDTO> {
             override fun onResponse(call: Call<SpellCheckRespondDTO>, response: Response<SpellCheckRespondDTO>) {
                 if (response.isSuccessful) {
                     // Handle the retrieved spell check data
