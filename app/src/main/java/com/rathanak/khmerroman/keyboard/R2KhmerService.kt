@@ -730,6 +730,9 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
         }
         ic.endBatchEdit()
+
+        // check after enter
+        smartbarManager.performSpellChecking()
     }
     private fun resetComposingText(notifyInputConnection: Boolean = true) {
         if (notifyInputConnection) {
