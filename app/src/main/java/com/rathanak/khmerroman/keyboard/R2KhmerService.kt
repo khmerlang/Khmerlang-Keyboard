@@ -713,13 +713,23 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             )
         } else {
             when (action and EditorInfo.IME_MASK_ACTION) {
-                EditorInfo.IME_ACTION_DONE,
-                EditorInfo.IME_ACTION_GO,
-                EditorInfo.IME_ACTION_NEXT,
-                EditorInfo.IME_ACTION_PREVIOUS,
-                EditorInfo.IME_ACTION_SEARCH,
+                EditorInfo.IME_ACTION_DONE -> {
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_DONE)
+                }
+                EditorInfo.IME_ACTION_GO -> {
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+                }
+                EditorInfo.IME_ACTION_NEXT -> {
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_NEXT)
+                }
+                EditorInfo.IME_ACTION_PREVIOUS -> {
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_PREVIOUS)
+                }
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_SEARCH)
+                }
                 EditorInfo.IME_ACTION_SEND -> {
-                    currentInputConnection.performEditorAction(action)
+                    currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_SEND)
                 }
                 else -> {
                     currentInputConnection.sendKeyEvent(
