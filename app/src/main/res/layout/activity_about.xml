@@ -97,7 +97,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="fill"
-                            android:text="sreangrathanak@yahoo.com"
+                            android:text="admin@khmerlang.com"
                             android:drawablePadding="5dp"
                             android:textSize="12sp"
                             android:drawableLeft="@drawable/ic_baseline_email_24"

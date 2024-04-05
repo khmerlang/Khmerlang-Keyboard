@@ -30,7 +30,20 @@
     <color name="coloDisable">#cccccc</color>
     <color name="colorDisableAccent">#cccccc</color>
 
+    <color name="primary">#7e2cda</color>
+    <color name="suggestion">#7e2cda</color>
+    <color name="improvement">#7e2cda</color>
+    <color name="reforming">#7e2cda</color>
+    <color name="refactoring">#7e2cda</color>
+    <color name="secondary">#6c757d</color>
+    <color name="success">#198754</color>
+    <color name="error">#dc3545</color>
+    <color name="typo">#dc3545</color>
     <color name="danger">#dc3545</color>
+    <color name="warning">#ff8f00</color>
+    <color name="recommend">#ff8f00</color>
+    <color name="grammar">#ff8f00</color>
+    <color name="info">#0dcaf0</color>
 
     <!--Default colors-->
     <!--Keyboard-->
