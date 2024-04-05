@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.keyboard.R2KhmerService
+import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.request.SpellCheckResultDTO
 
 class SpellSuggestionAdapter(private val smartSpell: SpellSuggestionManager, private val context: Context, var suggestionsList: java.util.ArrayList<SpellCheckResultDTO>) : BaseAdapter() {
@@ -37,7 +38,10 @@ class SpellSuggestionAdapter(private val smartSpell: SpellSuggestionManager, pri
         convertView = LayoutInflater.from(context).inflate(R.layout.spell_suggestion_item, parent, false)
         val serialNum = convertView.findViewById(R.id.typoText) as TextView
         val typoWord = suggestionsList[position].word
+        val type  = suggestionsList[position].type
         serialNum.text = typoWord
+        serialNum.setTextColor(context.resources.getColor(R.color.suggestion))
+
 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
         btnSpellItemClose.setOnClickListener {
