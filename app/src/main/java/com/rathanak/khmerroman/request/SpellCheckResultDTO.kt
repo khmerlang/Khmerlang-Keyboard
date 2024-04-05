@@ -12,7 +12,9 @@ data class SpellCheckResultDTO(
     @SerializedName("suggestions")
     val suggestions: Array<String>,
     @SerializedName("scores")
-    val scores: Array<Float>
+    val scores: Array<Float>,
+    @SerializedName("type")
+    val type: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
