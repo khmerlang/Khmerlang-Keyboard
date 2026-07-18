@@ -3,7 +3,6 @@ package com.rathanak.khmerroman.view.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,15 +11,14 @@ import androidx.fragment.app.DialogFragment
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.DataLoader
 import com.rathanak.khmerroman.data.Ngram
+import com.rathanak.khmerroman.databinding.RomanDialogBinding
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import kotlinx.android.synthetic.main.roman_dialog.*
-import kotlinx.android.synthetic.main.roman_dialog.view.*
 
 class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, val appCon: Context) : DialogFragment() {
     private var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-    private lateinit var rkDialogView: View
+    private lateinit var binding: RomanDialogBinding
     private var isValid: Boolean = false
 
     private fun createRecord(keyword: String, roman: String) {
@@ -47,27 +45,27 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            rkDialogView = inflater.inflate(R.layout.roman_dialog, null)
-            rkDialogView.edit_khmer.setText(txtKhmer)
-            rkDialogView.edit_roman.setText(txtRoman)
-            builder.setView(rkDialogView)
+            binding = RomanDialogBinding.inflate(inflater)
+            binding.editKhmer.setText(txtKhmer)
+            binding.editRoman.setText(txtRoman)
+            builder.setView(binding.root)
             isValid = false
-            rkDialogView.edit_khmer.addTextChangedListener {
+            binding.editKhmer.addTextChangedListener {
                 validateKhmer()
             }
-            rkDialogView.edit_roman.addTextChangedListener {
+            binding.editRoman.addTextChangedListener {
                 validateRoman()
             }
 
-            rkDialogView.btnSubmit.setOnClickListener {
+            binding.btnSubmit.setOnClickListener {
                 if (isValid) {
-                    var keyword = rkDialogView.edit_khmer.text.toString()
-                    var roman = rkDialogView.edit_roman.text.toString()
+                    var keyword = binding.editKhmer.text.toString()
+                    var roman = binding.editRoman.text.toString()
                     createRecord(keyword, roman)
                     dismiss()
                 }
             }
-            rkDialogView.btnCancel.setOnClickListener {
+            binding.btnCancel.setOnClickListener {
                 dismiss()
             }
             var dialog = builder.create()
@@ -87,41 +85,41 @@ class RomanDialog(var txtKhmer: String, var txtRoman: String, var count: Int, va
     }
 
     private fun validateKhmer() {
-        val khmerText = rkDialogView.edit_khmer.text.toString()
+        val khmerText = binding.editKhmer.text.toString()
         if (khmerText.isEmpty()) {
-            rkDialogView.error_edit_khmer_msg.setText(R.string.error_must_not_empty)
+            binding.errorEditKhmerMsg.setText(R.string.error_must_not_empty)
         } else if (!iskHLetters(khmerText)) {
-            rkDialogView.error_edit_khmer_msg.setText(R.string.error_must_khmer)
+            binding.errorEditKhmerMsg.setText(R.string.error_must_khmer)
         } else {
-            rkDialogView.error_edit_khmer_msg.text = ""
+            binding.errorEditKhmerMsg.text = ""
         }
 
         validateButtonSubmit()
     }
 
     private fun validateRoman() {
-        val romanText = rkDialogView.edit_roman.text.toString()
+        val romanText = binding.editRoman.text.toString()
         if (romanText.isEmpty()) {
-            rkDialogView.error_edit_roman_msg.setText(R.string.error_must_not_empty)
+            binding.errorEditRomanMsg.setText(R.string.error_must_not_empty)
         } else if (!isENLetters(romanText)) {
-            rkDialogView.error_edit_roman_msg.setText(R.string.error_must_roman)
+            binding.errorEditRomanMsg.setText(R.string.error_must_roman)
         } else {
-            rkDialogView.error_edit_roman_msg.text = ""
+            binding.errorEditRomanMsg.text = ""
         }
 
         validateButtonSubmit()
     }
 
     private fun validateButtonSubmit() {
-        val khmerText = rkDialogView.edit_khmer.text.toString()
-        val romanText = rkDialogView.edit_roman.text.toString()
-        val romanError = rkDialogView.error_edit_roman_msg.text
-        val khmerError = rkDialogView.error_edit_khmer_msg.text
+        val khmerText = binding.editKhmer.text.toString()
+        val romanText = binding.editRoman.text.toString()
+        val romanError = binding.errorEditRomanMsg.text
+        val khmerError = binding.errorEditKhmerMsg.text
         isValid = (khmerText.isNotEmpty() && romanText.isNotEmpty()) && (romanError.isEmpty() && khmerError.isEmpty())
         if (isValid) {
-            rkDialogView.btnSubmit.setBackgroundResource(R.drawable.button)
+            binding.btnSubmit.setBackgroundResource(R.drawable.button)
         } else {
-            rkDialogView.btnSubmit.setBackgroundResource(R.drawable.button_disable)
+            binding.btnSubmit.setBackgroundResource(R.drawable.button_disable)
         }
     }
 }

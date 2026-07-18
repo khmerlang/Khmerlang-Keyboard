@@ -14,29 +14,30 @@ import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.databinding.ActivityRomanMappingBinding
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.serializable.NgramRecordSerializable
 import com.rathanak.khmerroman.utils.DownloadData
-import kotlinx.android.synthetic.main.activity_roman_mapping.*
-import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.io.ObjectInputStream
 
 class RomanMapping : AppCompatActivity() {
+    private lateinit var binding: ActivityRomanMappingBinding
     private var rAdapter: RomanItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_roman_mapping)
+        binding = ActivityRomanMappingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        rvRomanList.layoutManager = LinearLayoutManager(this)
+        binding.rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(false, applicationContext)
-        rvRomanList.adapter = rAdapter
+        binding.rvRomanList.adapter = rAdapter
 
-        btnDownloadData.setOnClickListener {
+        binding.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
-            downloadingData.visibility = View.VISIBLE
+            binding.downloadingData.visibility = View.VISIBLE
             R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
             R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
             val download = DownloadData()
@@ -87,7 +88,7 @@ class RomanMapping : AppCompatActivity() {
         if (R2KhmerService.jobLoadData != null) {
             R2KhmerService.jobLoadData!!.invokeOnCompletion {
                 updateVisibility()
-                rvRomanList.adapter?.notifyDataSetChanged()
+                binding.rvRomanList.adapter?.notifyDataSetChanged()
                 if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
                     R2KhmerService.downloadDataStatus = R2KhmerService.downloadDataPrevStatus
                     KhmerLangApp.preferences?.putInt(KeyboardPreferences.KEY_DATA_STATUS, R2KhmerService.downloadDataPrevStatus)
@@ -97,23 +98,23 @@ class RomanMapping : AppCompatActivity() {
     }
 
     private fun updateVisibility() {
-        btnDownloadData!!.visibility = View.GONE
-        downloadingData!!.visibility = View.GONE
-        rvRomanList!!.visibility = View.GONE
+        binding.btnDownloadData.visibility = View.GONE
+        binding.downloadingData.visibility = View.GONE
+        binding.rvRomanList.visibility = View.GONE
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(applicationContext)
                 .load(R.drawable.banner_download_data)
-                .into(btnDownloadData)
-            btnDownloadData.visibility = View.VISIBLE
+                .into(binding.btnDownloadData)
+            binding.btnDownloadData.visibility = View.VISIBLE
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
             Glide.with(applicationContext)
                 .load(R.drawable.banner_download_data_fail)
-                .into(btnDownloadData)
-            btnDownloadData.visibility = View.VISIBLE
+                .into(binding.btnDownloadData)
+            binding.btnDownloadData.visibility = View.VISIBLE
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
-            downloadingData!!.visibility = View.VISIBLE
+            binding.downloadingData.visibility = View.VISIBLE
         } else {
-            rvRomanList!!.visibility = View.VISIBLE
+            binding.rvRomanList.visibility = View.VISIBLE
         }
     }
 }

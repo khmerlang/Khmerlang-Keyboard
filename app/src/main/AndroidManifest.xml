@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rathanak.khmerroman">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,17 +15,17 @@
             android:name=".view.ProfileSettingsActivity"
             android:screenOrientation="fullSensor"
             android:label="@string/title_activity_profile_settings"
-            android:exported="true"></activity>
+            android:exported="false"></activity>
         <activity android:name=".view.CustomMapping"
             android:screenOrientation="fullSensor"
             android:label="@string/title_activity_custom_mapping"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity android:name=".view.RomanMapping"
             android:screenOrientation="fullSensor"
             android:label="@string/title_activity_roman_mapping"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
-            android:exported="true"
+            android:exported="false"
             android:name=".view.About"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

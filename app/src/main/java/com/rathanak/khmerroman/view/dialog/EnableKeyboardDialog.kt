@@ -7,20 +7,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.DialogFragment
-import com.rathanak.khmerroman.R
-import kotlinx.android.synthetic.main.enable_keyboard_dialog.view.*
+import com.rathanak.khmerroman.databinding.EnableKeyboardDialogBinding
 
 class EnableKeyboardDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val rkDialogView = inflater.inflate(R.layout.enable_keyboard_dialog, null)
-            rkDialogView.btn_ok.setOnClickListener {
+            val binding = EnableKeyboardDialogBinding.inflate(inflater)
+            binding.btnOk.setOnClickListener {
                 dismiss()
                 startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
             }
-            builder.setView(rkDialogView)
+            builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

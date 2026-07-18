@@ -8,13 +8,13 @@ import android.os.Handler
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.databinding.ActivityMainBinding
 import com.rathanak.khmerroman.view.dialog.EnableKeyboardDialog
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var preferences: KeyboardPreferences
     private var enabledKeyboard: Boolean = false
 
@@ -22,33 +22,34 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         preferences = KeyboardPreferences(applicationContext)
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnSetting.setOnClickListener {
+        binding.btnSetting.setOnClickListener {
             // Open my account activity
             val intent = Intent(this, ProfileSettingsActivity::class.java)
             startActivity(intent)
         }
-        btnCustomRoman.setOnClickListener {
+        binding.btnCustomRoman.setOnClickListener {
             // Open Custom Roman mapping fragment
             val intent = Intent(this, CustomMapping::class.java)
             startActivity(intent)
         }
-        btnRoman.setOnClickListener {
+        binding.btnRoman.setOnClickListener {
             // Open roman mapping fragment
             val intent = Intent(this, RomanMapping::class.java)
             startActivity(intent)
         }
-        btnAbout.setOnClickListener {
+        binding.btnAbout.setOnClickListener {
             // Open about fragment
             val intent = Intent(this, About::class.java)
             startActivity(intent)
         }
-        btnClose.setOnClickListener {
+        binding.btnClose.setOnClickListener {
             moveTaskToBack(true)
             finish()
         }
-        txtKhmerlang.setOnClickListener {
+        binding.txtKhmerlang.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.khmerlang.com"))
             startActivity(intent)
         }

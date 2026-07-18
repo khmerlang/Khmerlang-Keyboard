@@ -2,22 +2,20 @@ package com.rathanak.khmerroman.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.Ngram
+import com.rathanak.khmerroman.databinding.RomanItemBinding
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.Sort
-import kotlinx.android.synthetic.main.roman_item.view.*
 import kotlinx.coroutines.*
 
 class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): RecyclerView.Adapter<RomanItemAdapter.ContactViewHolder>(), Filterable {
@@ -26,15 +24,15 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
     init {
         romanItemsList = buildQuery()
     }
-    class ContactViewHolder (val view : View) : RecyclerView.ViewHolder(view)
+    class ContactViewHolder (val binding : RomanItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.roman_item, parent, false)
+        val binding = RomanItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         if (!isCustom) {
-            view.btnDelete.visibility = GONE
+            binding.btnDelete.visibility = GONE
         }
 
-        return ContactViewHolder(view)
+        return ContactViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -43,9 +41,9 @@ class RomanItemAdapter(var isCustom: Boolean, private val appContext: Context): 
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         val item = romanItemsList[position]
-        holder.view.txtRoman.text = item?.other
-        holder.view.txtKhmer.text = item?.keyword
-        holder.view.btnDelete.setOnClickListener {
+        holder.binding.txtRoman.text = item?.other
+        holder.binding.txtKhmer.text = item?.keyword
+        holder.binding.btnDelete.setOnClickListener {
             Toast.makeText(appContext,item?.keyword + ":" + item?.other + " deleted", Toast.LENGTH_LONG).show()
 
                 var result = realm.where(Ngram::class.java)

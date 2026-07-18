@@ -106,7 +106,7 @@ class SpellCorrector {
                 }
         }
 
-        return result.distinctBy { it.toLowerCase() }
+        return result.distinctBy { it.lowercase() }
     }
 
     fun correct(realm: Realm, prevOne: String, prevTwo: String, misspelling: String, isStartSen: Boolean): List<String> {
@@ -197,14 +197,14 @@ class SpellCorrector {
         model.getSpellSuggestion(model.root!!, misspelling.decapitalize(), tolerance).forEach { it ->
             val distance = it.distance
             if(isOther) {
-                it.other.toLowerCase().split("_").forEach { it2 ->
+                it.other.lowercase().split("_").forEach { it2 ->
                     candidatesList.add(Candidate(it2, 0.0, distance))
                     query = query.or().equalTo("keyword", it2)
                     query = query.or().equalTo("keyword", "$tokenTwo $it2")
                     query = query.or().equalTo("keyword", "$tokenOne $tokenTwo $it2")
                 }
             } else {
-                val word = it.word.toLowerCase()
+                val word = it.word.lowercase()
                 candidatesList.add(Candidate(word, 0.0, distance))
                 query = query.or().equalTo("keyword", word)
                 query = query.or().equalTo("keyword", "$tokenTwo $word")
@@ -250,6 +250,6 @@ class SpellCorrector {
         }
 
         candidatesList.sortByDescending { it.score }
-        return candidatesList.map { it.keyword }.distinctBy { it.toLowerCase() }.take(10)
+        return candidatesList.map { it.keyword }.distinctBy { it.lowercase() }.take(10)
     }
 }

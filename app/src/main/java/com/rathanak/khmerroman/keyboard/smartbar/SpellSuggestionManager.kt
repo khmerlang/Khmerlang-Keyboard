@@ -1,10 +1,10 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
 import android.util.Log
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.core.graphics.drawable.DrawableCompat
 import com.rathanak.khmerroman.R
+import com.rathanak.khmerroman.databinding.SpellSuggestionBinding
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.request.ApiClient
@@ -13,11 +13,6 @@ import com.rathanak.khmerroman.request.SpellCheckRespondDTO
 import com.rathanak.khmerroman.request.SpellCheckResultDTO
 import com.rathanak.khmerroman.request.SpellSelectRequestDTO
 import com.rathanak.khmerroman.request.SpellSelectRespondDTO
-import kotlinx.android.synthetic.main.smartbar.view.btnOpenApp
-import kotlinx.android.synthetic.main.smartbar.view.smartbar
-import kotlinx.android.synthetic.main.spell_suggestion.view.spellSuggestionList
-import kotlinx.android.synthetic.main.spell_suggestion.view.noDataText
-import kotlinx.android.synthetic.main.spell_suggestion.view.smartSpellSuggestion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -31,40 +26,35 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     private var spellCheckJob: Job? = null
     private var requestCall: Call<SpellCheckRespondDTO>? = null
     private var currentSentence: String = ""
-    var spellSuggestionView: LinearLayout? = null
+    private var binding: SpellSuggestionBinding? = null
+    val spellSuggestionView: LinearLayout?
+        get() = binding?.root
     private var isDarkMood: Boolean = false
     var spellSuggestionAdapter: SpellSuggestionAdapter? = null
     private var spellSuggestionItems: ArrayList<SpellCheckResultDTO> = ArrayList<SpellCheckResultDTO>()
     fun createSpellSuggestionView(): LinearLayout {
-        var spellSuggestionView = View.inflate(r2Khmer.context, R.layout.spell_suggestion, null) as LinearLayout
-        this.spellSuggestionView = spellSuggestionView
-        val listSuggestionView = spellSuggestionView.spellSuggestionList
+        val binding = SpellSuggestionBinding.inflate(LayoutInflater.from(r2Khmer.context))
+        this.binding = binding
+        val listSuggestionView = binding.spellSuggestionList
         spellSuggestionAdapter = SpellSuggestionAdapter(this, r2Khmer.context, spellSuggestionItems)
         listSuggestionView.adapter = spellSuggestionAdapter
-        listSuggestionView.emptyView = spellSuggestionView.noDataText
+        listSuggestionView.emptyView = binding.noDataText
 
 
         updateByMood()
-        return spellSuggestionView
+        return binding.root
     }
 
     fun setDarkMood(darkMood: Boolean) {
         isDarkMood = darkMood
-        if (this.spellSuggestionView != null) {
+        if (this.binding != null) {
             updateByMood()
         }
     }
 
     private fun updateByMood() {
-        this.spellSuggestionView!!.smartSpellSuggestion.setBackgroundColor(Styles.keyStyle.normalBackgroundColor)
-        this.spellSuggestionView!!.spellSuggestionList.setBackgroundColor(Styles.keyStyle.normalBackgroundColor)
-//        DrawableCompat.setTint(this.spellSuggestionView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
-//        for (numberButton in this.spellSuggestionView!!.numbersList.children) {
-//            if (numberButton is Button) {
-//                DrawableCompat.setTint(numberButton.background, Styles.keyStyle.normalBackgroundColor)
-//                numberButton.setTextColor(Styles.keyStyle.labelColor)
-//            }
-//        }
+        this.binding!!.smartSpellSuggestion.setBackgroundColor(Styles.keyStyle.normalBackgroundColor)
+        this.binding!!.spellSuggestionList.setBackgroundColor(Styles.keyStyle.normalBackgroundColor)
     }
     fun destroy() {
     }
@@ -130,8 +120,8 @@ class SpellSuggestionManager(private val smartBar: SmartbarManager, private val 
     }
 
     private fun manageEmptyList(emptyMessageID: Int, colorId: Int) {
-        spellSuggestionView?.noDataText?.setText(emptyMessageID)
-        spellSuggestionView?.noDataText?.setTextColor(r2Khmer.getColorInt(colorId))
+        binding?.noDataText?.setText(emptyMessageID)
+        binding?.noDataText?.setTextColor(r2Khmer.getColorInt(colorId))
     }
 
     private fun spellChecking(searchText: String) {

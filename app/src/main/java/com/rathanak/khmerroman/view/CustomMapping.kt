@@ -12,21 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.adapter.DebouncingQueryTextListener
 import com.rathanak.khmerroman.adapter.RomanItemAdapter
+import com.rathanak.khmerroman.databinding.ActivityCustomMappingBinding
 import com.rathanak.khmerroman.view.dialog.RomanDialog
-import kotlinx.android.synthetic.main.activity_custom_mapping.*
-import kotlinx.android.synthetic.main.activity_roman_mapping.*
-import kotlinx.android.synthetic.main.activity_roman_mapping.rvRomanList
 
 class CustomMapping : AppCompatActivity() {
+    private lateinit var binding: ActivityCustomMappingBinding
     private var rAdapter: RomanItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_custom_mapping)
+        binding = ActivityCustomMappingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        rvRomanList.layoutManager = LinearLayoutManager(this)
+        binding.rvRomanList.layoutManager = LinearLayoutManager(this)
         rAdapter = RomanItemAdapter(true, applicationContext)
-        rvRomanList.adapter = rAdapter
+        binding.rvRomanList.adapter = rAdapter
 
 //        btnUploadData.setOnClickListener {
 //            btnUploadData.visibility = View.GONE

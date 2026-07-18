@@ -4,44 +4,43 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import com.rathanak.khmerroman.R
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.txtKhmerlang
+import com.rathanak.khmerroman.databinding.ActivityAboutBinding
 
 class About : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAboutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             // Go back
             super.onBackPressed()
         }
 
-        btnEmail.setOnClickListener {
+        binding.btnEmail.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:sreangrathanak@yahoo.com"))
             startActivity(intent)
         }
 
-        btnFb.setOnClickListener {
+        binding.btnFb.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://web.facebook.com/khmerlang.official"))
             startActivity(intent)
         }
 
-        btnGithub.setOnClickListener {
+        binding.btnGithub.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/khmerlang"))
             startActivity(intent)
         }
 
-        btnWeb.setOnClickListener {
+        binding.btnWeb.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.khmerlang.com"))
             startActivity(intent)
         }
 
-        txtKhmerlang.setOnClickListener {
+        binding.txtKhmerlang.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.khmerlang.com"))
             startActivity(intent)
         }
