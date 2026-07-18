@@ -26,10 +26,20 @@ android {
         applicationId "com.rathanak.khmerroman"
         minSdkVersion 21
         targetSdk = 36
-        versionCode 8
+        versionCode 10
         versionName '6.3'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // x86_64's bundled libtensorflowlite_jni.so isn't 16 KB-page aligned (an unresolved
+        // upstream TensorFlow Lite issue, still present as of their latest 2.17.0 release) and
+        // Play Console rejects it. Play policy also requires shipping x86_64 wherever x86 is
+        // shipped, so dropping just one isn't an option - dropping the whole x86 family is the
+        // only fix available today. Real-world impact is negligible: x86/x86_64 Android devices
+        // are almost entirely emulators, not phones this app's users would be on.
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
     }
 
     signingConfigs {
