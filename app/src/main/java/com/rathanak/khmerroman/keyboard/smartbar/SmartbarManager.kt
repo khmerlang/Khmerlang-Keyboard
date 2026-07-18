@@ -3,6 +3,7 @@ package com.rathanak.khmerroman.keyboard.smartbar
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.util.Log
@@ -11,24 +12,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import android.view.LayoutInflater
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.children
 import com.bumptech.glide.Glide
 import com.rathanak.khmerroman.R
 import com.rathanak.khmerroman.data.KeyboardPreferences
+import com.rathanak.khmerroman.databinding.SmartbarBinding
 import com.rathanak.khmerroman.keyboard.R2KhmerService
 import com.rathanak.khmerroman.keyboard.common.KeyData
 import com.rathanak.khmerroman.keyboard.common.Styles
 import com.rathanak.khmerroman.utils.DownloadData
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import kotlinx.android.synthetic.main.smartbar.view.*
 import kotlinx.coroutines.*
 
 enum class SPELLCHECKER { NORMAL, VALIDATION, SPELLING_ERROR, NETWORK_ERROR, REACH_LIMIT_ERROR, TOKEN_INVALID_ERROR }
 
 class SmartbarManager(private val r2Khmer: R2KhmerService) {
-    private var smartbarView: LinearLayout? = null
+    private var binding: SmartbarBinding? = null
     private var isComposingEnabled: Boolean = false
     private var isDarkMood: Boolean = false
     private var isTyping: Boolean = false
@@ -39,20 +41,20 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     private var isSmartSettingOpen: Boolean = false
     private val spellSuggestionManager: SpellSuggestionManager = SpellSuggestionManager(this, r2Khmer)
     fun createSmartbarView(): LinearLayout {
-        val smartbarView = View.inflate(r2Khmer.context, R.layout.smartbar, null) as LinearLayout
-        this.smartbarView = smartbarView
-        this.smartbarView!!.btnOpenApp.setOnClickListener {
+        val binding = SmartbarBinding.inflate(LayoutInflater.from(r2Khmer.context))
+        this.binding = binding
+        binding.btnOpenApp.setOnClickListener {
             launchApp()
         }
 
-        this.smartbarView!!.btnAppLogo.setOnClickListener {
+        binding.btnAppLogo.setOnClickListener {
             isSmartSettingOpen = !isSmartSettingOpen
             checkButtonOptionsVisibility()
             updateSmartBarView(isSmartSettingOpen)
         }
-        this.smartbarView!!.btnDownloadData.setOnClickListener {
+        binding.btnDownloadData.setOnClickListener {
             it.visibility = View.GONE
-            this.smartbarView!!.downloadingData.visibility = View.VISIBLE
+            binding.downloadingData.visibility = View.VISIBLE
             R2KhmerService.downloadDataPrevStatus = R2KhmerService.downloadDataStatus
             R2KhmerService.downloadDataStatus = KeyboardPreferences.STATUS_DOWNLOADING
             val download = DownloadData()
@@ -60,7 +62,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             listenJobDone()
         }
 
-        this.smartbarView!!.bannerImage.setOnClickListener {
+        binding.bannerImage.setOnClickListener {
             if(r2Khmer.bannerTargetUrl != "") {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(r2Khmer.bannerTargetUrl))
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -74,7 +76,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         updateByMood()
         listenJobDone()
 
-        return smartbarView
+        return binding.root
     }
 
     fun createSpellSuggestionView(): LinearLayout {
@@ -84,13 +86,13 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     fun setDarkMood(darkMood: Boolean) {
         isDarkMood = darkMood
         spellSuggestionManager.setDarkMood(isDarkMood)
-        if (this.smartbarView != null) {
+        if (this.binding != null) {
             updateByMood()
         }
     }
 
     fun updateSmartBarView(isSettingOpen: Boolean) {
-        if (this.smartbarView == null) {
+        if (this.binding == null) {
             return
         }
 
@@ -101,64 +103,64 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_NONE) {
             Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_download_data)
-                .into(this.smartbarView!!.btnDownloadData)
+                .into(this.binding!!.btnDownloadData)
 
-            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
-            this.smartbarView!!.downloadingData.visibility = View.GONE
-            this.smartbarView!!.btnDownloadData.visibility = View.VISIBLE
+            this.binding!!.noDataContainer!!.visibility = View.VISIBLE
+            this.binding!!.hasDataContainer!!.visibility = View.GONE
+            this.binding!!.downloadingData.visibility = View.GONE
+            this.binding!!.btnDownloadData.visibility = View.VISIBLE
 
             return
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOAD_FAIL) {
             Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_download_data_fail)
-                .into(this.smartbarView!!.btnDownloadData)
+                .into(this.binding!!.btnDownloadData)
 
-            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
-            this.smartbarView!!.downloadingData.visibility = View.GONE
-            this.smartbarView!!.btnDownloadData.visibility = View.VISIBLE
+            this.binding!!.noDataContainer!!.visibility = View.VISIBLE
+            this.binding!!.hasDataContainer!!.visibility = View.GONE
+            this.binding!!.downloadingData.visibility = View.GONE
+            this.binding!!.btnDownloadData.visibility = View.VISIBLE
 
             return
         } else if (R2KhmerService.downloadDataStatus == KeyboardPreferences.STATUS_DOWNLOADING) {
-            this.smartbarView!!.noDataContainer!!.visibility = View.VISIBLE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.GONE
-            this.smartbarView!!.downloadingData.visibility = View.VISIBLE
-            this.smartbarView!!.btnDownloadData.visibility = View.GONE
+            this.binding!!.noDataContainer!!.visibility = View.VISIBLE
+            this.binding!!.hasDataContainer!!.visibility = View.GONE
+            this.binding!!.downloadingData.visibility = View.VISIBLE
+            this.binding!!.btnDownloadData.visibility = View.GONE
 
             return
         } else {
-            this.smartbarView!!.noDataContainer!!.visibility = View.GONE
-            this.smartbarView!!.hasDataContainer!!.visibility = View.VISIBLE
+            this.binding!!.noDataContainer!!.visibility = View.GONE
+            this.binding!!.hasDataContainer!!.visibility = View.VISIBLE
         }
 
         if(isTyping) {
             return
         }
 
-        var suggestionCount = this.smartbarView!!.candidatesList.childCount
+        var suggestionCount = this.binding!!.candidatesList.childCount
 
-        this.smartbarView!!.settingsList.visibility = View.GONE
-        this.smartbarView!!.bannerContainer!!.visibility = View.GONE
-        this.smartbarView!!.candidatesContainer.visibility = View.GONE
-        this.smartbarView!!.numbersList!!.visibility = View.GONE
+        this.binding!!.settingsList.visibility = View.GONE
+        this.binding!!.bannerContainer!!.visibility = View.GONE
+        this.binding!!.candidatesContainer.visibility = View.GONE
+        this.binding!!.numbersList!!.visibility = View.GONE
 
         if (isSmartSettingOpen) {
-            this.smartbarView!!.settingsList.visibility = View.VISIBLE
+            this.binding!!.settingsList.visibility = View.VISIBLE
         } else {
             if (r2Khmer.currentInputPassword) {
-                this.smartbarView!!.numbersList!!.visibility = View.VISIBLE
+                this.binding!!.numbersList!!.visibility = View.VISIBLE
             } else if (suggestionCount > 0) {
-                this.smartbarView!!.candidatesContainer.visibility = View.VISIBLE
+                this.binding!!.candidatesContainer.visibility = View.VISIBLE
             } else {
-                this.smartbarView!!.bannerContainer!!.visibility = View.VISIBLE
+                this.binding!!.bannerContainer!!.visibility = View.VISIBLE
             }
             // else if has text for suggestion show suggestion
         }
     }
 
     fun setBannerImage(bannerID: String) {
-        if (this.smartbarView == null) {
+        if (this.binding == null) {
             return
         }
 
@@ -166,12 +168,12 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             Glide.with(r2Khmer.context)
                 .load(bannerID)
                 .error(R.drawable.banner_default_animate)
-                .into(this.smartbarView!!.bannerImage)
+                .into(this.binding!!.bannerImage)
         } else {
             Glide.with(r2Khmer.context)
                 .load(R.drawable.banner_default_animate)
                 .error(R.drawable.banner_default_animate)
-                .into(this.smartbarView!!.bannerImage)
+                .into(this.binding!!.bannerImage)
         }
     }
 
@@ -186,17 +188,23 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     fun resetSuggestionResult() {
-        if (this.smartbarView == null) {
+        if (this.binding == null) {
             return
         }
 
         result = emptyList()
-        this.smartbarView!!.candidatesList.removeAllViews()
+        this.binding!!.candidatesList.removeAllViews()
         updateSmartBarView(false)
     }
 
+    // generateCandidatesFromComposing is called both directly (e.g. from commitCandidate) and
+    // indirectly, asynchronously, whenever the input connection reports a text change - so calls
+    // can genuinely overlap. This generation counter, checked right before result/isCorrection are
+    // published, ensures a slower/superseded call can never clobber a newer one's outcome.
+    private var candidateRequestGeneration = 0
+
     fun generateCandidatesFromComposing(prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
-        if (this.smartbarView == null) {
+        if (this.binding == null) {
             return
         }
 
@@ -204,38 +212,71 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             return
         }
 
-        isCorrection = true
+        val myGeneration = ++candidateRequestGeneration
         suggestionJob?.cancel()
         suggestionJob = GlobalScope.launch(Dispatchers.Main) {
+            val newResult: List<String>
+            val newIsCorrection: Boolean
             if (!composingText.isNullOrEmpty()) {
                 delay(250)
-                getSuggestion(prevOne, prevTwo, composingText, isStartSen)
-                isCorrection = true
+                newResult = getSuggestion(prevOne, prevTwo, composingText, isStartSen)
+                newIsCorrection = true
+            } else if (isStartSen) {
+                newResult = emptyList()
+                newIsCorrection = true
             } else {
-                if(isStartSen) {
-                    result = emptyList()
-                } else {
-                    isCorrection = false
-                    getSuggestionNext(prevOne, prevTwo)
-                }
+                newResult = getSuggestionNext(prevOne, prevTwo)
+                newIsCorrection = false
             }
+
+            if (myGeneration != candidateRequestGeneration) {
+                return@launch // A newer keystroke has already superseded this request.
+            }
+            result = newResult
+            isCorrection = newIsCorrection
+            renderCandidates()
         }
-        suggestionJob!!.invokeOnCompletion {
-            this.smartbarView!!.candidatesList.removeAllViews()
-            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            if (result.isNotEmpty()) for(word in result) {
-                val btnSuggestion = Button(r2Khmer.context)
-                btnSuggestion.layoutParams =layoutParams
-                btnSuggestion.text = word.toString()
-                btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
+    }
+
+    private fun renderCandidates() {
+        this.binding!!.candidatesList.removeAllViews()
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        if (result.isNotEmpty()) result.forEachIndexed { index, word ->
+            val btnSuggestion = Button(r2Khmer.context)
+            btnSuggestion.layoutParams =layoutParams
+            btnSuggestion.text = word.toString()
+            btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
+            if (index == 0 && isCorrection) {
+                // This is the candidate that pressing space will commit (see
+                // hasCandidateToSelect/selectHighlightedCandidate), highlighted the way a
+                // Pinyin-style IME highlights the word space will confirm.
+                btnSuggestion.background = GradientDrawable().apply {
+                    cornerRadius = 12F
+                    setColor(Styles.keyStyle.pressedBackgroundColor)
+                }
+            } else {
                 btnSuggestion.setBackgroundColor(Color.TRANSPARENT)
-                this.smartbarView!!.candidatesList.addView(btnSuggestion)
-                btnSuggestion.setOnClickListener(candidateViewOnClickListener)
-                btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
-                btnSuggestion.setPadding(10,1,10,1)
             }
-            this.smartbarView!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
-            updateSmartBarView(false)
+            this.binding!!.candidatesList.addView(btnSuggestion)
+            btnSuggestion.setOnClickListener(candidateViewOnClickListener)
+            btnSuggestion.setOnLongClickListener(candidateViewOnLongClickListener)
+            btnSuggestion.setPadding(10,1,10,1)
+        }
+        this.binding!!.candidatesScrollContainer.fullScroll(HorizontalScrollView.FOCUS_LEFT)
+        updateSmartBarView(false)
+    }
+
+    // True only when `result` holds real word-conversion candidates for the word currently
+    // being composed (as opposed to next-word predictions shown with nothing typed yet, which
+    // space should not auto-select).
+    fun hasCandidateToSelect(): Boolean {
+        return result.isNotEmpty() && isCorrection
+    }
+
+    // Commits the highlighted (first) candidate, the same way tapping it would.
+    fun selectHighlightedCandidate() {
+        if (hasCandidateToSelect()) {
+            r2Khmer.commitCandidate(result.first(), isCorrection)
         }
     }
 
@@ -267,9 +308,9 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
 
 
     private fun updateByMood() {
-        this.smartbarView!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
-        DrawableCompat.setTint(this.smartbarView!!.smartbar.btnOpenApp.background, Styles.keyStyle.labelColor)
-        for (numberButton in this.smartbarView!!.numbersList.children) {
+        this.binding!!.smartbar.setBackgroundColor(Styles.keyboardStyle.keyboardBackground)
+        DrawableCompat.setTint(this.binding!!.btnOpenApp.background, Styles.keyStyle.labelColor)
+        for (numberButton in this.binding!!.numbersList.children) {
             if (numberButton is Button) {
                 DrawableCompat.setTint(numberButton.background, Styles.keyStyle.normalBackgroundColor)
                 numberButton.setTextColor(Styles.keyStyle.labelColor)
@@ -288,21 +329,21 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
 
         val selectedLangIdx = KhmerLangApp.preferences?.getInt(KeyboardPreferences.KEY_CURRENT_LANGUAGE_IDX, 0)
         if(selectedLangIdx == 1) {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
+            this.binding!!.btnToggleRMCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
+            this.binding!!.btnToggleENCorrection.visibility = View.GONE//View.INVISIBLE//View.GONE
         } else {
-            this.smartbarView!!.btnToggleRMCorrection.visibility = View.VISIBLE
-            this.smartbarView!!.btnToggleENCorrection.visibility = View.VISIBLE
+            this.binding!!.btnToggleRMCorrection.visibility = View.VISIBLE
+            this.binding!!.btnToggleENCorrection.visibility = View.VISIBLE
         }
 
         if (r2Khmer.currentInputPassword) {
-            this.smartbarView!!.btnOpenApp.visibility = View.GONE
+            this.binding!!.btnOpenApp.visibility = View.GONE
         } else {
-            this.smartbarView!!.btnOpenApp.visibility = View.VISIBLE
+            this.binding!!.btnOpenApp.visibility = View.VISIBLE
         }
     }
     private fun initToggleButton() {
-        this.smartbarView!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+        this.binding!!.btnToggleRMCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_btn_roman)
             } else {
@@ -311,9 +352,9 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, isChecked)
         }
         val isRMChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true)
-        this.smartbarView!!.btnToggleRMCorrection.isChecked = isRMChecked!!
+        this.binding!!.btnToggleRMCorrection.isChecked = isRMChecked!!
 
-        this.smartbarView!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+        this.binding!!.btnToggleENCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.ic_btn_english)
             } else {
@@ -322,9 +363,9 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, isChecked)
         }
         val isENChecked = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_EN_CORRECTION_MODE, false)
-        this.smartbarView!!.btnToggleENCorrection.isChecked = isENChecked!!
+        this.binding!!.btnToggleENCorrection.isChecked = isENChecked!!
 
-        this.smartbarView!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
+        this.binding!!.btnToggleAutoCorrection.setOnCheckedChangeListener { buttonView, isChecked ->
             KhmerLangApp.preferences?.putBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, isChecked)
             if (isChecked) {
                 buttonView.setBackgroundResource(R.drawable.btn_auto)
@@ -335,29 +376,25 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             updateSpellSuggestionView()
         }
         val autoTypeSpellCheck = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_AUTO_TYPING_CORRECTION_MODE, false)
-        this.smartbarView!!.btnToggleAutoCorrection.isChecked = autoTypeSpellCheck!!
+        this.binding!!.btnToggleAutoCorrection.isChecked = autoTypeSpellCheck!!
     }
 
     private fun updateLogoBtnImage() {
-        if(this.smartbarView == null) {
-            return
-        }
-
-        if(this.smartbarView!!.btnAppLogo == null) {
+        if(this.binding == null) {
             return
         }
 
         if (isSmartSettingOpen) {
             Glide.with(r2Khmer.context)
                 .load(R.drawable.ic_btn_khmerlang_off_v2)
-                .into(this.smartbarView!!.btnAppLogo)
+                .into(this.binding!!.btnAppLogo)
             return
         }
 
         if (!isSpellSuggestionEnable()) {
             Glide.with(r2Khmer.context)
                 .load(R.drawable.ic_btn_khmerlang)
-                .into(this.smartbarView!!.btnAppLogo)
+                .into(this.binding!!.btnAppLogo)
             return
         }
 
@@ -365,7 +402,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             spellSuggestionManager.setNoConnection()
             Glide.with(r2Khmer.context)
                 .load(R.drawable.btn_base_error_v1)
-                .into(this.smartbarView!!.btnAppLogo)
+                .into(this.binding!!.btnAppLogo)
             return
         }
 
@@ -393,7 +430,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         Glide.with(r2Khmer.context)
             .load(currentIcon)
             .error(R.drawable.ic_btn_khmerlang)
-            .into(this.smartbarView!!.btnAppLogo)
+            .into(this.binding!!.btnAppLogo)
     }
 
     private fun updateSpellSuggestionView() {
@@ -414,43 +451,28 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     //  load spell suggestion data
-    private suspend fun getSuggestion(prevOne: String, prevTwo: String, composingText: String, isStartSen: Boolean) {
-        coroutineScope {
-            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+    // Realm queries block, so this runs on Dispatchers.IO rather than the caller's Main
+    // dispatcher. The Realm instance is opened, used, and closed within this single
+    // withContext block so it stays confined to that one background thread, as Realm requires.
+    private suspend fun getSuggestion(prevOne: String, prevTwo: String, composingText: String, isStartSen: Boolean): List<String> {
+        return withContext(Dispatchers.IO) {
+            val realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
             try {
-                result = R2KhmerService.spellingCorrector.correct(realm, prevOne, prevTwo, composingText, isStartSen)
+                R2KhmerService.spellingCorrector.correct(realm, prevOne, prevTwo, composingText, isStartSen)
             } finally {
                 realm.close()
             }
-//            async(Dispatchers.IO) {
-//                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-//                try {
-//                    result = R2KhmerService.spellingCorrector.correct(realm, prevOne, prevTwo, composingText, isStartSen)
-//                } finally {
-//                    realm.close()
-//                }
-//
-//            }
         }
     }
 
-    private  suspend fun getSuggestionNext(prevOne: String, prevTwo: String) {
-        coroutineScope {
-            var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+    private suspend fun getSuggestionNext(prevOne: String, prevTwo: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            val realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
             try {
-                result = R2KhmerService.spellingCorrector.getNextWords(realm, prevOne, prevTwo)
+                R2KhmerService.spellingCorrector.getNextWords(realm, prevOne, prevTwo)
             } finally {
                 realm.close()
             }
-//            async(Dispatchers.IO) {
-//                var realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
-//                try {
-//                    result = R2KhmerService.spellingCorrector.getNextWords(realm, prevOne, prevTwo)
-//                } finally {
-//                    realm.close()
-//                }
-//
-//            }
         }
     }
 
@@ -477,7 +499,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     }
 
     private fun handleNumberClick() {
-        for (numberButton in this.smartbarView!!.numbersList.children) {
+        for (numberButton in this.binding!!.numbersList.children) {
             if (numberButton is Button) {
                 numberButton.setOnClickListener(numberButtonOnClickListener)
             }

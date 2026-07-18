@@ -42,12 +42,15 @@ import com.rathanak.khmerroman.utils.WordTokenizer
 import com.rathanak.khmerroman.view.KhmerLangApp
 import com.rathanak.khmerroman.view.inputmethodview.CustomInputMethodView
 import com.rathanak.khmerroman.view.inputmethodview.KeyboardActionListener
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.json.JSONTokener
 import java.net.URL
@@ -81,6 +84,16 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     private var composingText: String? = null
     private var composingTextStart: Int? = null
     private var isComposingEnabled: Boolean = false
+
+    // Word segmentation runs a TFLite model inference, which is too slow to run on the main
+    // thread on every keystroke without causing jank and dropped touch events while typing fast.
+    // It's serialized onto a single background thread since neither the TFLite interpreter nor
+    // WordTokenizer's internal cache are safe for concurrent access.
+    private val tokenizerDispatcher = Dispatchers.Default.limitedParallelism(1)
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(Dispatchers.Main.immediate + serviceJob)
+    private var composingRequestGeneration = 0
+    private var composingJob: Job? = null
     private var previousOne = "<s>"
     private var previousTwo = "<s>"
     private var isStartSen = true
@@ -89,7 +102,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     var currentInputPassword: Boolean = false
     var bannerIdsData: MutableList<String> = mutableListOf()
     var currentBannerIndex = 0
-    var bannerTargetUrl = "http://khmerlang.com/"
+    var bannerTargetUrl = "https://khmerlang.com/"
     var lastFetchBannerAt: Date? = null
 
     private val smartbarManager: SmartbarManager = SmartbarManager(this)
@@ -117,6 +130,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        serviceJob.cancel()
         wordTokenize.destroy()
         smartbarManager.destroy()
     }
@@ -338,6 +352,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
     }
 
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        composingJob?.cancel()
+        composingRequestGeneration++
         currentInputConnection.requestCursorUpdates(InputConnection.CURSOR_UPDATE_MONITOR)
         super.onStartInput(attribute, restarting)
         currentInputPassword = false
@@ -377,6 +393,8 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
 
     override fun onFinishInput() {
 //        currentInputConnection.requestCursorUpdates(0)
+        composingJob?.cancel()
+        composingRequestGeneration++
         super.onFinishInput()
         currentInputConnection.requestCursorUpdates(0)
         currentKeyboardPage = NORMAL
@@ -443,6 +461,25 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             }
             Keyboard.KEYCODE_DONE -> {
                 handleEnter()
+            }
+            KEYCODE_SPACE -> {
+                // Pinyin-style selection: while a word is being composed and the smart bar is
+                // showing a conversion candidate (highlighted), space confirms it instead of
+                // inserting a literal space - same effect as tapping the highlighted candidate.
+                // candidateChoosed guards against re-selecting: Khmer words aren't followed by a
+                // visible space, so after a selection the same word can be re-detected as the
+                // active composingText: without this check, pressing space again with nothing new
+                // typed would duplicate the word it just committed. candidateChoosed is reset by
+                // any subsequent typed character, so selecting a freshly-typed word still works.
+                if (!candidateChoosed && smartbarManager.hasCandidateToSelect()) {
+                    smartbarManager.selectHighlightedCandidate()
+                    return
+                }
+
+                inputConnection.beginBatchEdit()
+                resetComposingText()
+                inputConnection.commitText(" ", 1)
+                inputConnection.endBatchEdit()
             }
             else -> {
                 var space = ""
@@ -579,37 +616,48 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             return
         }
 
-        val ic = currentInputConnection
         if (isComposingEnabled) {
-            var inputText = ""
             if (newSelEnd - newSelStart == 0) {
-                inputText =
-                    (ic.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
-                var oldStart = composingTextStart
-                var oldEnd = composingTextStart?.plus(composingText!!.length)
-                setComposingTextBasedOnInput(inputText, newSelStart)
+                val inputText =
+                    (currentInputConnection.getExtractedText(ExtractedTextRequest(), 0)?.text ?: "").toString()
+                val oldStart = composingTextStart
+                val oldEnd = composingTextStart?.plus(composingText!!.length)
 
-                var newEnd = composingTextStart?.plus(composingText!!.length)
-                if (((oldStart == composingTextStart) && (oldEnd == newEnd))) {
-                    // Ignore this, as nothing has changed
-                } else {
-                    if (composingText != null && composingTextStart != null) {
-                        ic.setComposingRegion(
-                            composingTextStart!!,
-                            composingTextStart!! + composingText!!.length
-                        )
+                // Word segmentation (setComposingTextBasedOnInput) runs a TFLite model
+                // inference, which is too slow to do synchronously here without blocking the
+                // main thread on every keystroke. Run it in the background and guard against
+                // stale results from a superseded (older) keystroke being applied out of order.
+                val myGeneration = ++composingRequestGeneration
+                composingJob?.cancel()
+                composingJob = serviceScope.launch {
+                    setComposingTextBasedOnInput(inputText, newSelStart)
+                    if (myGeneration != composingRequestGeneration) return@launch
+
+                    val newEnd = composingTextStart?.plus(composingText!!.length)
+                    if (((oldStart == composingTextStart) && (oldEnd == newEnd))) {
+                        // Ignore this, as nothing has changed
                     } else {
-                        resetComposingText()
+                        if (composingText != null && composingTextStart != null) {
+                            currentInputConnection.setComposingRegion(
+                                composingTextStart!!,
+                                composingTextStart!! + composingText!!.length
+                            )
+                        } else {
+                            resetComposingText()
+                        }
                     }
+                    smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen, composingText)
                 }
             } else {
+                composingJob?.cancel()
+                composingRequestGeneration++
                 resetComposingText()
+                smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen, composingText)
             }
-            smartbarManager.generateCandidatesFromComposing(previousOne, previousTwo, isStartSen, composingText)
         }
     }
 
-    private fun setComposingTextBasedOnInput(inputText: String, inputCursorPos: Int) {
+    private suspend fun setComposingTextBasedOnInput(inputText: String, inputCursorPos: Int) {
         // goal by given input and current cursor
         // findTextIngroup of cursor position
         // get its start and end index
@@ -623,7 +671,7 @@ class R2KhmerService : InputMethodService(), KeyboardActionListener {
             endSlice = inputText.length - 1
         }
         val selectInput = inputText.slice(startSlice..endSlice)
-        val words = wordTokenize.tokenize(selectInput)
+        val words = withContext(tokenizerDispatcher) { wordTokenize.tokenize(selectInput) }
         var pos = startSlice
         resetComposingText(false)
         setPrevWord("<s>")
