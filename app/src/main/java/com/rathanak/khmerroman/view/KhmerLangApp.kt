@@ -24,10 +24,13 @@ class KhmerLangApp : Application() {
                 .build()
             try {
                 Realm.migrateRealm(dbConfig, RealmMigrations())
-                Realm.setDefaultConfiguration(dbConfig)
             } catch (ignored: FileNotFoundException) {
-                // If the Realm file doesn't exist, just ignore.
+                // If the Realm file doesn't exist yet (fresh install), there's nothing to
+                // migrate, but the default configuration below must still be set - otherwise
+                // Realm.getDefaultInstance() elsewhere silently opens a separate, empty
+                // "default.realm" file instead of this app's real database.
             }
+            Realm.setDefaultConfiguration(dbConfig)
         }
         preferences = KeyboardPreferences(applicationContext)
         // load status

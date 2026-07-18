@@ -5,7 +5,6 @@ import android.util.Log
 import com.rathanak.khmerroman.serializable.NgramRecordSerializable
 import com.rathanak.khmerroman.view.KhmerLangApp
 import io.realm.Realm
-import io.realm.RealmResults
 
 
 class DataLoader {
@@ -53,15 +52,18 @@ class DataLoader {
     companion object {
         val SEPERATOR = ","
         fun getNextKey(): Int {
-            return try {
-                val number: Number? = Realm.getDefaultInstance().where(Ngram::class.java).max("id")
-                if (number != null) {
+            val realm: Realm = Realm.getInstance(KhmerLangApp.dbConfig)
+            try {
+                val number: Number? = realm.where(Ngram::class.java).max("id")
+                return if (number != null) {
                     number.toInt() + 1
                 } else {
                     0
                 }
             } catch (e: ArrayIndexOutOfBoundsException) {
-                0
+                return 0
+            } finally {
+                realm.close()
             }
         }
     }
