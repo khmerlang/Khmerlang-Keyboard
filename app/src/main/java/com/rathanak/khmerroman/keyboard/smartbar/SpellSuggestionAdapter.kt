@@ -1,7 +1,7 @@
 package com.rathanak.khmerroman.keyboard.smartbar
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +42,6 @@ class SpellSuggestionAdapter(private val smartSpell: SpellSuggestionManager, pri
         return position.toLong()
     }
 
-    @SuppressLint("NewApi")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertView = convertView
         convertView = LayoutInflater.from(context).inflate(R.layout.spell_suggestion_item, parent, false)
@@ -50,24 +50,22 @@ class SpellSuggestionAdapter(private val smartSpell: SpellSuggestionManager, pri
         val type  = suggestionsList[position].type
         serialNum.text = typoWord
 
-        if (errorTypes.contains(type))  {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_error)
-            serialNum.setTextColor(context.resources.getColor(R.color.error))
-        } else if(primaryTypes.contains(type)) {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_primary)
-            serialNum.setTextColor(context.resources.getColor(R.color.primary))
-        } else if (secondaryTypes.contains(type)) {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_secondary)
-            serialNum.setTextColor(context.resources.getColor(R.color.secondary))
-        } else if (successTypes.contains(type)) {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_success)
-            serialNum.setTextColor(context.resources.getColor(R.color.success))
-        } else if (infoTypes.contains(type)) {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_info)
-            serialNum.setTextColor(context.resources.getColor(R.color.info))
-        } else if (warningTypes.contains(type)) {
-            serialNum.foreground = context.resources.getDrawable(R.drawable.strikethrough_shape_warning)
-            serialNum.setTextColor(context.resources.getColor(R.color.warning))
+        val styleForType = when {
+            errorTypes.contains(type) -> R.drawable.strikethrough_shape_error to R.color.error
+            primaryTypes.contains(type) -> R.drawable.strikethrough_shape_primary to R.color.primary
+            secondaryTypes.contains(type) -> R.drawable.strikethrough_shape_secondary to R.color.secondary
+            successTypes.contains(type) -> R.drawable.strikethrough_shape_success to R.color.success
+            infoTypes.contains(type) -> R.drawable.strikethrough_shape_info to R.color.info
+            warningTypes.contains(type) -> R.drawable.strikethrough_shape_warning to R.color.warning
+            else -> null
+        }
+        if (styleForType != null) {
+            val (drawableRes, colorRes) = styleForType
+            // View.setForeground() requires API 23; minSdkVersion is 21.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                serialNum.foreground = ContextCompat.getDrawable(context, drawableRes)
+            }
+            serialNum.setTextColor(ContextCompat.getColor(context, colorRes))
         }
 
         val btnSpellItemClose = convertView.findViewById(R.id.btnSpellItemClose) as ImageButton
