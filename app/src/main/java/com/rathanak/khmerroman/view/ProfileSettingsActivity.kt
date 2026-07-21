@@ -110,6 +110,12 @@ class ProfileSettingsActivity : AppCompatActivity() {
                 preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, true)
                 true
             }
+            val switchSpaceSelect: SwitchPreferenceCompat? = findPreference(KeyboardPreferences.KEY_ENABLE_SPACE_SELECT)
+            switchSpaceSelect?.setOnPreferenceChangeListener{ _, newValue ->
+                preferences.putBoolean(KeyboardPreferences.KEY_ENABLE_SPACE_SELECT, newValue as Boolean)
+                preferences.putBoolean(KeyboardPreferences.KEY_NEEDS_RELOAD, true)
+                true
+            }
         }
     }
 

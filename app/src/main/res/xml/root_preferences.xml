@@ -13,6 +13,11 @@
             app:key="key_enable_dark_mood"
             app:title="@string/dark_theme_title" />
 
+        <SwitchPreferenceCompat
+            app:key="key_enable_space_select"
+            app:defaultValue="false"
+            app:title="@string/space_select_title" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -30,6 +30,7 @@
     <string name="vibrate_title">បើករំញ័រនៅពេលចុចគ្រាប់ចុច។</string>
     <string name="sound_effect_title">បើកសំឡេងនៅពេលចុចគ្រាប់ចុច។</string>
     <string name="dark_theme_title">បើកដំណើរគ្រោងការក្តារចុចពណ៍ខ្មៅ។</string>
+    <string name="space_select_title">បើកជ្រើសរើសពាក្យស្វ័យប្រវត្តិ ពេលចុចដកឃ្លា។</string>
 
     <string name="app_logo_alt">Khmerlang</string>
     <string name="back_home">ត្រលប់ក្រោយ</string>

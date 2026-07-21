@@ -49,5 +49,6 @@ class KeyboardPreferences(context: Context) {
         const val KEY_SHOW_KEY_LABEL_VIEW = "key_show_keyboard_label"
         const val KEY_DATA_STATUS = "key_data_status"
         const val KEY_AUTO_TYPING_CORRECTION_MODE = "key_auto_typing_suggestion"
+        const val KEY_ENABLE_SPACE_SELECT = "key_enable_space_select"
     }
 }

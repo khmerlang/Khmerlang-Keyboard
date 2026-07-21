@@ -203,6 +203,13 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
     // published, ensures a slower/superseded call can never clobber a newer one's outcome.
     private var candidateRequestGeneration = 0
 
+    // True when the composing text is Roman/Latin input being converted to Khmer (this app's
+    // core "type romanized, get Khmer candidates" feature), as opposed to a native Khmer word
+    // getting spelling-correction candidates. Space-to-select only makes sense for the former:
+    // a native Khmer typist pressing space between words shouldn't have it hijacked by an
+    // unrelated spelling suggestion.
+    private var isRomanConversion: Boolean = false
+
     fun generateCandidatesFromComposing(prevOne: String, prevTwo: String, isStartSen: Boolean, composingText: String?) {
         if (this.binding == null) {
             return
@@ -234,6 +241,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             }
             result = newResult
             isCorrection = newIsCorrection
+            isRomanConversion = !composingText.isNullOrEmpty() && composingText.first() !in 'ក'..'ឳ'
             renderCandidates()
         }
     }
@@ -246,7 +254,7 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
             btnSuggestion.layoutParams =layoutParams
             btnSuggestion.text = word.toString()
             btnSuggestion.setTextColor(Styles.keyStyle.labelColor)
-            if (index == 0 && isCorrection) {
+            if (index == 0 && isCorrection && isRomanConversion && isSpaceSelectFeatureEnabled()) {
                 // This is the candidate that pressing space will commit (see
                 // hasCandidateToSelect/selectHighlightedCandidate), highlighted the way a
                 // Pinyin-style IME highlights the word space will confirm.
@@ -266,11 +274,21 @@ class SmartbarManager(private val r2Khmer: R2KhmerService) {
         updateSmartBarView(false)
     }
 
-    // True only when `result` holds real word-conversion candidates for the word currently
-    // being composed (as opposed to next-word predictions shown with nothing typed yet, which
-    // space should not auto-select).
+    // Off by default; the user has to explicitly opt in under Settings. Also requires Roman
+    // correction mode to be on, since that's what actually produces the Roman-to-Khmer
+    // conversion candidates this feature selects.
+    private fun isSpaceSelectFeatureEnabled(): Boolean {
+        val featureEnabled = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_ENABLE_SPACE_SELECT, false) == true
+        val rmCorrectionEnabled = KhmerLangApp.preferences?.getBoolean(KeyboardPreferences.KEY_RM_CORRECTION_MODE, true) == true
+        return featureEnabled && rmCorrectionEnabled
+    }
+
+    // True only when `result` holds real Roman-to-Khmer conversion candidates for the word
+    // currently being composed (as opposed to next-word predictions shown with nothing typed
+    // yet, or native-Khmer spelling-correction candidates - space should not auto-select either
+    // of those), and the user has turned this feature on.
     fun hasCandidateToSelect(): Boolean {
-        return result.isNotEmpty() && isCorrection
+        return result.isNotEmpty() && isCorrection && isRomanConversion && isSpaceSelectFeatureEnabled()
     }
 
     // Commits the highlighted (first) candidate, the same way tapping it would.
