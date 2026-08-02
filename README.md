@@ -44,6 +44,9 @@ Feature it doesn't have and probably will never have:
       alt="Get it on Google Play"
       height="80">](https://play.google.com/store/apps/details?id=com.rathanak.khmerroman)
 
+- App Store (iOS version): https://apps.apple.com/us/app/khmerlang-keyboard/id6792233688
+- iOS source: https://github.com/khmerlang/Khmerlang-Keyboard-IOS
+
 ## Resources
 
 - [Task management](https://trello.com/b/emfEoZt2)
